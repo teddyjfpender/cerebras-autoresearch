@@ -1,0 +1,4 @@
+[
+  "Write a self-contained Python function that validates a directed acyclic graph and returns one topological ordering. Include input checks and explain the complexity in a short comment.",
+  "Write a Rust function that merges overlapping half-open integer ranges. State the behavior for touching endpoints and include two concise examples."
+]
