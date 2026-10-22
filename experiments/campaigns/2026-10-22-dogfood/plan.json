@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "name": "dogfood-core-v1",
+  "seed": 20261023,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "pipeline.k8-n8",
+      "baseline_receipt": "runs/v2/20261022T153116Z-pipeline.k8-n8-4aab2498/result.json",
+      "candidates": [
+        {
+          "variant": "fused"
+        },
+        {
+          "candidate": "chain-k8-unroll"
+        },
+        {
+          "candidate": "chain-vector-columns"
+        },
+        {
+          "candidate": "chain-vector-k8-unroll"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemm.cold-tiny",
+      "candidates": [
+        {
+          "candidate": "gemm-column-unroll"
+        },
+        {
+          "candidate": "gemm-tile-unroll"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemv.square64",
+      "candidates": [
+        {
+          "candidate": "gemv-unroll"
+        },
+        {
+          "candidate": "gemv-unroll-aligned"
+        }
+      ]
+    },
+    {
+      "profile": "pipeline.k16-n32",
+      "candidates": [
+        {
+          "candidate": "chain-vector-columns"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemv.ffn-up-scaled",
+      "candidates": [
+        {
+          "candidate": "gemv-unroll-ffn-up"
+        }
+      ]
+    }
+  ]
+}

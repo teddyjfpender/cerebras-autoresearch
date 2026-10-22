@@ -182,8 +182,13 @@ def execute(
                 if path.is_file() and path.suffix in (".npz", ".json", ".log", ".csl", ".txt"):
                     record["artifacts"][str(path.relative_to(folder))] = digest(path)
         write_json(receipt, record)
-        print(receipt, flush=True)
         from .ledger import append_receipts
 
         append_receipts([receipt])
+        # Console delivery must not prevent durable evidence or mask the
+        # original SDK failure when a long attached connection disappears.
+        try:
+            print(receipt, flush=True)
+        except BrokenPipeError:
+            pass
     return receipt

@@ -6,6 +6,8 @@
   License: `licenses/waferllm-LICENSE`. The checked-in GEMV candidate derives from
   this source; its main kernel has been modified to unroll the local FMA map.
   Modified support files carry notices for trailing whitespace cleanup.
+  Dogfood GEMV/GEMM candidate workspaces also derive from this pinned source;
+  their manifests/readmes describe changed compute loops and storage alignment.
 - The dense host driver uses WaferLLM's tiling/shuffle interfaces. Its independent
   FP64 oracle, adversarial cases, local timestamp decoding, and receipts are local
   benchmark additions.

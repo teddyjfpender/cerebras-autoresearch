@@ -1,0 +1,13 @@
+{
+  "adapter": "pipeline",
+  "initial_profile": "pipeline.k8-n8",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "c03b8ec986c617f3301b2b7a4df29e4263aaf16742fbe3779836c7e4b02cecb3",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "pipeline.vector-column-accumulation",
+  "hypothesis": "Accumulate all output channels with strided FP32 vector FMAs, then execute the complete bias/ReLU/residual epilogue for each frame. This reduces scalar addressing and loop overhead without more PEs or buffers.",
+  "falsification": "Reject any numerical/footprint failure, <1.05x matched cycle speedup, or >1.10x program-object memory; require a fresh-seed pair."
+}

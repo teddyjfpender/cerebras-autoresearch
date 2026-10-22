@@ -34,6 +34,9 @@ memory, geometric mean, and worst cell; its result remains provisional. Retain
 only after `confirm-suite` accepts the fresh pair with unchanged candidate/toolchain.
 Profile-level `challenge` automates that sequence for one cell.
 
+For several hypotheses, use the [batch campaign helper](campaigns.md). It shares
+matched baselines, ranks screens, and resumes at completed-run boundaries.
+
 The `gemv`, `gemm`, and `fusion` suites contain independent-oracle profiles
 only. `fusion --variant fused` evaluates all three composed-chain sizes.
 Mixed reference/diagnostic suites support qualification and investigation;

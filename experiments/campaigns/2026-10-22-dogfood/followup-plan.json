@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "seed": 20261023,
+  "minimum_speedup": 2.33,
+  "max_memory_growth": 1.1,
+  "name": "dogfood-chain-epilogue",
+  "cells": [
+    {
+      "profile": "pipeline.k8-n8",
+      "baseline_receipt": "runs/v2/20261022T153116Z-pipeline.k8-n8-4aab2498/result.json",
+      "candidates": [
+        {
+          "candidate": "chain-vector-epilogue"
+        }
+      ]
+    }
+  ]
+}

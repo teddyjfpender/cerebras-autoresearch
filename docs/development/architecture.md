@@ -18,6 +18,13 @@ installation. An editable install exposes `cerebras-research`; set
 | `legacy.py` | Original commands and V1 receipts |
 | `telemetry.py` | Separate hosted API measurement |
 
+`tools/run_campaign.py` is an optional batch controller outside the trusted
+evaluator capsule. It freezes evaluator/candidate identities, shares baselines,
+and checkpoints work; numerical validation and promotion delegate to the core
+runner/scoring modules. Its plans and selection history support workflow review,
+and every retained confirmation must still replay from the core evidence.
+See the [campaign workflow](../experiments/campaigns.md).
+
 SDK imports live in `benchmarks/drivers/`. The runner copies trusted drivers
 into isolated work directories. Candidate overlays apply CSL only. Python
 oracles cannot be replaced through the candidate mechanism; helper collisions

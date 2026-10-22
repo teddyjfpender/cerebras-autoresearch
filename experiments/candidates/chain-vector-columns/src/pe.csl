@@ -1,0 +1,66 @@
+// One complete resident chain; both variants use one host launch.
+param memcpy_params;
+param K: i16;
+param N: i16;
+param FUSED: i16;
+const sys = @import_module("<memcpy/memcpy>", memcpy_params);
+const clock = @import_module("<time>");
+var X: [5*K]f32;
+var W: [N*K]f32;
+var B: [N]f32;
+var R: [N]f32;
+var Y: [5*N]f32;
+var intermediate: [N]f32;
+var begin = @zeros([3]u16);
+var end = @zeros([3]u16);
+var times = @zeros([6]u16);
+var ptr_X: [*]f32 = &X;
+var ptr_W: [*]f32 = &W;
+var ptr_B: [*]f32 = &B;
+var ptr_R: [*]f32 = &R;
+const ptr_Y: [*]f32 = &Y;
+const ptr_times: [*]u16 = &times;
+
+fn epilogue(value: f32, i: i16) f32 {
+    var v = value + B[i];
+    if (v < 0.0) { v = 0.0; }
+    return v + R[i];
+}
+
+var accum_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{N} -> intermediate[i] });
+var weight_column_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{N} -> W[i*K] });
+
+fn pipeline(frame: i16) void {
+    var weights = @set_dsd_base_addr(weight_column_dsd, &W);
+    @fmovs(accum_dsd, 0.0);
+    var k: i16 = 0;
+    while (k < K) : (k += 1) {
+        @fmacs(accum_dsd, accum_dsd, weights, X[frame*K+k]);
+        weights = @increment_dsd_offset(weights, 1, f32);
+    }
+    var i: i16 = 0;
+    while (i < N) : (i += 1) { Y[frame*N+i] = epilogue(intermediate[i], i); }
+}
+
+fn compute() void {
+    clock.enable_tsc();
+    var repeat: i16 = 0;
+    while (repeat < 5) : (repeat += 1) {
+        if (repeat == 1) { clock.get_timestamp(&begin); }
+        pipeline(repeat);
+    }
+    clock.get_timestamp(&end);
+    clock.disable_tsc();
+    for (@range(i16, 3)) |i| { times[i] = begin[i]; times[i+3] = end[i]; }
+    sys.unblock_cmd_stream();
+}
+
+comptime {
+    @export_symbol(ptr_X, "X");
+    @export_symbol(ptr_W, "W");
+    @export_symbol(ptr_B, "B");
+    @export_symbol(ptr_R, "R");
+    @export_symbol(ptr_Y, "Y");
+    @export_symbol(ptr_times, "times");
+    @export_symbol(compute);
+}

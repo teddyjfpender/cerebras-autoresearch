@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "scope": "Post-campaign repository and logging verification; optimization evidence remains in its frozen evaluator track.",
+  "optimization_evaluator_sha256": "016268587f080dcae42acd7cf964f5606b303515b230681891b4e6e12950233d",
+  "current_evaluator_sha256": "f6928884acfbac84212313439fd2b36dca0b2172491c0ac4897f6ef07c07d734",
+  "make_check": {
+    "status": "passed",
+    "host_unit_tests": 58,
+    "ruff_formatted_files": 69,
+    "profiles": 30,
+    "suites": 10,
+    "python": "3.14.6",
+    "checks": [
+      "lint",
+      "format",
+      "catalog",
+      "ledger integrity",
+      "Python syntax",
+      "shell syntax",
+      "unit tests"
+    ]
+  },
+  "ledger_recovery": {
+    "command": "tools/sdk-run python3 research.py ledger sync",
+    "added": 1,
+    "rows": 82,
+    "skipped_receipts": [],
+    "observation": "Full-history SDK VM recovery took about six minutes; repeated evidence audits under emulation are an iteration-cost opportunity."
+  },
+  "ledger_artifact_verification": {
+    "command": "python3 research.py ledger verify --artifacts --base-ref 9dd605b6355355b623c9efdeb175e21a26724dec",
+    "status": "verified",
+    "rows": 82,
+    "head": "8a537189a53fdf395be3e34b835f49b39f9b2b4b248238c5523d83b60225d739",
+    "artifacts_checked": true,
+    "git_prefix_checked": true,
+    "authenticated_judge": false
+  },
+  "post_fix_sdk_screen": {
+    "path": "runs/v2/20261022T165321Z-pipeline.k8-n8-9a15ceb1/result.json",
+    "sha256": "991720b69f35b44ae01d3fa2e51c1d8ead623c476a3dcb90228044805171aef9",
+    "status": "screen_passed",
+    "profile": "pipeline.k8-n8",
+    "seed": 20261025,
+    "evaluator_sha256": "f6928884acfbac84212313439fd2b36dca0b2172491c0ac4897f6ef07c07d734",
+    "metrics": {
+      "max_local_cycles": 971.0,
+      "mean_local_cycles": 971.0,
+      "pe_cycle_spread": 0.0,
+      "max_error_fraction": 0.08032427569414952,
+      "max_program_object_bytes_per_pe": 6016,
+      "work_units_per_cycle": 0.15653964984552007,
+      "pe_cycles": 971.0,
+      "experiment_wall_seconds": 44.44500674799565
+    }
+  },
+  "source_pins_verified": {
+    "sdk-examples": "06ffd5961e8d35b6324e0ebf6595fe4a5a87c2e1",
+    "waferllm": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "remote_ci_run": false,
+  "qwen_tps_result": false
+}

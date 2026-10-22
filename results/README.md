@@ -5,20 +5,44 @@
 [`results.tsv`](results.tsv) automatically records terminal V2 attempts and
 decisions. [`leaderboard.json`](leaderboard.json) derives measured bests by
 declared approach, a cycle/memory tradeoff front, and confirmed events.
-Measured views remain provisional; the confirmed view is currently empty.
+Measured views remain provisional; fresh paired confirmation events appear
+separately in the confirmed view.
 
-The [ledger setup report](reports/ledger-qualification.json) records 43 events:
+The historical [ledger setup report](reports/ledger-qualification.json) records 43 events:
 40 historical receipts, two replayed comparison decisions, and one live SDK
 screen proving automatic logging with an evaluator source capsule. All 48 host
 tests and artifact replay passed. This is an unsigned local ledger; see the
 [ledger contract](../docs/experiments/ledger.md) for guarantees and limits.
 
-## Repository qualification — 2026-10-22
+## Kernel dogfood campaign — 2026-10-22
+
+The [experiment report](../docs/experiments/2026-10-22-dogfood.md) and
+[machine evidence](reports/2026-10-22-dogfood.json) record ten screens over five
+profiles and three fresh paired improvements in the main campaign. Two GEMM
+ideas were slower; the scaled FFN GEMV gain did not clear the retention gate.
+Rejected experiments remain in the journal. A bounded
+[epilogue follow-up](reports/2026-10-22-dogfood-epilogue.json) adds an eleventh
+screen and a fourth confirmed optimization step, improving the small pipeline
+further. The table shows the latest retained implementation per profile.
+
+| Profile | Confirmed cycles | Speedup | Program memory change |
+| --- | ---: | ---: | ---: |
+| `pipeline.k8-n8` | 971 → 389.25 | 2.4945× | +5.05% |
+| `pipeline.k16-n32` | 14,708 → 2,567.25 | 5.7291× | +1.17% |
+| `meshgemv.square64` | 264.1 → 240.7 | 1.0972× | +1.45% |
+
+Each retained cell passed all six numerical families and a fresh baseline /
+candidate pair. These are fixed-profile results; no complete-suite or model
+speed claim follows. The campaign extends measured baseline/reference coverage
+to **22 of 30 profiles**, including six independent full baselines. Eight shapes
+remain unexecuted. Earlier qualification snapshots below are preserved.
+
+## Initial repository qualification — 2026-10-22
 
 **20 of 30 configured profiles exercised:** four full six-case independent
 baselines, fourteen upstream reference checks, and two transfer diagnostics.
 Two additional variants passed their full six-case numerical checks.
-The other ten shapes are configured and unexecuted in this qualification.
+The other ten shapes were configured and unexecuted in this initial qualification.
 
 - [Qualification report](reports/repository-qualification.json): exact coverage,
   metrics, receipt paths/digests, source identities, failures, and comparisons.
@@ -66,15 +90,16 @@ observation, not full-wafer SRAM or physical area. See the
 | `sdk.memcpy-h2d` | transfer diagnostic | `upstream_cycles` | 2748 | 21,216 |
 | `sdk.memcpy-d2h` | transfer diagnostic | `upstream_cycles` | 3830 | 21,216 |
 
-## Variant checks
+## Initial variant checks
 
 | Profile / variant | Baseline → candidate cycles | Memory ratio | Decision |
 | --- | --- | ---: | --- |
 | `pipeline.k8-n8` / fused | 971 → 1,001 | 0.9415× | Rejected: 3.09% more cycles; 5.85% less program-object memory |
 | `meshgemv.square64` / editable `gemv-unroll` | 264.1 → 240.7 | 1.0145× | Provisional: 8.86% fewer cycles; fresh V2 confirmation required |
 
-No new V2 improvement is marked retained. Historical V1 confirmation remains
-scoped to its original contract. The new editable candidate passed the source
+At this initial qualification, no new V2 improvement was marked retained.
+Subsequent fresh V2 confirmations are recorded above. Historical V1 confirmation
+remains scoped to its original contract. The editable candidate passed the source
 preparation, compilation, numerical, timing, memory, and comparison workflow.
 
 ## Integration findings

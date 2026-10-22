@@ -1,0 +1,14 @@
+{
+  "adapter": "meshgemv",
+  "initial_profile": "meshgemv.ffn-up-scaled",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "11d6f7ea37d7dda0cc12fb22f63dba570d4fa6d126c3d80b3144b61803690f3c",
+  "starting_variant": "unroll",
+  "shape_specific": true,
+  "approach": "meshgemv.unroll",
+  "hypothesis": "Remove FMA map overhead on the scaled FFN-up projection; this independently tests a longer local reduction and wider output tile.",
+  "falsification": "Reject any numerical/footprint failure, <1.05x matched cycle speedup, or >1.10x program-object memory; require a fresh-seed pair."
+}

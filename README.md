@@ -50,6 +50,10 @@ candidate review, budgets, and evidence. The checked-in
 [GEMV workspace](experiments/candidates/gemv-unroll/README.md) is an actual
 editable candidate. Baselines and trusted host oracles stay separate.
 
+For several ideas on one or more profiles, the [batch campaign workflow](docs/experiments/campaigns.md)
+reuses matched baselines, screens candidates, checkpoints progress, and performs
+fresh confirmation on eligible winners. The standard scoring gates remain fixed.
+
 Every terminal V2 attempt and CLI decision automatically appends to
 [`results/results.tsv`](results/results.tsv), including failures and screens.
 [`results/leaderboard.json`](results/leaderboard.json) derives measured bests by
@@ -97,6 +101,10 @@ for a 64×64 FP16 GEMV. Its [history](EXPERIMENTS.md) is preserved. V2 uses maxi
 per-PE local elapsed cycles and a separate result schema; compare within one
 contract. Full Qwen decoder performance and hardware TPS remain unmeasured.
 
+The [V2 dogfood campaign](docs/experiments/2026-10-22-dogfood.md) records fresh
+paired kernel improvements, rejected experiments, and workflow fixes from
+actual repeated use. Its results remain scoped to the measured profiles.
+
 ## Repository map
 
 ```text
@@ -106,6 +114,7 @@ benchmarks/suites/           Smoke, regression, family, qualification suites
 benchmarks/drivers/          Trusted SDK-side oracles and measurement helpers
 kernels/                    Local composed kernels and dense-kernel notes
 experiments/candidates/     Editable CSL overlays and hypotheses
+experiments/campaigns/      Frozen search plans and portable fresh-run plans
 config/                     Source pins, SDK manifest, VM and model targets
 tests/unit/                 SDK-free acceptance and orchestration tests
 tests/integration/          SDK-side numerical/timestamp contract checks

@@ -172,7 +172,7 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(row["reported_outcome"], "validated")
         self.assertEqual(ledger.board([row])["measured_best_by_approach"], [])
 
-    def test_runner_records_prepare_failure_without_sdk_execution(self):
+    def prepare_failure_record(self):
         (self.root / "config").mkdir()
         write_json(self.root / "config/sdk-install.json", {})
         with (
@@ -186,7 +186,16 @@ class LedgerTests(unittest.TestCase):
         ):
             with self.assertRaisesRegex(RuntimeError, "compile setup failed"):
                 execute(get_profile("pipeline.k8-n8"))
-        row = ledger.read_rows()[0]
+        return ledger.read_rows()[0]
+
+    def test_runner_records_prepare_failure_without_sdk_execution(self):
+        row = self.prepare_failure_record()
+        self.assertEqual(row["outcome"], "failed")
+        self.assertIn("compile setup failed", row["note"])
+
+    def test_broken_terminal_does_not_prevent_journaling_or_mask_original_failure(self):
+        with patch("builtins.print", side_effect=BrokenPipeError("closed terminal")):
+            row = self.prepare_failure_record()
         self.assertEqual(row["outcome"], "failed")
         self.assertIn("compile setup failed", row["note"])
 

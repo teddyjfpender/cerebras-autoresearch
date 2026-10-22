@@ -39,7 +39,12 @@ future correctness/performance challenge; the bound was not relaxed.
 | `max_program_object_bytes_per_pe` | Maximum `cs_readelf --msize` observation over `out/bin/*.elf` | Default ≤1.10× baseline |
 | `work_units_per_cycle` | Declared algorithmic work / primary interval | Within-profile comparison |
 | `max_error_fraction` | Error / fixed numerical bound | Must be finite and ≤1 |
-| `experiment_wall_seconds` | Compilation, execution, resource inspection | Iteration cost; not WSE speed |
+| `experiment_wall_seconds` | Sum of measured compiler, case-run, and memory-inspection subprocess durations | SDK step cost; not WSE speed |
+
+`experiment_wall_seconds` excludes source preparation, provenance capture,
+artifact hashing, comparison/confirmation, and journal updates. It is not the
+complete end-to-end latency of an autoresearch attempt. Preserve console logs
+and campaign checkpoints when investigating that additional workflow overhead.
 
 The memory metric describes program objects, not the union of every ELF load,
 full-wafer SRAM, routing area, or physical area. Raw observations name every

@@ -10,6 +10,9 @@ This candidate is shape-specific. Baseline precision, grid, arithmetic order,
 timers, and repeat counts remain fixed. The historical V1 gain does not promote
 this candidate under V2's measurement contract.
 
+The [dogfood campaign](../../../docs/experiments/2026-10-22-dogfood.md) subsequently
+confirmed this workspace under V2 with matched baselines and fresh seeds.
+
 ```sh
 tools/sdk-run python3 research.py run meshgemv.square64 \
   --variant candidate --candidate gemv-unroll --screen
@@ -17,5 +20,6 @@ tools/sdk-run python3 research.py challenge meshgemv.square64 \
   --variant candidate --candidate gemv-unroll
 ```
 
-Edit the hypothesis and CSL for a new attempt, or create a new workspace to keep
-this example intact. All candidate sources are copied into isolated run records.
+Create a new workspace for another hypothesis; keep this measured example
+intact. Frozen campaigns reject source or metadata edits. All candidate sources
+are copied into isolated run records.
