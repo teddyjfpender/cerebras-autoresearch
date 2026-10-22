@@ -1,13 +1,14 @@
 """Acceptance-gate regression checks; no SDK or network required."""
+
 import copy
 import hashlib
 import json
 import sys
-from pathlib import Path
 import tempfile
 import unittest
+from pathlib import Path
 
-from kernel_research import CASES, compare, run_logged
+from cerebras_research.legacy import CASES, compare, run_logged
 
 
 class ComparisonGateTests(unittest.TestCase):
@@ -15,20 +16,39 @@ class ComparisonGateTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        self.base = {"status": "validated_kernel_run", "variant": "baseline",
-                     "P": 4, "M": 64, "N": 64, "group_num": 2, "seed": 7,
-                     "source": {"commit": "pinned"}, "verifier_sha256": "same",
-                     "commands": [["same compiler and workload"]],
-                     "sdk_install": {"sdk_release": "2.10.1", "sdk_build": "pinned", "sif_sha256": "same"},
-                     "upstream_max_simulated_cycles": 100,
-                     "validation_result": {"status": "all_cases_passed", "seed": 7,
-                                           "reference": "FP64", "contract": "fixed", "warmups": 1,
-                                           "repeats": 10, "timing_status": "simulated",
-                                           "cases": [{"case": name, "max_fraction_of_error_bound": 0.1,
-                                                      "upstream_max_cycles": 100,
-                                                      "artifact": name + ".npz",
-                                                      "artifact_sha256": hashlib.sha256(b"raw").hexdigest()}
-                                                     for name in sorted(CASES)]}}
+        self.base = {
+            "status": "validated_kernel_run",
+            "variant": "baseline",
+            "P": 4,
+            "M": 64,
+            "N": 64,
+            "group_num": 2,
+            "seed": 7,
+            "source": {"commit": "pinned"},
+            "verifier_sha256": "same",
+            "commands": [["same compiler and workload"]],
+            "sdk_install": {"sdk_release": "2.10.1", "sdk_build": "pinned", "sif_sha256": "same"},
+            "upstream_max_simulated_cycles": 100,
+            "validation_result": {
+                "status": "all_cases_passed",
+                "seed": 7,
+                "reference": "FP64",
+                "contract": "fixed",
+                "warmups": 1,
+                "repeats": 10,
+                "timing_status": "simulated",
+                "cases": [
+                    {
+                        "case": name,
+                        "max_fraction_of_error_bound": 0.1,
+                        "upstream_max_cycles": 100,
+                        "artifact": name + ".npz",
+                        "artifact_sha256": hashlib.sha256(b"raw").hexdigest(),
+                    }
+                    for name in sorted(CASES)
+                ],
+            },
+        }
         self.candidate = copy.deepcopy(self.base)
         self.candidate["variant"] = "unroll"
         self.candidate["upstream_max_simulated_cycles"] = 80
@@ -88,12 +108,13 @@ class ComparisonGateTests(unittest.TestCase):
     def test_log_flood_is_stopped_and_rejected(self):
         out = self.root / "out_test"
         out.mkdir()
-        script = ("from pathlib import Path; import time; "
-                  "f=Path('out_test/sim.log').open('wb'); "
-                  "f.truncate(65*1024*1024); f.close(); time.sleep(60)")
+        script = (
+            "from pathlib import Path; import time; "
+            "f=Path('out_test/sim.log').open('wb'); "
+            "f.truncate(65*1024*1024); f.close(); time.sleep(60)"
+        )
         with self.assertRaisesRegex(RuntimeError, "Log exceeded"):
-            run_logged([sys.executable, "-c", script], self.root,
-                       self.root / "step.log", timeout=5)
+            run_logged([sys.executable, "-c", script], self.root, self.root / "step.log", timeout=5)
 
 
 if __name__ == "__main__":

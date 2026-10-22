@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "meshgemm.cold-tiny",
+      "adapter": "meshgemm",
+      "family": "dense-gemm",
+      "dimensions": {
+        "M": 16,
+        "K": 16,
+        "N": 16
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 8192,
+      "work_unit": "arithmetic_operations",
+      "description": "Distributed GEMM with communication and independent FP64 reference.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+      }
+    },
+    {
+      "id": "meshgemm.cold-square32",
+      "adapter": "meshgemm",
+      "family": "dense-gemm",
+      "dimensions": {
+        "M": 32,
+        "K": 32,
+        "N": 32
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 65536,
+      "work_unit": "arithmetic_operations",
+      "description": "Distributed GEMM with communication and independent FP64 reference.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+      }
+    },
+    {
+      "id": "meshgemm.cold-prefill-ffn-up-scaled",
+      "adapter": "meshgemm",
+      "family": "dense-gemm",
+      "dimensions": {
+        "M": 16,
+        "K": 80,
+        "N": 272
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 696320,
+      "work_unit": "arithmetic_operations",
+      "description": "Distributed GEMM with communication and independent FP64 reference.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+      }
+    },
+    {
+      "id": "meshgemm.cold-prefill-ffn-down-scaled",
+      "adapter": "meshgemm",
+      "family": "dense-gemm",
+      "dimensions": {
+        "M": 16,
+        "K": 272,
+        "N": 80
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 696320,
+      "work_unit": "arithmetic_operations",
+      "description": "Distributed GEMM with communication and independent FP64 reference.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+      }
+    },
+    {
+      "id": "meshgemm.cold-rectangular",
+      "adapter": "meshgemm",
+      "family": "dense-gemm",
+      "dimensions": {
+        "M": 32,
+        "K": 64,
+        "N": 32
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 131072,
+      "work_unit": "arithmetic_operations",
+      "description": "Distributed GEMM with communication and independent FP64 reference.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+      }
+    }
+  ]
+}

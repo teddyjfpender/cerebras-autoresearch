@@ -1,93 +1,119 @@
 # Cerebras kernel autoresearch
 
-Research and optimize CSL inference kernels using the **Cerebras SDK 2.10.1
-fabric simulator**. Start with the official GEMV tutorial, then validate and
-optimize public WaferLLM kernels toward Qwen 3.8 workloads. The primary metric
-is simulated kernel cycles with a numerical correctness gate.
+A reproducible laboratory for optimizing **CSL kernels and resident operator
+chains** with the Cerebras SDK fabric simulator. Score cycles under fixed
+numerical, precision, and PE budgets; record memory and useful work per cycle.
+No hosted inference API key is required.
 
-This route can run without a physical Cerebras system or an Inference API key.
-The SDK supplied by the user is installed in ignored `.sdk/sdk-2.10.1`, and
-its bundled checksums all passed. A QEMU/Lima x86 Linux VM named `cerebras-sdk`
-provides Singularity. The official WSE-3 GEMV tutorial compiled and passed its
-numerical check on 2026-10-22. The appliance workflow instead needs access to
-an existing cluster.
+## Start here
 
 ```sh
-python3 tools/kernel_research.py fetch
+python3 research.py list
+python3 research.py validate
+python3 research.py fetch
 limactl start --tty=false cerebras-sdk
-tools/sdk-run python3 tools/kernel_research.py preflight
-tools/sdk-run python3 tools/kernel_research.py smoke
-tools/sdk-run python3 tools/kernel_research.py meshgemv --variant baseline
-tools/sdk-run python3 tools/kernel_research.py meshgemv --variant bank-alignment
-tools/sdk-run python3 tools/kernel_research.py challenge --variant unroll
+tools/sdk-run python3 research.py doctor
+make smoke
 ```
 
-`fetch` checks out exact revisions from `research/kernel_sources.json` in
-ignored `.deps/`. `smoke` compiles the official tutorial for WSE-3 and runs its
-numerical check in an isolated `runs/` directory. `meshgemv` compiles a small
-WaferLLM kernel and runs six fixed numerical cases against an FP64 reference.
-The alignment candidate changes memory placement and adds four explicit storage
-bytes per PE; precision, matrix dimensions, and PE count stay fixed.
-All results, raw logs, source hashes, numerical errors, raw output arrays, and
-timestamps are saved under `runs/`. Commands have time and log size limits.
+This checkout has SDK 2.10.1 in ignored `.sdk/sdk-2.10.1` and a Linux VM.
+[SDK setup](docs/sdk/setup.md) describes reproduction. The host CLI uses the
+Python standard library; NumPy and the Cerebras runtime come from the container.
 
-## Autoresearch loop
-
-`challenge` runs a full baseline, a positive-input candidate screen, full
-six-case validation for a promising candidate, then a fresh baseline/candidate
-pair with the next seed. The default retention gate is **1.05×** on the
-upstream maximum simulated cycle span. A retained result applies only to the
-tested shape. Run one challenge at a time in this emulated VM.
+## Research workflow
 
 ```sh
-# A second shape preserves the Qwen FFN projection aspect ratio at 1/64 scale.
-tools/sdk-run python3 tools/kernel_research.py challenge --variant unroll --M 80 --N 272
+# Full numerical baseline.
+tools/sdk-run python3 research.py run meshgemv.square64
 
-# Compare completed full-suite runs; screens cannot pass this command.
-python3 tools/kernel_research.py compare BASELINE/result.json CANDIDATE/result.json
+# Create an editable CSL workspace; describe its hypothesis before editing.
+python3 research.py candidate-init meshgemv.square64 my-gemv
+# Edit experiments/candidates/my-gemv/src/*.csl.
+tools/sdk-run python3 research.py challenge meshgemv.square64 \
+  --variant candidate --candidate my-gemv --max-seconds 1800
 
-# Resume from a validated initial pair, then run a fresh confirmation pair.
-tools/sdk-run python3 tools/kernel_research.py challenge BASELINE/result.json CANDIDATE/result.json --variant unroll
+# Built-in staged/fused operator-chain experiment.
+tools/sdk-run python3 research.py challenge pipeline.k8-n8 --variant fused
 
-python3 -m unittest discover -s tools -p 'test_*.py'
+# Evaluate a family and export compact evidence.
+tools/sdk-run python3 research.py suite gemv --variant unroll --screen
+python3 research.py export results/reports/local.json
 ```
 
-The current candidate set tests weight/result memory placement and unrolling
-the local FMA loop while preserving arithmetic order. The baseline stays fixed.
-Adding a hypothesis means adding a separate candidate transformation in
-`tools/kernel_research.py`; the runner evaluates explicit transformations, and
-an agent adds further kernel hypotheses as candidate edits. See
-[EXPERIMENTS.md](EXPERIMENTS.md) for actual results and rejected runs.
+The challenge runs a baseline, a provisional screen, full validation, and a
+fresh paired confirmation. Default retention requires **1.05× cycle speedup**,
+at most **10% growth in the program-object memory metric**, and every numerical
+case. Retention applies to the measured profile.
 
-On 2026-10-22, the bounded challenge confirmed **264.7 → 241.3 simulated
-cycles (8.84% fewer)** for unroll at 64×64, across six numerical cases and a
-fresh paired seed. The driver uses one host simulator thread and fresh
-processes per case after intermittent shutdown faults with the default five
-threads under QEMU. All 25 processes in the confirmation challenge exited
-cleanly. This is a small FP16 kernel result; full Qwen TPS remains unmeasured.
+See the [research protocol](docs/experiments/protocol.md) for regression suites,
+candidate review, budgets, and evidence. The checked-in
+[GEMV workspace](experiments/candidates/gemv-unroll/README.md) is an actual
+editable candidate. Baselines and trusted host oracles stay separate.
 
-The [research assessment](research/KERNEL_RESEARCH.md) records the source audit,
-first experiment, Qwen architecture gaps, and validation gates. WaferLLM has
-modifiable inference kernels and simulator launchers; its decoder still needs
-Qwen-specific implementation and decoder correctness checks. Kernel gains can
-be demonstrated in simulation before validating a full model and hardware TPS.
+## Benchmark coverage
 
-`tools/inference_benchmark.py` remains available as optional hosted-service
-telemetry, under the preserved [API protocol](research/API_PROTOCOL.md).
-It is not part of the simulator setup or the kernel optimization score.
+**30 configured profiles, 10 families, 10 suites.** The
+[catalog](docs/benchmarks/catalog.md) describes coverage; [results](results/README.md)
+separate measured profiles from configured ones.
 
-For another machine, use the [SDK installation guide](https://sdk.cerebras.ai/installation-guide)
-and the VM definition in `research/lima-sdk-x86.yaml`. Adjust its workspace
-mount if the checkout path differs, install Lima/QEMU and the x86 guest agent,
-then create the VM:
+| Area | Workloads |
+| --- | --- |
+| Dense inference | Six GEMV shapes; five cold GEMM shapes; scaled FFN up/down projections |
+| Composed programs | Three FP32 matvec → bias → ReLU → residual chains with staged/fused variants; SDK residual norm |
+| Communication/I/O | Row/column broadcast; H2D/D2H diagnostics |
+| Numerical/scientific | Sparse 7-point stencil; 1D/2D/3D FFT; local matvec bandwidth |
+| Exact/spatial | 256-bit multiplication; Game of Life |
+
+Fourteen profiles have independent six-case oracles. Fourteen use pinned
+upstream reference checks; two are diagnostics. Only the independent-oracle
+tier can pass automatic promotion. Untimed examples receive no cycle score.
+
+## What to optimize
+
+Cycles are primary, with constraints. Also inspect PE count, program-object
+memory, cycle spread, error bounds, and work per cycle. Host compile/experiment
+wall time describes iteration cost. [Metric definitions](docs/benchmarks/metrics.md)
+state exactly what each number measures.
+
+Fusion can remove intermediate storage and improve communication across a
+complete resident chain. The initial chain checks every input frame and output.
+[Fusion and megakernels](docs/research/fusion.md) explains the path to larger
+inference programs.
+
+The original challenge established **264.7 → 241.3 upstream-aligned cycles**
+for a 64×64 FP16 GEMV. Its [history](EXPERIMENTS.md) is preserved. V2 uses maximum
+per-PE local elapsed cycles and a separate result schema; compare within one
+contract. Full Qwen decoder performance and hardware TPS remain unmeasured.
+
+## Repository map
+
+```text
+src/cerebras_research/       CLI, catalogs, execution, candidates, scoring
+benchmarks/manifests/        Nested dense, composed, and SDK profiles
+benchmarks/suites/           Smoke, regression, family, qualification suites
+benchmarks/drivers/          Trusted SDK-side oracles and measurement helpers
+kernels/                    Local composed kernels and dense-kernel notes
+experiments/candidates/     Editable CSL overlays and hypotheses
+config/                     Source pins, SDK manifest, VM and model targets
+tests/unit/                 SDK-free acceptance and orchestration tests
+tests/integration/          SDK-side numerical/timestamp contract checks
+results/                    Compact reports and historical snapshots
+docs/                       Metrics, protocols, architecture, setup, research
+runs/                       Ignored raw evidence and compiled artifacts
+.deps/  .sdk/               Ignored source checkouts and licensed SDK
+```
+
+## Quality checks
 
 ```sh
-limactl create --name=cerebras-sdk research/lima-sdk-x86.yaml
-limactl start --tty=false cerebras-sdk
+make check       # Pinned Ruff, catalog validation, unit tests, syntax checks
+make sdk-test    # SDK-side timestamp and numerical contract properties
 ```
 
-Extract your SDK into `.sdk/sdk-2.10.1` and verify its bundled checksums.
-Alternatively set `CEREBRAS_SDK_DIR` to another SDK directory within the mounted
-workspace. `research/sdk_install.json` records this installation's exact SIF
-hash and versions. SDK binaries and the private download link are not committed.
-Stop this VM with `limactl stop cerebras-sdk` when it is not in use.
+CI runs SDK-free checks on Python 3.10, 3.11, and 3.14. SDK qualification stays
+local because the compiler/container is not redistributed. See
+[contributing](CONTRIBUTING.md) and [architecture](docs/development/architecture.md).
+
+The original `tools/kernel_research.py` and `tools/inference_benchmark.py`
+commands remain compatibility entry points. Hosted API telemetry follows its
+[separate protocol](docs/telemetry/api-protocol.md) and has no kernel score.

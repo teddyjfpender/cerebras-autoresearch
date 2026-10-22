@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "meshgemv.square64",
+      "adapter": "meshgemv",
+      "family": "dense-gemv",
+      "dimensions": {
+        "M": 64,
+        "N": 64
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "unroll",
+        "bank-alignment",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 8192,
+      "work_unit": "arithmetic_operations",
+      "description": "Resident GEMV; scaled FFN cells preserve aspect ratio, not full model dimensions.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 1,
+        "repeats": 10,
+        "scope": "resident GEMV and reduction"
+      }
+    },
+    {
+      "id": "meshgemv.ffn-up-scaled",
+      "adapter": "meshgemv",
+      "family": "dense-gemv",
+      "dimensions": {
+        "M": 80,
+        "N": 272
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "unroll",
+        "bank-alignment",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 43520,
+      "work_unit": "arithmetic_operations",
+      "description": "Resident GEMV; scaled FFN cells preserve aspect ratio, not full model dimensions.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 1,
+        "repeats": 10,
+        "scope": "resident GEMV and reduction"
+      }
+    },
+    {
+      "id": "meshgemv.ffn-down-scaled",
+      "adapter": "meshgemv",
+      "family": "dense-gemv",
+      "dimensions": {
+        "M": 272,
+        "N": 80
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "unroll",
+        "bank-alignment",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 43520,
+      "work_unit": "arithmetic_operations",
+      "description": "Resident GEMV; scaled FFN cells preserve aspect ratio, not full model dimensions.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 1,
+        "repeats": 10,
+        "scope": "resident GEMV and reduction"
+      }
+    },
+    {
+      "id": "meshgemv.square128",
+      "adapter": "meshgemv",
+      "family": "dense-gemv",
+      "dimensions": {
+        "M": 128,
+        "N": 128
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "unroll",
+        "bank-alignment",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 32768,
+      "work_unit": "arithmetic_operations",
+      "description": "Resident GEMV; scaled FFN cells preserve aspect ratio, not full model dimensions.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 1,
+        "repeats": 10,
+        "scope": "resident GEMV and reduction"
+      }
+    },
+    {
+      "id": "meshgemv.ffn-up-medium",
+      "adapter": "meshgemv",
+      "family": "dense-gemv",
+      "dimensions": {
+        "M": 160,
+        "N": 544
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "unroll",
+        "bank-alignment",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 174080,
+      "work_unit": "arithmetic_operations",
+      "description": "Resident GEMV; scaled FFN cells preserve aspect ratio, not full model dimensions.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 1,
+        "repeats": 10,
+        "scope": "resident GEMV and reduction"
+      }
+    },
+    {
+      "id": "meshgemv.ffn-down-medium",
+      "adapter": "meshgemv",
+      "family": "dense-gemv",
+      "dimensions": {
+        "M": 544,
+        "N": 160
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "unroll",
+        "bank-alignment",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 174080,
+      "work_unit": "arithmetic_operations",
+      "description": "Resident GEMV; scaled FFN cells preserve aspect ratio, not full model dimensions.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 1,
+        "repeats": 10,
+        "scope": "resident GEMV and reduction"
+      }
+    }
+  ]
+}

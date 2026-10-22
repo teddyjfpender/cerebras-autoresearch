@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "pipeline.k8-n8",
+    "pipeline.k16-n32",
+    "pipeline.k64-n32"
+  ]
+}

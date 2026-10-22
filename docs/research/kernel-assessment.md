@@ -56,7 +56,7 @@ an Inference API key or a physical wafer to begin.
 The initial bounded search is complete. Bank alignment was rejected, while
 unroll at 64×64 passed a fresh paired confirmation at 241.3 versus 264.7 cycles
 (8.84% fewer). The 80×272 unroll screen stayed below the retention gate.
-See `../EXPERIMENTS.md` and `results/2026-10-22.json` for paths and provenance.
+See the root `EXPERIMENTS.md` and `results/archive/2026-10-22.json` for paths and provenance.
 Intermittent simulator shutdown failures under QEMU were rejected. The completed
 challenge used one host simulator thread and one process per numerical case;
 all 25 processes exited cleanly. This validates that challenge run, not general
@@ -65,7 +65,7 @@ emulator reliability or a complete decoder.
 The official [Qwen config](https://huggingface.co/Qwen/Qwen3.8-27B/blob/1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0/config.json)
 has hidden size 5120, FFN size 17408, BF16 dtype, 48 linear-attention layers,
 16 full-attention layers, gated attention output, and one MTP layer. The
-target metadata is recorded in `qwen3.8-target.json` beside this document.
+target metadata is recorded in `config/targets/qwen3.8-27b.json` beside this document.
 
 WaferLLM's FP16 decoder is not a Qwen 3.8 implementation. Matching it requires
 a numerical precision decision, the linear-attention state update, Qwen's

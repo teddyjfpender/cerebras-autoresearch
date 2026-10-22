@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "includes": [
+    "composed/pipeline.json",
+    "dense/meshgemm.json",
+    "dense/meshgemv.json",
+    "sdk/communication.json",
+    "sdk/composed.json",
+    "sdk/dense-gemm.json",
+    "sdk/dense-gemv.json",
+    "sdk/fft.json",
+    "sdk/host-io.json",
+    "sdk/integer.json",
+    "sdk/local-bandwidth.json",
+    "sdk/sparse-stencil.json",
+    "sdk/spatial.json"
+  ]
+}

@@ -9,3 +9,8 @@ out/
 .sdk/
 *.sif
 *.simg
+.venv/
+.ruff_cache/
+*.egg-info/
+build/
+dist/

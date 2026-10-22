@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "scope": "Planned work; excluded from configured profile and execution counts",
+  "items": [
+    {"id": "gemm.reusable-state", "priority": 1, "gate": "Validate every iteration and resident buffer state before warmed throughput"},
+    {"id": "sdk.reference-promotion", "priority": 1, "gate": "Independent adversarial full-output oracles and protected timing for reference profiles"},
+    {"id": "inference.rmsnorm-swiglu", "priority": 2, "gate": "Nonlinear reference, precision/range contract, full-chain timing"},
+    {"id": "sdk.spmv-hypersparse", "priority": 2, "gate": "Audit WSE-3 compatibility, irregular sparse fixtures, memory footprint and output oracle"},
+    {"id": "sdk.iterative-solvers", "priority": 2, "gate": "Residual/accuracy contracts, convergence and iteration accounting; CG, PCG, BiCGSTAB, power method"},
+    {"id": "sdk.stencil25", "priority": 3, "gate": "WSE-3 port and general full-field oracle; existing golden checks cover specific shapes only"},
+    {"id": "inference.attention-kv", "priority": 3, "gate": "Multi-step state oracle, held-out sequence lengths, explicit dtype"},
+    {"id": "inference.layer-decoder", "priority": 4, "gate": "Complete layer/token-state reference and synchronized global timing before TPS projection"}
+  ]
+}

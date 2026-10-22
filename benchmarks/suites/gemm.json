@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "meshgemm.cold-tiny",
+    "meshgemm.cold-square32",
+    "meshgemm.cold-prefill-ffn-up-scaled",
+    "meshgemm.cold-prefill-ffn-down-scaled",
+    "meshgemm.cold-rectangular"
+  ]
+}

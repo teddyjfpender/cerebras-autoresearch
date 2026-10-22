@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "sdk.gemv-collectives",
+      "adapter": "sdk",
+      "source_path": "benchmarks/gemv-collectives_2d",
+      "family": "dense-gemv",
+      "dimensions": {
+        "M": 32,
+        "N": 16
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "upstream_reference",
+      "metric": null,
+      "cycle_pattern": null,
+      "success_pattern": "SUCCESS",
+      "compile": [
+        "cslc",
+        "layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=kernel_rows:4,kernel_cols:4,matrix_rows:32,matrix_cols:16",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "run": [
+        "run.py",
+        "--name",
+        "out"
+      ],
+      "work_units": 1,
+      "work_unit": "invocations",
+      "description": "Pinned Cerebras SDK reference driver; full-suite candidate promotion requires an independent oracle.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02
+    }
+  ]
+}

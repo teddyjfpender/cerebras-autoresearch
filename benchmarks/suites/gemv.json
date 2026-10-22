@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "meshgemv.square64",
+    "meshgemv.ffn-up-scaled",
+    "meshgemv.ffn-down-scaled",
+    "meshgemv.square128",
+    "meshgemv.ffn-up-medium",
+    "meshgemv.ffn-down-medium"
+  ]
+}

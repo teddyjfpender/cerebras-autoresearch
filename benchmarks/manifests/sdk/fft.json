@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "sdk.fft1d-forward",
+      "adapter": "sdk",
+      "source_path": "benchmarks/fft-1d-2d",
+      "family": "fft",
+      "dimensions": {
+        "dimension": 1,
+        "local_length": 4
+      },
+      "pe_grid": [
+        1,
+        1
+      ],
+      "precision": "complex-fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "upstream_reference",
+      "metric": null,
+      "cycle_pattern": null,
+      "success_pattern": "SUCCESS",
+      "compile": [
+        "cslc",
+        "layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=8,3",
+        "--fabric-offsets=4,1",
+        "--params=DIM:1,Nz:4,FP:2",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "run": [
+        "run.py",
+        "--name",
+        "out"
+      ],
+      "work_units": 1,
+      "work_unit": "invocations",
+      "description": "Pinned Cerebras SDK reference driver; full-suite candidate promotion requires an independent oracle.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02
+    },
+    {
+      "id": "sdk.fft1d-inverse",
+      "adapter": "sdk",
+      "source_path": "benchmarks/fft-1d-2d",
+      "family": "fft",
+      "dimensions": {
+        "dimension": 1,
+        "local_length": 4
+      },
+      "pe_grid": [
+        1,
+        1
+      ],
+      "precision": "complex-fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "upstream_reference",
+      "metric": null,
+      "cycle_pattern": null,
+      "success_pattern": "SUCCESS",
+      "compile": [
+        "cslc",
+        "layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=8,3",
+        "--fabric-offsets=4,1",
+        "--params=DIM:1,Nz:4,FP:2",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "run": [
+        "run.py",
+        "--name",
+        "out",
+        "--inverse"
+      ],
+      "work_units": 1,
+      "work_unit": "invocations",
+      "description": "Pinned Cerebras SDK reference driver; full-suite candidate promotion requires an independent oracle.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02
+    },
+    {
+      "id": "sdk.fft2d-forward",
+      "adapter": "sdk",
+      "source_path": "benchmarks/fft-1d-2d",
+      "family": "fft",
+      "dimensions": {
+        "dimension": 2,
+        "local_length": 4
+      },
+      "pe_grid": [
+        4,
+        1
+      ],
+      "precision": "complex-fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "upstream_reference",
+      "metric": null,
+      "cycle_pattern": null,
+      "success_pattern": "SUCCESS",
+      "compile": [
+        "cslc",
+        "layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,3",
+        "--fabric-offsets=4,1",
+        "--params=DIM:2,Nz:4,FP:1",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "run": [
+        "run.py",
+        "--name",
+        "out"
+      ],
+      "work_units": 1,
+      "work_unit": "invocations",
+      "description": "Pinned Cerebras SDK reference driver; full-suite candidate promotion requires an independent oracle.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02
+    },
+    {
+      "id": "sdk.fft2d-inverse",
+      "adapter": "sdk",
+      "source_path": "benchmarks/fft-1d-2d",
+      "family": "fft",
+      "dimensions": {
+        "dimension": 2,
+        "local_length": 4
+      },
+      "pe_grid": [
+        4,
+        1
+      ],
+      "precision": "complex-fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "upstream_reference",
+      "metric": null,
+      "cycle_pattern": null,
+      "success_pattern": "SUCCESS",
+      "compile": [
+        "cslc",
+        "layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,3",
+        "--fabric-offsets=4,1",
+        "--params=DIM:2,Nz:4,FP:1",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "run": [
+        "run.py",
+        "--name",
+        "out",
+        "--inverse"
+      ],
+      "work_units": 1,
+      "work_unit": "invocations",
+      "description": "Pinned Cerebras SDK reference driver; full-suite candidate promotion requires an independent oracle.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02
+    },
+    {
+      "id": "sdk.fft3d",
+      "adapter": "sdk",
+      "source_path": "benchmarks/fft-3d",
+      "family": "fft",
+      "dimensions": {
+        "N": 16
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "complex-fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "upstream_reference",
+      "metric": "upstream_cycles",
+      "cycle_pattern": "Compute time on WSE: [^\\n,]+, ([0-9.eE+-]+) cycles",
+      "success_pattern": "SUCCESS",
+      "compile": [
+        "cslc",
+        "layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=N:16,NUM_PENCILS_PER_DIM:4,FP:1",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "run": [
+        "run.py",
+        "--name",
+        "out",
+        "--real",
+        "--norm",
+        "1"
+      ],
+      "work_units": 1,
+      "work_unit": "invocations",
+      "description": "Pinned Cerebras SDK reference driver; full-suite candidate promotion requires an independent oracle.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02
+    }
+  ]
+}

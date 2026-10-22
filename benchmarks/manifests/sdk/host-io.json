@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "sdk.memcpy-h2d",
+      "adapter": "sdk",
+      "source_path": "benchmarks/bandwidth-test",
+      "family": "host-io",
+      "dimensions": {
+        "payload": 5,
+        "repeats": 2
+      },
+      "pe_grid": [
+        5,
+        5
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "diagnostic_only",
+      "metric": "upstream_cycles",
+      "cycle_pattern": "cycles_send = ([0-9.eE+-]+) cycles",
+      "success_pattern": "cycles_send =",
+      "compile": [
+        "cslc",
+        "src/bw_sync_layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=12,7",
+        "--fabric-offsets=4,1",
+        "--params=width:5,height:5,pe_length:5,C0_ID:0,C1_ID:1,C2_ID:2,C3_ID:3,C4_ID:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "run": [
+        "run.py",
+        "-m=5",
+        "-n=5",
+        "-k=5",
+        "--latestlink",
+        "out",
+        "--channels=1",
+        "--run-only",
+        "--loop_count=2",
+        "--arch=wse3"
+      ],
+      "work_units": 1000,
+      "work_unit": "logical_bytes",
+      "description": "Pinned Cerebras SDK reference driver; full-suite candidate promotion requires an independent oracle.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02
+    },
+    {
+      "id": "sdk.memcpy-d2h",
+      "adapter": "sdk",
+      "source_path": "benchmarks/bandwidth-test",
+      "family": "host-io",
+      "dimensions": {
+        "payload": 5,
+        "repeats": 2
+      },
+      "pe_grid": [
+        5,
+        5
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "diagnostic_only",
+      "metric": "upstream_cycles",
+      "cycle_pattern": "cycles_send = ([0-9.eE+-]+) cycles",
+      "success_pattern": "cycles_send =",
+      "compile": [
+        "cslc",
+        "src/bw_sync_layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=12,7",
+        "--fabric-offsets=4,1",
+        "--params=width:5,height:5,pe_length:5,C0_ID:0,C1_ID:1,C2_ID:2,C3_ID:3,C4_ID:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "run": [
+        "run.py",
+        "-m=5",
+        "-n=5",
+        "-k=5",
+        "--latestlink",
+        "out",
+        "--channels=1",
+        "--run-only",
+        "--loop_count=2",
+        "--arch=wse3",
+        "--d2h"
+      ],
+      "work_units": 1000,
+      "work_unit": "logical_bytes",
+      "description": "Pinned Cerebras SDK reference driver; full-suite candidate promotion requires an independent oracle.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02
+    }
+  ]
+}

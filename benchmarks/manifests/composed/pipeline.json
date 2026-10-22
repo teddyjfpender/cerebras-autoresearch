@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "pipeline.k8-n8",
+      "adapter": "pipeline",
+      "family": "composed",
+      "dimensions": {
+        "K": 8,
+        "N": 8
+      },
+      "pe_grid": [
+        1,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "fused",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 152,
+      "work_unit": "scalar_operations_including_relu",
+      "description": "Full resident matvec -> bias -> ReLU -> residual chain.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 1,
+        "repeats": 4,
+        "scope": "distinct input frames; all outputs verified"
+      }
+    },
+    {
+      "id": "pipeline.k16-n32",
+      "adapter": "pipeline",
+      "family": "composed",
+      "dimensions": {
+        "K": 16,
+        "N": 32
+      },
+      "pe_grid": [
+        1,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "fused",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 1120,
+      "work_unit": "scalar_operations_including_relu",
+      "description": "Full resident matvec -> bias -> ReLU -> residual chain.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 1,
+        "repeats": 4,
+        "scope": "distinct input frames; all outputs verified"
+      }
+    },
+    {
+      "id": "pipeline.k64-n32",
+      "adapter": "pipeline",
+      "family": "composed",
+      "dimensions": {
+        "K": 64,
+        "N": 32
+      },
+      "pe_grid": [
+        1,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "fused",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 4192,
+      "work_unit": "scalar_operations_including_relu",
+      "description": "Full resident matvec -> bias -> ReLU -> residual chain.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 1,
+        "repeats": 4,
+        "scope": "distinct input frames; all outputs verified"
+      }
+    }
+  ]
+}

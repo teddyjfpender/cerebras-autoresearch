@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "meshgemv.square64",
+    "meshgemm.cold-tiny",
+    "meshgemm.cold-prefill-ffn-up-scaled",
+    "pipeline.k8-n8",
+    "sdk.gemv-collectives",
+    "sdk.gemm-collectives",
+    "sdk.residual",
+    "sdk.wide-multiply256",
+    "sdk.game-of-life",
+    "sdk.fft1d-forward",
+    "sdk.fft1d-inverse",
+    "sdk.fft2d-forward",
+    "sdk.fft2d-inverse",
+    "sdk.fft3d",
+    "sdk.local-matvec",
+    "sdk.spmv7",
+    "sdk.broadcast-row",
+    "sdk.broadcast-column",
+    "sdk.memcpy-h2d",
+    "sdk.memcpy-d2h"
+  ]
+}

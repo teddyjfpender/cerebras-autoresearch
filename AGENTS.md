@@ -1,38 +1,34 @@
-# Kernel autoresearch protocol
+# Cerebras autoresearch protocol
 
-Objective: optimize real CSL inference kernels in the SDK 2.10.1 simulator,
-progressing toward a validated Qwen 3.8 decoder. Use simulated kernel cycles
-as the first score. A hosted API key is not required for kernel work.
+Objective: reduce simulated cycles for correct CSL kernels and complete resident
+operator chains. Preserve each benchmark's precision, workload, PE budget, and
+timing contract. Record memory, work per cycle, imbalance, and numerical errors.
 
-1. Read `research/KERNEL_RESEARCH.md`. Fetch pinned upstream sources with
-   `python3 tools/kernel_research.py fetch` and run its `preflight` command.
-2. This checkout has the SDK in `.sdk/sdk-2.10.1` and a Linux VM named
-   `cerebras-sdk`. Run SDK commands through `tools/sdk-run`. The official
-   `smoke` passed; reproduce it after any toolchain change.
-3. Reproduce the pinned WaferLLM small MeshGEMV simulator baseline. Build an
-   independent numerical oracle and adversarial cases before accepting edits.
-   `kernels/meshgemv/verify_kernel.py` supplies six cases with a fixed FP16
-   forward-error bound against an FP64 oracle. Preserve that contract.
-4. Keep baseline sources fixed. Work in a separate candidate copy. Hold matrix
-   dimensions, PE grid, precision, and correctness contract fixed when comparing
-   implementation changes; record area/layout alternatives separately.
-5. Preserve SDK version, architecture, source hash, compile parameters, seeds,
-   raw logs, output errors, and simulated cycle spans in every experiment.
-6. Retain improvements only after correctness and repeat confirmation. Do not
-   use host wall time as WSE execution time or skip work in a timed loop.
-   `challenge --variant NAME` runs the bounded loop for one shape, with a
-   default 1.05× cycle speedup gate and a fresh paired seed. Screen runs cannot
-   count as full validation. Preserve source/toolchain identity across repeats.
-   Run one challenge at a time; this host uses CPU emulation. Reject simulator
-   shutdown failures even if numerical checks have already passed.
-7. Port and validate Qwen's BF16/precision behavior, linear-attention state,
-   gated attention, and projection dimensions before any Qwen decoder claim.
-   The upstream decoder timing script has no complete output oracle.
+1. Read `README.md`, `docs/experiments/protocol.md`, and nested instructions.
+   Run `make check`; use `research.py fetch`, then `doctor` in the SDK environment.
+2. Use the nested profile/suite manifests. Configuration is not execution proof.
+   Distinguish independent oracles, upstream references, and diagnostics.
+3. Keep `.deps/` pristine. Use `candidate-init` and edit CSL in
+   `experiments/candidates/NAME/`. Describe the hypothesis and falsification test.
+4. Keep trusted inputs, oracle bounds, timers, and repetition controls fixed.
+   Never cache warmup outputs, skip timed work, or weaken precision to pass.
+   Review equivalent work even when numerical checks pass.
+5. Use a matched baseline and full six-case candidate validation. Automatic
+   retention requires the configured cycle/memory gates and fresh paired seed.
+   Cross-shape claims require complete suite coverage and worst-cell guards.
+6. Use `tools/sdk-run` on this host. Default simulator threads = 1, with a fresh
+   process per case. Reject shutdown failures. Bound work with `--max-seconds`.
+7. Preserve source/profile/harness/SDK identity, raw output/timestamps, numerical
+   errors, commands, resource observations, and artifact digests. Export compact
+   reports; retain raw evidence for improvements. Historical records are immutable.
+8. A new oracle, timing definition, precision, layout budget, or workload needs
+   a documented contract/profile change and new baselines. V1 and V2 scores are
+   distinct. Do not rewrite archived metrics during refactors.
 
-State whether a result is a simulated kernel speedup, a projected model result,
-or hardware TPS. Local CSL work does not automatically change Cerebras's hosted
-service. Missing SDK access blocks execution, not the feasibility of simulator
-kernel research. Keep `EXPERIMENTS.md` factual, including failed attempts.
+Larger composed programs are a research direction. Require full-chain output and
+state validation before layer/decoder claims. Model targets, including Qwen's
+BF16/hybrid attention, need explicit implementation. Simulator cycles alone do
+not establish hardware TPS, energy, or hosted-service speed.
 
-The earlier hosted API benchmark remains separate. If running it, follow
-`research/API_PROTOCOL.md`; its concurrency score cannot support kernel claims.
+Hosted API telemetry remains separate under `docs/telemetry/api-protocol.md`.
+Never describe its concurrency gain as a kernel or model decode improvement.

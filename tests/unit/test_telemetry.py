@@ -1,20 +1,28 @@
 """Keep API comparisons tied to the same workload."""
 
 import json
-from pathlib import Path
 import tempfile
 import unittest
+from pathlib import Path
 
-import inference_benchmark as benchmark
+from cerebras_research import telemetry as benchmark
 
 
 def record(label, server_tps, concurrency=1):
     return {
-        "status": "complete", "label": label, "model": benchmark.MODEL,
-        "endpoint": benchmark.ENDPOINT, "prompts_sha256": "fixed-prompts",
-        "request_count": 5, "concurrency": concurrency, "max_completion_tokens": 256,
-        "reasoning_effort": "none", "temperature": 0, "seed": 7,
-        "server_decode_tps": server_tps, "client_burst_output_tps": server_tps / 2,
+        "status": "complete",
+        "label": label,
+        "model": benchmark.MODEL,
+        "endpoint": benchmark.ENDPOINT,
+        "prompts_sha256": "fixed-prompts",
+        "request_count": 5,
+        "concurrency": concurrency,
+        "max_completion_tokens": 256,
+        "reasoning_effort": "none",
+        "temperature": 0,
+        "seed": 7,
+        "server_decode_tps": server_tps,
+        "client_burst_output_tps": server_tps / 2,
         "responses": [{"system_fingerprint": "fp1"} for _ in range(5)],
     }
 

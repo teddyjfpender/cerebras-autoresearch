@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "sdk.wide-multiply256",
+      "adapter": "sdk",
+      "source_path": "benchmarks/wide-multiplication",
+      "family": "integer",
+      "dimensions": {
+        "bits": 256
+      },
+      "pe_grid": [
+        1,
+        1
+      ],
+      "precision": "u16-limbs",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "upstream_reference",
+      "metric": null,
+      "cycle_pattern": null,
+      "success_pattern": "SUCCESS",
+      "compile": [
+        "cslc",
+        "code.csl",
+        "--arch=wse3",
+        "--fabric-dims=8,3",
+        "--fabric-offsets=4,1",
+        "--params=num_bits:256,MEMCPYH2D_DATA_1_ID:0,MEMCPYD2H_DATA_1_ID:1",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "run": [
+        "run.py",
+        "--name",
+        "out"
+      ],
+      "work_units": 1,
+      "work_unit": "invocations",
+      "description": "Pinned Cerebras SDK reference driver; full-suite candidate promotion requires an independent oracle.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02
+    }
+  ]
+}

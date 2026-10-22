@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "sdk.game-of-life",
+      "adapter": "sdk",
+      "source_path": "benchmarks/game-of-life",
+      "family": "spatial",
+      "dimensions": {
+        "x": 8,
+        "y": 8,
+        "iterations": 4
+      },
+      "pe_grid": [
+        8,
+        8
+      ],
+      "precision": "integer",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "upstream_reference",
+      "metric": null,
+      "cycle_pattern": null,
+      "success_pattern": "SUCCESS",
+      "compile": [
+        "cslc",
+        "layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=15,10",
+        "--fabric-offsets=4,1",
+        "--params=x_dim:8,y_dim:8",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "run": [
+        "run.py",
+        "--name",
+        "out",
+        "--initial-state",
+        "glider",
+        "--iters",
+        "4"
+      ],
+      "work_units": 1,
+      "work_unit": "invocations",
+      "description": "Pinned Cerebras SDK reference driver; full-suite candidate promotion requires an independent oracle.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "adapter": "meshgemv",
+  "initial_profile": "meshgemv.square64",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "11d6f7ea37d7dda0cc12fb22f63dba570d4fa6d126c3d80b3144b61803690f3c",
+  "starting_variant": "unroll",
+  "shape_specific": true,
+  "hypothesis": "Expanding the local 16-row FMA map removes callback/loop overhead at unchanged FP16 arithmetic and PE grid. Reject on any numerical failure, absent cycle gain, or memory-budget overrun. Historical V1 improvement requires fresh V2 measurement."
+}
