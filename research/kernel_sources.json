@@ -1,0 +1,11 @@
+{
+  "sdk-examples": {
+    "url": "https://github.com/Cerebras/sdk-examples.git",
+    "release": "rel-sdk-2.10.0",
+    "commit": "06ffd5961e8d35b6324e0ebf6595fe4a5a87c2e1"
+  },
+  "waferllm": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  }
+}

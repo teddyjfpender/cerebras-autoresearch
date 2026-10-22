@@ -1,0 +1,39 @@
+# QEMU route from the Cerebras SDK installation guide, scoped to this workspace.
+vmType: qemu
+arch: x86_64
+cpus: 4
+memory: 8GiB
+disk: 12GiB
+vmOpts:
+  qemu:
+    cpuType:
+      x86_64: max
+images:
+  - location: https://cloud-images.ubuntu.com/jammy/20261020/jammy-server-cloudimg-amd64.img
+    arch: x86_64
+    digest: sha256:2099e63da0b822ef8e05e3d596c1b402eaaae658fc08ab919cb8495bfcdc488b
+ssh:
+  loadDotSSHPubKeys: false
+mounts:
+  - location: /Users/theodorepender/Coding/cerebras-autoresearch
+    writable: true
+containerd:
+  system: false
+  user: false
+provision:
+  - mode: system
+    script: |
+      #!/bin/bash
+      set -eux -o pipefail
+      export DEBIAN_FRONTEND=noninteractive
+      command -v singularity >/dev/null 2>&1 && exit 0
+      apt-get update -y
+      apt-get install -y squashfs-tools-ng wget git
+      wget -O /tmp/singularity-ce.deb https://github.com/sylabs/singularity/releases/download/v4.0.2/singularity-ce_4.0.2-jammy_amd64.deb
+      apt-get install -y /tmp/singularity-ce.deb
+probes:
+  - script: |
+      #!/bin/bash
+      set -eu
+      command -v singularity
+    hint: Check /var/log/cloud-init-output.log in the guest.

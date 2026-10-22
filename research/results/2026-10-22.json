@@ -1,0 +1,851 @@
+{
+  "created_utc": "2026-10-22T10:15:20.822452+00:00",
+  "metric": "upstream maximum simulated cycle span; hardware calibration pending",
+  "sdk_install": {
+    "sdk_release": "2.10.1",
+    "sdk_build": "sdk-202606181328-8faf87a26e",
+    "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+    "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+    "bundled_checksum_verification": "all files passed",
+    "local_sdk_directory": ".sdk/sdk-2.10.1",
+    "lima_instance": "cerebras-sdk",
+    "guest_os": "Ubuntu 22.04 x86_64",
+    "guest_container_runtime": "SingularityCE 4.0.2",
+    "host_lima_version": "2.2.1",
+    "host_qemu_version": "11.1.2",
+    "example_source_release": "rel-sdk-2.10.0",
+    "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+    "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+  },
+  "kernel_sources": {
+    "sdk-examples": {
+      "url": "https://github.com/Cerebras/sdk-examples.git",
+      "release": "rel-sdk-2.10.0",
+      "commit": "06ffd5961e8d35b6324e0ebf6595fe4a5a87c2e1"
+    },
+    "waferllm": {
+      "url": "https://github.com/MeshInfra/WaferLLM.git",
+      "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+    }
+  },
+  "challenge_path": "runs/20261022T095821Z-challenge-7563/result.json",
+  "challenge_status": "confirmed_kernel_improvement",
+  "retained_profile": {
+    "variant": "unroll",
+    "M": 64,
+    "N": 64,
+    "P": 4,
+    "group_num": 2,
+    "baseline_cycles": 264.7,
+    "candidate_cycles": 241.3,
+    "cycle_reduction_percent": 8.840196448809955,
+    "initial_seed": 20261022,
+    "confirmation_seed": 20261023,
+    "full_numerical_cases_per_arm_per_seed": 6,
+    "simulator_threads": 1,
+    "clean_simulator_processes_in_challenge": 25,
+    "representative_PE_memory_bytes": {
+      "physical_coordinate": [
+        4,
+        1
+      ],
+      "baseline": 6624,
+      "candidate": 6720
+    }
+  },
+  "qwen_tps_result": false,
+  "records": [
+    {
+      "result_path": "runs/20261022T091254Z-sdk-smoke-3322/result.json",
+      "result_sha256": "0036d1d7a45c55422d40d7839db1f31246e8cb212652feae7267256e299f30ff",
+      "status": "correctness_smoke_passed"
+    },
+    {
+      "result_path": "runs/20261022T091422Z-meshgemv-3546/result.json",
+      "result_sha256": "0d7a865ce693d81d6ec247ad6ce96cd56740a084123a781d631224fef0652fc5",
+      "status": "upstream_baseline_reproduced",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "upstream_max_simulated_cycles": 264.7
+    },
+    {
+      "result_path": "runs/20261022T091855Z-meshgemv-3927/result.json",
+      "result_sha256": "7a5c54f1961f26ebc81a42cfd954f2bf40f587b35f44f8215ca8f60a5f8124bd",
+      "status": "validated_kernel_run",
+      "variant": "baseline",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "source_sha256": "2f5bef29320200b32f1e43a08ba1262fc92778572bc8d336d90ed1db950f5117",
+      "upstream_max_simulated_cycles": 264.7,
+      "validation": {
+        "status": "all_cases_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24"
+      },
+      "numerical_cases": [
+        {
+          "case": "positive",
+          "max_abs_error": 0.01308884797617793,
+          "max_fraction_of_error_bound": 0.08271921959034673,
+          "upstream_max_cycles": 264.7
+        },
+        {
+          "case": "signed",
+          "max_abs_error": 0.005833722651004791,
+          "max_fraction_of_error_bound": 0.04153100230968589,
+          "upstream_max_cycles": 264.7
+        },
+        {
+          "case": "zero",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7
+        },
+        {
+          "case": "cancellation",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7
+        },
+        {
+          "case": "one_hot",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7
+        },
+        {
+          "case": "mixed_scale",
+          "max_abs_error": 0.005043309181928635,
+          "max_fraction_of_error_bound": 0.03569809498690567,
+          "upstream_max_cycles": 264.7
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T092044Z-meshgemv-4167/result.json",
+      "result_sha256": "2c5fabca428309b73b3d7f3f6f17f21ea99a28f7b71ce4f61b0e546c808e3d70",
+      "status": "failed",
+      "variant": "bank-alignment",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "source_sha256": "6509532e68c2b5ff10190a17d4c3d8ef782f601ce9d8a964da7681e95bdd421e",
+      "error": "MeshGEMV step 0 failed; see /Users/theodorepender/Coding/cerebras-autoresearch/runs/20261022T092044Z-meshgemv-4167/step-0.log"
+    },
+    {
+      "result_path": "runs/20261022T092402Z-meshgemv-4298/result.json",
+      "result_sha256": "7aefc101fb7f3c3263cce12a8db7d87d2e1fb4f75d6c23a72841c94cc9938659",
+      "status": "failed",
+      "variant": "bank-alignment",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "source_sha256": "455b1844123eefec4b881032df6a140894e3934f63664e74bb6c35d7a052d677",
+      "error": "MeshGEMV step 0 failed; see /Users/theodorepender/Coding/cerebras-autoresearch/runs/20261022T092402Z-meshgemv-4298/step-0.log"
+    },
+    {
+      "result_path": "runs/20261022T092525Z-meshgemv-4426/result.json",
+      "result_sha256": "783d14beca228ffc47ff7a6aab4fe310aa51aef214af30852e43254db8db5999",
+      "status": "validated_kernel_run",
+      "variant": "bank-alignment",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "source_sha256": "fdce532b6771dac57d2f3b30c94b774e21b813e176ee22d4951f132713ef4714",
+      "upstream_max_simulated_cycles": 264.7,
+      "validation": {
+        "status": "all_cases_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24"
+      },
+      "numerical_cases": [
+        {
+          "case": "positive",
+          "max_abs_error": 0.01308884797617793,
+          "max_fraction_of_error_bound": 0.08271921959034673,
+          "upstream_max_cycles": 264.7
+        },
+        {
+          "case": "signed",
+          "max_abs_error": 0.005833722651004791,
+          "max_fraction_of_error_bound": 0.04153100230968589,
+          "upstream_max_cycles": 264.7
+        },
+        {
+          "case": "zero",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7
+        },
+        {
+          "case": "cancellation",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7
+        },
+        {
+          "case": "one_hot",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7
+        },
+        {
+          "case": "mixed_scale",
+          "max_abs_error": 0.005043309181928635,
+          "max_fraction_of_error_bound": 0.03569809498690567,
+          "upstream_max_cycles": 264.7
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T092800Z-meshgemv-4668/result.json",
+      "result_sha256": "0e0638a8c35bda6ea632ed282cb607cd4d8947adaba7e2112f92f6ad50ca7c30",
+      "status": "validated_kernel_run",
+      "variant": "baseline",
+      "M": 80,
+      "N": 272,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "source_sha256": "2f5bef29320200b32f1e43a08ba1262fc92778572bc8d336d90ed1db950f5117",
+      "verifier_sha256": "1ad6c766e2ed72867b094514a1b38c79e203ab2445076d83af13156273112c45",
+      "upstream_max_simulated_cycles": 648.7,
+      "validation": {
+        "status": "all_cases_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24"
+      },
+      "numerical_cases": [
+        {
+          "case": "positive",
+          "max_abs_error": 0.026696549030020833,
+          "max_fraction_of_error_bound": 0.11924850990980282,
+          "upstream_max_cycles": 648.7,
+          "artifact_sha256": "e7aee362980d3cf55f08b8af511e0642204fd30cc0d246cf9b9acd4ca5031abd"
+        },
+        {
+          "case": "signed",
+          "max_abs_error": 0.009674737229943275,
+          "max_fraction_of_error_bound": 0.039964181085318594,
+          "upstream_max_cycles": 648.7,
+          "artifact_sha256": "e5c35c7d5ccc0d73665b395fa92d0ce5feafa2bad82c2ee2ccae1fcd1666cafd"
+        },
+        {
+          "case": "zero",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 648.7,
+          "artifact_sha256": "aa3737e0d6fcc8a754f0a1585885e86be2ba199fb123cce24363c7bb9c333217"
+        },
+        {
+          "case": "cancellation",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 648.7,
+          "artifact_sha256": "dd02557e47b2f0746bb8577201a5f3776d1336690ec56542b1a6be5e15e549db"
+        },
+        {
+          "case": "one_hot",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 648.7,
+          "artifact_sha256": "4f5613600cb5d7328e7ae3a05c42ab6494baa21399d89fc1631958211f244f56"
+        },
+        {
+          "case": "mixed_scale",
+          "max_abs_error": 0.008867133408784866,
+          "max_fraction_of_error_bound": 0.03224778437467111,
+          "upstream_max_cycles": 648.7,
+          "artifact_sha256": "f384dfa6b4a277f0edac252e4e0ced7df1b6c003a2abdb600f7832b788bb318c"
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T093144Z-meshgemv-4961/result.json",
+      "result_sha256": "57d6e72a8924ca3c71b851714cb60882b5af56ec6302ff797f9262c1ca05b889",
+      "status": "validated_kernel_run",
+      "variant": "bank-alignment",
+      "M": 80,
+      "N": 272,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "source_sha256": "fdce532b6771dac57d2f3b30c94b774e21b813e176ee22d4951f132713ef4714",
+      "verifier_sha256": "1ad6c766e2ed72867b094514a1b38c79e203ab2445076d83af13156273112c45",
+      "upstream_max_simulated_cycles": 659.7,
+      "validation": {
+        "status": "all_cases_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24"
+      },
+      "numerical_cases": [
+        {
+          "case": "positive",
+          "max_abs_error": 0.026696549030020833,
+          "max_fraction_of_error_bound": 0.11924850990980282,
+          "upstream_max_cycles": 659.7,
+          "artifact_sha256": "72029b048adce4db85898a8a5556fb3d248a6fde326bb270936cdacd2ec051c1"
+        },
+        {
+          "case": "signed",
+          "max_abs_error": 0.009674737229943275,
+          "max_fraction_of_error_bound": 0.039964181085318594,
+          "upstream_max_cycles": 659.7,
+          "artifact_sha256": "06c8bc97b644e3dd26d004d7c7a14754ca1e5f95d3b30fa35820583601a77e22"
+        },
+        {
+          "case": "zero",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 659.7,
+          "artifact_sha256": "e0c067716fc1ac6a645092925b2311fa0f9d6a5bbf226dd32df14a9ae4dcdd24"
+        },
+        {
+          "case": "cancellation",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 659.7,
+          "artifact_sha256": "d3b8d4597c6d336de08d93935e487613e9a221f10547380a486a42bf0f6b01eb"
+        },
+        {
+          "case": "one_hot",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 659.7,
+          "artifact_sha256": "68e4e493647685f787a22d4a05ab59947130bae1395f7b164cb170cd78d7621a"
+        },
+        {
+          "case": "mixed_scale",
+          "max_abs_error": 0.008867133408784866,
+          "max_fraction_of_error_bound": 0.03224778437467111,
+          "upstream_max_cycles": 659.7,
+          "artifact_sha256": "f64b1ddea0b21fa1e06d4d98195f7e2696fcb7e44ae3f963fb141b1e6b8c628b"
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T093610Z-meshgemv-5199/result.json",
+      "result_sha256": "8da7216d7965d848c35c505c6a6240019836321559ef7964d8e90c8a73944fdd",
+      "status": "provisional_screen_passed",
+      "variant": "unroll",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "screen_only": true,
+      "source_sha256": "a8441feeb3faa8e705ece39ce72a3208993d699676fa9ef73aa4c7907a40881b",
+      "verifier_sha256": "e7a3ff199e44e701256e24ff3f299b094a6cc75f118086487113a840593459d7",
+      "upstream_max_simulated_cycles": 241.3,
+      "validation": {
+        "status": "screen_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24"
+      },
+      "numerical_cases": [
+        {
+          "case": "positive",
+          "max_abs_error": 0.01308884797617793,
+          "max_fraction_of_error_bound": 0.08271921959034673,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "3c31b871df0cfa3e39ae29705d18a495b5244ea90f377f3a194b68a0b42531a3"
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T094054Z-meshgemv-5497/result.json",
+      "result_sha256": "d361c90dd87d2b32a927ae5c440866877e1639a846b3c4ac2d1ceeb3b3ef8a7b",
+      "status": "provisional_screen_passed",
+      "variant": "unroll",
+      "M": 80,
+      "N": 272,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "screen_only": true,
+      "source_sha256": "9088855822212a81516b179f53094d4bf30989ae5d49a71f54119bdfc24f29ab",
+      "verifier_sha256": "e7a3ff199e44e701256e24ff3f299b094a6cc75f118086487113a840593459d7",
+      "upstream_max_simulated_cycles": 622.3,
+      "validation": {
+        "status": "screen_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24"
+      },
+      "numerical_cases": [
+        {
+          "case": "positive",
+          "max_abs_error": 0.026696549030020833,
+          "max_fraction_of_error_bound": 0.11924850990980282,
+          "upstream_max_cycles": 622.3,
+          "artifact_sha256": "ee25e1a119e0d2e75647d67337a6cee1da9040a378e5c29e10e0d7158fcad0f2"
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T094131Z-meshgemv-5648/result.json",
+      "result_sha256": "5a6e271edb1c6e33c839029ab738b7dd0840ecc688351e906cba38bbff171124",
+      "status": "failed",
+      "variant": "unroll",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "screen_only": false,
+      "source_sha256": "a8441feeb3faa8e705ece39ce72a3208993d699676fa9ef73aa4c7907a40881b",
+      "verifier_sha256": "e7a3ff199e44e701256e24ff3f299b094a6cc75f118086487113a840593459d7",
+      "error": "Command failed (-9); see /Users/theodorepender/Coding/cerebras-autoresearch/runs/20261022T094131Z-meshgemv-5648/step-1.log"
+    },
+    {
+      "result_path": "runs/20261022T094318Z-challenge-5998/result.json",
+      "result_sha256": "3b8a2a91c0e35033af7e69d1a47b79810f859b00dd18cb15548ad0943995c9a8",
+      "status": "failed",
+      "variant": "bank-alignment",
+      "M": 64,
+      "N": 64,
+      "seed": 20261022,
+      "error": "Command '['git', '--no-optional-locks', '-c', 'core.preloadIndex=false', 'status', '--porcelain']' timed out after 120 seconds"
+    },
+    {
+      "result_path": "runs/20261022T094542Z-challenge-6083/result.json",
+      "result_sha256": "3815137c49b6d5e81d667e858451c32566c50a3bb9eac6ef109f95df4d4a51e0",
+      "status": "rejected_at_screen",
+      "variant": "bank-alignment",
+      "M": 64,
+      "N": 64,
+      "seed": 20261022
+    },
+    {
+      "result_path": "runs/20261022T094556Z-meshgemv-6083/result.json",
+      "result_sha256": "678418d3d379b1bcee154bdd5be31bd5e162d2f9bd030150de482ff8ee80ece0",
+      "status": "validated_kernel_run",
+      "variant": "baseline",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "screen_only": false,
+      "source_sha256": "2f5bef29320200b32f1e43a08ba1262fc92778572bc8d336d90ed1db950f5117",
+      "verifier_sha256": "e7a3ff199e44e701256e24ff3f299b094a6cc75f118086487113a840593459d7",
+      "upstream_max_simulated_cycles": 264.7,
+      "validation": {
+        "status": "all_cases_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24"
+      },
+      "numerical_cases": [
+        {
+          "case": "positive",
+          "max_abs_error": 0.01308884797617793,
+          "max_fraction_of_error_bound": 0.08271921959034673,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "601f63338b69bf11983d813c2ca09dbaa2ae2a2538403448a29593e09a38d8b6"
+        },
+        {
+          "case": "signed",
+          "max_abs_error": 0.005833722651004791,
+          "max_fraction_of_error_bound": 0.04153100230968589,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "0cc4e8619d3da1a7e8a31689dbc0de11d9c1b9f7d86cc37d247327bc3927d7c5"
+        },
+        {
+          "case": "zero",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "ca22971c414f527267a9acb46689a39cc7523da209fc8a19634c2c801b0dd387"
+        },
+        {
+          "case": "cancellation",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "d94e2e4bc99b3bed8c26deafce73bb44f69e8fccc0dddd567eeb7dc645ff7fec"
+        },
+        {
+          "case": "one_hot",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "f898a442c6060df50ea1d5f8056bc14a8c683f93cbce7283477c145b1bdb7d82"
+        },
+        {
+          "case": "mixed_scale",
+          "max_abs_error": 0.005043309181928635,
+          "max_fraction_of_error_bound": 0.03569809498690567,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "2868e1d7fa4b7a135ba3dc2020703f365ca8746cebdf60d8529a25ea214d3647"
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T094713Z-meshgemv-6325/result.json",
+      "result_sha256": "c277a728edbefb930ec369799b9f9e88358df880582fee4e8f4f30eba3095823",
+      "status": "failed",
+      "variant": "unroll",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "screen_only": false,
+      "source_sha256": "a8441feeb3faa8e705ece39ce72a3208993d699676fa9ef73aa4c7907a40881b",
+      "verifier_sha256": "e7a3ff199e44e701256e24ff3f299b094a6cc75f118086487113a840593459d7",
+      "error": "Log exceeded 64 MiB; run rejected: /Users/theodorepender/Coding/cerebras-autoresearch/runs/20261022T094713Z-meshgemv-6325/out_4_16_16_2/sim.log"
+    },
+    {
+      "result_path": "runs/20261022T094816Z-meshgemv-6083/result.json",
+      "result_sha256": "73ab3ba07923cad5291140fc95f9b3c862761395c0978f1957f477974b5af6d6",
+      "status": "provisional_screen_passed",
+      "variant": "bank-alignment",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "screen_only": true,
+      "source_sha256": "fdce532b6771dac57d2f3b30c94b774e21b813e176ee22d4951f132713ef4714",
+      "verifier_sha256": "e7a3ff199e44e701256e24ff3f299b094a6cc75f118086487113a840593459d7",
+      "upstream_max_simulated_cycles": 264.7,
+      "validation": {
+        "status": "screen_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24"
+      },
+      "numerical_cases": [
+        {
+          "case": "positive",
+          "max_abs_error": 0.01308884797617793,
+          "max_fraction_of_error_bound": 0.08271921959034673,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "601f63338b69bf11983d813c2ca09dbaa2ae2a2538403448a29593e09a38d8b6"
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T095121Z-challenge-6802/result.json",
+      "result_sha256": "fd1149fce8090827274b5eea12f80c3e4560bfa77a0f2be4af1bd0bae47fef6e",
+      "status": "failed",
+      "variant": "unroll",
+      "M": 64,
+      "N": 64,
+      "seed": 20261022,
+      "error": "Log exceeded 64 MiB; run rejected: /Users/theodorepender/Coding/cerebras-autoresearch/runs/20261022T095135Z-meshgemv-6802/out_4_16_16_2/sim.log"
+    },
+    {
+      "result_path": "runs/20261022T095135Z-meshgemv-6802/result.json",
+      "result_sha256": "91323e7444a3825430c89a92d0aebfcf130a89c20eeb1fc2a2314557ca780ae4",
+      "status": "failed",
+      "variant": "baseline",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "screen_only": false,
+      "source_sha256": "2f5bef29320200b32f1e43a08ba1262fc92778572bc8d336d90ed1db950f5117",
+      "verifier_sha256": "76e30af1d16f345ab7506cce6b5aa3de45b127457c83bed59552da3385479671",
+      "error": "Log exceeded 64 MiB; run rejected: /Users/theodorepender/Coding/cerebras-autoresearch/runs/20261022T095135Z-meshgemv-6802/out_4_16_16_2/sim.log"
+    },
+    {
+      "result_path": "runs/20261022T095821Z-challenge-7563/result.json",
+      "result_sha256": "5e933dbd9e2808a536df515dc8869c641026fb2c6d6ffa23b8d3611e14508321",
+      "status": "confirmed_kernel_improvement",
+      "variant": "unroll",
+      "M": 64,
+      "N": 64,
+      "seed": 20261022
+    },
+    {
+      "result_path": "runs/20261022T095833Z-meshgemv-7563/result.json",
+      "result_sha256": "9dd08bfa6bce5c4e65acb3c71e3ae6f1e7dab9b694a72ee04e64b683c49248fd",
+      "status": "validated_kernel_run",
+      "variant": "baseline",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "screen_only": false,
+      "source_sha256": "2f5bef29320200b32f1e43a08ba1262fc92778572bc8d336d90ed1db950f5117",
+      "verifier_sha256": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+      "upstream_max_simulated_cycles": 264.7,
+      "validation": {
+        "status": "all_cases_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24",
+        "simulator_threads": 1,
+        "process_isolation": "one fresh simulator process per numerical case"
+      },
+      "numerical_cases": [
+        {
+          "case": "cancellation",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "d94e2e4bc99b3bed8c26deafce73bb44f69e8fccc0dddd567eeb7dc645ff7fec"
+        },
+        {
+          "case": "mixed_scale",
+          "max_abs_error": 0.005043309181928635,
+          "max_fraction_of_error_bound": 0.03569809498690567,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "2868e1d7fa4b7a135ba3dc2020703f365ca8746cebdf60d8529a25ea214d3647"
+        },
+        {
+          "case": "one_hot",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "f898a442c6060df50ea1d5f8056bc14a8c683f93cbce7283477c145b1bdb7d82"
+        },
+        {
+          "case": "positive",
+          "max_abs_error": 0.01308884797617793,
+          "max_fraction_of_error_bound": 0.08271921959034673,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "601f63338b69bf11983d813c2ca09dbaa2ae2a2538403448a29593e09a38d8b6"
+        },
+        {
+          "case": "signed",
+          "max_abs_error": 0.005833722651004791,
+          "max_fraction_of_error_bound": 0.04153100230968589,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "0cc4e8619d3da1a7e8a31689dbc0de11d9c1b9f7d86cc37d247327bc3927d7c5"
+        },
+        {
+          "case": "zero",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "ca22971c414f527267a9acb46689a39cc7523da209fc8a19634c2c801b0dd387"
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T100220Z-meshgemv-7563/result.json",
+      "result_sha256": "ef21e031492c96601cf7154f885a54a37c371c12e347be2dd447cdb84baf484f",
+      "status": "provisional_screen_passed",
+      "variant": "unroll",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "screen_only": true,
+      "source_sha256": "a8441feeb3faa8e705ece39ce72a3208993d699676fa9ef73aa4c7907a40881b",
+      "verifier_sha256": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+      "upstream_max_simulated_cycles": 241.3,
+      "validation": {
+        "status": "screen_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24",
+        "simulator_threads": 1
+      },
+      "numerical_cases": [
+        {
+          "case": "positive",
+          "max_abs_error": 0.01308884797617793,
+          "max_fraction_of_error_bound": 0.08271921959034673,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "3c31b871df0cfa3e39ae29705d18a495b5244ea90f377f3a194b68a0b42531a3"
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T100338Z-meshgemv-7563/result.json",
+      "result_sha256": "f9c6e4f5bf9c5c7fd9b3181f1a119b16c22633d8efc658382784b8ab75ef7fd3",
+      "status": "validated_kernel_run",
+      "variant": "unroll",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261022,
+      "screen_only": false,
+      "source_sha256": "a8441feeb3faa8e705ece39ce72a3208993d699676fa9ef73aa4c7907a40881b",
+      "verifier_sha256": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+      "upstream_max_simulated_cycles": 241.3,
+      "validation": {
+        "status": "all_cases_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24",
+        "simulator_threads": 1,
+        "process_isolation": "one fresh simulator process per numerical case"
+      },
+      "numerical_cases": [
+        {
+          "case": "cancellation",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "7fa232bd7d0431f8c071e7928a82a3efaa13c114a6407b573dae354e3284d05f"
+        },
+        {
+          "case": "mixed_scale",
+          "max_abs_error": 0.005043309181928635,
+          "max_fraction_of_error_bound": 0.03569809498690567,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "b21aa3d42f2ba2ac993e0ba8c353de52f88bb4838358aa71cf429b6ea16b984b"
+        },
+        {
+          "case": "one_hot",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "1e48b20368dac243af64ec78a09cf82e11cea095a6f7984de74df76d57b1e323"
+        },
+        {
+          "case": "positive",
+          "max_abs_error": 0.01308884797617793,
+          "max_fraction_of_error_bound": 0.08271921959034673,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "3c31b871df0cfa3e39ae29705d18a495b5244ea90f377f3a194b68a0b42531a3"
+        },
+        {
+          "case": "signed",
+          "max_abs_error": 0.005833722651004791,
+          "max_fraction_of_error_bound": 0.04153100230968589,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "84ab4be5dd0b3dfa9f68776b74ef08058c4ed2f181878b7557e54191b47d4810"
+        },
+        {
+          "case": "zero",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "f2b7f186954256730f6e5b055ea693c9d164eb30d8946445f5c0afeecdec9494"
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T100715Z-meshgemv-7563/result.json",
+      "result_sha256": "6612afe43a824aa809976e74ca41b8f2468f0b54b3b2b08a34b1b69528958221",
+      "status": "validated_kernel_run",
+      "variant": "baseline",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261023,
+      "screen_only": false,
+      "source_sha256": "2f5bef29320200b32f1e43a08ba1262fc92778572bc8d336d90ed1db950f5117",
+      "verifier_sha256": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+      "upstream_max_simulated_cycles": 264.7,
+      "validation": {
+        "status": "all_cases_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24",
+        "simulator_threads": 1,
+        "process_isolation": "one fresh simulator process per numerical case"
+      },
+      "numerical_cases": [
+        {
+          "case": "cancellation",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "d94e2e4bc99b3bed8c26deafce73bb44f69e8fccc0dddd567eeb7dc645ff7fec"
+        },
+        {
+          "case": "mixed_scale",
+          "max_abs_error": 0.007680138573050499,
+          "max_fraction_of_error_bound": 0.05609465218106466,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "9eb5968137851fc0bc51eab1d62f0c3f3a0738137d4448a445db22fd672eaee1"
+        },
+        {
+          "case": "one_hot",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "14b05cc26ecf2bfff087d45dce9efe60a595247b0b193b69eb48cee60130ec4e"
+        },
+        {
+          "case": "positive",
+          "max_abs_error": 0.01568777486681938,
+          "max_fraction_of_error_bound": 0.09361599204231243,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "b75445528e0a9e18aec28d21ca589415237569ddab5ae31748a5c20fa7047b01"
+        },
+        {
+          "case": "signed",
+          "max_abs_error": 0.007572599686682224,
+          "max_fraction_of_error_bound": 0.04377838423597657,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "ebeb18cd343b1df63d51fa524135b4a6b86087e84667cc1491e7c8f2becc0b84"
+        },
+        {
+          "case": "zero",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 264.7,
+          "artifact_sha256": "6e1a3d76fdea186b09e91b08e69df6028bdd4d99ca8720e471ff558be30907cc"
+        }
+      ]
+    },
+    {
+      "result_path": "runs/20261022T101100Z-meshgemv-7563/result.json",
+      "result_sha256": "1fb90cc64a1c297c5770445fc932731ba1a75744734e720b5e3a9ff8ed444bb8",
+      "status": "validated_kernel_run",
+      "variant": "unroll",
+      "M": 64,
+      "N": 64,
+      "P": 4,
+      "group_num": 2,
+      "seed": 20261023,
+      "screen_only": false,
+      "source_sha256": "a8441feeb3faa8e705ece39ce72a3208993d699676fa9ef73aa4c7907a40881b",
+      "verifier_sha256": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+      "upstream_max_simulated_cycles": 241.3,
+      "validation": {
+        "status": "all_cases_passed",
+        "contract": "gamma_(Mt+P) * sum(abs(x*w)) + (M+P)*2^-24",
+        "simulator_threads": 1,
+        "process_isolation": "one fresh simulator process per numerical case"
+      },
+      "numerical_cases": [
+        {
+          "case": "cancellation",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "7fa232bd7d0431f8c071e7928a82a3efaa13c114a6407b573dae354e3284d05f"
+        },
+        {
+          "case": "mixed_scale",
+          "max_abs_error": 0.007680138573050499,
+          "max_fraction_of_error_bound": 0.05609465218106466,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "76c3ceb509e63c34bdc99b44f325f99332e24c338ceba693231bb91a1027dc05"
+        },
+        {
+          "case": "one_hot",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "c84b3b568b2172d8c6492e104ebb780099a71884fd1eea4323eda2ae5edd1f93"
+        },
+        {
+          "case": "positive",
+          "max_abs_error": 0.01568777486681938,
+          "max_fraction_of_error_bound": 0.09361599204231243,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "485d94390764ad34dac3a1dff2eb28adb9232848b2c167d162e0acaf57b7eb53"
+        },
+        {
+          "case": "signed",
+          "max_abs_error": 0.007572599686682224,
+          "max_fraction_of_error_bound": 0.04377838423597657,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "804975c798049d6c59b7de5c70aeb491f9faad8c9e8b3d131a7126a2527df04d"
+        },
+        {
+          "case": "zero",
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "upstream_max_cycles": 241.3,
+          "artifact_sha256": "69ec5e17aef582297fab0cbf92995cfe5c9f79e801f579334163cd2cc6b3c9cb"
+        }
+      ]
+    }
+  ]
+}

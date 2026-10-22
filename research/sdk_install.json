@@ -1,0 +1,16 @@
+{
+  "sdk_release": "2.10.1",
+  "sdk_build": "sdk-202606181328-8faf87a26e",
+  "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+  "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+  "bundled_checksum_verification": "all files passed",
+  "local_sdk_directory": ".sdk/sdk-2.10.1",
+  "lima_instance": "cerebras-sdk",
+  "guest_os": "Ubuntu 22.04 x86_64",
+  "guest_container_runtime": "SingularityCE 4.0.2",
+  "host_lima_version": "2.2.1",
+  "host_qemu_version": "11.1.2",
+  "example_source_release": "rel-sdk-2.10.0",
+  "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+  "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+}
