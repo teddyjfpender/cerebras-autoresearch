@@ -1,0 +1,15 @@
+{
+  "adapter": "meshgemv",
+  "initial_profile": "meshgemv.ffn-down-medium",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "11d6f7ea37d7dda0cc12fb22f63dba570d4fa6d126c3d80b3144b61803690f3c",
+  "starting_variant": "bank-alignment",
+  "shape_specific": true,
+  "approach": "meshgemv.unroll-and-bank-alignment",
+  "hypothesis": "Combine literal FMA map expansion with padded/aligned weight storage and aligned accumulators. The first unroll-only medium-up screen gained 1.5 percent; removing both dispatch and bank-conflict costs may cross the fixed gate. Keep every local multiply and allreduce in every timed repeat.",
+  "falsification": "Reject any six-case or clean-exit failure, changed precision/PE/timer/repeat controls, speedup below 1.05x, memory growth above 1.10x or failed fresh paired confirmation. Only claim this initial shape because local row count is literal.",
+  "agent_harness": "Codex"
+}

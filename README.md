@@ -68,21 +68,26 @@ python3 research.py ledger sync               # Recover unjournaled terminal rec
 
 ## Benchmark coverage
 
-**30 configured profiles, 10 families, 10 suites.** The
+**34 configured profiles, 12 families, 15 suites.** The
 [catalog](docs/benchmarks/catalog.md) describes coverage; [results](results/README.md)
 separate measured profiles from configured ones.
 
 | Area | Workloads |
 | --- | --- |
 | Dense inference | Six GEMV shapes; five cold GEMM shapes; scaled FFN up/down projections |
+| Complete inference blocks | RMSNorm/SwiGLU MLP at two widths; causal RoPE attention with KV state and MLP at two contexts |
 | Composed programs | Three FP32 matvec → bias → ReLU → residual chains with staged/fused variants; SDK residual norm |
 | Communication/I/O | Row/column broadcast; H2D/D2H diagnostics |
 | Numerical/scientific | Sparse 7-point stencil; 1D/2D/3D FFT; local matvec bandwidth |
 | Exact/spatial | 256-bit multiplication; Game of Life |
 
-Fourteen profiles have independent six-case oracles. Fourteen use pinned
+Eighteen profiles have independent six-case oracles. Fourteen use pinned
 upstream reference checks; two are diagnostics. Only the independent-oracle
 tier can pass automatic promotion. Untimed examples receive no cycle score.
+
+The [four-track inference challenge](docs/benchmarks/inference-blocks.md) groups
+the larger FFN GEMM/GEMV pairs and complete gated MLP/decoder-layer workloads.
+Execution qualification is recorded separately from configuration.
 
 ## What to optimize
 

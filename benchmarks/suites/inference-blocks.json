@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "meshgemm.cold-prefill-ffn-up-scaled",
+    "meshgemm.cold-prefill-ffn-down-scaled",
+    "meshgemv.ffn-up-medium",
+    "meshgemv.ffn-down-medium",
+    "gated-mlp.h16-f32",
+    "gated-mlp.h32-f64",
+    "decoder.h16-f32-ctx4",
+    "decoder.h16-f32-ctx12"
+  ]
+}

@@ -1,0 +1,2 @@
+# Unified patches include blank context prefixes and prefixed Makefile tabs.
+*.patch -whitespace

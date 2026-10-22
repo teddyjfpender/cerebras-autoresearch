@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "name": "map-k-pointer-correction",
+  "seed": 20261025,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-scaled",
+      "candidates": [
+        {
+          "candidate": "gemm-row-major-map-k-base"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-scaled",
+      "candidates": [
+        {
+          "candidate": "gemm-row-major-map-k-base"
+        }
+      ]
+    }
+  ]
+}

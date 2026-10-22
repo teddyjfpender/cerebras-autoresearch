@@ -138,3 +138,35 @@ judge. Current seeds are public, and the SDK runner is local. A signed hosted
 SDK judge, secret held-out seeds, adversarial submission isolation, and public
 publication/attestation infrastructure are not provided. SDK-free CI validates
 repository/ledger integrity; actual simulated results still require SDK runs.
+
+## Numerical replay of raw evidence
+
+`ledger verify --artifacts` checks the chain, receipt/source/artifact hashes and
+replays saved comparison/confirmation decisions. For independent profiles,
+`tools/replay_numerics.py` additionally recomputes FP64 outputs and fixed bounds
+from saved inputs, checks every resident output/cache state, and decodes the raw
+integer timestamps again. It runs in SDK NumPy and launches no device program.
+
+Provide a JSON manifest with schema version 1 and `receipts`, each containing a
+repository-relative `path` and the receipt's `sha256`. Only full independent
+validated runs qualify. Duplicate receipts, changed files, incomplete shapes,
+wrong input precision, mismatched expected values/bounds, state corruption and
+inconsistent timestamps are rejected. Existing reports cannot be overwritten.
+
+```sh
+tools/sdk-run cs_python tools/replay_numerics.py \
+  --manifest runs/audits/selected-receipts.json \
+  --output results/reports/my-numerical-replay.json
+```
+
+The report includes the auditor/helper hashes, each run's profile/source/harness/
+SDK/evaluator identities and recomputed case metrics. This audit corroborates
+numerical evidence; it does not promote a variant or replace fresh paired
+confirmation. Raw inputs, outputs and state remain in the original ignored runs.
+
+The separate numerical replay also checks saved error statistics against their
+actual/expected/bound arrays, then checks run summaries against verified case
+metrics and recorded step durations. This includes PE timing/spread, error
+fraction, declared work per cycle, PE-cycle cost and resident sequence averages.
+Historical replay reports keep their original auditor hashes; later audits add
+new reports rather than rewriting earlier evidence.

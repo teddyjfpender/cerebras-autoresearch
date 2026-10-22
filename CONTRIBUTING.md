@@ -30,3 +30,7 @@ contract; do not revise them to match a new score.
 The SDK-free CI workflow requires no credentials or container. Local qualification
 requires the licensed SDK and may take tens of minutes under QEMU. `--max-seconds`
 bounds a run/suite/challenge; partial receipts survive budget exhaustion.
+
+Read the [CSL bringup findings](docs/development/csl-pitfalls.md) when debugging
+export declarations, descriptor pointer types or state across repeated calls.
+Correct a frozen candidate in a new workspace, preserving the failed receipt.

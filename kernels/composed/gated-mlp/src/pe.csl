@@ -1,0 +1,96 @@
+// Independent scalar baseline; candidate work belongs in experiments/candidates.
+param memcpy_params;
+param H: i16;
+param F: i16;
+param T: i16;
+const sys = @import_module("<memcpy/memcpy>", memcpy_params);
+const clock = @import_module("<time>");
+const math = @import_module("<math>");
+var X: [T*H]f32;
+var ptr_X: [*]f32 = &X;
+var SCALE1: [H]f32;
+var ptr_SCALE1: [*]f32 = &SCALE1;
+var WG: [F*H]f32;
+var ptr_WG: [*]f32 = &WG;
+var WU: [F*H]f32;
+var ptr_WU: [*]f32 = &WU;
+var WD: [H*F]f32;
+var ptr_WD: [*]f32 = &WD;
+var Y: [T*H]f32;
+const ptr_Y: [*]f32 = &Y;
+var norm: [H]f32;
+var gate: [F]f32;
+var up: [F]f32;
+var hidden: [F]f32;
+var residual: [H]f32;
+var begin = @zeros([3]u16);
+var end = @zeros([3]u16);
+var times = @zeros([6]u16);
+const ptr_times: [*]u16 = &times;
+
+fn rmsnorm(input: [*]f32, scale: [*]f32) void {
+    var ss: f32 = 0.0;
+    var i: i16 = 0;
+    while (i < H) : (i += 1) { ss += input[i] * input[i]; }
+    const inv: f32 = 1.0 / math.sqrt(ss / @as(f32, H) + 0.00001);
+    i = 0;
+    while (i < H) : (i += 1) { norm[i] = input[i] * inv * scale[i]; }
+}
+
+fn mlp(frame: i16) void {
+    var j: i16 = 0;
+    while (j < F) : (j += 1) {
+        var g: f32 = 0.0;
+        var u: f32 = 0.0;
+        var i: i16 = 0;
+        while (i < H) : (i += 1) {
+            g += WG[j*H+i] * norm[i];
+            u += WU[j*H+i] * norm[i];
+        }
+        gate[j] = g;
+        up[j] = u;
+    }
+    j = 0;
+    while (j < F) : (j += 1) {
+        hidden[j] = (gate[j] / (1.0 + math.exp(-gate[j]))) * up[j];
+    }
+    var i: i16 = 0;
+    while (i < H) : (i += 1) {
+        var v: f32 = 0.0;
+        j = 0;
+        while (j < F) : (j += 1) { v += WD[i*F+j] * hidden[j]; }
+        Y[frame*H+i] = residual[i] + v;
+    }
+}
+
+fn token(frame: i16) void {
+    var i: i16 = 0;
+    while (i < H) : (i += 1) { residual[i] = X[frame*H+i]; }
+    rmsnorm(@ptrcast([*]f32, &X[frame*H]), &SCALE1);
+    mlp(frame);
+}
+
+// Protected: all frames/tokens and output/state stores are inside the timer.
+fn compute() void {
+    clock.enable_tsc();
+    clock.get_timestamp(&begin);
+    var frame: i16 = 0;
+    while (frame < T) : (frame += 1) {
+        token(frame);
+    }
+    clock.get_timestamp(&end);
+    clock.disable_tsc();
+    for (@range(i16, 3)) |i| { times[i] = begin[i]; times[i+3] = end[i]; }
+    sys.unblock_cmd_stream();
+}
+
+comptime {
+    @export_symbol(ptr_X, "X");
+    @export_symbol(ptr_SCALE1, "SCALE1");
+    @export_symbol(ptr_WG, "WG");
+    @export_symbol(ptr_WU, "WU");
+    @export_symbol(ptr_WD, "WD");
+    @export_symbol(ptr_Y, "Y");
+    @export_symbol(ptr_times, "times");
+    @export_symbol(compute);
+}

@@ -3,6 +3,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from cerebras_research.adapters import functions, materialize, verify_timing_contract
@@ -67,11 +68,31 @@ class CatalogTests(unittest.TestCase):
 
     def test_simulator_lease_rejects_overlapping_runner(self):
         with tempfile.TemporaryDirectory() as folder:
-            with patch("cerebras_research.process.ROOT", Path(folder)):
+            with (
+                patch("cerebras_research.process.ROOT", Path(folder)),
+                patch(
+                    "cerebras_research.process.shutil.disk_usage",
+                    return_value=SimpleNamespace(free=2 * 1024**3),
+                ),
+            ):
                 with simulator_lease():
-                    with self.assertRaises(RuntimeError):
+                    with self.assertRaisesRegex(RuntimeError, "Another benchmark"):
                         with simulator_lease():
                             pass
+
+    def test_low_disk_releases_the_simulator_lease(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with (
+                patch("cerebras_research.process.ROOT", Path(folder)),
+                patch("cerebras_research.process.shutil.disk_usage") as disk_usage,
+            ):
+                disk_usage.return_value = SimpleNamespace(free=1024**3 - 1)
+                with self.assertRaisesRegex(RuntimeError, "Less than 1 GiB"):
+                    with simulator_lease():
+                        self.fail("Simulator entered below its disk reserve")
+                disk_usage.return_value = SimpleNamespace(free=1024**3)
+                with simulator_lease():
+                    pass
 
     def test_shared_library_is_inside_the_isolated_source_tree(self):
         with tempfile.TemporaryDirectory() as folder:

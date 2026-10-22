@@ -21,6 +21,7 @@ V1 receipts for promotion.
 | MeshGEMV | Resident GEMV and reduction | 1 / 10 |
 | Cold MeshGEMM | One complete GEMM, including communication | 0 / 1 |
 | Resident chain | Matvec, bias, ReLU, residual, full output stores | 1 distinct frame / 4 distinct frames |
+| Complete gated MLP / decoder layer | Full four-frame/token sequence and all output/state stores | 0 / 1 sequence |
 | Timed SDK references | Audited upstream region | Profile-specific |
 | Untimed SDK references | Numerical assertions | No cycle score |
 | Host I/O diagnostics | Emulated transfer interval | No hardware bandwidth claim |
@@ -39,6 +40,7 @@ future correctness/performance challenge; the bound was not relaxed.
 | `max_program_object_bytes_per_pe` | Maximum `cs_readelf --msize` observation over `out/bin/*.elf` | Default ≤1.10× baseline |
 | `work_units_per_cycle` | Declared algorithmic work / primary interval | Within-profile comparison |
 | `max_error_fraction` | Error / fixed numerical bound | Must be finite and ≤1 |
+| `cycles_per_frame` / `cycles_per_token` | Whole-sequence cycles divided by four for resident blocks | Fixed sequence average, not steady-state TPS |
 | `experiment_wall_seconds` | Sum of measured compiler, case-run, and memory-inspection subprocess durations | SDK step cost; not WSE speed |
 
 `experiment_wall_seconds` excludes source preparation, provenance capture,
@@ -73,3 +75,9 @@ cell's regression guard. Default tolerance is 2% (candidate cycles ≤1.02×
 baseline in each cell). A good mean cannot hide a regression or missing cell.
 A suite comparison needs a fresh confirming suite pair. Do not average raw
 cycle counts across workloads.
+
+Resident nonlinear blocks use the separately versioned
+[`resident_transformer_fp32_v1` accuracy contract](inference-blocks.md).
+Their primary score includes all four frames/tokens, and work units count only
+projection/attention arithmetic, while normalization, nonlinearities, RoPE and
+cache history stores remain timed.

@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "meshgemv.ffn-up-medium",
+    "meshgemv.ffn-down-medium"
+  ]
+}

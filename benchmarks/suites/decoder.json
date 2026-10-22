@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "decoder.h16-f32-ctx4",
+    "decoder.h16-f32-ctx12"
+  ]
+}

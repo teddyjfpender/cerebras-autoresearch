@@ -1,0 +1,15 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-scaled",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "meshgemm.contiguous-columns-vector-pack-row4",
+  "hypothesis": "For Mt=4, expand the four independent row FMAs at each K step to eliminate the inner runtime row loop and dynamic row offsets. Keep the generic fallback for other Mt values. This combines contiguous N-wide accumulation with full strided-vector output packing; all K terms and communication remain.",
+  "falsification": "Reject any output/exit failure, changed FP16 K accumulation order or PE/timer contract, under 1.05x speedup, over 1.10x memory or failed fresh paired confirmation. Measure both FFN shapes; do not infer gains at other tile heights.",
+  "agent_harness": "Codex"
+}

@@ -13,6 +13,8 @@
     "sdk/integer.json",
     "sdk/local-bandwidth.json",
     "sdk/sparse-stencil.json",
-    "sdk/spatial.json"
+    "sdk/spatial.json",
+    "composed/gated-mlp.json",
+    "decoder/decoder.json"
   ]
 }

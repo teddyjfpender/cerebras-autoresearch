@@ -1,0 +1,343 @@
+{
+  "schema_version": 1,
+  "scope": "Initial SDK bringup only; screens are not full qualification or retained improvements",
+  "receipts": [
+    {
+      "path": "runs/v2/20261022T173109Z-gated-mlp.h16-f32-c5df089b/result.json",
+      "sha256": "833fbe34c8a4be8b4a0bc7afd418e6640a27a4300537a9fd20eef9c6dab37147",
+      "status": "failed",
+      "profile": {
+        "id": "gated-mlp.h16-f32",
+        "adapter": "gated_mlp",
+        "family": "resident-gated-mlp",
+        "dimensions": {
+          "H": 16,
+          "F": 32,
+          "T": 4
+        },
+        "pe_grid": [
+          1,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_transformer_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 12288,
+        "work_unit": "projection_and_attention_arithmetic_operations",
+        "description": "Complete RMSNorm SwiGLU MLP with residual, four distinct frames.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "complete four-frame sequence including all output and state stores"
+        }
+      },
+      "profile_sha256": "5040e18922917e3a81d036e6f97f5272d81099ff858f5163fc64dc1b4b9a2572",
+      "source_sha256": "abfe79571f05298b89609a32c3c730aca7da64b58606225d739e7bfd7f9726d4",
+      "harness_sha256": "a117947adef9cf0e7b8f5da3ee53edbe6e5f34b47e5d8c0c3e66f89e34734c50",
+      "provenance": {
+        "git_commit": "unknown",
+        "git_dirty": true,
+        "evaluator_sha256": "ac029570c7008d3b3f6372007b9575e6d9ae50ad72505b9bcc6c0334873cf21b",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "e19982eded019d9bd67cc2a17b930e5244cb952adc45283333b612d4e5899d78",
+          "src/cerebras_research/catalog.py": "1dc10f6feb58bc46adabf807b12d9aa9e58fb90fd5494d8daea71658d197752b",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "f5d8f37222b8350d69df848f5ebbe5b3271fa5b5d174bb101a39e4a89b781c76",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "960a11a88c4fbbf87374265fe02a3a89b229c5dee985638aff7af3874a18ba16",
+          "src/cerebras_research/runner.py": "1a5c43eb74d375f021ff665ac31bccd05e7fa9935a164cf27acc823e23538745",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "b3d718f132669e520e5c2fe174401435297c0e40829923d61cc7f5b63eac647f",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "ad6bbe0e765e887e2b96ad0af41c616d497bcdb5ea78eec920b154d3974bea6e",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98"
+        }
+      },
+      "metrics": {},
+      "cases": [],
+      "error": "Step failed (1): /Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T173109Z-gated-mlp.h16-f32-c5df089b/work/step-0.log"
+    },
+    {
+      "path": "runs/v2/20261022T173206Z-gated-mlp.h16-f32-6ea9df85/result.json",
+      "sha256": "1e681906eca22137ea8a4ba6cd733c26e7d3413097c4369712e85655026a3ceb",
+      "status": "failed",
+      "profile": {
+        "id": "gated-mlp.h16-f32",
+        "adapter": "gated_mlp",
+        "family": "resident-gated-mlp",
+        "dimensions": {
+          "H": 16,
+          "F": 32,
+          "T": 4
+        },
+        "pe_grid": [
+          1,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_transformer_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 12288,
+        "work_unit": "projection_and_attention_arithmetic_operations",
+        "description": "Complete RMSNorm SwiGLU MLP with residual, four distinct frames.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "complete four-frame sequence including all output and state stores"
+        }
+      },
+      "profile_sha256": "5040e18922917e3a81d036e6f97f5272d81099ff858f5163fc64dc1b4b9a2572",
+      "source_sha256": "48c7f2eb49d0addddfeb8b6221f2d8d9068febdaac1a96e885e5616e5bdc9672",
+      "harness_sha256": "a117947adef9cf0e7b8f5da3ee53edbe6e5f34b47e5d8c0c3e66f89e34734c50",
+      "provenance": {
+        "git_commit": "unknown",
+        "git_dirty": true,
+        "evaluator_sha256": "ac029570c7008d3b3f6372007b9575e6d9ae50ad72505b9bcc6c0334873cf21b",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "e19982eded019d9bd67cc2a17b930e5244cb952adc45283333b612d4e5899d78",
+          "src/cerebras_research/catalog.py": "1dc10f6feb58bc46adabf807b12d9aa9e58fb90fd5494d8daea71658d197752b",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "f5d8f37222b8350d69df848f5ebbe5b3271fa5b5d174bb101a39e4a89b781c76",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "960a11a88c4fbbf87374265fe02a3a89b229c5dee985638aff7af3874a18ba16",
+          "src/cerebras_research/runner.py": "1a5c43eb74d375f021ff665ac31bccd05e7fa9935a164cf27acc823e23538745",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "b3d718f132669e520e5c2fe174401435297c0e40829923d61cc7f5b63eac647f",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "ad6bbe0e765e887e2b96ad0af41c616d497bcdb5ea78eec920b154d3974bea6e",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98"
+        }
+      },
+      "metrics": {},
+      "cases": [],
+      "error": "Step failed (1): /Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T173206Z-gated-mlp.h16-f32-6ea9df85/work/step-0.log"
+    },
+    {
+      "path": "runs/v2/20261022T173352Z-gated-mlp.h16-f32-b41fccd2/result.json",
+      "sha256": "63389eceaadc3c1e6ca9e6ac4d1050e480db2ca3eed80178aa13a3af437b7c7d",
+      "status": "screen_passed",
+      "profile": {
+        "id": "gated-mlp.h16-f32",
+        "adapter": "gated_mlp",
+        "family": "resident-gated-mlp",
+        "dimensions": {
+          "H": 16,
+          "F": 32,
+          "T": 4
+        },
+        "pe_grid": [
+          1,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_transformer_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 12288,
+        "work_unit": "projection_and_attention_arithmetic_operations",
+        "description": "Complete RMSNorm SwiGLU MLP with residual, four distinct frames.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "complete four-frame sequence including all output and state stores"
+        }
+      },
+      "profile_sha256": "5040e18922917e3a81d036e6f97f5272d81099ff858f5163fc64dc1b4b9a2572",
+      "source_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+      "harness_sha256": "a117947adef9cf0e7b8f5da3ee53edbe6e5f34b47e5d8c0c3e66f89e34734c50",
+      "provenance": {
+        "git_commit": "unknown",
+        "git_dirty": true,
+        "evaluator_sha256": "ac029570c7008d3b3f6372007b9575e6d9ae50ad72505b9bcc6c0334873cf21b",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "e19982eded019d9bd67cc2a17b930e5244cb952adc45283333b612d4e5899d78",
+          "src/cerebras_research/catalog.py": "1dc10f6feb58bc46adabf807b12d9aa9e58fb90fd5494d8daea71658d197752b",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "f5d8f37222b8350d69df848f5ebbe5b3271fa5b5d174bb101a39e4a89b781c76",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "960a11a88c4fbbf87374265fe02a3a89b229c5dee985638aff7af3874a18ba16",
+          "src/cerebras_research/runner.py": "1a5c43eb74d375f021ff665ac31bccd05e7fa9935a164cf27acc823e23538745",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "b3d718f132669e520e5c2fe174401435297c0e40829923d61cc7f5b63eac647f",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "ad6bbe0e765e887e2b96ad0af41c616d497bcdb5ea78eec920b154d3974bea6e",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98"
+        }
+      },
+      "metrics": {
+        "max_local_cycles": 158849.0,
+        "mean_local_cycles": 158849.0,
+        "pe_cycle_spread": 0.0,
+        "max_error_fraction": 0.00653200256357979,
+        "cycles_per_frame": 39712.25,
+        "max_program_object_bytes_per_pe": 14096,
+        "work_units_per_cycle": 0.07735648320102739,
+        "pe_cycles": 158849.0,
+        "experiment_wall_seconds": 75.13706341599755
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261022,
+          "passed": true,
+          "max_abs_error": 3.4690526113934084e-06,
+          "max_fraction_of_error_bound": 0.00653200256357979,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "1a6a815ee75ee466d38e8755905cb7a4c348fcc8e442c7862958fe90573e64bf",
+          "metrics": {
+            "max_local_cycles": 158849.0,
+            "mean_local_cycles": 158849.0,
+            "pe_cycle_spread": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "path": "runs/v2/20261022T173535Z-decoder.h16-f32-ctx4-e04b093a/result.json",
+      "sha256": "8f4e302967272e5851a92b12df394a0ce526e3947f281be416c46b29fcbf37a1",
+      "status": "screen_passed",
+      "profile": {
+        "id": "decoder.h16-f32-ctx4",
+        "adapter": "decoder",
+        "family": "resident-decoder",
+        "dimensions": {
+          "H": 16,
+          "F": 32,
+          "T": 4,
+          "C": 8,
+          "L": 4,
+          "A": 2
+        },
+        "pe_grid": [
+          1,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_transformer_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 22144,
+        "work_unit": "projection_and_attention_arithmetic_operations",
+        "description": "Four sequential pre-norm causal MHA/RoPE/SwiGLU decoder-layer tokens; every output and cache snapshot verified.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "complete four-frame sequence including all output and state stores"
+        }
+      },
+      "profile_sha256": "6a5ada280e3535eade23b89ee2c4009a462cc934c85119343ba8017286064e07",
+      "source_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+      "harness_sha256": "a94af5446328798de787dde80dba6a2af348defdf7c11d287a8c14cbeb9cb9f1",
+      "provenance": {
+        "git_commit": "unknown",
+        "git_dirty": true,
+        "evaluator_sha256": "4905b5304fb4e14aa9af1ff0223976c67a415e9bd4b8135a54f503c1af5f084d",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "e19982eded019d9bd67cc2a17b930e5244cb952adc45283333b612d4e5899d78",
+          "src/cerebras_research/catalog.py": "1dc10f6feb58bc46adabf807b12d9aa9e58fb90fd5494d8daea71658d197752b",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "f5d8f37222b8350d69df848f5ebbe5b3271fa5b5d174bb101a39e4a89b781c76",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "960a11a88c4fbbf87374265fe02a3a89b229c5dee985638aff7af3874a18ba16",
+          "src/cerebras_research/runner.py": "1a5c43eb74d375f021ff665ac31bccd05e7fa9935a164cf27acc823e23538745",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "535a7fc516236dc38d0140568280a228cc79ca142f84025f6caf082d41d5aadc",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "ad6bbe0e765e887e2b96ad0af41c616d497bcdb5ea78eec920b154d3974bea6e",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98"
+        }
+      },
+      "metrics": {
+        "max_local_cycles": 366243.0,
+        "mean_local_cycles": 366243.0,
+        "pe_cycle_spread": 0.0,
+        "max_error_fraction": 0.004351047186662054,
+        "cycles_per_token": 91560.75,
+        "max_program_object_bytes_per_pe": 27968,
+        "work_units_per_cycle": 0.060462589046070506,
+        "pe_cycles": 366243.0,
+        "experiment_wall_seconds": 128.56739638100044
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261022,
+          "passed": true,
+          "max_abs_error": 3.2337403403914777e-06,
+          "max_fraction_of_error_bound": 0.004351047186662054,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "50c2a62243374ca445e019b11ddff749efb6bba70d81ada2ccd7053762c4a823",
+          "metrics": {
+            "max_local_cycles": 366243.0,
+            "mean_local_cycles": 366243.0,
+            "pe_cycle_spread": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "host_unit_tests": 61,
+    "sdk_driver_contract_tests": 10
+  },
+  "qualification": "Full eight-profile campaign launched separately; results pending",
+  "qwen_tps_result": false
+}

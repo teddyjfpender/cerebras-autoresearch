@@ -12,6 +12,11 @@ def baseline_source(profile):
     kind = profile["adapter"]
     if kind == "pipeline":
         return ROOT / "kernels/composed/matvec-epilogue", {"repository": "local"}
+    if kind in ("gated_mlp", "decoder"):
+        return ROOT / {
+            "gated_mlp": "kernels/composed/gated-mlp",
+            "decoder": "kernels/decoder/causal-layer",
+        }[kind], {"repository": "local"}
     key = "sdk-examples" if kind == "sdk" else "waferllm"
     spec = json.loads((ROOT / "config/sources.lock.json").read_text())[key]
     checkout = ROOT / ".deps" / key
@@ -91,8 +96,8 @@ def functions(text):
 
 def verify_timing_contract(original, edited, kind):
     names = (
-        {"compute"}
-        if kind == "pipeline"
+        {"compute", "snapshot"}
+        if kind in ("pipeline", "gated_mlp", "decoder")
         else {
             "init_task",
             "exit",
@@ -178,6 +183,8 @@ def prepare(profile, folder, variant, candidate=None):
             params = f"P:4,Mt:{dims['M'] // 4},Nt:{dims['N'] // 4},pe_num_group:2,root_1st_phase:1,root_2nd_phase:3"
         elif kind == "meshgemm":
             params = f"P:4,Mt:{dims['M'] // 4},Kt:{dims['K'] // 4},Nt:{dims['N'] // 4}"
+        elif kind in ("gated_mlp", "decoder"):
+            params = ",".join(f"{key}:{value}" for key, value in dims.items())
         else:
             mode = (
                 json.loads((candidate / "candidate.json").read_text())["starting_variant"]

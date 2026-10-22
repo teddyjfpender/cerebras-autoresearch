@@ -1,0 +1,2253 @@
+diff --git a/src/cerebras_research/adapters.py b/src/cerebras_research/adapters.py
+--- a/src/cerebras_research/adapters.py
++++ b/src/cerebras_research/adapters.py
+@@ -12,6 +12,12 @@
+     kind = profile["adapter"]
+     if kind == "pipeline":
+         return ROOT / "kernels/composed/matvec-epilogue", {"repository": "local"}
++    if kind == "reusable_gemm":
++        return ROOT / "kernels/dense/reusable-gemm", {
++            "repository": "local",
++            "derived_from": "WaferLLM",
++            "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8",
++        }
+     if kind in ("gated_mlp", "decoder"):
+         return ROOT / {
+             "gated_mlp": "kernels/composed/gated-mlp",
+@@ -44,7 +50,25 @@
+                 target.parent.mkdir(parents=True, exist_ok=True)
+                 shutil.copy2(path, target)
+         else:
+-            shutil.copytree(origin, destination, dirs_exist_ok=True)
++            shutil.copytree(
++                origin,
++                destination,
++                dirs_exist_ok=True,
++                ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.pyo"),
++            )
++    # Candidate initialization copies CSL only; retain the pinned repository's
++    # notices alongside that code, including locally derived reference kernels.
++    notice_roots = [source]
++    kind = profile.get("adapter")
++    if kind in ("meshgemv", "meshgemm", "sdk"):
++        notice_roots.append(ROOT / ".deps" / ("sdk-examples" if kind == "sdk" else "waferllm"))
++    for name in ("LICENSE", "NOTICE"):
++        options = [
++            parent / suffix for parent in notice_roots for suffix in (name + ".upstream", name)
++        ]
++        notice = next((path for path in options if path.is_file()), None)
++        if notice:
++            shutil.copy2(notice, folder / (name + ".upstream"))
+     # Original SDK examples import sibling benchmark-libs from src/. Relocate
+     # those imports (including dynamic library path strings) into this run's
+     # own tree, without changing arithmetic.
+@@ -99,6 +123,8 @@
+         {"compute", "snapshot"}
+         if kind in ("pipeline", "gated_mlp", "decoder")
+         else {
++            "sequence_host",
++            "save_frame",
+             "init_task",
+             "exit",
+             "f_memcpy_timestamps",
+@@ -181,8 +207,10 @@
+     else:
+         if kind == "meshgemv":
+             params = f"P:4,Mt:{dims['M'] // 4},Nt:{dims['N'] // 4},pe_num_group:2,root_1st_phase:1,root_2nd_phase:3"
+-        elif kind == "meshgemm":
++        elif kind in ("meshgemm", "reusable_gemm"):
+             params = f"P:4,Mt:{dims['M'] // 4},Kt:{dims['K'] // 4},Nt:{dims['N'] // 4}"
++            if kind == "reusable_gemm":
++                params += f",T:{dims['T']}"
+         elif kind in ("gated_mlp", "decoder"):
+             params = ",".join(f"{key}:{value}" for key, value in dims.items())
+         else:
+diff --git a/src/cerebras_research/catalog.py b/src/cerebras_research/catalog.py
+--- a/src/cerebras_research/catalog.py
++++ b/src/cerebras_research/catalog.py
+@@ -7,7 +7,7 @@
+ from .paths import ROOT, contained, identity
+ 
+ CATALOG = ROOT / "benchmarks/manifests/catalog.json"
+-ADAPTERS = {"meshgemv", "meshgemm", "pipeline", "gated_mlp", "decoder", "sdk"}
++ADAPTERS = {"meshgemv", "meshgemm", "pipeline", "gated_mlp", "decoder", "reusable_gemm", "sdk"}
+ 
+ 
+ def load_catalog():
+@@ -66,6 +66,7 @@
+                 "pipeline": (1, 4),
+                 "gated_mlp": (0, 1),
+                 "decoder": (0, 1),
++                "reusable_gemm": (0, 1),
+             }[profile["adapter"]]
+             timing = profile["timing_protocol"]
+             if (timing["warmups"], timing["repeats"]) != expected_timing:
+@@ -75,6 +76,18 @@
+             dims = profile["dimensions"]
+             if grid != [4, 4] or any(v % p for v in dims.values()):
+                 raise ValueError(f"Dense dimensions must be positive multiples of four: {name}")
++        if profile["adapter"] == "reusable_gemm":
++            dims = profile["dimensions"]
++            if (
++                grid != [4, 4]
++                or set(dims) != {"M", "K", "N", "T"}
++                or dims.get("T") != 4
++                or any(dims[k] % 4 for k in ("M", "K", "N"))
++                or profile["precision"] != "fp16"
++                or profile.get("oracle_contract") != "resident_gemm_sequence_fp16_v1"
++                or (dims["K"] + 4) * 2**-11 >= 1
++            ):
++                raise ValueError(f"Invalid resident GEMM sequence contract: {name}")
+         if profile["adapter"] == "pipeline" and grid != [1, 1]:
+             raise ValueError(f"Current pipeline adapter requires one PE: {name}")
+         if profile["adapter"] in ("gated_mlp", "decoder"):
+diff --git a/src/cerebras_research/ledger.py b/src/cerebras_research/ledger.py
+--- a/src/cerebras_research/ledger.py
++++ b/src/cerebras_research/ledger.py
+@@ -327,10 +327,30 @@
+             for other in measured
+         )
+     ]
++    confirmed_best = {}
++    for row in rows:
++        if (
++            row["decision"] == "confirmed"
++            and row["primary_metric"] == "max_local_cycles"
++            and row["evidence_audit"] == "verified"
++            and row["primary_value"]
++            and row["memory_bytes"]
++            and row["speedup"]
++            and all(track(row))
++        ):
++            key = track(row)
++            cost = (-float(row["speedup"]), float(row["primary_value"]), float(row["memory_bytes"]))
++            if key not in confirmed_best or cost < (
++                -float(confirmed_best[key]["speedup"]),
++                float(confirmed_best[key]["primary_value"]),
++                float(confirmed_best[key]["memory_bytes"]),
++            ):
++                confirmed_best[key] = row
+     keys = (
+         "event_id",
+         "profile",
+         "approach",
++        "candidate",
+         "variant",
+         "primary_value",
+         "memory_bytes",
+@@ -352,6 +372,23 @@
+         "measured_best_by_approach": [compact(r) for r in best.values()],
+         "measured_cycle_memory_front": [compact(r) for r in front],
+         "confirmed_improvements": [compact(r) for r in rows if r["decision"] == "confirmed"],
++        "best_confirmed_by_track": [
++            dict(
++                compact(r),
++                **{
++                    key: r[key]
++                    for key in (
++                        "profile_sha256",
++                        "baseline_tree_sha256",
++                        "harness_sha256",
++                        "sdk_sha256",
++                        "speedup",
++                        "memory_ratio",
++                    )
++                },
++            )
++            for r in confirmed_best.values()
++        ],
+         "confirmed_suite_events": [
+             r["event_id"] for r in rows if r["decision"] == "confirmed_suite"
+         ],
+@@ -372,8 +409,19 @@
+     with lock():
+         rows = read_rows(ledger)
+         existing = {r["event_id"]: r for r in rows}
++        by_receipt = {r["receipt"]: r for r in rows}
+         added, skipped = 0, []
+         for path in paths:
++            path = resolve(path)
++            previous = by_receipt.get(cell(str(path.relative_to(ROOT))))
++            if previous:
++                if digest(path) != previous["receipt_sha256"]:
++                    raise ValueError(
++                        "An already-recorded receipt changed; preserve it and create a new attempt"
++                    )
++                # Repeated recovery is incremental. Explicit --artifacts audits
++                # still replay all evidence, including immutable prior receipts.
++                continue
+             fields = receipt_row(path, origin)
+             if fields is None:
+                 skipped.append(str(Path(path).relative_to(ROOT)))
+@@ -395,6 +443,7 @@
+             row["row_sha256"] = identity({k: row[k] for k in FIELDS if k != "row_sha256"})
+             rows.append(row)
+             existing[row["event_id"]] = row
++            by_receipt[row["receipt"]] = row
+             added += 1
+         ledger.parent.mkdir(parents=True, exist_ok=True)
+         temporary = ledger.with_name(".ledger-" + uuid.uuid4().hex + ".tmp")
+diff --git a/src/cerebras_research/runner.py b/src/cerebras_research/runner.py
+--- a/src/cerebras_research/runner.py
++++ b/src/cerebras_research/runner.py
+@@ -64,7 +64,21 @@
+             raise RuntimeError("Experiment budget exhausted")
+         index = len(record["steps"])
+         print(f"{profile['id']} [{variant}] step {index}: {' '.join(args)}", flush=True)
+-        data = run_logged(args, work, work / f"step-{index}.log", remaining)
++        started = time.monotonic()
++        try:
++            data = run_logged(args, work, work / f"step-{index}.log", remaining)
++        except BaseException as error:
++            record["steps"].append(
++                {
++                    "command": args,
++                    "wall_seconds": time.monotonic() - started,
++                    "log": f"step-{index}.log",
++                    "status": "cancelled" if isinstance(error, KeyboardInterrupt) else "failed",
++                    "error": str(error),
++                }
++            )
++            write_json(receipt, record)
++            raise
+         record["steps"].append(data)
+         write_json(receipt, record)
+         return (work / data["log"]).read_text()
+@@ -85,10 +99,7 @@
+             status="running",
+         )
+         record["harness_files"] = {
+-            "benchmark_" + p.name if p.name == "pipeline.py" else p.name: digest(
+-                work / ("benchmark_" + p.name if p.name == "pipeline.py" else p.name)
+-            )
+-            for p in (ROOT / "benchmarks/drivers").glob("*.py")
++            str(path.relative_to(work)): digest(path) for path in sorted(work.rglob("*.py"))
+         }
+         record["harness_sha256"] = identity(record["harness_files"])
+         record["compile_command"] = compile_args
+@@ -133,10 +144,11 @@
+                 "pipeline": "benchmark_pipeline.py",
+                 "gated_mlp": "resident.py",
+                 "decoder": "resident.py",
++                "reusable_gemm": "reusable_gemm.py",
+             }.get(kind, "dense.py")
+             for case in CASES[:1] if screen else CASES:
+                 args = ["cs_python", driver, "--name", "out", "--case", case, "--seed", str(seed)]
+-                if kind != "pipeline":
++                if kind not in ("pipeline", "reusable_gemm"):
+                     args.extend(["--kind", kind])
+                 log = step(args)
+                 if "SUCCESS!" not in log:
+@@ -163,6 +175,10 @@
+                 record["metrics"][
+                     "cycles_per_frame" if kind == "gated_mlp" else "cycles_per_token"
+                 ] = record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
++            if kind == "reusable_gemm":
++                record["metrics"]["cycles_per_gemm"] = (
++                    record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
++                )
+         step(["cs_python", "memory.py", "out"])
+         record["memory"] = json.loads((work / "out/memory.json").read_text())
+         observed = {(row["x"], row["y"]) for row in record["memory"]["observations"]}
+@@ -185,9 +201,19 @@
+         record["error"] = str(error)
+         raise
+     finally:
++        record["metrics"]["experiment_wall_seconds"] = sum(
++            step["wall_seconds"] for step in record["steps"]
++        )
+         if work.exists():
+             for path in sorted(work.rglob("*")):
+-                if path.is_file() and path.suffix in (".npz", ".json", ".log", ".csl", ".txt"):
++                if path.is_file() and path.suffix in (
++                    ".npz",
++                    ".json",
++                    ".log",
++                    ".csl",
++                    ".txt",
++                    ".elf",
++                ):
+                     record["artifacts"][str(path.relative_to(folder))] = digest(path)
+         write_json(receipt, record)
+         from .ledger import append_receipts
+diff --git a/benchmarks/drivers/reusable_gemm.py b/benchmarks/drivers/reusable_gemm.py
+new file mode 100644
+--- /dev/null
++++ b/benchmarks/drivers/reusable_gemm.py
+@@ -0,0 +1,91 @@
++"""SDK driver for the full resident GEMM sequence and canonical-state oracle."""
++
++import argparse
++import json
++import os
++from pathlib import Path
++
++import numpy as np
++from cerebras.sdk.runtime.sdkruntimepybind import MemcpyDataType, MemcpyOrder, SdkRuntime
++from cerebras.sdk.sdk_utils import input_array_to_u32, memcpy_view
++from common import CASES, matrix_inputs, save_case
++from reusable_gemm_oracle import evidence, pack_inputs, unpack_outputs
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument("--name", required=True)
++    parser.add_argument("--case", choices=CASES, required=True)
++    parser.add_argument("--seed", type=int, required=True)
++    args = parser.parse_args()
++    out = Path(args.name).resolve()
++    dims = json.loads((out / "out.json").read_text())["params"]
++    p, mt, kt, nt, t = (int(dims[k]) for k in ("P", "Mt", "Kt", "Nt", "T"))
++    m, k, n = p * mt, p * kt, p * nt
++    x, w = matrix_inputs(t * m, k, n, args.seed, args.case, np.float16)
++    frames = x.reshape(t, m, k)
++    packed_x, packed_w = pack_inputs(p, mt, kt, nt, frames, w)
++    os.chdir(out)
++    runner = SdkRuntime(str(out), simfab_numthreads=1, suppress_simfab_trace=True)
++    runner.load()
++    runner.run()
++    options = dict(
++        streaming=False,
++        data_type=MemcpyDataType.MEMCPY_16BIT,
++        order=MemcpyOrder.ROW_MAJOR,
++        nonblock=False,
++    )
++    try:
++        for symbol, value, count in (
++            ("X_FRAMES", packed_x, t * mt * kt),
++            ("W_CANON", packed_w, kt * nt),
++        ):
++            runner.memcpy_h2d(
++                runner.get_id(symbol),
++                input_array_to_u32(value.ravel(), 1, 1),
++                0,
++                0,
++                p,
++                p,
++                count,
++                **options,
++            )
++        runner.launch("init_task", nonblock=False)
++        runner.launch("sequence_host", nonblock=False)
++        captured = {}
++        for symbol, count in (
++            ("ALL_OUT", t * mt * nt),
++            ("W_HISTORY", t * kt * nt),
++            ("X_FRAMES", t * mt * kt),
++            ("W_CANON", kt * nt),
++        ):
++            raw = np.zeros(p * p * count, np.uint32)
++            runner.memcpy_d2h(raw, runner.get_id(symbol), 0, 0, p, p, count, **options)
++            captured[symbol] = memcpy_view(raw, np.dtype(np.float16)).copy()
++        actual = unpack_outputs(p, mt, nt, t, captured["ALL_OUT"])
++        timer = np.zeros(p * p * 3, np.uint32)
++        timer_options = dict(options, data_type=MemcpyDataType.MEMCPY_32BIT)
++        runner.memcpy_d2h(timer, runner.get_id("time_memcpy"), 0, 0, p, p, 3, **timer_options)
++        save_case(
++            out,
++            args.case,
++            *evidence(
++                p,
++                frames,
++                w,
++                actual,
++                captured["W_HISTORY"].reshape(p, p, t, kt * nt),
++                captured["X_FRAMES"],
++                captured["W_CANON"],
++            ),
++            timer,
++            1,
++            args.seed,
++        )
++    finally:
++        runner.stop()
++    print("SUCCESS!", flush=True)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/benchmarks/drivers/reusable_gemm_oracle.py b/benchmarks/drivers/reusable_gemm_oracle.py
+new file mode 100644
+--- /dev/null
++++ b/benchmarks/drivers/reusable_gemm_oracle.py
+@@ -0,0 +1,65 @@
++"""4x4-PE resident GEMM packing and full sequence evidence, independent of CSL."""
++
++import numpy as np
++
++ORIGINS = np.array([[0, 1, 2, 3], [1, 3, 0, 2], [2, 0, 3, 1], [3, 2, 1, 0]])
++
++
++def pack_inputs(p, mt, kt, nt, frames, weights):
++    if p != 4 or frames.shape[1:] != (p * mt, p * kt) or weights.shape != (p * kt, p * nt):
++        raise ValueError("Sequence input shape/grid disagrees with contract")
++    t = frames.shape[0]
++    packed_x = frames.reshape(t, p, mt, p, kt).transpose(1, 3, 0, 4, 2)
++    weight_tiles = weights.reshape(p, kt, p, nt).transpose(0, 2, 1, 3)
++    packed_w = np.empty((p, p, kt, nt), dtype=weights.dtype)
++    for row in range(p):
++        for col in range(p):
++            packed_w[row, col] = weight_tiles[ORIGINS[row, col], col]
++    return np.ascontiguousarray(packed_x.reshape(p, p, t, mt * kt)), np.ascontiguousarray(
++        packed_w.reshape(p, p, kt * nt)
++    )
++
++
++def unpack_outputs(p, mt, nt, t, raw_values):
++    tiles = raw_values.reshape(p, p, t, nt, mt)
++    return tiles.transpose(2, 0, 4, 1, 3).reshape(t, p * mt, p * nt).astype(np.float64)
++
++
++def evidence(p, frames, weights, actual, history, canonical_x_after, canonical_w_after):
++    if frames.dtype != np.float16 or weights.dtype != np.float16:
++        raise ValueError("Sequence inputs must be quantized FP16")
++    t, m, k = frames.shape
++    n = weights.shape[1]
++    packed_x, packed_w = pack_inputs(p, m // p, k // p, n // p, frames, weights)
++    history_shape = (p, p, t, (k // p) * (n // p))
++    if history.shape != history_shape or actual.shape != (t, m, n):
++        raise ValueError("Incomplete sequence output/state shape")
++    if canonical_x_after.shape != (packed_x.size,) or canonical_w_after.shape != (packed_w.size,):
++        raise ValueError("Incomplete canonical input snapshot shape")
++    if any(value.dtype != np.float16 for value in (history, canonical_x_after, canonical_w_after)):
++        raise ValueError("Sequence state must remain FP16")
++    expected_history = np.broadcast_to(packed_w[:, :, None], history_shape).copy()
++    exact = (
++        np.array_equal(canonical_x_after.view(np.uint16), packed_x.ravel().view(np.uint16))
++        and np.array_equal(canonical_w_after.view(np.uint16), packed_w.ravel().view(np.uint16))
++        and np.array_equal(history.view(np.uint16), expected_history.view(np.uint16))
++    )
++    x64, w64 = frames.astype(np.float64), weights.astype(np.float64)
++    expected = x64 @ w64
++    length, u = k + p, 2.0**-11
++    if length * u >= 1:
++        raise ValueError("Shape exceeds fixed FP16 accumulation bound")
++    gamma = length * u / (1 - length * u)
++    bound = gamma * (np.abs(x64) @ np.abs(w64)) + length * 2.0**-24
++    arrays = dict(
++        x=frames,
++        w=weights,
++        actual=actual,
++        expected=expected,
++        working_w_history=history,
++        expected_working_w_history=expected_history,
++        canonical_x_after=canonical_x_after,
++        canonical_w_after=canonical_w_after,
++        exact_state_match=np.array(exact),
++    )
++    return arrays, np.abs(actual - expected), bound
+diff --git a/benchmarks/manifests/catalog.json b/benchmarks/manifests/catalog.json
+--- a/benchmarks/manifests/catalog.json
++++ b/benchmarks/manifests/catalog.json
+@@ -15,6 +15,7 @@
+     "sdk/sparse-stencil.json",
+     "sdk/spatial.json",
+     "composed/gated-mlp.json",
+-    "decoder/decoder.json"
++    "decoder/decoder.json",
++    "dense/reusable-gemm.json"
+   ]
+ }
+diff --git a/benchmarks/manifests/dense/reusable-gemm.json b/benchmarks/manifests/dense/reusable-gemm.json
+new file mode 100644
+--- /dev/null
++++ b/benchmarks/manifests/dense/reusable-gemm.json
+@@ -0,0 +1,104 @@
++{
++  "schema_version": 1,
++  "profiles": [
++    {
++      "id": "reusable-gemm.tiny-sequence",
++      "adapter": "reusable_gemm",
++      "family": "resident-gemm-sequence",
++      "dimensions": {
++        "M": 16,
++        "K": 16,
++        "N": 16,
++        "T": 4
++      },
++      "pe_grid": [
++        4,
++        4
++      ],
++      "precision": "fp16",
++      "variants": [
++        "baseline",
++        "candidate"
++      ],
++      "validation": "independent_six_case",
++      "oracle_contract": "resident_gemm_sequence_fp16_v1",
++      "metric": "max_local_cycles",
++      "work_units": 32768,
++      "work_unit": "arithmetic_operations",
++      "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
++      "timeout_seconds": 1200,
++      "regression_limit": 1.02,
++      "timing_protocol": {
++        "warmups": 0,
++        "repeats": 1,
++        "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
++      }
++    },
++    {
++      "id": "reusable-gemm.prefill-ffn-up-scaled",
++      "adapter": "reusable_gemm",
++      "family": "resident-gemm-sequence",
++      "dimensions": {
++        "M": 16,
++        "K": 80,
++        "N": 272,
++        "T": 4
++      },
++      "pe_grid": [
++        4,
++        4
++      ],
++      "precision": "fp16",
++      "variants": [
++        "baseline",
++        "candidate"
++      ],
++      "validation": "independent_six_case",
++      "oracle_contract": "resident_gemm_sequence_fp16_v1",
++      "metric": "max_local_cycles",
++      "work_units": 2785280,
++      "work_unit": "arithmetic_operations",
++      "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
++      "timeout_seconds": 1200,
++      "regression_limit": 1.02,
++      "timing_protocol": {
++        "warmups": 0,
++        "repeats": 1,
++        "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
++      }
++    },
++    {
++      "id": "reusable-gemm.prefill-ffn-down-scaled",
++      "adapter": "reusable_gemm",
++      "family": "resident-gemm-sequence",
++      "dimensions": {
++        "M": 16,
++        "K": 272,
++        "N": 80,
++        "T": 4
++      },
++      "pe_grid": [
++        4,
++        4
++      ],
++      "precision": "fp16",
++      "variants": [
++        "baseline",
++        "candidate"
++      ],
++      "validation": "independent_six_case",
++      "oracle_contract": "resident_gemm_sequence_fp16_v1",
++      "metric": "max_local_cycles",
++      "work_units": 2785280,
++      "work_unit": "arithmetic_operations",
++      "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
++      "timeout_seconds": 1200,
++      "regression_limit": 1.02,
++      "timing_protocol": {
++        "warmups": 0,
++        "repeats": 1,
++        "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
++      }
++    }
++  ]
++}
+diff --git a/benchmarks/suites/all.json b/benchmarks/suites/all.json
+--- a/benchmarks/suites/all.json
++++ b/benchmarks/suites/all.json
+@@ -34,6 +34,9 @@
+     "gated-mlp.h16-f32",
+     "gated-mlp.h32-f64",
+     "decoder.h16-f32-ctx4",
+-    "decoder.h16-f32-ctx12"
++    "decoder.h16-f32-ctx12",
++    "reusable-gemm.tiny-sequence",
++    "reusable-gemm.prefill-ffn-up-scaled",
++    "reusable-gemm.prefill-ffn-down-scaled"
+   ]
+ }
+diff --git a/benchmarks/suites/qualification.json b/benchmarks/suites/qualification.json
+--- a/benchmarks/suites/qualification.json
++++ b/benchmarks/suites/qualification.json
+@@ -24,6 +24,9 @@
+     "gated-mlp.h16-f32",
+     "gated-mlp.h32-f64",
+     "decoder.h16-f32-ctx4",
+-    "decoder.h16-f32-ctx12"
++    "decoder.h16-f32-ctx12",
++    "reusable-gemm.tiny-sequence",
++    "reusable-gemm.prefill-ffn-up-scaled",
++    "reusable-gemm.prefill-ffn-down-scaled"
+   ]
+ }
+diff --git a/benchmarks/suites/reusable-gemm.json b/benchmarks/suites/reusable-gemm.json
+new file mode 100644
+--- /dev/null
++++ b/benchmarks/suites/reusable-gemm.json
+@@ -0,0 +1,10 @@
++{
++  "schema_version": 1,
++  "id": "reusable-gemm",
++  "description": "Four distinct resident GEMMs with full output and canonical/working weight state qualification.",
++  "profiles": [
++    "reusable-gemm.tiny-sequence",
++    "reusable-gemm.prefill-ffn-up-scaled",
++    "reusable-gemm.prefill-ffn-down-scaled"
++  ]
++}
+diff --git a/kernels/dense/reusable-gemm/LICENSE.upstream b/kernels/dense/reusable-gemm/LICENSE.upstream
+new file mode 100644
+--- /dev/null
++++ b/kernels/dense/reusable-gemm/LICENSE.upstream
+@@ -0,0 +1,202 @@
++
++                                 Apache License
++                           Version 2.0, January 2004
++                        http://www.apache.org/licenses/
++
++   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
++
++   1. Definitions.
++
++      "License" shall mean the terms and conditions for use, reproduction,
++      and distribution as defined by Sections 1 through 9 of this document.
++
++      "Licensor" shall mean the copyright owner or entity authorized by
++      the copyright owner that is granting the License.
++
++      "Legal Entity" shall mean the union of the acting entity and all
++      other entities that control, are controlled by, or are under common
++      control with that entity. For the purposes of this definition,
++      "control" means (i) the power, direct or indirect, to cause the
++      direction or management of such entity, whether by contract or
++      otherwise, or (ii) ownership of fifty percent (50%) or more of the
++      outstanding shares, or (iii) beneficial ownership of such entity.
++
++      "You" (or "Your") shall mean an individual or Legal Entity
++      exercising permissions granted by this License.
++
++      "Source" form shall mean the preferred form for making modifications,
++      including but not limited to software source code, documentation
++      source, and configuration files.
++
++      "Object" form shall mean any form resulting from mechanical
++      transformation or translation of a Source form, including but
++      not limited to compiled object code, generated documentation,
++      and conversions to other media types.
++
++      "Work" shall mean the work of authorship, whether in Source or
++      Object form, made available under the License, as indicated by a
++      copyright notice that is included in or attached to the work
++      (an example is provided in the Appendix below).
++
++      "Derivative Works" shall mean any work, whether in Source or Object
++      form, that is based on (or derived from) the Work and for which the
++      editorial revisions, annotations, elaborations, or other modifications
++      represent, as a whole, an original work of authorship. For the purposes
++      of this License, Derivative Works shall not include works that remain
++      separable from, or merely link (or bind by name) to the interfaces of,
++      the Work and Derivative Works thereof.
++
++      "Contribution" shall mean any work of authorship, including
++      the original version of the Work and any modifications or additions
++      to that Work or Derivative Works thereof, that is intentionally
++      submitted to Licensor for inclusion in the Work by the copyright owner
++      or by an individual or Legal Entity authorized to submit on behalf of
++      the copyright owner. For the purposes of this definition, "submitted"
++      means any form of electronic, verbal, or written communication sent
++      to the Licensor or its representatives, including but not limited to
++      communication on electronic mailing lists, source code control systems,
++      and issue tracking systems that are managed by, or on behalf of, the
++      Licensor for the purpose of discussing and improving the Work, but
++      excluding communication that is conspicuously marked or otherwise
++      designated in writing by the copyright owner as "Not a Contribution."
++
++      "Contributor" shall mean Licensor and any individual or Legal Entity
++      on behalf of whom a Contribution has been received by Licensor and
++      subsequently incorporated within the Work.
++
++   2. Grant of Copyright License. Subject to the terms and conditions of
++      this License, each Contributor hereby grants to You a perpetual,
++      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
++      copyright license to reproduce, prepare Derivative Works of,
++      publicly display, publicly perform, sublicense, and distribute the
++      Work and such Derivative Works in Source or Object form.
++
++   3. Grant of Patent License. Subject to the terms and conditions of
++      this License, each Contributor hereby grants to You a perpetual,
++      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
++      (except as stated in this section) patent license to make, have made,
++      use, offer to sell, sell, import, and otherwise transfer the Work,
++      where such license applies only to those patent claims licensable
++      by such Contributor that are necessarily infringed by their
++      Contribution(s) alone or by combination of their Contribution(s)
++      with the Work to which such Contribution(s) was submitted. If You
++      institute patent litigation against any entity (including a
++      cross-claim or counterclaim in a lawsuit) alleging that the Work
++      or a Contribution incorporated within the Work constitutes direct
++      or contributory patent infringement, then any patent licenses
++      granted to You under this License for that Work shall terminate
++      as of the date such litigation is filed.
++
++   4. Redistribution. You may reproduce and distribute copies of the
++      Work or Derivative Works thereof in any medium, with or without
++      modifications, and in Source or Object form, provided that You
++      meet the following conditions:
++
++      (a) You must give any other recipients of the Work or
++          Derivative Works a copy of this License; and
++
++      (b) You must cause any modified files to carry prominent notices
++          stating that You changed the files; and
++
++      (c) You must retain, in the Source form of any Derivative Works
++          that You distribute, all copyright, patent, trademark, and
++          attribution notices from the Source form of the Work,
++          excluding those notices that do not pertain to any part of
++          the Derivative Works; and
++
++      (d) If the Work includes a "NOTICE" text file as part of its
++          distribution, then any Derivative Works that You distribute must
++          include a readable copy of the attribution notices contained
++          within such NOTICE file, excluding those notices that do not
++          pertain to any part of the Derivative Works, in at least one
++          of the following places: within a NOTICE text file distributed
++          as part of the Derivative Works; within the Source form or
++          documentation, if provided along with the Derivative Works; or,
++          within a display generated by the Derivative Works, if and
++          wherever such third-party notices normally appear. The contents
++          of the NOTICE file are for informational purposes only and
++          do not modify the License. You may add Your own attribution
++          notices within Derivative Works that You distribute, alongside
++          or as an addendum to the NOTICE text from the Work, provided
++          that such additional attribution notices cannot be construed
++          as modifying the License.
++
++      You may add Your own copyright statement to Your modifications and
++      may provide additional or different license terms and conditions
++      for use, reproduction, or distribution of Your modifications, or
++      for any such Derivative Works as a whole, provided Your use,
++      reproduction, and distribution of the Work otherwise complies with
++      the conditions stated in this License.
++
++   5. Submission of Contributions. Unless You explicitly state otherwise,
++      any Contribution intentionally submitted for inclusion in the Work
++      by You to the Licensor shall be under the terms and conditions of
++      this License, without any additional terms or conditions.
++      Notwithstanding the above, nothing herein shall supersede or modify
++      the terms of any separate license agreement you may have executed
++      with Licensor regarding such Contributions.
++
++   6. Trademarks. This License does not grant permission to use the trade
++      names, trademarks, service marks, or product names of the Licensor,
++      except as required for reasonable and customary use in describing the
++      origin of the Work and reproducing the content of the NOTICE file.
++
++   7. Disclaimer of Warranty. Unless required by applicable law or
++      agreed to in writing, Licensor provides the Work (and each
++      Contributor provides its Contributions) on an "AS IS" BASIS,
++      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
++      implied, including, without limitation, any warranties or conditions
++      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
++      PARTICULAR PURPOSE. You are solely responsible for determining the
++      appropriateness of using or redistributing the Work and assume any
++      risks associated with Your exercise of permissions under this License.
++
++   8. Limitation of Liability. In no event and under no legal theory,
++      whether in tort (including negligence), contract, or otherwise,
++      unless required by applicable law (such as deliberate and grossly
++      negligent acts) or agreed to in writing, shall any Contributor be
++      liable to You for damages, including any direct, indirect, special,
++      incidental, or consequential damages of any character arising as a
++      result of this License or out of the use or inability to use the
++      Work (including but not limited to damages for loss of goodwill,
++      work stoppage, computer failure or malfunction, or any and all
++      other commercial damages or losses), even if such Contributor
++      has been advised of the possibility of such damages.
++
++   9. Accepting Warranty or Additional Liability. While redistributing
++      the Work or Derivative Works thereof, You may choose to offer,
++      and charge a fee for, acceptance of support, warranty, indemnity,
++      or other liability obligations and/or rights consistent with this
++      License. However, in accepting such obligations, You may act only
++      on Your own behalf and on Your sole responsibility, not on behalf
++      of any other Contributor, and only if You agree to indemnify,
++      defend, and hold each Contributor harmless for any liability
++      incurred by, or claims asserted against, such Contributor by reason
++      of your accepting any such warranty or additional liability.
++
++   END OF TERMS AND CONDITIONS
++
++   APPENDIX: How to apply the Apache License to your work.
++
++      To apply the Apache License to your work, attach the following
++      boilerplate notice, with the fields enclosed by brackets "[]"
++      replaced with your own identifying information. (Don't include
++      the brackets!)  The text should be enclosed in the appropriate
++      comment syntax for the file format. We also recommend that a
++      file or class name and description of purpose be included on the
++      same "printed page" as the copyright notice for easier
++      identification within third-party archives.
++
++   Copyright 2025 WaferLLM Team
++
++   Licensed under the Apache License, Version 2.0 (the "License");
++   you may not use this file except in compliance with the License.
++   You may obtain a copy of the License at
++
++       http://www.apache.org/licenses/LICENSE-2.0
++
++   Unless required by applicable law or agreed to in writing, software
++   distributed under the License is distributed on an "AS IS" BASIS,
++   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++   See the License for the specific language governing permissions and
++   limitations under the License.
+diff --git a/kernels/dense/reusable-gemm/README.md b/kernels/dense/reusable-gemm/README.md
+new file mode 100644
+--- /dev/null
++++ b/kernels/dense/reusable-gemm/README.md
+@@ -0,0 +1,16 @@
++# Resident GEMM sequence
++
++Status: registered for qualification; device compilation and six-case validation
++are required before a result can be used for optimization.
++
++Derived from WaferLLM MeshGEMM at
++`fd1c2daae37cd68706c03fc8009887ecee9900f8`; see `LICENSE.upstream`.
++The program computes four resident FP16 input matrices against shared weights
++on a fixed 4x4 compute grid. One host launch covers all four frames, timed working
++buffer/counter restoration, computation/communication, every output store and
++all working-weight snapshots. Canonical input arrays are checked after the run.
++
++Profiles are in `benchmarks/manifests/dense/reusable-gemm.json`. The independent
++FP64 oracle and exact state checks live in `benchmarks/drivers/reusable_gemm_oracle.py`.
++The full-sequence cycle score and cycles/GEMM are separate from cold GEMM scores.
++They do not establish hardware or model TPS.
+diff --git a/kernels/dense/reusable-gemm/src/comm_lib/comm_layout.csl b/kernels/dense/reusable-gemm/src/comm_lib/comm_layout.csl
+new file mode 100644
+--- /dev/null
++++ b/kernels/dense/reusable-gemm/src/comm_lib/comm_layout.csl
+@@ -0,0 +1,164 @@
++param P: i16;
++param x_interleave: [3]color;
++param x_shift_interleave: [3]color;
++param x_shift_re_interleave: [3]color;
++param y_interleave: [3]color;
++
++
++const x_C0 : color = x_interleave[0];
++const x_C1 : color = x_interleave[1];
++const x_C2 : color = x_interleave[2];
++
++const x_shift_C0 : color = x_shift_interleave[0];
++const x_shift_C1 : color = x_shift_interleave[1];
++const x_shift_C2 : color = x_shift_interleave[2];
++
++const x_shift_re_C0 : color = x_shift_re_interleave[0];
++const x_shift_re_C1 : color = x_shift_re_interleave[1];
++const x_shift_re_C2 : color = x_shift_re_interleave[2];
++
++const y_C0 : color = y_interleave[0];
++const y_C1 : color = y_interleave[1];
++const y_C2 : color = y_interleave[2];
++
++const comm_params_t = struct {
++    x_send_color: color,
++    x_recv_color: color,
++    x_tran_color: color,
++
++    x_shift_send_color: color,
++    x_shift_recv_color: color,
++    x_shift_tran_color: color,
++
++    x_shift_re_send_color: color,
++    x_shift_re_recv_color: color,
++    x_shift_re_tran_color: color,
++
++    y_send_color: color,
++    y_recv_color: color,
++    y_tran_color: color,
++};
++
++fn get_params(px: i16, py: i16) comm_params_t {
++
++    var px_3: i16 = px % 3;
++    var py_3: i16 = py % 3;
++
++    var x_recv_color: color = x_C0;
++    var x_send_color: color = x_C1;
++    var x_tran_color: color = x_C2;
++
++    var x_shift_recv_color: color = x_shift_C0;
++    var x_shift_send_color: color = x_shift_C1;
++    var x_shift_tran_color: color = x_shift_C2;
++
++    var x_shift_re_send_color: color = x_shift_re_C0;
++    var x_shift_re_recv_color: color = x_shift_re_C1;
++    var x_shift_re_tran_color: color = x_shift_re_C2;
++
++    if (px == 0) {
++        x_recv_color = x_C0;
++        x_send_color = x_C1;
++
++        x_shift_recv_color = x_shift_C0;
++        x_shift_send_color = x_shift_C1;
++
++        x_shift_re_send_color = x_shift_re_C0;
++        x_shift_re_recv_color = x_shift_re_C1;
++    } else if (px == P-1) {
++        x_tran_color = x_interleave[(px + 1) % 3];
++
++        x_shift_tran_color = x_shift_interleave[(px + 1) % 3];
++
++        x_shift_re_tran_color = x_shift_re_interleave[(px + 1) % 3];
++        if (P % 2 == 0) {
++            x_recv_color = x_interleave[px_3];
++            x_send_color = x_interleave[(px - 1) % 3];
++
++            x_shift_recv_color = x_shift_interleave[px_3];
++            x_shift_send_color = x_shift_interleave[(px - 1) % 3];
++
++            x_shift_re_send_color = x_shift_re_interleave[px_3];
++            x_shift_re_recv_color = x_shift_re_interleave[(px - 1) % 3];
++        } else {
++            x_recv_color = x_interleave[(px - 1) % 3];
++            x_send_color = x_interleave[px_3];
++
++            x_shift_recv_color = x_shift_interleave[(px - 1) % 3];
++            x_shift_send_color = x_shift_interleave[px_3];
++
++            x_shift_re_send_color = x_shift_re_interleave[(px - 1) % 3];
++            x_shift_re_recv_color = x_shift_re_interleave[px_3];
++        }
++    } else {
++        x_tran_color = x_interleave[px_3];
++
++        x_shift_tran_color = x_shift_interleave[px_3];
++
++        x_shift_re_tran_color = x_shift_re_interleave[px_3];
++        if (px % 2 == 0) {
++            x_send_color = x_interleave[(px + 1) % 3];
++            x_recv_color = x_interleave[(px - 1) % 3];
++
++            x_shift_send_color = x_shift_interleave[(px + 1) % 3];
++            x_shift_recv_color = x_shift_interleave[(px - 1) % 3];
++
++            x_shift_re_recv_color = x_shift_re_interleave[(px + 1) % 3];
++            x_shift_re_send_color = x_shift_re_interleave[(px - 1) % 3];
++        } else {
++            x_send_color = x_interleave[(px - 1) % 3];
++            x_recv_color = x_interleave[(px + 1) % 3];
++
++            x_shift_send_color = x_shift_interleave[(px - 1) % 3];
++            x_shift_recv_color = x_shift_interleave[(px + 1) % 3];
++
++            x_shift_re_recv_color = x_shift_re_interleave[(px - 1) % 3];
++            x_shift_re_send_color = x_shift_re_interleave[(px + 1) % 3];
++        }
++    }
++
++
++    var y_recv_color: color = y_C0;
++    var y_send_color: color = y_C1;
++    var y_tran_color: color = y_C2;
++
++    if (py == 0) {
++        y_recv_color = y_C0;
++        y_send_color = y_C1;
++    } else if (py == P-1) {
++        if (P % 2 == 0) {
++            y_recv_color = y_interleave[py_3];
++            y_send_color = y_interleave[(py - 1) % 3];
++        } else {
++            y_recv_color = y_interleave[(py - 1) % 3];
++            y_send_color = y_interleave[py_3];
++        }
++    } else {
++        y_tran_color = y_interleave[py_3];
++        if (py % 2 == 0) {
++            y_send_color = y_interleave[(py + 1) % 3];
++            y_recv_color = y_interleave[(py - 1) % 3];
++        } else {
++            y_send_color = y_interleave[(py - 1) % 3];
++            y_recv_color = y_interleave[(py + 1) % 3];
++        }
++    }
++
++    return .{
++        .x_send_color = x_send_color,
++        .x_recv_color = x_recv_color,
++        .x_tran_color = x_tran_color,
++
++        .x_shift_send_color = x_shift_send_color,
++        .x_shift_recv_color = x_shift_recv_color,
++        .x_shift_tran_color = x_shift_tran_color,
++
++        .x_shift_re_send_color = x_shift_re_send_color,
++        .x_shift_re_recv_color = x_shift_re_recv_color,
++        .x_shift_re_tran_color = x_shift_re_tran_color,
++
++        .y_send_color = y_send_color,
++        .y_recv_color = y_recv_color,
++        .y_tran_color = y_tran_color,
++    };
++}
+diff --git a/kernels/dense/reusable-gemm/src/comm_lib/comm_pe.csl b/kernels/dense/reusable-gemm/src/comm_lib/comm_pe.csl
+new file mode 100644
+--- /dev/null
++++ b/kernels/dense/reusable-gemm/src/comm_lib/comm_pe.csl
+@@ -0,0 +1,200 @@
++param P: i16;
++param Mt: i16;
++param Kt: i16;
++param Nt: i16;
++
++const _Mt_Kt: i16 = ((Mt * Kt) / 2) * 2;
++const _Kt_Nt: i16 = ((Kt * Nt) / 2) * 2;
++
++param comm_params;
++
++const x_send_color: color = comm_params.x_send_color;
++const x_recv_color: color = comm_params.x_recv_color;
++
++const x_shift_send_color: color = comm_params.x_shift_send_color;
++const x_shift_recv_color: color = comm_params.x_shift_recv_color;
++
++const x_shift_re_send_color: color = comm_params.x_shift_re_send_color;
++const x_shift_re_recv_color: color = comm_params.x_shift_re_recv_color;
++
++const y_send_color: color = comm_params.y_send_color;
++const y_recv_color: color = comm_params.y_recv_color;
++
++const ut1 = @get_ut_id(1);
++const ut2 = @get_ut_id(2);
++
++const ut3 = @get_ut_id(3);
++const ut4 = @get_ut_id(4);
++
++const x_send_queue_id = @get_output_queue(2);
++const x_recv_queue_id = @get_input_queue(2);
++
++const x_shift_send_queue_id = @get_output_queue(3);
++const x_shift_recv_queue_id = @get_input_queue(3);
++
++const x_shift_re_send_queue_id = @get_output_queue(4);
++const x_shift_re_recv_queue_id = @get_input_queue(4);
++
++const y_send_queue_id = @get_output_queue(5);
++const y_recv_queue_id = @get_input_queue(5);
++
++const x_out_dsr = @get_dsr(dsr_dest, 2);
++const x_in_dsr = @get_dsr(dsr_src1, 2);
++
++const y_out_dsr = @get_dsr(dsr_dest, 3);
++const y_in_dsr = @get_dsr(dsr_src1, 3);
++
++const x_shift_out_dsr = @get_dsr(dsr_dest, 4);
++const x_shift_in_dsr = @get_dsr(dsr_src1, 4);
++
++const x_shift_re_out_dsr = @get_dsr(dsr_dest, 5);
++const x_shift_re_in_dsr = @get_dsr(dsr_src1, 5);
++
++const left_send_dsr = @get_dsr(dsr_src1, 6);
++const left_recv_dsr = @get_dsr(dsr_dest, 6);
++
++const right_send_dsr = @get_dsr(dsr_src1, 7);
++const right_recv_dsr = @get_dsr(dsr_dest, 7);
++
++const x_shift_finish_id: local_task_id = @get_local_task_id(22);
++
++param x_finish_id: local_task_id;
++param y_finish_id: local_task_id;
++param left_matrix_shift_callback: fn ()void;
++
++// MeshGEMM two-hop communication
++const x_in_dsd = @get_dsd(fabin_dsd, .{
++    .extent = _Mt_Kt,
++    .input_queue = x_recv_queue_id,
++    .simd_mode = .{ .simd_max = true }
++});
++const x_out_dsd = @get_dsd(fabout_dsd, .{
++    .extent = _Mt_Kt,
++    .output_queue = x_send_queue_id,
++    .simd_mode = .{ .simd_max = true }
++});
++
++const y_in_dsd = @get_dsd(fabin_dsd, .{
++    .extent = _Kt_Nt,
++    .input_queue = y_recv_queue_id,
++    .simd_mode = .{ .simd_max = true }
++});
++const y_out_dsd = @get_dsd(fabout_dsd, .{
++    .extent = _Kt_Nt,
++    .output_queue = y_send_queue_id,
++    .simd_mode = .{ .simd_max = true }
++});
++
++// non-reverse
++const x_shift_in_dsd = @get_dsd(fabin_dsd, .{
++    .extent = _Mt_Kt,
++    .input_queue = x_shift_recv_queue_id,
++    .simd_mode = .{ .simd_max = true }
++});
++const x_shift_out_dsd = @get_dsd(fabout_dsd, .{
++    .extent = _Mt_Kt,
++    .output_queue = x_shift_send_queue_id,
++    .simd_mode = .{ .simd_max = true }
++});
++
++// reverse
++const x_shift_re_in_dsd = @get_dsd(fabin_dsd, .{
++    .extent = _Mt_Kt,
++    .input_queue = x_shift_re_recv_queue_id,
++    .simd_mode = .{ .simd_max = true }
++});
++const x_shift_re_out_dsd = @get_dsd(fabout_dsd, .{
++    .extent = _Mt_Kt,
++    .output_queue = x_shift_re_send_queue_id,
++    .simd_mode = .{ .simd_max = true }
++});
++
++const dummy = @zeros([1]f16);
++
++var left_matrix_send_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{_Mt_Kt} -> dummy[i] });
++var right_matrix_send_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{_Kt_Nt} -> dummy[i] });
++
++var left_matrix_recv_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{_Mt_Kt} -> dummy[i] });
++var right_matrix_recv_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{_Kt_Nt} -> dummy[i] });
++
++task x_shift_finish() void {
++    @block(x_shift_finish_id);
++    left_matrix_shift_callback();
++}
++
++comptime {
++    @load_to_dsr(x_shift_out_dsr, x_shift_out_dsd, .{.async=true, .unblock=x_shift_finish_id, .ut_id = ut1});
++    @load_to_dsr(x_shift_in_dsr, x_shift_in_dsd, .{.async=true, .activate=x_shift_finish_id, .ut_id = ut2});
++    @load_to_dsr(x_shift_re_out_dsr, x_shift_re_out_dsd, .{.async=true, .unblock=x_shift_finish_id, .ut_id = ut1});
++    @load_to_dsr(x_shift_re_in_dsr, x_shift_re_in_dsd, .{.async=true, .activate=x_shift_finish_id, .ut_id = ut2});
++}
++
++fn left_matrix_shift(left_matrix_send_buffer_ptr: [*]f16, left_matrix_recv_buffer_ptr: [*]f16) void {
++
++    left_matrix_send_dsd = @set_dsd_base_addr(left_matrix_send_dsd, left_matrix_send_buffer_ptr);
++    left_matrix_recv_dsd = @set_dsd_base_addr(left_matrix_recv_dsd, left_matrix_recv_buffer_ptr);
++
++    @load_to_dsr(left_send_dsr, left_matrix_send_dsd);
++    @load_to_dsr(left_recv_dsr, left_matrix_recv_dsd);
++
++    @mov16(x_shift_out_dsr, left_send_dsr, .{.async=true, .unblock=x_shift_finish_id});
++    @mov16(left_recv_dsr, x_shift_in_dsd, .{.async=true, .activate=x_shift_finish_id});
++}
++
++fn left_matrix_shift_reverse(left_matrix_send_buffer_ptr: [*]f16, left_matrix_recv_buffer_ptr: [*]f16) void {
++
++    left_matrix_send_dsd = @set_dsd_base_addr(left_matrix_send_dsd, left_matrix_send_buffer_ptr);
++    left_matrix_recv_dsd = @set_dsd_base_addr(left_matrix_recv_dsd, left_matrix_recv_buffer_ptr);
++
++    @load_to_dsr(left_send_dsr, left_matrix_send_dsd);
++    @load_to_dsr(left_recv_dsr, left_matrix_recv_dsd);
++
++    @mov16(x_shift_re_out_dsr, left_send_dsr, .{.async=true, .unblock=x_shift_finish_id});
++    @mov16(left_recv_dsr, x_shift_re_in_dsd, .{.async=true, .activate=x_shift_finish_id});
++}
++
++comptime {
++    @initialize_queue(x_recv_queue_id, .{.color = x_recv_color});
++    @initialize_queue(x_send_queue_id, .{.color = x_send_color});
++    @initialize_queue(x_shift_recv_queue_id, .{.color = x_shift_recv_color});
++    @initialize_queue(x_shift_send_queue_id, .{.color = x_shift_send_color});
++    @initialize_queue(x_shift_re_recv_queue_id, .{.color = x_shift_re_recv_color});
++    @initialize_queue(x_shift_re_send_queue_id, .{.color = x_shift_re_send_color});
++    @initialize_queue(y_recv_queue_id, .{.color = y_recv_color});
++    @initialize_queue(y_send_queue_id, .{.color = y_send_color});
++
++    @load_to_dsr(x_in_dsr, x_in_dsd, .{.async=true, .activate=x_finish_id, .ut_id = ut1});
++    @load_to_dsr(x_out_dsr, x_out_dsd, .{.async=true, .unblock=x_finish_id, .ut_id = ut2});
++
++    @load_to_dsr(y_in_dsr, y_in_dsd, .{.async=true, .activate=y_finish_id, .ut_id = ut3});
++    @load_to_dsr(y_out_dsr, y_out_dsd, .{.async=true, .unblock=y_finish_id, .ut_id = ut4});
++}
++
++fn two_hop_comm(left_matrix_send_buffer_ptr: [*]f16, right_matrix_send_buffer_ptr: [*]f16, left_matrix_recv_buffer_ptr: [*]f16, right_matrix_recv_buffer_ptr: [*]f16) void {
++
++    left_matrix_send_dsd = @set_dsd_base_addr(left_matrix_send_dsd, left_matrix_send_buffer_ptr);
++    right_matrix_send_dsd = @set_dsd_base_addr(right_matrix_send_dsd, right_matrix_send_buffer_ptr);
++    left_matrix_recv_dsd = @set_dsd_base_addr(left_matrix_recv_dsd, left_matrix_recv_buffer_ptr);
++    right_matrix_recv_dsd = @set_dsd_base_addr(right_matrix_recv_dsd, right_matrix_recv_buffer_ptr);
++
++    @load_to_dsr(left_send_dsr, left_matrix_send_dsd);
++    @load_to_dsr(left_recv_dsr, left_matrix_recv_dsd);
++    @load_to_dsr(right_send_dsr, right_matrix_send_dsd);
++    @load_to_dsr(right_recv_dsr, right_matrix_recv_dsd);
++
++    @mov16(x_out_dsr, left_send_dsr, .{.async=true, .unblock=x_finish_id});
++    @mov16(left_recv_dsr, x_in_dsr, .{.async=true, .activate=x_finish_id});
++
++    @mov16(y_out_dsr, right_send_dsr, .{.async=true, .unblock=y_finish_id});
++    @mov16(right_recv_dsr, y_in_dsr, .{.async=true, .activate=y_finish_id});
++}
++
++comptime {
++    @block(x_recv_queue_id);
++    @block(y_recv_queue_id);
++    @block(x_shift_recv_queue_id);
++    @block(x_shift_re_recv_queue_id);
++
++    @bind_local_task(x_shift_finish, x_shift_finish_id);
++    @block(x_shift_finish_id);
++}
+diff --git a/kernels/dense/reusable-gemm/src/layout.csl b/kernels/dense/reusable-gemm/src/layout.csl
+new file mode 100644
+--- /dev/null
++++ b/kernels/dense/reusable-gemm/src/layout.csl
+@@ -0,0 +1,138 @@
++param P: i16;
++param T: i16;
++param Mt: i16;
++param Kt: i16;
++param Nt: i16;
++
++const X_0: color = @get_color(1);
++const X_1: color = @get_color(2);
++const X_2: color = @get_color(3);
++
++const Y_0: color = @get_color(4);
++const Y_1: color = @get_color(5);
++const Y_2: color = @get_color(6);
++
++const X_shift_re_0: color = @get_color(7);
++const X_shift_re_1: color = @get_color(8);
++const X_shift_re_2: color = @get_color(9);
++
++const X_shift_0: color = @get_color(12);
++const X_shift_1: color = @get_color(13);
++const X_shift_2: color = @get_color(16);
++
++const memcpy = @import_module( "<memcpy/get_params>", .{
++    .width = P,
++    .height = P,
++});
++
++const comm = @import_module("comm_lib/comm_layout.csl", .{
++    .P = P,
++    .x_interleave = [3]color{X_0, X_1, X_2},
++    .x_shift_interleave = [3]color{X_shift_0, X_shift_1, X_shift_2},
++    .x_shift_re_interleave = [3]color{X_shift_re_0, X_shift_re_1, X_shift_re_2},
++    .y_interleave = [3]color{Y_0, Y_1, Y_2},
++});
++
++layout {
++    @set_rectangle(P, P);
++
++    var px: i16 = 0;
++    var py: i16 = 0;
++
++    while (px < P) : (px += 1) {
++        const memcpy_params = memcpy.get_params(px);
++
++        py = 0;
++        while (py < P) : (py += 1) {
++            const comm_params = comm.get_params(px, py);
++            @set_tile_code(px, py, "meshgemm.csl", .{
++                .memcpy_params = memcpy_params,
++                .comm_params = comm_params,
++                .P = P, .Mt = Mt, .Kt = Kt, .Nt = Nt, .T = T
++            });
++
++            {
++                if (px == 0) {
++                    @set_color_config(px, py, comm_params.x_recv_color, .{ .routes = .{ .rx = .{EAST}, .tx = .{RAMP} } });
++                    @set_color_config(px, py, comm_params.x_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{EAST} } });
++
++                    @set_color_config(px, py, comm_params.x_shift_recv_color, .{ .routes = .{ .rx = .{EAST}, .tx = .{RAMP} } });
++                    @set_color_config(px, py, comm_params.x_shift_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{EAST} } });
++
++                    @set_color_config(px, py, comm_params.x_shift_re_recv_color, .{ .routes = .{ .rx = .{EAST}, .tx = .{RAMP} } });
++                    @set_color_config(px, py, comm_params.x_shift_re_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{EAST} } });
++                } else if (px == P-1) {
++                    @set_color_config(px, py, comm_params.x_recv_color, .{ .routes = .{ .rx = .{WEST}, .tx = .{RAMP} } });
++                    @set_color_config(px, py, comm_params.x_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{WEST} } });
++
++                    @set_color_config(px, py, comm_params.x_shift_recv_color, .{ .routes = .{ .rx = .{WEST}, .tx = .{RAMP} } });
++                    @set_color_config(px, py, comm_params.x_shift_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{WEST} } });
++
++                    @set_color_config(px, py, comm_params.x_shift_re_recv_color, .{ .routes = .{ .rx = .{WEST}, .tx = .{RAMP} } });
++                    @set_color_config(px, py, comm_params.x_shift_re_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{WEST} } });
++                } else {
++                    if (px % 2 == 0) {
++                        @set_color_config(px, py, comm_params.x_recv_color, .{ .routes = .{ .rx = .{WEST}, .tx = .{RAMP} } });
++                        @set_color_config(px, py, comm_params.x_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{EAST} } });
++                        @set_color_config(px, py, comm_params.x_tran_color, .{ .routes = .{ .rx = .{EAST}, .tx = .{WEST} } });
++
++                        @set_color_config(px, py, comm_params.x_shift_recv_color, .{ .routes = .{ .rx = .{WEST}, .tx = .{RAMP} } });
++                        @set_color_config(px, py, comm_params.x_shift_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{EAST} } });
++                        @set_color_config(px, py, comm_params.x_shift_tran_color, .{ .routes = .{ .rx = .{EAST}, .tx = .{WEST} } });
++
++                        @set_color_config(px, py, comm_params.x_shift_re_recv_color, .{ .routes = .{ .rx = .{EAST}, .tx = .{RAMP} } });
++                        @set_color_config(px, py, comm_params.x_shift_re_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{WEST} } });
++                        @set_color_config(px, py, comm_params.x_shift_re_tran_color, .{ .routes = .{ .rx = .{WEST}, .tx = .{EAST} } });
++                    } else {
++                        @set_color_config(px, py, comm_params.x_recv_color, .{ .routes = .{ .rx = .{EAST}, .tx = .{RAMP} } });
++                        @set_color_config(px, py, comm_params.x_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{WEST} } });
++                        @set_color_config(px, py, comm_params.x_tran_color, .{ .routes = .{ .rx = .{WEST}, .tx = .{EAST} } });
++
++                        @set_color_config(px, py, comm_params.x_shift_recv_color, .{ .routes = .{ .rx = .{EAST}, .tx = .{RAMP} } });
++                        @set_color_config(px, py, comm_params.x_shift_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{WEST} } });
++                        @set_color_config(px, py, comm_params.x_shift_tran_color, .{ .routes = .{ .rx = .{WEST}, .tx = .{EAST} } });
++
++                        @set_color_config(px, py, comm_params.x_shift_re_recv_color, .{ .routes = .{ .rx = .{WEST}, .tx = .{RAMP} } });
++                        @set_color_config(px, py, comm_params.x_shift_re_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{EAST} } });
++                        @set_color_config(px, py, comm_params.x_shift_re_tran_color, .{ .routes = .{ .rx = .{EAST}, .tx = .{WEST} } });
++                    }
++                }
++
++                if (py == 0) {
++                    @set_color_config(px, py, comm_params.y_recv_color, .{ .routes = .{ .rx = .{SOUTH}, .tx = .{RAMP} } });
++                    @set_color_config(px, py, comm_params.y_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{SOUTH} } });
++                } else if (py == P-1) {
++                    @set_color_config(px, py, comm_params.y_recv_color, .{ .routes = .{ .rx = .{NORTH}, .tx = .{RAMP} } });
++                    @set_color_config(px, py, comm_params.y_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{NORTH} } });
++                } else {
++                    if (py % 2 == 0) {
++                        @set_color_config(px, py, comm_params.y_recv_color, .{ .routes = .{ .rx = .{NORTH}, .tx = .{RAMP} } });
++                        @set_color_config(px, py, comm_params.y_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{SOUTH} } });
++                        @set_color_config(px, py, comm_params.y_tran_color, .{ .routes = .{ .rx = .{SOUTH}, .tx = .{NORTH} } });
++                    } else {
++                        @set_color_config(px, py, comm_params.y_recv_color, .{ .routes = .{ .rx = .{SOUTH}, .tx = .{RAMP} } });
++                        @set_color_config(px, py, comm_params.y_send_color, .{ .routes = .{ .rx = .{RAMP}, .tx = .{NORTH} } });
++                        @set_color_config(px, py, comm_params.y_tran_color, .{ .routes = .{ .rx = .{NORTH}, .tx = .{SOUTH} } });
++                    }
++                }
++            }
++        }
++    }
++
++    @export_name("X_FRAMES", [*]f16, true);
++    @export_name("W_CANON", [*]f16, true);
++    @export_name("ALL_OUT", [*]f16, false);
++    @export_name("W_HISTORY", [*]f16, false);
++    @export_name("sequence_host", fn()void);
++
++    @export_name("X", [*]f16, true);
++    @export_name("W", [*]f16, true);
++    @export_name("res", [*]f16, true);
++
++    @export_name("init_task", fn()void);
++    @export_name("meshgemm_entry", fn()void);
++    @export_name("meshgemm_host", fn(i16, i16)void);
++
++    @export_name("time_memcpy", [*]f32, true);
++    @export_name("time_ref", [*]f32, true);
++}
+diff --git a/kernels/dense/reusable-gemm/src/meshgemm.csl b/kernels/dense/reusable-gemm/src/meshgemm.csl
+new file mode 100644
+--- /dev/null
++++ b/kernels/dense/reusable-gemm/src/meshgemm.csl
+@@ -0,0 +1,372 @@
++// Derived from pinned WaferLLM; see README.md and LICENSE.upstream.
++// Incubator: resident distinct-frame sequence with timed canonical resets.
++// ---------------------- Input Parameters --------------------- //
++param memcpy_params;
++param comm_params;
++
++param P: i16;
++param T: i16;
++param Mt: i16;
++param Kt: i16;
++param Nt: i16;
++
++// ---------------------- Input Matrix ------------------------ //
++
++var X_0_tile: [Mt*Kt]f16 = @zeros([Mt*Kt]f16);
++var X_1_tile: [Mt*Kt]f16 = @zeros([Mt*Kt]f16);
++var ptr_X: [*]f16 = &X_0_tile;
++var X_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt} -> X_0_tile[i] });
++
++var W_0_tile: [Kt*Nt]f16 = @zeros([Kt*Nt]f16);
++var W_1_tile: [Kt*Nt]f16 = @zeros([Kt*Nt]f16);
++var ptr_W: [*]f16 = &W_0_tile;
++var W_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Nt} -> W_0_tile[i] });
++
++// ---------------------- Output Matrix ----------------------- //
++
++var res_tile: [Mt*Nt]f16 = @zeros([Mt*Nt]f16);
++var ptr_res: [*]f16 = &res_tile;
++var res_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Nt} -> res_tile[i] });
++
++// ---------------------- Modules ------------------------------ //
++
++const sys_mod = @import_module("<memcpy/memcpy>", memcpy_params);
++const layout_module = @import_module("<layout>");
++
++const comm_mod = @import_module("comm_lib/comm_pe.csl", .{
++    .comm_params = comm_params,
++    .P = P, .Mt = Mt, .Kt = Kt, .Nt = Nt,
++    .x_finish_id = x_finish_id,
++    .y_finish_id = y_finish_id,
++    .left_matrix_shift_callback = left_matrix_shift_callback,
++});
++
++// ---------------------- Local Variables ---------------------- //
++
++const jumpcast_finish_id: local_task_id = @get_local_task_id(23);
++const x_finish_id: local_task_id = @get_local_task_id(24);
++const y_finish_id: local_task_id = @get_local_task_id(25);
++const next_step_id: local_task_id = @get_local_task_id(26);
++
++var px: i16 = 0;
++var py: i16 = 0;
++
++var x_shift_step: i16 = 0;
++var x_shift_reverse: bool = false;
++
++var swap_ptr: [*]f16 = &X_0_tile;
++var ptr_X_send: [*]f16 = &X_0_tile;
++var ptr_X_recv: [*]f16 = &X_1_tile;
++var ptr_W_send: [*]f16 = &W_0_tile;
++var ptr_W_recv: [*]f16 = &W_1_tile;
++
++var out_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt} -> res_tile[i] });
++var ptr_out: [*]f16 = &res_tile;
++
++const out_dest_dsr = @get_dsr(dsr_dest, 1);
++const out_src0_dsr = @get_dsr(dsr_src0, 1);
++const X_src1_dsr = @get_dsr(dsr_src1, 1);
++
++// ------------------------- Timer ------------------------- //
++
++const timestamp = @import_module("<time>");
++var tscStartBuffer = @zeros([timestamp.tsc_size_words]u16);
++var tscEndBuffer = @zeros([timestamp.tsc_size_words]u16);
++
++var time_buf_f32 = @zeros([3]f32);
++var ptr_time_memcpy: [*]f32 = &time_buf_f32;
++
++var tscRefBuffer = @zeros([timestamp.tsc_size_words]u16);
++var time_ref_f32 = @zeros([2]f32);
++var ptr_time_ref: [*]f32 = &time_ref_f32;
++
++
++fn init_task() void {
++    timestamp.enable_tsc();
++    px = @as(i16, layout_module.get_x_coord());
++    py = @as(i16, layout_module.get_y_coord());
++
++    if (py%2 == 0) {
++        x_shift_step = py/2;
++        x_shift_reverse = true;
++    } else {
++        x_shift_step = (py+1)/2;
++        x_shift_reverse = false;
++    }
++
++    sys_mod.unblock_cmd_stream();
++}
++
++task x_finish() void {
++    @block(x_finish_id);
++    @unblock(jumpcast_finish_id);
++}
++
++task y_finish() void {
++    @block(y_finish_id);
++    @activate(jumpcast_finish_id);
++}
++
++task jumpcast_finish() void {
++    @block(jumpcast_finish_id);
++    @unblock(next_step_id);
++}
++
++task next_step() void {
++    @block(next_step_id);
++    mm_compute();
++}
++
++fn gemv_static_step_X(curW: f16) void {
++    @fmach(out_dest_dsr, out_src0_dsr, X_src1_dsr, curW);
++}
++
++fn mm_compute() void {
++
++    swap_ptr = ptr_X_send;
++    ptr_X_send = ptr_X_recv;
++    ptr_X_recv = swap_ptr;
++
++    swap_ptr = ptr_W_send;
++    ptr_W_send = ptr_W_recv;
++    ptr_W_recv = swap_ptr;
++
++    if (step < P) {
++
++        comm_mod.two_hop_comm(ptr_X_send, ptr_W_send, ptr_X_recv, ptr_W_recv);
++
++        X_dsd = @set_dsd_base_addr(X_dsd, ptr_X_send);
++        W_dsd = @set_dsd_base_addr(W_dsd, ptr_W_send);
++
++        X_dsd = @set_dsd_length(X_dsd, @bitcast(u16, Mt));
++        W_dsd = @set_dsd_length(W_dsd, @bitcast(u16, Nt));
++
++        for (@range(i16, Kt)) |k| {
++
++            out_dsd = @set_dsd_base_addr(out_dsd, ptr_out);
++
++            @load_to_dsr(out_dest_dsr, out_dsd, .{ .save_address = true });
++            @load_to_dsr(out_src0_dsr, out_dsd, .{ .save_address = true });
++            @load_to_dsr(X_src1_dsr, X_dsd, .{ .save_address = false });
++            @map(gemv_static_step_X, W_dsd);
++
++            X_dsd = @increment_dsd_offset(X_dsd, Mt, f16);
++            W_dsd = @increment_dsd_offset(W_dsd, Nt, f16);
++
++        }
++
++        step += 1;
++        @activate(next_step_id);
++
++    } else {
++        step = 0;
++
++        meshgemm_entry();
++
++    }
++}
++
++// Canonical inputs survive every frame; working buffers may rotate internally.
++var X_FRAMES: [T*Mt*Kt]f16;
++var W_CANON: [Kt*Nt]f16;
++var ALL_OUT: [T*Mt*Nt]f16;
++var W_HISTORY: [T*Kt*Nt]f16;
++var ptr_X_FRAMES: [*]f16 = &X_FRAMES;
++var ptr_W_CANON: [*]f16 = &W_CANON;
++const ptr_ALL_OUT: [*]f16 = &ALL_OUT;
++const ptr_W_HISTORY: [*]f16 = &W_HISTORY;
++var frame: i16 = 0;
++var canonical_x_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Kt} -> X_FRAMES[i] });
++var canonical_w_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_CANON[i] });
++var working_x0_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Kt} -> X_0_tile[i] });
++var working_x1_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Kt} -> X_1_tile[i] });
++var working_w0_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_0_tile[i] });
++var working_w1_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_1_tile[i] });
++
++fn prepare_frame() void {
++    var frame_x = @increment_dsd_offset(canonical_x_dsd, frame*Mt*Kt, f16);
++    @fmovh(working_x0_dsd, frame_x);
++    @fmovh(working_w0_dsd, canonical_w_dsd);
++    @fmovh(working_x1_dsd, 0.0);
++    @fmovh(working_w1_dsd, 0.0);
++    if (py%2 == 0) {
++        x_shift_step = py/2;
++        x_shift_reverse = true;
++    } else {
++        x_shift_step = (py+1)/2;
++        x_shift_reverse = false;
++    }
++    ptr_out = &res_tile;
++}
++
++// Protected sequence, timer and full-output/state collection.
++fn sequence_host() void {
++    timestamp.enable_tsc();
++    frame = 0;
++    timestamp.get_timestamp(&tscRefBuffer);
++    timestamp.get_timestamp(&tscStartBuffer);
++    prepare_frame();
++    meshgemm_host(0, 1);
++}
++
++var saved_output_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Nt} -> ALL_OUT[i] });
++var saved_weight_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_HISTORY[i] });
++
++fn save_frame() void {
++    var output = @increment_dsd_offset(saved_output_dsd, frame*Mt*Nt, f16);
++    var weights = @increment_dsd_offset(saved_weight_dsd, frame*Kt*Nt, f16);
++    @fmovh(output, res_dsd);
++    @fmovh(weights, working_w0_dsd);
++}
++
++// ---------------------- Entry Point ------------------------- //
++
++var total_repeat_times: i16 = 1;
++var total_warmup_times: i16 = 0;
++
++var repeat_times: i16 = 0;
++var step: i16 = 0;
++
++fn meshgemm_host(total_warmup_times_: i16, total_repeat_times_: i16) void {
++    total_repeat_times = total_repeat_times_;
++    total_warmup_times = total_warmup_times_;
++
++    repeat_times = 0;
++    step = 0;
++
++    meshgemm_entry();
++}
++
++fn meshgemm_entry() void {
++
++    // Run (total_warmup_times + total_repeat_times) times; only the last `total_repeat_times` iterations are timed
++    if (repeat_times == total_repeat_times + total_warmup_times) {
++        exit();
++    } else {
++
++        repeat_times += 1;
++
++        ptr_X_send = &X_1_tile;
++        ptr_X_recv = &X_0_tile;
++
++        left_matrix_shift_callback();
++    }
++}
++
++fn left_matrix_shift_callback() void {
++    if (step < @as(i16, P/2)) {
++
++        if (x_shift_step >= 0) {
++            x_shift_step -= 1;
++
++            swap_ptr = ptr_X_send;
++            ptr_X_send = ptr_X_recv;
++            ptr_X_recv = swap_ptr;
++        }
++
++        step += 1;
++
++        if (x_shift_reverse) {
++            comm_mod.left_matrix_shift_reverse(ptr_X_send, ptr_X_recv);
++        } else {
++            comm_mod.left_matrix_shift(ptr_X_send, ptr_X_recv);
++        }
++    } else {
++        if (x_shift_step != 0) {
++            swap_ptr = ptr_X_send;
++            ptr_X_send = ptr_X_recv;
++            ptr_X_recv = swap_ptr;
++        } // Useful value in ptr_X_recv
++
++        step = 0;
++        @fmovh(res_dsd, 0.0);
++
++        ptr_W_send = &W_1_tile;
++        ptr_W_recv = &W_0_tile;
++
++        out_dsd = @set_dsd_base_addr(out_dsd, ptr_out);
++        ptr_out = &res_tile;
++
++        mm_compute();
++    }
++}
++
++fn exit() void {
++    save_frame();
++    frame += 1;
++    if (frame < T) {
++        prepare_frame();
++        meshgemm_host(0, 1);
++    } else {
++        timestamp.get_timestamp(&tscEndBuffer);
++        timestamp.disable_tsc();
++        f_reference_timestamps();
++        f_memcpy_timestamps();
++        sys_mod.unblock_cmd_stream();
++    }
++}
++
++fn f_memcpy_timestamps() void {
++    var lo_ : u16 = 0;
++    var hi_ : u16 = 0;
++    var word : u32 = 0;
++
++    lo_ = tscStartBuffer[0];
++    hi_ = tscStartBuffer[1];
++    time_buf_f32[0] = @bitcast(f32, (@as(u32,hi_) << @as(u16,16)) | @as(u32, lo_) );
++
++    lo_ = tscStartBuffer[2];
++    hi_ = tscEndBuffer[0];
++    time_buf_f32[1] = @bitcast(f32, (@as(u32,hi_) << @as(u16,16)) | @as(u32, lo_) );
++
++    lo_ = tscEndBuffer[1];
++    hi_ = tscEndBuffer[2];
++    time_buf_f32[2] = @bitcast(f32, (@as(u32,hi_) << @as(u16,16)) | @as(u32, lo_) );
++}
++
++fn f_reference_timestamps() void {
++    var lo_ : u16 = 0;
++    var hi_ : u16 = 0;
++
++    lo_ = tscRefBuffer[0];
++    hi_ = tscRefBuffer[1];
++    time_ref_f32[0] = @bitcast(f32, (@as(u32,hi_) << @as(u16,16)) | @as(u32, lo_) );
++
++    lo_ = tscRefBuffer[2];
++    hi_ = 0;
++    time_ref_f32[1] = @bitcast(f32, (@as(u32,hi_) << @as(u16,16)) | @as(u32, lo_) );
++}
++
++comptime {
++    @export_symbol(ptr_time_memcpy, "time_memcpy");
++    @export_symbol(ptr_time_ref, "time_ref");
++}
++
++comptime {
++    @bind_local_task(x_finish, x_finish_id);
++    @bind_local_task(y_finish, y_finish_id);
++    @bind_local_task(jumpcast_finish, jumpcast_finish_id);
++    @bind_local_task(next_step, next_step_id);
++
++    @block(x_finish_id);
++    @block(y_finish_id);
++    @block(jumpcast_finish_id);
++    @block(next_step_id);
++}
++
++comptime {
++    @export_symbol(ptr_X, "X");
++    @export_symbol(ptr_W, "W");
++    @export_symbol(ptr_res, "res");
++
++    @export_symbol(init_task);
++    @export_symbol(meshgemm_entry);
++    @export_symbol(meshgemm_host);
++}
++comptime {
++    @export_symbol(ptr_X_FRAMES, "X_FRAMES");
++    @export_symbol(ptr_W_CANON, "W_CANON");
++    @export_symbol(ptr_ALL_OUT, "ALL_OUT");
++    @export_symbol(ptr_W_HISTORY, "W_HISTORY");
++    @export_symbol(sequence_host);
++}
+diff --git a/tests/integration/check_replay_contracts.py b/tests/integration/check_replay_contracts.py
+--- a/tests/integration/check_replay_contracts.py
++++ b/tests/integration/check_replay_contracts.py
+@@ -13,6 +13,8 @@
+ sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
+ from common import timing
+ from resident_oracle import evidence, inputs, reference
++from reusable_gemm_oracle import evidence as sequence_evidence
++from reusable_gemm_oracle import pack_inputs
+ 
+ from cerebras_research.paths import digest
+ from tools.replay_numerics import check_case, check_summary
+@@ -146,6 +148,43 @@
+         with self.assertRaisesRegex(ValueError, "shape"):
+             self.check(profile, arrays)
+ 
++    def sequence(self):
++        dims = dict(M=16, K=16, N=16, T=4)
++        profile = dict(
++            adapter="reusable_gemm",
++            dimensions=dims,
++            pe_grid=[4, 4],
++            oracle_contract="resident_gemm_sequence_fp16_v1",
++            timing_protocol=dict(repeats=1),
++        )
++        x = (np.arange(4 * 16 * 16).reshape(4, 16, 16) / 1024).astype(np.float16)
++        w = np.eye(16, dtype=np.float16)
++        px, pw = pack_inputs(4, 4, 4, 4, x, w)
++        history = np.broadcast_to(pw[:, :, None], (4, 4, 4, 16)).copy()
++        arrays, _, bound = sequence_evidence(
++            4, x, w, x.astype(np.float64), history, px.ravel(), pw.ravel()
++        )
++        arrays.update(error_bound=bound, timer_u32=np.tile(packed(), (16, 1)))
++        return profile, arrays
++
++    def test_every_resident_gemm_frame_and_state_replays(self):
++        result = self.check(*self.sequence())
++        self.assertEqual(result["max_abs_error_recomputed"], 0)
++        self.assertTrue(result["exact_state_match"])
++
++    def test_resident_gemm_middle_state_corruption_rejected_despite_saved_success(self):
++        profile, arrays = self.sequence()
++        arrays["working_w_history"][0, 0, 1, 0] += 1
++        self.assertTrue(bool(arrays["exact_state_match"]))
++        with self.assertRaisesRegex(ValueError, "state"):
++            self.check(profile, arrays)
++
++    def test_resident_gemm_shortened_sequence_is_rejected(self):
++        profile, arrays = self.sequence()
++        arrays["x"] = arrays["x"][:3]
++        with self.assertRaisesRegex(ValueError, "shape"):
++            self.check(profile, arrays)
++
+     def test_forged_reported_error_is_rejected_with_valid_raw_digest(self):
+         for name in ("max_abs_error", "max_fraction_of_error_bound"):
+             profile, arrays = self.linear()
+diff --git a/tests/integration/check_reusable_gemm_contracts.py b/tests/integration/check_reusable_gemm_contracts.py
+new file mode 100644
+--- /dev/null
++++ b/tests/integration/check_reusable_gemm_contracts.py
+@@ -0,0 +1,86 @@
++"""Pure packing checks in SDK NumPy; no simulator launch or qualification claim."""
++
++import sys
++import unittest
++from pathlib import Path
++
++import numpy as np
++
++ROOT = Path(__file__).resolve().parents[2]
++sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
++from reusable_gemm_oracle import evidence, pack_inputs, unpack_outputs  # noqa: E402
++
++
++class SequencePackingTests(unittest.TestCase):
++    def test_every_input_frame_has_the_required_pe_and_column_major_layout(self):
++        frames = np.arange(4 * 16 * 16, dtype=np.float16).reshape(4, 16, 16)
++        weights = np.arange(16 * 16, dtype=np.float16).reshape(16, 16)
++        packed, _ = pack_inputs(4, 4, 4, 4, frames, weights)
++        for pe_row in range(4):
++            for pe_col in range(4):
++                for frame in range(4):
++                    for k in range(4):
++                        for row in range(4):
++                            self.assertEqual(
++                                packed[pe_row, pe_col, frame, k * 4 + row],
++                                frames[frame, pe_row * 4 + row, pe_col * 4 + k],
++                            )
++
++    def test_canonical_weight_tiles_use_the_known_four_pe_permutation(self):
++        frames = np.zeros((4, 16, 16), np.float16)
++        weights = np.arange(16 * 16, dtype=np.float16).reshape(16, 16)
++        _, packed = pack_inputs(4, 4, 4, 4, frames, weights)
++        origins = [[0, 1, 2, 3], [1, 3, 0, 2], [2, 0, 3, 1], [3, 2, 1, 0]]
++        for pe_row in range(4):
++            for pe_col in range(4):
++                for k in range(4):
++                    for col in range(4):
++                        self.assertEqual(
++                            packed[pe_row, pe_col, k * 4 + col],
++                            weights[origins[pe_row][pe_col] * 4 + k, pe_col * 4 + col],
++                        )
++
++    def test_output_collection_preserves_every_global_element_and_frame(self):
++        wanted = np.arange(4 * 16 * 16, dtype=np.float16).reshape(4, 16, 16)
++        tiles = np.empty((4, 4, 4, 16), np.float16)
++        for pe_row in range(4):
++            for pe_col in range(4):
++                for frame in range(4):
++                    for col in range(4):
++                        for row in range(4):
++                            tiles[pe_row, pe_col, frame, col * 4 + row] = wanted[
++                                frame, pe_row * 4 + row, pe_col * 4 + col
++                            ]
++        np.testing.assert_array_equal(unpack_outputs(4, 4, 4, 4, tiles.ravel()), wanted)
++
++    def test_last_frame_output_and_middle_weight_state_are_checked(self):
++        frames = (np.arange(4 * 16 * 16).reshape(4, 16, 16) / 1024).astype(np.float16)
++        weights = np.eye(16, dtype=np.float16)
++        px, pw = pack_inputs(4, 4, 4, 4, frames, weights)
++        actual = frames.astype(np.float64).copy()
++        history = np.broadcast_to(pw[:, :, None], (4, 4, 4, 16)).copy()
++        arrays, error, bound = evidence(4, frames, weights, actual, history, px.ravel(), pw.ravel())
++        self.assertTrue(bool(arrays["exact_state_match"]))
++        self.assertTrue(np.all(error <= bound))
++        actual[-1, 0, 0] += 1
++        _, error, bound = evidence(4, frames, weights, actual, history, px.ravel(), pw.ravel())
++        self.assertFalse(np.all(error <= bound))
++        history[0, 0, 1, 0] += 1
++        arrays, _, _ = evidence(4, frames, weights, actual, history, px.ravel(), pw.ravel())
++        self.assertFalse(bool(arrays["exact_state_match"]))
++
++    def test_canonical_signed_zero_change_is_rejected(self):
++        frames = np.zeros((4, 16, 16), np.float16)
++        weights = np.eye(16, dtype=np.float16)
++        px, pw = pack_inputs(4, 4, 4, 4, frames, weights)
++        history = np.broadcast_to(pw[:, :, None], (4, 4, 4, 16)).copy()
++        after = px.ravel().copy()
++        after[0] = np.float16(-0.0)
++        arrays, _, _ = evidence(
++            4, frames, weights, frames.astype(np.float64), history, after, pw.ravel()
++        )
++        self.assertFalse(bool(arrays["exact_state_match"]))
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/unit/test_failed_steps.py b/tests/unit/test_failed_steps.py
+new file mode 100644
+--- /dev/null
++++ b/tests/unit/test_failed_steps.py
+@@ -0,0 +1,68 @@
++"""Failed or cancelled SDK steps retain their attempted command and elapsed cost."""
++
++import io
++import json
++import tempfile
++import unittest
++from contextlib import redirect_stdout
++from pathlib import Path
++from unittest.mock import patch
++
++from cerebras_research.catalog import get_profile
++from cerebras_research.ledger import receipt_row
++from cerebras_research.paths import digest, write_json
++from cerebras_research.runner import execute
++
++
++class FailedStepTests(unittest.TestCase):
++    def test_failure_and_cancellation_keep_step_metadata(self):
++        for error in (RuntimeError("SDK step failed"), KeyboardInterrupt()):
++            with self.subTest(error=type(error).__name__), tempfile.TemporaryDirectory() as folder:
++                root = Path(folder).resolve()
++                write_json(root / "config/sdk-install.json", {})
++
++                def prepared(profile, work, variant, candidate):
++                    work.mkdir()
++                    (work / "kernel.csl").write_text("// source")
++                    return ["cslc", "kernel.csl"], {}, "baseline"
++
++                def failed_step(args, work, log, timeout):
++                    binary = work / "out/bin/partial.elf"
++                    binary.parent.mkdir(parents=True)
++                    binary.write_bytes(b"synthetic partial compiler output")
++                    raise error
++
++                with (
++                    redirect_stdout(io.StringIO()),
++                    patch("cerebras_research.ledger.ROOT", root),
++                    patch("cerebras_research.runner.ROOT", root),
++                    patch("cerebras_research.runner.shutil.which", return_value="stub"),
++                    patch(
++                        "cerebras_research.runner.capture",
++                        return_value=({"evaluator_files": {}}, {}),
++                    ),
++                    patch("cerebras_research.runner.prepare", side_effect=prepared),
++                    patch("cerebras_research.runner.run_logged", side_effect=failed_step),
++                ):
++                    with self.assertRaises(type(error)):
++                        execute(get_profile("pipeline.k8-n8"))
++                receipt = next((root / "runs/v2").glob("*/result.json"))
++                data = json.loads(receipt.read_text())
++                status = "cancelled" if isinstance(error, KeyboardInterrupt) else "failed"
++                self.assertEqual(data["status"], status)
++                self.assertEqual(data["steps"][0]["status"], status)
++                self.assertEqual(data["steps"][0]["command"], ["cslc", "kernel.csl"])
++                self.assertEqual(data["steps"][0]["log"], "step-0.log")
++                self.assertGreaterEqual(data["steps"][0]["wall_seconds"], 0)
++                self.assertEqual(
++                    data["metrics"]["experiment_wall_seconds"], data["steps"][0]["wall_seconds"]
++                )
++                self.assertEqual(data["cases"], [])
++                binary = receipt.parent / "work/out/bin/partial.elf"
++                self.assertEqual(data["artifacts"]["work/out/bin/partial.elf"], digest(binary))
++                binary.write_bytes(b"changed executable artifact")
++                with (
++                    patch("cerebras_research.ledger.ROOT", root),
++                    self.assertRaisesRegex(ValueError, "artifact changed"),
++                ):
++                    receipt_row(receipt, "live")
+diff --git a/tests/unit/test_ledger.py b/tests/unit/test_ledger.py
+--- a/tests/unit/test_ledger.py
++++ b/tests/unit/test_ledger.py
+@@ -277,6 +277,54 @@
+         self.assertEqual(research["approach"], manifest["approach"])
+         self.assertNotEqual(first["evaluator_sha256"], second["evaluator_sha256"])
+ 
++    def test_best_confirmed_view_preserves_incumbent_and_separates_evaluator_tracks(self):
++        paths = (
++            make_record(self.root, "base"),
++            make_record(self.root, "candidate", "candidate", cycles=80),
++            make_record(self.root, "fresh-base", seed=8),
++            make_record(self.root, "fresh-candidate", "candidate", seed=8, cycles=80),
++        )
++        report = confirm(*paths)
++        args = argparse.Namespace(minimum_speedup=1.05, max_memory_growth=1.1)
++        cli.save_decision(
++            report,
++            "confirmation",
++            dict(
++                zip(
++                    ("initial_baseline", "initial_candidate", "fresh_baseline", "fresh_candidate"),
++                    paths,
++                )
++            ),
++            args,
++        )
++        incumbent = ledger.read_rows()[0]
++        slower = dict(incumbent, primary_value="90", receipt="slower.json", event_id="slower")
++        other = dict(
++            incumbent,
++            primary_value="1",
++            evaluator_sha256="another-evaluator",
++            receipt="other.json",
++            event_id="other",
++        )
++        provisional = dict(
++            incumbent,
++            kind="run",
++            outcome="validated",
++            decision="",
++            primary_value="0.5",
++            receipt="provisional.json",
++            event_id="provisional",
++        )
++        lucky = dict(
++            incumbent, primary_value="60", speedup="1.15", receipt="lucky.json", event_id="lucky"
++        )
++        view = ledger.board([incumbent, slower, other, lucky, provisional])
++        self.assertEqual(len(view["confirmed_improvements"]), 4)
++        selected = {row["evaluator_sha256"]: row for row in view["best_confirmed_by_track"]}
++        self.assertEqual(len(selected), 2)
++        self.assertEqual(selected[incumbent["evaluator_sha256"]]["receipt"], incumbent["receipt"])
++        self.assertEqual(selected["another-evaluator"]["receipt"], "other.json")
++
+ 
+ if __name__ == "__main__":
+     unittest.main()
+diff --git a/tests/unit/test_materialized_python.py b/tests/unit/test_materialized_python.py
+new file mode 100644
+--- /dev/null
++++ b/tests/unit/test_materialized_python.py
+@@ -0,0 +1,56 @@
++"""Prepared runs must execute the helper source that their fingerprints describe."""
++
++import os
++import py_compile
++import subprocess
++import sys
++import tempfile
++import unittest
++from pathlib import Path
++from unittest.mock import patch
++
++from cerebras_research.adapters import candidate_init, materialize
++
++
++class MaterializedPythonTests(unittest.TestCase):
++    def test_stale_bytecode_cannot_mask_fingerprinted_helper_source(self):
++        with tempfile.TemporaryDirectory() as folder:
++            root = Path(folder)
++            origin = root / "source"
++            origin.mkdir()
++            helper = origin / "helper.py"
++            helper.write_text("VALUE = 'old'\n")
++            timestamp = helper.stat()
++            py_compile.compile(str(helper), doraise=True)
++            helper.write_text("VALUE = 'new'\n")
++            os.utime(helper, ns=(timestamp.st_atime_ns, timestamp.st_mtime_ns))
++            (origin / "kernel.csl").write_text("// source")
++            work = root / "work"
++            with patch("cerebras_research.adapters.baseline_source", return_value=(origin, {})):
++                materialize({}, work)
++            result = subprocess.check_output(
++                [sys.executable, "-c", "import helper; print(helper.VALUE)"], cwd=work, text=True
++            )
++            self.assertEqual(result.strip(), "new")
++
++    def test_candidate_initialization_carries_the_pinned_upstream_license(self):
++        with tempfile.TemporaryDirectory() as folder:
++            root = Path(folder)
++            checkout = root / ".deps/waferllm"
++            origin = checkout / "MeshGEMV"
++            (origin / "src").mkdir(parents=True)
++            (origin / "src/layout.csl").write_text("// pinned code")
++            (checkout / "LICENSE").write_text("Upstream terms\n")
++            profile = dict(adapter="meshgemv", id="fixture", variants=["baseline", "candidate"])
++            with (
++                patch("cerebras_research.adapters.ROOT", root),
++                patch(
++                    "cerebras_research.adapters.baseline_source",
++                    return_value=(origin, dict(commit="pinned")),
++                ),
++            ):
++                candidate = candidate_init(profile, "license-probe")
++            self.assertEqual(
++                (candidate / "LICENSE.upstream").read_bytes(), (checkout / "LICENSE").read_bytes()
++            )
++            self.assertEqual((candidate / "src/layout.csl").read_text(), "// pinned code")
+diff --git a/tests/unit/test_recovery.py b/tests/unit/test_recovery.py
+new file mode 100644
+--- /dev/null
++++ b/tests/unit/test_recovery.py
+@@ -0,0 +1,91 @@
++"""Regression gates for the staged evaluator changes; launches no SDK job."""
++
++import io
++import json
++import tempfile
++import unittest
++from contextlib import redirect_stdout
++from pathlib import Path
++from unittest.mock import patch
++
++from cerebras_research import ledger, runner
++from cerebras_research.catalog import get_profile
++from cerebras_research.paths import write_json
++from tests.support.records import make_record
++
++
++class RecoveryTests(unittest.TestCase):
++    def setUp(self):
++        folder = tempfile.TemporaryDirectory()
++        self.addCleanup(folder.cleanup)
++        self.root = Path(folder.name).resolve()
++        mocked = patch("cerebras_research.ledger.ROOT", self.root)
++        mocked.start()
++        self.addCleanup(mocked.stop)
++
++    def test_unchanged_recovery_skips_old_artifact_audit(self):
++        path = make_record(self.root, "base")
++        ledger.append_receipts([path])
++        before = (self.root / "results/results.tsv").read_bytes()
++        with patch("cerebras_research.ledger.receipt_row", side_effect=AssertionError("old audit")):
++            self.assertEqual(ledger.append_receipts([path])["added"], 0)
++        self.assertEqual(before, (self.root / "results/results.tsv").read_bytes())
++
++    def test_incremental_skip_does_not_hide_corruption_from_explicit_audit(self):
++        path = make_record(self.root, "base")
++        ledger.append_receipts([path])
++        (path.parent / "work/out/positive.npz").write_bytes(b"corrupt")
++        self.assertEqual(ledger.append_receipts([path])["added"], 0)
++        with self.assertRaises(ValueError):
++            ledger.verify(artifacts=True)
++
++    def test_changed_receipt_is_rejected_before_recovery(self):
++        path = make_record(self.root, "base")
++        ledger.append_receipts([path])
++        data = json.loads(path.read_text())
++        data["error"] = "changed"
++        write_json(path, data)
++        with self.assertRaisesRegex(ValueError, "already-recorded"):
++            ledger.append_receipts([path])
++
++    def test_new_receipt_still_passes_full_audit(self):
++        old, new = (make_record(self.root, name) for name in ("old", "new"))
++        ledger.append_receipts([old])
++        with patch("cerebras_research.ledger.receipt_row", wraps=ledger.receipt_row) as replay:
++            self.assertEqual(ledger.append_receipts([old, new])["added"], 1)
++        self.assertEqual(replay.call_count, 1)
++        self.assertEqual(replay.call_args.args[0], new)
++
++    def test_runner_captures_auxiliary_python_and_rejects_mutation(self):
++        (self.root / "config").mkdir()
++        write_json(self.root / "config/sdk-install.json", {})
++
++        def prepared(profile, work, variant, candidate):
++            (work / "helpers").mkdir(parents=True)
++            (work / "kernel.csl").write_text("// source")
++            (work / "helpers/host_common.py").write_text("# auxiliary baseline helper")
++            return ["cslc", "kernel.csl"], {}, "baseline"
++
++        with (
++            redirect_stdout(io.StringIO()),
++            patch("cerebras_research.runner.ROOT", self.root),
++            patch("cerebras_research.runner.shutil.which", return_value="stub"),
++            patch("cerebras_research.runner.capture", return_value=({"evaluator_files": {}}, {})),
++            patch("cerebras_research.runner.prepare", side_effect=prepared),
++            patch(
++                "cerebras_research.runner.run_logged",
++                side_effect=RuntimeError("stop after capture"),
++            ),
++        ):
++            with self.assertRaisesRegex(RuntimeError, "stop after capture"):
++                runner.execute(get_profile("pipeline.k8-n8"))
++        receipt = next((self.root / "runs/v2").glob("*/result.json"))
++        data = json.loads(receipt.read_text())
++        self.assertEqual(set(data["harness_files"]), {"helpers/host_common.py"})
++        (receipt.parent / "work/helpers/host_common.py").write_text("# changed after capture")
++        with self.assertRaisesRegex(ValueError, "harness"):
++            ledger.audit_run(receipt, data)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/unit/test_reusable_gemm_contract.py b/tests/unit/test_reusable_gemm_contract.py
+new file mode 100644
+--- /dev/null
++++ b/tests/unit/test_reusable_gemm_contract.py
+@@ -0,0 +1,33 @@
++"""Catalog and protected sequence controls for the proposed adapter."""
++
++import unittest
++
++from cerebras_research.adapters import baseline_source, verify_timing_contract
++from cerebras_research.catalog import get_suite
++
++
++class ReusableGemmContractTests(unittest.TestCase):
++    def test_full_sequence_dimensions_and_work_are_registered(self):
++        profiles = get_suite("reusable-gemm")
++        self.assertEqual(len(profiles), 3)
++        for profile in profiles:
++            dims = profile["dimensions"]
++            self.assertEqual(profile["adapter"], "reusable_gemm")
++            self.assertEqual(profile["pe_grid"], [4, 4])
++            self.assertEqual(profile["oracle_contract"], "resident_gemm_sequence_fp16_v1")
++            self.assertEqual(dims["T"], 4)
++            self.assertEqual(profile["timing_protocol"]["repeats"], 1)
++            self.assertEqual(
++                profile["work_units"], 2 * dims["T"] * dims["M"] * dims["K"] * dims["N"]
++            )
++
++    def test_timer_every_frame_and_weight_snapshot_are_protected(self):
++        profile = get_suite("reusable-gemm")[0]
++        source = (baseline_source(profile)[0] / "src/meshgemm.csl").read_text()
++        for old, new in (
++            ("frame < T", "frame < 1"),
++            ("timestamp.get_timestamp(&tscStartBuffer);", ""),
++            ("@fmovh(weights, working_w0_dsd);", ""),
++        ):
++            with self.subTest(old=old), self.assertRaisesRegex(ValueError, "protected"):
++                verify_timing_contract(source, source.replace(old, new), "reusable_gemm")
+diff --git a/tools/replay_numerics.py b/tools/replay_numerics.py
+--- a/tools/replay_numerics.py
++++ b/tools/replay_numerics.py
+@@ -19,6 +19,7 @@
+ import numpy as np
+ from common import timing
+ from resident_oracle import evidence as resident_evidence
++from reusable_gemm_oracle import evidence as sequence_evidence
+ 
+ from cerebras_research.paths import contained, digest, write_json
+ from cerebras_research.scoring import load_validated
+@@ -43,6 +44,28 @@
+         length, u = (k // p if gemv else k) + p, 2.0**-11
+         gamma = length * u / (1 - length * u)
+         bound = gamma * (np.abs(x) @ np.abs(w)) + (k + p) * 2.0**-24
++    elif kind == "reusable_gemm":
++        if profile.get("oracle_contract") != "resident_gemm_sequence_fp16_v1":
++            raise ValueError("Unsupported resident GEMM oracle version")
++        if raw["x"].shape != (dims["T"], dims["M"], dims["K"]) or raw["w"].shape != (
++            dims["K"],
++            dims["N"],
++        ):
++            raise ValueError("Sequence input shape disagrees with the profile")
++        arrays, _, bound = sequence_evidence(
++            profile["pe_grid"][0],
++            raw["x"],
++            raw["w"],
++            raw["actual"],
++            raw["working_w_history"],
++            raw["canonical_x_after"],
++            raw["canonical_w_after"],
++        )
++        np.testing.assert_array_equal(
++            raw["expected_working_w_history"], arrays["expected_working_w_history"]
++        )
++        expected = arrays["expected"]
++        strict = bool(arrays["exact_state_match"])
+     elif kind == "pipeline":
+         x, w = raw["x"].astype(np.float64), raw["w"].astype(np.float64)
+         if x.shape != (5, dims["K"]) or w.shape != (dims["K"], dims["N"]):
+@@ -183,6 +206,7 @@
+             for p in (
+                 ROOT / "benchmarks/drivers/common.py",
+                 ROOT / "benchmarks/drivers/resident_oracle.py",
++                ROOT / "benchmarks/drivers/reusable_gemm_oracle.py",
+             )
+         },
+         "records": records,
+diff --git a/Makefile b/Makefile
+--- a/Makefile
++++ b/Makefile
+@@ -28,3 +28,4 @@
+ sdk-test:
+ 	tools/sdk-run cs_python tests/integration/check_driver_contracts.py
+ 	tools/sdk-run cs_python tests/integration/check_replay_contracts.py
++	tools/sdk-run cs_python tests/integration/check_reusable_gemm_contracts.py

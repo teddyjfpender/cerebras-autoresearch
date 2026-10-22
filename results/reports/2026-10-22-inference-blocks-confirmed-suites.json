@@ -1,0 +1,664 @@
+{
+  "schema_version": 1,
+  "checked_utc": "2026-10-22T23:47:34.065325+00:00",
+  "scope": "Complete named suites assembled from already measured independent six-case profiles; separate launches, not an integrated model benchmark",
+  "executed_attempt_count": 0,
+  "qwen_tps_result": false,
+  "suites": {
+    "gated-mlp": {
+      "arms": {
+        "initial_baseline": {
+          "path": "runs/v2/20261022T232858Z-suite-reuse-b73e6188/result.json",
+          "sha256": "3cfc1ef40f80ce79d146743ed58bf0c8af7b699ec93752b09ff124fbdc8d001b",
+          "seed": 20261025,
+          "suite_contract_sha256": "2fac1b7c7d7e1fe3099fe7a520a99eb89779f98ec6f6b8dfdd0434ec124cef49",
+          "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+          "sdk": {
+            "sdk_release": "2.10.1",
+            "sdk_build": "sdk-202606181328-8faf87a26e",
+            "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+            "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+            "bundled_checksum_verification": "all files passed",
+            "local_sdk_directory": ".sdk/sdk-2.10.1",
+            "lima_instance": "cerebras-sdk",
+            "guest_os": "Ubuntu 22.04 x86_64",
+            "guest_container_runtime": "SingularityCE 4.0.2",
+            "host_lima_version": "2.2.1",
+            "host_qemu_version": "11.1.2",
+            "example_source_release": "rel-sdk-2.10.0",
+            "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+            "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+          },
+          "run_imports": {
+            "gated-mlp.h16-f32": {
+              "path": "runs/v2/20261022T184425Z-gated-mlp.h16-f32-b8546dbd/result.json",
+              "sha256": "e42f1e0a0c5d9f084f621da7cf22ccf52817c40de384e04ac4dfd0a80b08fb23"
+            },
+            "gated-mlp.h32-f64": {
+              "path": "runs/v2/20261022T184934Z-gated-mlp.h32-f64-a6d01a87/result.json",
+              "sha256": "0106b273cef74d6b06ef5e99e5c9fa8bda245d7af728cf2d25b762b38178c3db"
+            }
+          },
+          "implementations": {
+            "gated-mlp.h16-f32": {
+              "candidate": "",
+              "variant": "baseline",
+              "source_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "baseline_tree_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            },
+            "gated-mlp.h32-f64": {
+              "candidate": "",
+              "variant": "baseline",
+              "source_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "baseline_tree_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            }
+          }
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261022T232908Z-suite-reuse-2084bacf/result.json",
+          "sha256": "b8ea4786809c86739bead1adefca2a91f0a8117689e0e17c859653ee91bf07f0",
+          "seed": 20261025,
+          "suite_contract_sha256": "2fac1b7c7d7e1fe3099fe7a520a99eb89779f98ec6f6b8dfdd0434ec124cef49",
+          "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+          "sdk": {
+            "sdk_release": "2.10.1",
+            "sdk_build": "sdk-202606181328-8faf87a26e",
+            "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+            "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+            "bundled_checksum_verification": "all files passed",
+            "local_sdk_directory": ".sdk/sdk-2.10.1",
+            "lima_instance": "cerebras-sdk",
+            "guest_os": "Ubuntu 22.04 x86_64",
+            "guest_container_runtime": "SingularityCE 4.0.2",
+            "host_lima_version": "2.2.1",
+            "host_qemu_version": "11.1.2",
+            "example_source_release": "rel-sdk-2.10.0",
+            "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+            "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+          },
+          "run_imports": {
+            "gated-mlp.h16-f32": {
+              "path": "runs/v2/20261022T224708Z-gated-mlp.h16-f32-55e8ff85/result.json",
+              "sha256": "b190782d6f99852baa8d54860321d6cf4dc08c51b2e0196e3ba0681294a3a062"
+            },
+            "gated-mlp.h32-f64": {
+              "path": "runs/v2/20261022T225709Z-gated-mlp.h32-f64-e79bb61c/result.json",
+              "sha256": "610d2b51b655b2e6c775f3bde1d7797b1d15e1ed6a118e4442ddf67997c1331a"
+            }
+          },
+          "implementations": {
+            "gated-mlp.h16-f32": {
+              "candidate": "mlp-silu-polynomial",
+              "variant": "candidate",
+              "source_sha256": "449d9b5006ee75eb746c18673929063e019e6d463d5ab986c5ec6b79e070316a",
+              "baseline_tree_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            },
+            "gated-mlp.h32-f64": {
+              "candidate": "mlp-silu-polynomial",
+              "variant": "candidate",
+              "source_sha256": "449d9b5006ee75eb746c18673929063e019e6d463d5ab986c5ec6b79e070316a",
+              "baseline_tree_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            }
+          }
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261022T232919Z-suite-reuse-533cc12c/result.json",
+          "sha256": "cd895edbddbb66f11803f7dd3503c03df8b8630b47e5671a2af3fe546bb5d422",
+          "seed": 20261026,
+          "suite_contract_sha256": "2fac1b7c7d7e1fe3099fe7a520a99eb89779f98ec6f6b8dfdd0434ec124cef49",
+          "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+          "sdk": {
+            "sdk_release": "2.10.1",
+            "sdk_build": "sdk-202606181328-8faf87a26e",
+            "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+            "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+            "bundled_checksum_verification": "all files passed",
+            "local_sdk_directory": ".sdk/sdk-2.10.1",
+            "lima_instance": "cerebras-sdk",
+            "guest_os": "Ubuntu 22.04 x86_64",
+            "guest_container_runtime": "SingularityCE 4.0.2",
+            "host_lima_version": "2.2.1",
+            "host_qemu_version": "11.1.2",
+            "example_source_release": "rel-sdk-2.10.0",
+            "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+            "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+          },
+          "run_imports": {
+            "gated-mlp.h16-f32": {
+              "path": "runs/v2/20261022T200529Z-gated-mlp.h16-f32-0c933955/result.json",
+              "sha256": "f961fda0d2c72ea172fab512a45832e16ddbf11b17b24607549481af1ceef9d5"
+            },
+            "gated-mlp.h32-f64": {
+              "path": "runs/v2/20261022T202045Z-gated-mlp.h32-f64-2f8774de/result.json",
+              "sha256": "ef74c8c43f066b611500e773f9495c5deb87bd7911f91ffc6b9abcce77404e44"
+            }
+          },
+          "implementations": {
+            "gated-mlp.h16-f32": {
+              "candidate": "",
+              "variant": "baseline",
+              "source_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "baseline_tree_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            },
+            "gated-mlp.h32-f64": {
+              "candidate": "",
+              "variant": "baseline",
+              "source_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "baseline_tree_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            }
+          }
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261022T232929Z-suite-reuse-e56b5fcc/result.json",
+          "sha256": "49b2c5ee540aee230d5ad55e36ccf93beed2f7fb0e063cdc46abdbb966433b14",
+          "seed": 20261026,
+          "suite_contract_sha256": "2fac1b7c7d7e1fe3099fe7a520a99eb89779f98ec6f6b8dfdd0434ec124cef49",
+          "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+          "sdk": {
+            "sdk_release": "2.10.1",
+            "sdk_build": "sdk-202606181328-8faf87a26e",
+            "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+            "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+            "bundled_checksum_verification": "all files passed",
+            "local_sdk_directory": ".sdk/sdk-2.10.1",
+            "lima_instance": "cerebras-sdk",
+            "guest_os": "Ubuntu 22.04 x86_64",
+            "guest_container_runtime": "SingularityCE 4.0.2",
+            "host_lima_version": "2.2.1",
+            "host_qemu_version": "11.1.2",
+            "example_source_release": "rel-sdk-2.10.0",
+            "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+            "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+          },
+          "run_imports": {
+            "gated-mlp.h16-f32": {
+              "path": "runs/v2/20261022T225025Z-gated-mlp.h16-f32-a1df3647/result.json",
+              "sha256": "d764d02645b2e177dc2614cc990631a8c34ea74bd41acf98583af78059513d2d"
+            },
+            "gated-mlp.h32-f64": {
+              "path": "runs/v2/20261022T230139Z-gated-mlp.h32-f64-ae323dff/result.json",
+              "sha256": "4ac6802391c951e0e95dad26efa51d7233d1f808c78255dc4b3c9127a7ada58e"
+            }
+          },
+          "implementations": {
+            "gated-mlp.h16-f32": {
+              "candidate": "mlp-silu-polynomial",
+              "variant": "candidate",
+              "source_sha256": "449d9b5006ee75eb746c18673929063e019e6d463d5ab986c5ec6b79e070316a",
+              "baseline_tree_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            },
+            "gated-mlp.h32-f64": {
+              "candidate": "mlp-silu-polynomial",
+              "variant": "candidate",
+              "source_sha256": "449d9b5006ee75eb746c18673929063e019e6d463d5ab986c5ec6b79e070316a",
+              "baseline_tree_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            }
+          }
+        }
+      },
+      "decision_receipt": {
+        "path": "runs/v2/20261022T233136Z-suite_confirmation-f801d7dd/result.json",
+        "sha256": "19927f02866c7c600c450b74d0813425a1ef370b8e65495721b61a3e8f7b2312"
+      },
+      "decision": {
+        "status": "confirmed_suite_improvement",
+        "initial": {
+          "geometric_mean_speedup": 4.807298258998552,
+          "worst_speedup": 3.980080679511914,
+          "profiles": [
+            "gated-mlp.h16-f32",
+            "gated-mlp.h32-f64"
+          ],
+          "eligible": true,
+          "confirmation_required": true,
+          "qwen_tps_result": false,
+          "comparisons": [
+            {
+              "profile": "gated-mlp.h16-f32",
+              "metric": "max_local_cycles",
+              "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T184425Z-gated-mlp.h16-f32-b8546dbd/result.json",
+              "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T224708Z-gated-mlp.h16-f32-55e8ff85/result.json",
+              "speedup": 3.980080679511914,
+              "memory_ratio": 1.0090805902383655,
+              "cycle_reduction_percent": 74.87488117646318,
+              "eligible": true,
+              "minimum_speedup": 1.05,
+              "max_memory_growth": 1.1,
+              "decision": "needs_fresh_confirmation",
+              "qwen_tps_result": false
+            },
+            {
+              "profile": "gated-mlp.h32-f64",
+              "metric": "max_local_cycles",
+              "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T184934Z-gated-mlp.h32-f64-a6d01a87/result.json",
+              "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T225709Z-gated-mlp.h32-f64-e79bb61c/result.json",
+              "speedup": 5.80644424368919,
+              "memory_ratio": 1.0057887120115774,
+              "cycle_reduction_percent": 82.7777559202973,
+              "eligible": true,
+              "minimum_speedup": 1.05,
+              "max_memory_growth": 1.1,
+              "decision": "needs_fresh_confirmation",
+              "qwen_tps_result": false
+            }
+          ]
+        },
+        "confirmation": {
+          "geometric_mean_speedup": 4.807298258998552,
+          "worst_speedup": 3.980080679511914,
+          "profiles": [
+            "gated-mlp.h16-f32",
+            "gated-mlp.h32-f64"
+          ],
+          "eligible": true,
+          "confirmation_required": true,
+          "qwen_tps_result": false,
+          "comparisons": [
+            {
+              "profile": "gated-mlp.h16-f32",
+              "metric": "max_local_cycles",
+              "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T200529Z-gated-mlp.h16-f32-0c933955/result.json",
+              "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T225025Z-gated-mlp.h16-f32-a1df3647/result.json",
+              "speedup": 3.980080679511914,
+              "memory_ratio": 1.0090805902383655,
+              "cycle_reduction_percent": 74.87488117646318,
+              "eligible": true,
+              "minimum_speedup": 1.05,
+              "max_memory_growth": 1.1,
+              "decision": "needs_fresh_confirmation",
+              "qwen_tps_result": false
+            },
+            {
+              "profile": "gated-mlp.h32-f64",
+              "metric": "max_local_cycles",
+              "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T202045Z-gated-mlp.h32-f64-2f8774de/result.json",
+              "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T230139Z-gated-mlp.h32-f64-ae323dff/result.json",
+              "speedup": 5.80644424368919,
+              "memory_ratio": 1.0057887120115774,
+              "cycle_reduction_percent": 82.7777559202973,
+              "eligible": true,
+              "minimum_speedup": 1.05,
+              "max_memory_growth": 1.1,
+              "decision": "needs_fresh_confirmation",
+              "qwen_tps_result": false
+            }
+          ]
+        },
+        "cell_evidence": {
+          "gated-mlp.h16-f32": {
+            "fresh_identity_verified": true,
+            "initial_speedup": 3.980080679511914,
+            "confirmation_speedup": 3.980080679511914
+          },
+          "gated-mlp.h32-f64": {
+            "fresh_identity_verified": true,
+            "initial_speedup": 5.80644424368919,
+            "confirmation_speedup": 5.80644424368919
+          }
+        },
+        "scope": "exact complete suite coverage",
+        "qwen_tps_result": false,
+        "schema_version": 2,
+        "record_type": "suite_confirmation",
+        "inputs": {
+          "initial_baseline": "runs/v2/20261022T232858Z-suite-reuse-b73e6188/result.json",
+          "initial_candidate": "runs/v2/20261022T232908Z-suite-reuse-2084bacf/result.json",
+          "fresh_baseline": "runs/v2/20261022T232919Z-suite-reuse-533cc12c/result.json",
+          "fresh_candidate": "runs/v2/20261022T232929Z-suite-reuse-e56b5fcc/result.json"
+        },
+        "budgets": {
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "regression_limit": 1.02
+        }
+      }
+    },
+    "decoder": {
+      "arms": {
+        "initial_baseline": {
+          "path": "runs/v2/20261022T233809Z-suite-reuse-aeabe208/result.json",
+          "sha256": "1f1c9cb3599ee58df6ce6a7a4f62eb9a778fb396387db42968c3aa7beb89327d",
+          "seed": 20261025,
+          "suite_contract_sha256": "71db81627538b65cd27e5b71d7704035254fb851902cb46ce9d97e2eaf4c8a43",
+          "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+          "sdk": {
+            "sdk_release": "2.10.1",
+            "sdk_build": "sdk-202606181328-8faf87a26e",
+            "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+            "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+            "bundled_checksum_verification": "all files passed",
+            "local_sdk_directory": ".sdk/sdk-2.10.1",
+            "lima_instance": "cerebras-sdk",
+            "guest_os": "Ubuntu 22.04 x86_64",
+            "guest_container_runtime": "SingularityCE 4.0.2",
+            "host_lima_version": "2.2.1",
+            "host_qemu_version": "11.1.2",
+            "example_source_release": "rel-sdk-2.10.0",
+            "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+            "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+          },
+          "run_imports": {
+            "decoder.h16-f32-ctx4": {
+              "path": "runs/v2/20261022T190042Z-decoder.h16-f32-ctx4-92b6b085/result.json",
+              "sha256": "2e962bb14503c58adc331524d623224686f19da30e03310712fb4aa4747c497d"
+            },
+            "decoder.h16-f32-ctx12": {
+              "path": "runs/v2/20261022T191048Z-decoder.h16-f32-ctx12-a450ad54/result.json",
+              "sha256": "507e14327c81270e048ad6cfab2482fdb32a78f52df54d533bc9c37ce768326e"
+            }
+          },
+          "implementations": {
+            "decoder.h16-f32-ctx4": {
+              "candidate": "",
+              "variant": "baseline",
+              "source_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            },
+            "decoder.h16-f32-ctx12": {
+              "candidate": "",
+              "variant": "baseline",
+              "source_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            }
+          }
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261022T233819Z-suite-reuse-5faf0c2a/result.json",
+          "sha256": "14e555622003cafb24ced19ed4b0576751e590b1959c458deeca5ab7f12fcab7",
+          "seed": 20261025,
+          "suite_contract_sha256": "71db81627538b65cd27e5b71d7704035254fb851902cb46ce9d97e2eaf4c8a43",
+          "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+          "sdk": {
+            "sdk_release": "2.10.1",
+            "sdk_build": "sdk-202606181328-8faf87a26e",
+            "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+            "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+            "bundled_checksum_verification": "all files passed",
+            "local_sdk_directory": ".sdk/sdk-2.10.1",
+            "lima_instance": "cerebras-sdk",
+            "guest_os": "Ubuntu 22.04 x86_64",
+            "guest_container_runtime": "SingularityCE 4.0.2",
+            "host_lima_version": "2.2.1",
+            "host_qemu_version": "11.1.2",
+            "example_source_release": "rel-sdk-2.10.0",
+            "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+            "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+          },
+          "run_imports": {
+            "decoder.h16-f32-ctx4": {
+              "path": "runs/v2/20261022T204109Z-decoder.h16-f32-ctx4-92554a8f/result.json",
+              "sha256": "256aab47d27ad5c21652db554a9bae72d45db082ecfa09c0f9728e5f9fc89ae7"
+            },
+            "decoder.h16-f32-ctx12": {
+              "path": "runs/v2/20261022T210942Z-decoder.h16-f32-ctx12-537b3eb8/result.json",
+              "sha256": "173ce2bd8769a64a330e512734b8cf78bc337a80ef008b1274176ff364fbc5da"
+            }
+          },
+          "implementations": {
+            "decoder.h16-f32-ctx4": {
+              "candidate": "decoder-vector-rope-softmax",
+              "variant": "candidate",
+              "source_sha256": "fefc30a44957f4095678b55ceedc54d81bd9fedd36b13999b1530be44740e5de",
+              "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            },
+            "decoder.h16-f32-ctx12": {
+              "candidate": "decoder-vector-rope-softmax",
+              "variant": "candidate",
+              "source_sha256": "fefc30a44957f4095678b55ceedc54d81bd9fedd36b13999b1530be44740e5de",
+              "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            }
+          }
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261022T233829Z-suite-reuse-8e1cc6c6/result.json",
+          "sha256": "4036ffb056a6ad0172ad559e556fde3bec8adf03f273e94036acc41241f34fc5",
+          "seed": 20261026,
+          "suite_contract_sha256": "71db81627538b65cd27e5b71d7704035254fb851902cb46ce9d97e2eaf4c8a43",
+          "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+          "sdk": {
+            "sdk_release": "2.10.1",
+            "sdk_build": "sdk-202606181328-8faf87a26e",
+            "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+            "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+            "bundled_checksum_verification": "all files passed",
+            "local_sdk_directory": ".sdk/sdk-2.10.1",
+            "lima_instance": "cerebras-sdk",
+            "guest_os": "Ubuntu 22.04 x86_64",
+            "guest_container_runtime": "SingularityCE 4.0.2",
+            "host_lima_version": "2.2.1",
+            "host_qemu_version": "11.1.2",
+            "example_source_release": "rel-sdk-2.10.0",
+            "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+            "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+          },
+          "run_imports": {
+            "decoder.h16-f32-ctx4": {
+              "path": "runs/v2/20261022T204753Z-decoder.h16-f32-ctx4-7ee48d2b/result.json",
+              "sha256": "b2fcba717b7dfd2a6d704eb2034519eebb8bb3c2b5af0c8de3f9b03f4b76de14"
+            },
+            "decoder.h16-f32-ctx12": {
+              "path": "runs/v2/20261022T211912Z-decoder.h16-f32-ctx12-b7de05b8/result.json",
+              "sha256": "220cf60cc38b2fa991f8fd4d7f627d9f48f236545387104a523fb607f8427ce8"
+            }
+          },
+          "implementations": {
+            "decoder.h16-f32-ctx4": {
+              "candidate": "",
+              "variant": "baseline",
+              "source_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            },
+            "decoder.h16-f32-ctx12": {
+              "candidate": "",
+              "variant": "baseline",
+              "source_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            }
+          }
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261022T233839Z-suite-reuse-c2dab72a/result.json",
+          "sha256": "2c40d4d626b4013ad61906a75b931c7247257ba0f07fe8231fffd394fb828a2b",
+          "seed": 20261026,
+          "suite_contract_sha256": "71db81627538b65cd27e5b71d7704035254fb851902cb46ce9d97e2eaf4c8a43",
+          "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+          "sdk": {
+            "sdk_release": "2.10.1",
+            "sdk_build": "sdk-202606181328-8faf87a26e",
+            "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+            "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+            "bundled_checksum_verification": "all files passed",
+            "local_sdk_directory": ".sdk/sdk-2.10.1",
+            "lima_instance": "cerebras-sdk",
+            "guest_os": "Ubuntu 22.04 x86_64",
+            "guest_container_runtime": "SingularityCE 4.0.2",
+            "host_lima_version": "2.2.1",
+            "host_qemu_version": "11.1.2",
+            "example_source_release": "rel-sdk-2.10.0",
+            "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+            "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+          },
+          "run_imports": {
+            "decoder.h16-f32-ctx4": {
+              "path": "runs/v2/20261022T205729Z-decoder.h16-f32-ctx4-8d5dd78f/result.json",
+              "sha256": "163604fdba3fe06d5ed9a04aa96aa5691e010912594ad98f798a03b3cd63965c"
+            },
+            "decoder.h16-f32-ctx12": {
+              "path": "runs/v2/20261022T213310Z-decoder.h16-f32-ctx12-8533109b/result.json",
+              "sha256": "ec63e3b074740871d9f157163e6a6347d7b2b022e2a8df16eec4b94e5c0f9100"
+            }
+          },
+          "implementations": {
+            "decoder.h16-f32-ctx4": {
+              "candidate": "decoder-vector-rope-softmax",
+              "variant": "candidate",
+              "source_sha256": "fefc30a44957f4095678b55ceedc54d81bd9fedd36b13999b1530be44740e5de",
+              "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            },
+            "decoder.h16-f32-ctx12": {
+              "candidate": "decoder-vector-rope-softmax",
+              "variant": "candidate",
+              "source_sha256": "fefc30a44957f4095678b55ceedc54d81bd9fedd36b13999b1530be44740e5de",
+              "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+              "harness_sha256": "c061a8a4b2884a95f9bcd2dad47dccdfd4619befc66e1fa8ec953fff85afb0ef"
+            }
+          }
+        }
+      },
+      "decision_receipt": {
+        "path": "runs/v2/20261022T234044Z-suite_confirmation-0f5a1d7b/result.json",
+        "sha256": "dcc8740b8148605eefb3387fb3b409cdd9c86ee48f95aa6b60731f07a1e9a395"
+      },
+      "decision": {
+        "status": "confirmed_suite_improvement",
+        "initial": {
+          "geometric_mean_speedup": 2.323066820559368,
+          "worst_speedup": 2.15672253161468,
+          "profiles": [
+            "decoder.h16-f32-ctx4",
+            "decoder.h16-f32-ctx12"
+          ],
+          "eligible": true,
+          "confirmation_required": true,
+          "qwen_tps_result": false,
+          "comparisons": [
+            {
+              "profile": "decoder.h16-f32-ctx4",
+              "metric": "max_local_cycles",
+              "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T190042Z-decoder.h16-f32-ctx4-92b6b085/result.json",
+              "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T204109Z-decoder.h16-f32-ctx4-92554a8f/result.json",
+              "speedup": 2.5022409575994424,
+              "memory_ratio": 0.9662471395881007,
+              "cycle_reduction_percent": 60.035823210272966,
+              "eligible": true,
+              "minimum_speedup": 1.05,
+              "max_memory_growth": 1.1,
+              "decision": "needs_fresh_confirmation",
+              "qwen_tps_result": false
+            },
+            {
+              "profile": "decoder.h16-f32-ctx12",
+              "metric": "max_local_cycles",
+              "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T191048Z-decoder.h16-f32-ctx12-a450ad54/result.json",
+              "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T210942Z-decoder.h16-f32-ctx12-537b3eb8/result.json",
+              "speedup": 2.15672253161468,
+              "memory_ratio": 0.9719806763285024,
+              "cycle_reduction_percent": 53.63334942991823,
+              "eligible": true,
+              "minimum_speedup": 1.05,
+              "max_memory_growth": 1.1,
+              "decision": "needs_fresh_confirmation",
+              "qwen_tps_result": false
+            }
+          ]
+        },
+        "confirmation": {
+          "geometric_mean_speedup": 2.323066820559368,
+          "worst_speedup": 2.15672253161468,
+          "profiles": [
+            "decoder.h16-f32-ctx4",
+            "decoder.h16-f32-ctx12"
+          ],
+          "eligible": true,
+          "confirmation_required": true,
+          "qwen_tps_result": false,
+          "comparisons": [
+            {
+              "profile": "decoder.h16-f32-ctx4",
+              "metric": "max_local_cycles",
+              "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T204753Z-decoder.h16-f32-ctx4-7ee48d2b/result.json",
+              "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T205729Z-decoder.h16-f32-ctx4-8d5dd78f/result.json",
+              "speedup": 2.5022409575994424,
+              "memory_ratio": 0.9662471395881007,
+              "cycle_reduction_percent": 60.035823210272966,
+              "eligible": true,
+              "minimum_speedup": 1.05,
+              "max_memory_growth": 1.1,
+              "decision": "needs_fresh_confirmation",
+              "qwen_tps_result": false
+            },
+            {
+              "profile": "decoder.h16-f32-ctx12",
+              "metric": "max_local_cycles",
+              "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T211912Z-decoder.h16-f32-ctx12-b7de05b8/result.json",
+              "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261022T213310Z-decoder.h16-f32-ctx12-8533109b/result.json",
+              "speedup": 2.15672253161468,
+              "memory_ratio": 0.9719806763285024,
+              "cycle_reduction_percent": 53.63334942991823,
+              "eligible": true,
+              "minimum_speedup": 1.05,
+              "max_memory_growth": 1.1,
+              "decision": "needs_fresh_confirmation",
+              "qwen_tps_result": false
+            }
+          ]
+        },
+        "cell_evidence": {
+          "decoder.h16-f32-ctx4": {
+            "fresh_identity_verified": true,
+            "initial_speedup": 2.5022409575994424,
+            "confirmation_speedup": 2.5022409575994424
+          },
+          "decoder.h16-f32-ctx12": {
+            "fresh_identity_verified": true,
+            "initial_speedup": 2.15672253161468,
+            "confirmation_speedup": 2.15672253161468
+          }
+        },
+        "scope": "exact complete suite coverage",
+        "qwen_tps_result": false,
+        "schema_version": 2,
+        "record_type": "suite_confirmation",
+        "inputs": {
+          "initial_baseline": "runs/v2/20261022T233809Z-suite-reuse-aeabe208/result.json",
+          "initial_candidate": "runs/v2/20261022T233819Z-suite-reuse-5faf0c2a/result.json",
+          "fresh_baseline": "runs/v2/20261022T233829Z-suite-reuse-8e1cc6c6/result.json",
+          "fresh_candidate": "runs/v2/20261022T233839Z-suite-reuse-c2dab72a/result.json"
+        },
+        "budgets": {
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "regression_limit": 1.02
+        }
+      }
+    }
+  },
+  "numerical_replays": [
+    {
+      "path": "results/reports/2026-10-22-mlp-h16-polynomial-confirmed-numerics.json",
+      "sha256": "aae400d44ad8dfd20139913ba4265ed9475d06769943187e2cae802d541c8661"
+    },
+    {
+      "path": "results/reports/2026-10-22-mlp-h32-polynomial-confirmed-numerics.json",
+      "sha256": "6fa84f7d4028d68b9f64e57de3340466901281ea998b23ac7681d9ba7bda2f6a"
+    },
+    {
+      "path": "results/reports/2026-10-22-decoder-ctx4-confirmed-numerics.json",
+      "sha256": "3b9d481f6bb0f5f32cd30d447e962f9953d166f63742b9b24cfef809e9ed9421"
+    },
+    {
+      "path": "results/reports/2026-10-22-decoder-ctx12-confirmed-numerics.json",
+      "sha256": "eea552da74640fdd0052f1e44e9579a81749c7b6d721e952fb432a30021fedff"
+    }
+  ],
+  "ledger_prefix": {
+    "rows": 169,
+    "sha256": "c3d10c7bb190136c8f4eaa6ab519eaec76b313ab9071bdc387afc3bc106c22de",
+    "head": "404b1b38cd853cf3033562897e63da32368248b0d2bf8f8cd35e9681ab60b802"
+  }
+}

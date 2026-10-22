@@ -1,0 +1,30 @@
+--- a/src/cerebras_research/ledger.py
++++ b/src/cerebras_research/ledger.py
+@@ -372,8 +372,19 @@
+     with lock():
+         rows = read_rows(ledger)
+         existing = {r["event_id"]: r for r in rows}
++        by_receipt = {r["receipt"]: r for r in rows}
+         added, skipped = 0, []
+         for path in paths:
++            path = resolve(path)
++            previous = by_receipt.get(cell(str(path.relative_to(ROOT))))
++            if previous:
++                if digest(path) != previous["receipt_sha256"]:
++                    raise ValueError(
++                        "An already-recorded receipt changed; preserve it and create a new attempt"
++                    )
++                # Repeated recovery is incremental. Explicit --artifacts audits
++                # still replay all evidence, including immutable prior receipts.
++                continue
+             fields = receipt_row(path, origin)
+             if fields is None:
+                 skipped.append(str(Path(path).relative_to(ROOT)))
+@@ -395,6 +406,7 @@
+             row["row_sha256"] = identity({k: row[k] for k in FIELDS if k != "row_sha256"})
+             rows.append(row)
+             existing[row["event_id"]] = row
++            by_receipt[row["receipt"]] = row
+             added += 1
+         ledger.parent.mkdir(parents=True, exist_ok=True)
+         temporary = ledger.with_name(".ledger-" + uuid.uuid4().hex + ".tmp")

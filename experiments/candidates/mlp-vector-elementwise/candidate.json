@@ -1,0 +1,14 @@
+{
+  "adapter": "gated_mlp",
+  "initial_profile": "gated-mlp.h16-f32",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "gated_mlp.vector-elementwise-and-projections",
+  "hypothesis": "After vectorizing projections, scalar normalization stores, activation indexing and residual copies add dispatch cost. Vectorize elementwise normalization/copies and map the unchanged FP32 SiLU expression. Keep the sequential RMS sum, all gate/up/down projections and all four frames.",
+  "falsification": "Reject any six-case output/cache/exit failure, missing timed work, changed precision or PE budget, less than 1.05x speedup, over 1.10x memory or failed fresh paired confirmation. Compare separately against projection-only candidates to attribute incremental benefit.",
+  "agent_harness": "Codex"
+}

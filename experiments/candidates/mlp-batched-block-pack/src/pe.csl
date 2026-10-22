@@ -1,0 +1,155 @@
+// Independent scalar baseline; candidate work belongs in experiments/candidates.
+param memcpy_params;
+param H: i16;
+param F: i16;
+param T: i16;
+const sys = @import_module("<memcpy/memcpy>", memcpy_params);
+const clock = @import_module("<time>");
+const math = @import_module("<math>");
+var X: [T*H]f32;
+var ptr_X: [*]f32 = &X;
+var SCALE1: [H]f32;
+var ptr_SCALE1: [*]f32 = &SCALE1;
+var WG: [F*H]f32;
+var ptr_WG: [*]f32 = &WG;
+var WU: [F*H]f32;
+var ptr_WU: [*]f32 = &WU;
+var WD: [H*F]f32;
+var ptr_WD: [*]f32 = &WD;
+var Y: [T*H]f32;
+const ptr_Y: [*]f32 = &Y;
+var begin = @zeros([3]u16);
+var end = @zeros([3]u16);
+var times = @zeros([6]u16);
+const ptr_times: [*]u16 = &times;
+
+// Pack one small weight block, reuse it across all resident independent frames.
+const B: i16 = 8;
+comptime { @comptime_assert(T > 0); @comptime_assert(F % (T*B) == 0); }
+var norms: [T*H]f32;
+var gate: [T*B]f32;
+var up: [T*B]f32;
+var hidden: [T*B]f32;
+var weight_tile: [H*B]f32;
+var all_x = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{T*H} -> X[i] });
+var all_y = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{T*H} -> Y[i] });
+var x_frame = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> X[i] });
+var norm_frame = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> norms[i] });
+var scale_frame = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> SCALE1[i] });
+var y_frame = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> Y[i] });
+var projection_source = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> WG[i] });
+var projection_scatter = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> weight_tile[i*B] });
+var packed_projection_row = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{B} -> weight_tile[i] });
+var block_destination = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{B} -> gate[i] });
+var gate_all = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{T*B} -> gate[i] });
+var up_all = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{T*B} -> up[i] });
+var hidden_all = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{T*B} -> hidden[i] });
+var down_source = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{B} -> WD[i] });
+var down_scatter = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{B} -> weight_tile[i*H] });
+var packed_down_row = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> weight_tile[i] });
+
+fn prepare_inputs() void {
+    @fmovs(all_y, all_x);
+    var frame: i16 = 0;
+    while (frame < T) : (frame += 1) {
+        var ss: f32 = 0.0;
+        var i: i16 = 0;
+        while (i < H) : (i += 1) { ss += X[frame*H+i] * X[frame*H+i]; }
+        const inv: f32 = 1.0 / math.sqrt(ss / @as(f32, H) + 0.00001);
+        var input = @increment_dsd_offset(x_frame, frame*H, f32);
+        var output = @increment_dsd_offset(norm_frame, frame*H, f32);
+        @fmuls(output, input, inv);
+        @fmuls(output, output, scale_frame);
+    }
+}
+
+fn pack_projection(weights: [*]f32, first: i16) void {
+    var source = @set_dsd_base_addr(projection_source, weights);
+    var b: i16 = 0;
+    while (b < B) : (b += 1) {
+        var input = @increment_dsd_offset(source, (first+b)*H, f32);
+        var output = @increment_dsd_offset(projection_scatter, b, f32);
+        @fmovs(output, input);
+    }
+}
+
+fn project(destination: [*]f32) void {
+    var output_base = @set_dsd_base_addr(block_destination, destination);
+    var i: i16 = 0;
+    while (i < H) : (i += 1) {
+        var weights = @increment_dsd_offset(packed_projection_row, i*B, f32);
+        var frame: i16 = 0;
+        while (frame < T) : (frame += 1) {
+            var output = @increment_dsd_offset(output_base, frame*B, f32);
+            @fmacs(output, output, weights, norms[frame*H+i]);
+        }
+    }
+}
+
+fn swiglu(g: f32, u: f32) f32 {
+    return (g / (1.0 + math.exp(-g))) * u;
+}
+
+fn pack_down(first: i16) void {
+    var i: i16 = 0;
+    while (i < H) : (i += 1) {
+        var input = @increment_dsd_offset(down_source, i*F+first, f32);
+        var output = @increment_dsd_offset(down_scatter, i, f32);
+        @fmovs(output, input);
+    }
+}
+
+fn down_projection() void {
+    var b: i16 = 0;
+    while (b < B) : (b += 1) {
+        var weights = @increment_dsd_offset(packed_down_row, b*H, f32);
+        var frame: i16 = 0;
+        while (frame < T) : (frame += 1) {
+            var output = @increment_dsd_offset(y_frame, frame*H, f32);
+            @fmacs(output, output, weights, hidden[frame*B+b]);
+        }
+    }
+}
+
+// Each protected-loop call handles disjoint neuron blocks for the full batch.
+// All T calls do work. Every frame and projection term is computed inside compute.
+fn token(phase: i16) void {
+    if (phase == 0) { prepare_inputs(); }
+    var first: i16 = phase * (F/T);
+    const last: i16 = (phase+1) * (F/T);
+    while (first < last) : (first += B) {
+        @fmovs(gate_all, 0.0);
+        @fmovs(up_all, 0.0);
+        pack_projection(&WG, first);
+        project(&gate);
+        pack_projection(&WU, first);
+        project(&up);
+        @map(swiglu, gate_all, up_all, hidden_all);
+        pack_down(first);
+        down_projection();
+    }
+}
+
+fn compute() void {
+    clock.enable_tsc();
+    clock.get_timestamp(&begin);
+    var frame: i16 = 0;
+    while (frame < T) : (frame += 1) {
+        token(frame);
+    }
+    clock.get_timestamp(&end);
+    clock.disable_tsc();
+    for (@range(i16, 3)) |i| { times[i] = begin[i]; times[i+3] = end[i]; }
+    sys.unblock_cmd_stream();
+}
+
+comptime {
+    @export_symbol(ptr_X, "X");
+    @export_symbol(ptr_SCALE1, "SCALE1");
+    @export_symbol(ptr_WG, "WG");
+    @export_symbol(ptr_WU, "WU");
+    @export_symbol(ptr_WD, "WD");
+    @export_symbol(ptr_Y, "Y");
+    @export_symbol(ptr_times, "times");
+    @export_symbol(compute);
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "gated-mlp.h16-f32",
+      "adapter": "gated_mlp",
+      "family": "resident-gated-mlp",
+      "dimensions": {
+        "H": 16,
+        "F": 32,
+        "T": 4
+      },
+      "pe_grid": [
+        1,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_transformer_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 12288,
+      "work_unit": "projection_and_attention_arithmetic_operations",
+      "description": "Complete RMSNorm SwiGLU MLP with residual, four distinct frames.",
+      "timeout_seconds": 1200,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "complete four-frame sequence including all output and state stores"
+      }
+    },
+    {
+      "id": "gated-mlp.h32-f64",
+      "adapter": "gated_mlp",
+      "family": "resident-gated-mlp",
+      "dimensions": {
+        "H": 32,
+        "F": 64,
+        "T": 4
+      },
+      "pe_grid": [
+        1,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_transformer_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 49152,
+      "work_unit": "projection_and_attention_arithmetic_operations",
+      "description": "Complete RMSNorm SwiGLU MLP with residual, four distinct frames.",
+      "timeout_seconds": 1200,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "complete four-frame sequence including all output and state stores"
+      }
+    }
+  ]
+}

@@ -49,7 +49,10 @@ def save_case(out, case, arrays, error, bound, raw_timer, repeats, seed):
     np.savez_compressed(
         artifact, **arrays, timer_u32=np.asarray(raw_timer).view(np.uint32), error_bound=bound
     )
-    passed = bool(np.isfinite(arrays["actual"]).all() and np.all(error <= bound))
+    exact_state_match = bool(arrays.get("exact_state_match", True))
+    passed = bool(
+        np.isfinite(arrays["actual"]).all() and np.all(error <= bound) and exact_state_match
+    )
     report = {
         "case": case,
         "seed": seed,
@@ -60,10 +63,12 @@ def save_case(out, case, arrays, error, bound, raw_timer, repeats, seed):
         "artifact_sha256": hashlib.sha256(artifact.read_bytes()).hexdigest(),
         "metrics": timing(raw_timer, repeats),
     }
+    if "exact_state_match" in arrays:
+        report["exact_state_match"] = exact_state_match
     (Path(out) / f"case-{case}.json").write_text(
         json.dumps(report, indent=2, allow_nan=False) + "\n"
     )
     if not passed:
-        raise AssertionError(f"{case}: output violates fixed forward-error bound; evidence saved")
+        raise AssertionError(f"{case}: output violates fixed numerical bound; evidence saved")
     print(f"PASS {case}: {report['metrics']}", flush=True)
     return report

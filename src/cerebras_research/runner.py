@@ -129,7 +129,11 @@ def execute(
                 else "reference_validated"
             )
         else:
-            driver = "benchmark_pipeline.py" if kind == "pipeline" else "dense.py"
+            driver = {
+                "pipeline": "benchmark_pipeline.py",
+                "gated_mlp": "resident.py",
+                "decoder": "resident.py",
+            }.get(kind, "dense.py")
             for case in CASES[:1] if screen else CASES:
                 args = ["cs_python", driver, "--name", "out", "--case", case, "--seed", str(seed)]
                 if kind != "pipeline":
@@ -150,11 +154,15 @@ def execute(
             )
             record["validation"] = {
                 "oracle": "FP64 on exactly quantized inputs",
-                "contract": "fixed_forward_error_v2",
+                "contract": profile.get("oracle_contract", "fixed_forward_error_v2"),
                 "cases": [c["case"] for c in record["cases"]],
                 "fresh_process_per_case": True,
             }
             record["status"] = "screen_passed" if screen else "validated"
+            if kind in ("gated_mlp", "decoder"):
+                record["metrics"][
+                    "cycles_per_frame" if kind == "gated_mlp" else "cycles_per_token"
+                ] = record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
         step(["cs_python", "memory.py", "out"])
         record["memory"] = json.loads((work / "out/memory.json").read_text())
         observed = {(row["x"], row["y"]) for row in record["memory"]["observations"]}

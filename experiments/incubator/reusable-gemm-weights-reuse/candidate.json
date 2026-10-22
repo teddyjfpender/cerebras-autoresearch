@@ -1,0 +1,12 @@
+{
+  "status": "incubator_not_registered_or_measured",
+  "adapter": "reusable_gemm",
+  "initial_profile": "reusable-gemm.tiny-sequence",
+  "baseline_tree_sha256": "6dd5fb4dc6166154b910a10554dc98778c9e77991d2df8a44ec61bc76514c8ac",
+  "shape_specific": false,
+  "starting_variant": "baseline",
+  "approach": "reusable-gemm-weights-reuse",
+  "hypothesis": "Preserve canonical W0 across complete P-step cycles and omit buffers overwritten before first read.",
+  "falsification": "Reject any output, per-frame working-weight or canonical-input bit failure, less than 1.05x cycle speedup, more than 1.10x memory growth or failed fresh paired confirmation.",
+  "agent_harness": "Codex"
+}

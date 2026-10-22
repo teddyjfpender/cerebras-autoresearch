@@ -1,0 +1,15 @@
+--- a/src/cerebras_research/runner.py
++++ b/src/cerebras_research/runner.py
+@@ -85,10 +85,8 @@
+             status="running",
+         )
+         record["harness_files"] = {
+-            "benchmark_" + p.name if p.name == "pipeline.py" else p.name: digest(
+-                work / ("benchmark_" + p.name if p.name == "pipeline.py" else p.name)
+-            )
+-            for p in (ROOT / "benchmarks/drivers").glob("*.py")
++            str(path.relative_to(work)): digest(path)
++            for path in sorted(work.rglob("*.py"))
+         }
+         record["harness_sha256"] = identity(record["harness_files"])
+         record["compile_command"] = compile_args

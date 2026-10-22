@@ -1,0 +1,14 @@
+{
+  "adapter": "gated_mlp",
+  "initial_profile": "gated-mlp.h16-f32",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "gated-mlp.batched-blocked-weight-packing",
+  "hypothesis": "The profile supplies all T independent frames before one timed launch. Pack B=8 output-neuron weight blocks into a shared H*B FP32 scratch tile, reuse each packed gate/up/down block across all frames, and cover disjoint neuron blocks in every protected-loop call. Compute all RMSNorm, SDK-exp SiLU, residuals and every projection term inside the timer. Keep X, scale and weights read-only; no previous-output caching. This aims to amortize packing and replace long strided FMA streams with contiguous vectors.",
+  "falsification": "Reject compile/shutdown failures, any full six-case frame error, mutation of source weights, skipped projection terms or calls, work outside the protected timer, altered FP32/PE contract, speedup under 1.05x, memory growth over 1.10x, or failed fresh pairing. Compare with the fastest confirmed incumbent, and keep a faster incumbent. This independent-frame batch optimization supplies no sequential-decoder or model-TPS claim.",
+  "agent_harness": "Codex"
+}

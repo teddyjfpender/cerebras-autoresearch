@@ -36,24 +36,34 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 | `sdk.spmv7` | sparse-stencil | fp32 | upstream_reference | upstream_cycles |
 | `sdk.game-of-life` | spatial | integer | upstream_reference | correctness only |
 
+| `gated-mlp.h16-f32` | resident-gated-mlp | fp32 | independent_six_case | max_local_cycles |
+| `gated-mlp.h32-f64` | resident-gated-mlp | fp32 | independent_six_case | max_local_cycles |
+| `decoder.h16-f32-ctx4` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
+| `decoder.h16-f32-ctx12` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
+
 ## Suites
 
 | Suite | Profiles | Purpose |
 | --- | ---: | --- |
-| `all` | 30 | Every configured profile; potentially slow under emulation |
+| `all` | 34 | Every configured profile; potentially slow under emulation |
 | `communication` | 4 | Broadcast and emulated host transfers |
 | `dense` | 11 | Dense inference primitives |
 | `fusion` | 3 | Independent composed chains; staged/fused suite comparison |
 | `gemm` | 5 | Five cold GEMM shapes |
 | `gemv` | 6 | Six GEMV shapes |
-| `qualification` | 20 | Representative independent oracles and every SDK profile |
+| `qualification` | 24 | Representative independent oracles and every SDK profile |
 | `regression` | 5 | Fixed dense/composed cross-shape guard set |
 | `sdk` | 16 | All pinned SDK reference/diagnostic profiles |
+| `prefill-ffn` | 2 | Larger cold FFN up/down GEMM projections |
+| `decode-ffn` | 2 | Medium FFN up/down GEMV projections |
+| `gated-mlp` | 2 | Complete RMSNorm/SwiGLU/residual at two widths |
+| `decoder` | 2 | Stateful causal decoder layer at two initial contexts |
+| `inference-blocks` | 8 | All four inference challenge tracks |
 | `smoke` | 4 | Quick positive-input screens; no retention |
 
 ## Validation tiers
 
-- **Independent:** six families (positive, signed, zero, cancellation, one-hot, mixed scales), fixed forward-error bound against FP64 of quantized inputs, full output collection. Automatic promotion supported.
+- **Independent:** six families (positive, signed, zero, cancellation, one-hot, mixed scales), fixed numerical contracts against FP64 of quantized inputs (analytic forward-error bounds for linear chains; fixed end-to-end tolerances for nonlinear resident blocks), full output collection. Automatic promotion supported.
 - **Upstream reference:** pinned original CPU oracle and assertions, with raw D2H captures. Useful baselines and regressions; independent adversarial promotion is not supported yet.
 - **Diagnostic:** H2D/D2H timing only; no numerical-kernel performance claim.
 
@@ -66,3 +76,6 @@ Add profile data in a nested family manifest, register it in `manifests/catalog.
 and include appropriate suite members. Read the [architecture guide](../development/architecture.md).
 Use `python3 research.py list --suite NAME --json` to inspect exact resolved commands,
 timing protocols, dimensions, PE budgets, and units.
+
+See [complete inference block contracts](inference-blocks.md) for equations,
+state coverage, precision, timing, work counts and qualification commands.

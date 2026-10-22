@@ -8,6 +8,8 @@ file; numerical/timing drivers and promotion gates come from the core runner.
 import argparse
 import json
 import math
+import os
+import signal
 import sys
 import time
 from pathlib import Path
@@ -30,6 +32,47 @@ def evaluator_identity():
     return identity({str(path.relative_to(ROOT)): digest(path) for path in paths})
 
 
+def worker_identity(pid=None, proc_root=Path("/proc")):
+    """Identify one Linux process without confusing a reused PID with the worker."""
+    pid = os.getpid() if pid is None else pid
+    try:
+        boot = (proc_root / "sys/kernel/random/boot_id").read_text().strip()
+        fields = (proc_root / str(pid) / "stat").read_text().rpartition(") ")[2].split()
+        if not boot:
+            return None
+        return {"pid": pid, "uid": os.getuid(), "boot_id": boot, "start_ticks": int(fields[19])}
+    except (OSError, ValueError, IndexError):
+        return None
+
+
+def worker_liveness(worker, proc_root=Path("/proc")):
+    """A missing checkpoint identity or another environment is not a stopped job."""
+    if not isinstance(worker, dict) or not worker:
+        return {"state": "unknown", "reason": "checkpoint has no worker process identity"}
+    if worker.get("uid") != os.getuid():
+        return {"state": "unknown", "reason": "reader is not the saved worker's user"}
+    try:
+        boot = (proc_root / "sys/kernel/random/boot_id").read_text().strip()
+    except OSError:
+        return {"state": "unknown", "reason": "Linux process metadata unavailable here"}
+    if not boot or boot != worker.get("boot_id"):
+        return {"state": "unknown", "reason": "reader is outside the worker's boot environment"}
+    pid = worker.get("pid")
+    if type(pid) is not int or pid <= 0:
+        return {"state": "unknown", "reason": "invalid saved worker PID"}
+    try:
+        fields = (proc_root / str(pid) / "stat").read_text().rpartition(") ")[2].split()
+        if int(fields[19]) != worker.get("start_ticks"):
+            return {"state": "not_running", "reason": "saved worker PID has been reused"}
+        if fields[0] in ("Z", "X", "x"):
+            return {"state": "not_running", "reason": "saved worker has exited"}
+    except FileNotFoundError:
+        return {"state": "not_running", "reason": "saved worker process no longer exists"}
+    except (OSError, ValueError, IndexError):
+        return {"state": "unknown", "reason": "could not inspect saved worker process"}
+    return {"state": "alive", "reason": "matching PID, boot and process start time observed"}
+
+
 def campaign(plan_path, state_path, max_seconds, retry_failed=False):
     plan = json.loads(plan_path.read_text())
     if plan.get("schema_version") != 1 or not plan.get("cells"):
@@ -48,6 +91,16 @@ def campaign(plan_path, state_path, max_seconds, retry_failed=False):
         "evaluator_sha256": evaluator_identity(),
         "candidate_identities": candidates,
     }
+    prior = None
+    if plan.get("fresh_baselines_from_campaign"):
+        prior_path = contained(ROOT, plan["fresh_baselines_from_campaign"])
+        prior = json.loads(prior_path.read_text())
+        if (
+            prior["status"] != "completed"
+            or prior["evaluator_sha256"] != frozen["evaluator_sha256"]
+        ):
+            raise ValueError("Fresh-baseline cache needs a completed matching evaluator campaign")
+        frozen["fresh_baseline_campaign_sha256"] = digest(prior_path)
     state = (
         json.loads(state_path.read_text())
         if state_path.exists()
@@ -140,6 +193,10 @@ def campaign(plan_path, state_path, max_seconds, retry_failed=False):
                 raise
             path = created.pop()
             remember(key, path)
+            if data(path)["status"] not in ("failed", "cancelled"):
+                # A successful SDK receipt plus an exception can indicate a
+                # journal failure. Stop; recover the ledger before resuming.
+                raise
             print(f"ATTEMPT FAILED: {error}", flush=True)
             return path
         remember(key, path)
@@ -152,6 +209,7 @@ def campaign(plan_path, state_path, max_seconds, retry_failed=False):
         return state["decisions"][key]
 
     seed = plan["seed"]
+    state["worker"] = worker_identity()
     state["status"] = "running"
     state.pop("error", None)
     save()
@@ -231,7 +289,45 @@ def campaign(plan_path, state_path, max_seconds, retry_failed=False):
                 )
                 if not initial["eligible"]:
                     continue
-                fresh_base = run(profile, baseline_spec, seed + 1)
+                fresh_import = cell.get("fresh_baseline_receipt")
+                if not fresh_import and prior:
+                    fresh_import = prior["runs"].get(f"{profile['id']}/baseline/{seed + 1}/full")
+                if fresh_import:
+                    fresh_base = contained(ROOT, fresh_import["path"])
+                    if digest(fresh_base) != fresh_import["sha256"]:
+                        raise ValueError("Imported fresh baseline receipt changed")
+                    fresh = load_validated(fresh_base)
+                    if (
+                        fresh["seed"] != seed + 1
+                        or any(
+                            fresh[key] != baseline[key]
+                            for key in (
+                                "profile_sha256",
+                                "profile",
+                                "variant",
+                                "source_sha256",
+                                "compile_command",
+                                "harness_sha256",
+                                "sdk",
+                                "architecture",
+                                "simulator_threads",
+                                "baseline_tree_sha256",
+                                "validation",
+                            )
+                        )
+                        or fresh.get("provenance", {}).get("evaluator_sha256")
+                        != frozen["evaluator_sha256"]
+                    ):
+                        raise ValueError("Imported fresh baseline is not matched")
+                    key = f"{profile['id']}/baseline/{seed + 1}/full"
+                    pointer = dict(
+                        path=str(fresh_base.relative_to(ROOT)), sha256=digest(fresh_base)
+                    )
+                    state["runs"][key] = pointer
+                    state.setdefault("imports", {})[key] = pointer
+                    save()
+                else:
+                    fresh_base = run(profile, baseline_spec, seed + 1)
                 fresh_candidate = run(profile, spec, seed + 1)
                 if any(
                     data(path)["status"] != "validated" for path in (fresh_base, fresh_candidate)
@@ -294,7 +390,7 @@ def campaign(plan_path, state_path, max_seconds, retry_failed=False):
 
 
 def status(plan_path, state_path):
-    """Read atomic checkpoints without claiming a process is still alive."""
+    """Read atomic checkpoints and report worker liveness separately."""
     plan = json.loads(plan_path.read_text())
     state = json.loads(state_path.read_text())
     cells = []
@@ -314,11 +410,19 @@ def status(plan_path, state_path):
         "attempts": len(state["attempts"]),
         "cells": cells,
         "error": state.get("error"),
-        "scope": "checkpoint summary, not a process-liveness check",
+        "worker_liveness": worker_liveness(state.get("worker")),
+        "scope": "checkpoint state and point-in-time worker observation; neither predicts completion",
     }
 
 
+def install_signal_handlers():
+    """nohup/background shells may leave SIGINT ignored; preserve cancellation."""
+    for signum in (signal.SIGINT, signal.SIGTERM):
+        signal.signal(signum, signal.default_int_handler)
+
+
 def main():
+    install_signal_handlers()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("plan", type=Path)
     parser.add_argument("--state", required=True, type=Path)

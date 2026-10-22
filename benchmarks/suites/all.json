@@ -30,6 +30,10 @@
     "sdk.broadcast-row",
     "sdk.broadcast-column",
     "sdk.memcpy-h2d",
-    "sdk.memcpy-d2h"
+    "sdk.memcpy-d2h",
+    "gated-mlp.h16-f32",
+    "gated-mlp.h32-f64",
+    "decoder.h16-f32-ctx4",
+    "decoder.h16-f32-ctx12"
   ]
 }

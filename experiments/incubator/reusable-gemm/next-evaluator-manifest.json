@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "live_evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+  "next_evaluator_sha256": "315443cd2ad3f1f2fadba98d225e8cae57e9bb27e5d7272d22f72f1318c338d0",
+  "files": [
+    {
+      "path": "src/cerebras_research/adapters.py",
+      "before": "e19982eded019d9bd67cc2a17b930e5244cb952adc45283333b612d4e5899d78",
+      "after": "5dfb3973b72dc8a2fa12006eb9462e9d006ffbb188258b406ca2a39913dd8a47"
+    },
+    {
+      "path": "src/cerebras_research/catalog.py",
+      "before": "1dc10f6feb58bc46adabf807b12d9aa9e58fb90fd5494d8daea71658d197752b",
+      "after": "7f6332822fd5c5ef84b562b3979a103a87ed8f79747da4a91e9aa4465c1eae1c"
+    },
+    {
+      "path": "src/cerebras_research/ledger.py",
+      "before": "f5d8f37222b8350d69df848f5ebbe5b3271fa5b5d174bb101a39e4a89b781c76",
+      "after": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e"
+    },
+    {
+      "path": "src/cerebras_research/runner.py",
+      "before": "1a5c43eb74d375f021ff665ac31bccd05e7fa9935a164cf27acc823e23538745",
+      "after": "22be74e8bc0b98d4ca959c1c919047e958599ca079387e989e07a0d3eddbf56c"
+    },
+    {
+      "path": "benchmarks/drivers/reusable_gemm.py",
+      "before": null,
+      "after": "a4e13a1857919c2f4a4bfd6e70f6526302c3c3c7b3c90d3c9e511ed62f9c3403"
+    },
+    {
+      "path": "benchmarks/drivers/reusable_gemm_oracle.py",
+      "before": null,
+      "after": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217"
+    },
+    {
+      "path": "benchmarks/manifests/catalog.json",
+      "before": "c61ccb4920336ada7a6548d8a1a838635a67712a5984395d63a59d3b46d0bd8a",
+      "after": "939ec04bb90e09b4ebca14c1fe86e41f4f917bd274ae937f2c82d6e1f04bebfe"
+    },
+    {
+      "path": "benchmarks/manifests/dense/reusable-gemm.json",
+      "before": null,
+      "after": "e310838d68187b442086b6f602c76db376e5c7d4a44b6320cc8ea10d190e15ce"
+    },
+    {
+      "path": "benchmarks/suites/all.json",
+      "before": "11a3d2cb9b49b2ff4edcae3ef0d02011e74cbb7de3bf353bccb2c4373d5c20d3",
+      "after": "01bb286030fa150b1070411cb79adb2771170ffa496eabb4102a718e1b92ffc6"
+    },
+    {
+      "path": "benchmarks/suites/qualification.json",
+      "before": "e424d521a707ca74a8759fca8f099949b2798b2baf8846a275a4e037bf870815",
+      "after": "64986807d1f81de0842d9df2b9ba57b800aa02b62a7e8f2d3d4e95aca37eb231"
+    },
+    {
+      "path": "benchmarks/suites/reusable-gemm.json",
+      "before": null,
+      "after": "083f149a07f3e327c0669300fb9bfa8cea5fed2db2b31c7a8f3fadaddf2158b5"
+    },
+    {
+      "path": "kernels/dense/reusable-gemm/LICENSE.upstream",
+      "before": null,
+      "after": "97038949ed441253e13c970a411f4aa821826ddf45502ddf31cc183b88024ede"
+    },
+    {
+      "path": "kernels/dense/reusable-gemm/README.md",
+      "before": null,
+      "after": "5e8393a62fae09dc5f55fff98666d91638913ad15e5767835bd5870a99410c0d"
+    },
+    {
+      "path": "kernels/dense/reusable-gemm/src/comm_lib/comm_layout.csl",
+      "before": null,
+      "after": "89b0c5509a4a7816cfd090753ee31012bb37e0e6e56760b6dacbf5697788b58d"
+    },
+    {
+      "path": "kernels/dense/reusable-gemm/src/comm_lib/comm_pe.csl",
+      "before": null,
+      "after": "531aab930992daaf15e2b6ff17fbe2a276d0b61bf3eb1fe251cefac581a9fe3a"
+    },
+    {
+      "path": "kernels/dense/reusable-gemm/src/layout.csl",
+      "before": null,
+      "after": "324a9d2c91088a1b989f29b8a2b99aeeae436ecca5b313e56534a75c6b647163"
+    },
+    {
+      "path": "kernels/dense/reusable-gemm/src/meshgemm.csl",
+      "before": null,
+      "after": "7c6ebcf55239218547a59732ab74a8a38e6a222995924cdf99a6e09e3f38d244"
+    },
+    {
+      "path": "tests/integration/check_replay_contracts.py",
+      "before": "f988ba3ccd511b3e6535d722533be06995014b3829b215e6a2b5096e0c02577f",
+      "after": "ffecf58099ceed40069841459d1d830fdf70c646793613f9fee209f381d35afb"
+    },
+    {
+      "path": "tests/integration/check_reusable_gemm_contracts.py",
+      "before": null,
+      "after": "3d87a613b178354c20ac25b4e8a3b3867a0d4cfb1d1f12e4f2a210b11680566e"
+    },
+    {
+      "path": "tests/unit/test_failed_steps.py",
+      "before": null,
+      "after": "e51ad78545bbb173a2bba4d0fee8f731265bcea477ed86899e030c01bfbcaa01"
+    },
+    {
+      "path": "tests/unit/test_ledger.py",
+      "before": "bd38c91f9764ea5d8d9635b14c44cbee188dda7832ba69475a2c80a67e4624b9",
+      "after": "7d22fec10abb1a7cd77fcc936090aeb58e390f65a1b6e8a113775852304616a1"
+    },
+    {
+      "path": "tests/unit/test_materialized_python.py",
+      "before": null,
+      "after": "966c753d075fafa08807f50f0e26ec47352b023da8fd2eec27ec68b3693dfe04"
+    },
+    {
+      "path": "tests/unit/test_recovery.py",
+      "before": null,
+      "after": "11b9ae17f5bc9afd05d85b6626e778cfeedb880b610334af10c5a347272df3d5"
+    },
+    {
+      "path": "tests/unit/test_reusable_gemm_contract.py",
+      "before": null,
+      "after": "09a8822ada0925e33f06fb27ad329820dc32083cea5994fc04be22694f4da776"
+    },
+    {
+      "path": "tools/replay_numerics.py",
+      "before": "0c4869dbdb724bf0aad6f608a980d85bdb877ca4506c1d953261c2171e5f35a5",
+      "after": "1b9e3924669d227f58703b838f9221d60684d43cdca85569bb21607f179dd80e"
+    },
+    {
+      "path": "Makefile",
+      "before": "c41fb9e09ff26a5edec8ba7b2d135f61fbba92a663d37243fc4ea34635958d8e",
+      "after": "013ac6a39952c02d1fd05e7c8979e76542194a95891536ecfe800e1f561c864b"
+    }
+  ]
+}

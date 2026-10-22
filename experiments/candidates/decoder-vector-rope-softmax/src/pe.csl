@@ -1,0 +1,235 @@
+// Independent scalar baseline; candidate work belongs in experiments/candidates.
+param memcpy_params;
+param H: i16;
+param F: i16;
+param T: i16;
+param C: i16;
+param L: i16;
+param A: i16;
+const sys = @import_module("<memcpy/memcpy>", memcpy_params);
+const clock = @import_module("<time>");
+const math = @import_module("<math>");
+var X: [T*H]f32;
+var ptr_X: [*]f32 = &X;
+var SCALE1: [H]f32;
+var ptr_SCALE1: [*]f32 = &SCALE1;
+var WG: [F*H]f32;
+var ptr_WG: [*]f32 = &WG;
+var WU: [F*H]f32;
+var ptr_WU: [*]f32 = &WU;
+var WD: [H*F]f32;
+var ptr_WD: [*]f32 = &WD;
+var SCALE2: [H]f32;
+var ptr_SCALE2: [*]f32 = &SCALE2;
+var WQ: [H*H]f32;
+var ptr_WQ: [*]f32 = &WQ;
+var WK: [H*H]f32;
+var ptr_WK: [*]f32 = &WK;
+var WV: [H*H]f32;
+var ptr_WV: [*]f32 = &WV;
+var WO: [H*H]f32;
+var ptr_WO: [*]f32 = &WO;
+var CACHE: [2*C*H]f32;
+var ptr_CACHE: [*]f32 = &CACHE;
+var Y: [T*H]f32;
+const ptr_Y: [*]f32 = &Y;
+var HISTORY: [T*2*C*H]f32;
+const ptr_HISTORY: [*]f32 = &HISTORY;
+var norm: [H]f32;
+var gate: [F]f32;
+var up: [F]f32;
+var hidden: [F]f32;
+var residual: [H]f32;
+var begin = @zeros([3]u16);
+var end = @zeros([3]u16);
+var times = @zeros([6]u16);
+const ptr_times: [*]u16 = &times;
+
+fn rmsnorm(input: [*]f32, scale: [*]f32) void {
+    var ss: f32 = 0.0;
+    var i: i16 = 0;
+    while (i < H) : (i += 1) { ss += input[i] * input[i]; }
+    const inv: f32 = 1.0 / math.sqrt(ss / @as(f32, H) + 0.00001);
+    i = 0;
+    while (i < H) : (i += 1) { norm[i] = input[i] * inv * scale[i]; }
+}
+
+
+// Vector accumulators preserve all projections and nonlinear/state work.
+var gate_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{F} -> gate[i] });
+var up_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{F} -> up[i] });
+var wg_column = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{F} -> WG[i*H] });
+var wu_column = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{F} -> WU[i*H] });
+var wd_column = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> WD[i*F] });
+var residual_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> residual[i] });
+var output_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> Y[i] });
+
+fn mlp(frame: i16) void {
+    @fmovs(gate_dsd, 0.0);
+    @fmovs(up_dsd, 0.0);
+    var gw = @set_dsd_base_addr(wg_column, &WG);
+    var uw = @set_dsd_base_addr(wu_column, &WU);
+    var i: i16 = 0;
+    while (i < H) : (i += 1) {
+        @fmacs(gate_dsd, gate_dsd, gw, norm[i]);
+        @fmacs(up_dsd, up_dsd, uw, norm[i]);
+        gw = @increment_dsd_offset(gw, 1, f32);
+        uw = @increment_dsd_offset(uw, 1, f32);
+    }
+    var j: i16 = 0;
+    while (j < F) : (j += 1) {
+        hidden[j] = (gate[j] / (1.0 + math.exp(-gate[j]))) * up[j];
+    }
+    var output = @increment_dsd_offset(output_dsd, frame*H, f32);
+    @fmovs(output, residual_dsd);
+    var dw = @set_dsd_base_addr(wd_column, &WD);
+    j = 0;
+    while (j < F) : (j += 1) {
+        @fmacs(output, output, dw, hidden[j]);
+        dw = @increment_dsd_offset(dw, 1, f32);
+    }
+}
+var query: [H]f32;
+var key: [H]f32;
+var value: [H]f32;
+var context: [H]f32;
+var scores: [C]f32;
+const D: i16 = H / A;
+const rope_freq8 = [4]f32{1.0, 0.1, 0.01, 0.001};
+
+var query_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> query[i] });
+var WQ_column = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> WQ[i*H] });
+var key_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> key[i] });
+var WK_column = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> WK[i*H] });
+var value_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> value[i] });
+var WV_column = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> WV[i*H] });
+var context_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> context[i] });
+var wo_column = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> WO[i*H] });
+var input_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> X[i] });
+
+fn attention(frame: i16) void {
+    @fmovs(query_dsd, 0.0);
+    @fmovs(key_dsd, 0.0);
+    @fmovs(value_dsd, 0.0);
+    var qw = @set_dsd_base_addr(WQ_column, &WQ);
+    var kw = @set_dsd_base_addr(WK_column, &WK);
+    var vw = @set_dsd_base_addr(WV_column, &WV);
+    var i: i16 = 0;
+    while (i < H) : (i += 1) {
+        @fmacs(query_dsd, query_dsd, qw, norm[i]);
+        @fmacs(key_dsd, key_dsd, kw, norm[i]);
+        @fmacs(value_dsd, value_dsd, vw, norm[i]);
+        qw = @increment_dsd_offset(qw, 1, f32);
+        kw = @increment_dsd_offset(kw, 1, f32);
+        vw = @increment_dsd_offset(vw, 1, f32);
+    }
+    const position: i16 = L + frame;
+    var head: i16 = 0;
+    while (head < A) : (head += 1) {
+        i = 0;
+        while (i < D) : (i += 2) {
+            const angle: f32 = if (D == 8)
+                @as(f32, position) * rope_freq8[i/2]
+                else @as(f32, position) / math.pow(@as(f32, 10000.0), @as(f32, i) / @as(f32, D));
+            const co: f32 = math.cos(angle);
+            const si: f32 = math.sin(angle);
+            const index: i16 = head*D+i;
+            const q0: f32 = query[index];
+            const k0: f32 = key[index];
+            query[index] = q0*co - query[index+1]*si;
+            query[index+1] = q0*si + query[index+1]*co;
+            key[index] = k0*co - key[index+1]*si;
+            key[index+1] = k0*si + key[index+1]*co;
+        }
+    }
+    i = 0;
+    while (i < H) : (i += 1) {
+        CACHE[position*H+i] = key[i];
+        CACHE[C*H+position*H+i] = value[i];
+    }
+    head = 0;
+    while (head < A) : (head += 1) {
+        var maximum: f32 = -3.4e38;
+        var s: i16 = 0;
+        while (s <= position) : (s += 1) {
+            var dot: f32 = 0.0;
+            i = 0;
+            while (i < D) : (i += 1) {
+                dot += query[head*D+i] * CACHE[s*H+head*D+i];
+            }
+            scores[s] = dot / math.sqrt(@as(f32, D));
+            if (scores[s] > maximum) { maximum = scores[s]; }
+        }
+        var denominator: f32 = 0.0;
+        s = 0;
+        while (s <= position) : (s += 1) {
+            scores[s] = math.exp(scores[s] - maximum);
+            denominator += scores[s];
+        }
+        s = 0;
+        while (s <= position) : (s += 1) { scores[s] = scores[s] / denominator; }
+        i = 0;
+        while (i < D) : (i += 1) {
+            var v: f32 = 0.0;
+            s = 0;
+            while (s <= position) : (s += 1) {
+                v += scores[s] * CACHE[C*H+s*H+head*D+i];
+            }
+            context[head*D+i] = v;
+        }
+    }
+    var xframe = @increment_dsd_offset(input_dsd, frame*H, f32);
+    @fmovs(residual_dsd, xframe);
+    var ow = @set_dsd_base_addr(wo_column, &WO);
+    i = 0;
+    while (i < H) : (i += 1) {
+        @fmacs(residual_dsd, residual_dsd, ow, context[i]);
+        ow = @increment_dsd_offset(ow, 1, f32);
+    }
+}
+
+fn token(frame: i16) void {
+    rmsnorm(@ptrcast([*]f32, &X[frame*H]), &SCALE1);
+    attention(frame);
+    rmsnorm(&residual, &SCALE2);
+    mlp(frame);
+}
+
+// Protected: snapshot every cache slot after every token, including unused slots.
+fn snapshot(frame: i16) void {
+    var i: i16 = 0;
+    while (i < 2*C*H) : (i += 1) { HISTORY[frame*2*C*H+i] = CACHE[i]; }
+}
+
+// Protected: all frames/tokens and output/state stores are inside the timer.
+fn compute() void {
+    clock.enable_tsc();
+    clock.get_timestamp(&begin);
+    var frame: i16 = 0;
+    while (frame < T) : (frame += 1) {
+        token(frame);
+        snapshot(frame);
+    }
+    clock.get_timestamp(&end);
+    clock.disable_tsc();
+    for (@range(i16, 3)) |i| { times[i] = begin[i]; times[i+3] = end[i]; }
+    sys.unblock_cmd_stream();
+}
+
+comptime {
+    @export_symbol(ptr_X, "X");
+    @export_symbol(ptr_SCALE1, "SCALE1");
+    @export_symbol(ptr_WG, "WG");
+    @export_symbol(ptr_WU, "WU");
+    @export_symbol(ptr_WD, "WD");
+    @export_symbol(ptr_SCALE2, "SCALE2");
+    @export_symbol(ptr_WQ, "WQ");
+    @export_symbol(ptr_WK, "WK");
+    @export_symbol(ptr_WV, "WV");
+    @export_symbol(ptr_WO, "WO");
+    @export_symbol(ptr_CACHE, "CACHE");
+    @export_symbol(ptr_Y, "Y");
+    @export_symbol(ptr_HISTORY, "HISTORY");
+    @export_symbol(ptr_times, "times");
+    @export_symbol(compute);
+}

@@ -1,0 +1,14 @@
+{
+  "adapter": "decoder",
+  "initial_profile": "decoder.h16-f32-ctx4",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decoder.vector-elementwise-and-projections",
+  "hypothesis": "After vectorizing projections, scalar normalization stores, activation indexing and residual copies add dispatch cost. Vectorize elementwise normalization/copies and map the unchanged FP32 SiLU expression. Reuse position-dependent RoPE sine/cosine across heads and accumulate each head context as D-wide vectors, preserving every attended slot and slot order.",
+  "falsification": "Reject any six-case output/cache/exit failure, missing timed work, changed precision or PE budget, less than 1.05x speedup, over 1.10x memory or failed fresh paired confirmation. Compare separately against projection-only candidates to attribute incremental benefit.",
+  "agent_harness": "Codex"
+}

@@ -1,0 +1,27 @@
+// Complete resident FP32 block; one fixed compute PE.
+param H: i16;
+param F: i16;
+param T: i16;
+param C: i16;
+param L: i16;
+param A: i16;
+const memcpy = @import_module("<memcpy/get_params>", .{ .width = 1, .height = 1 });
+layout {
+    @set_rectangle(1, 1);
+    @set_tile_code(0, 0, "pe.csl", .{ .memcpy_params = memcpy.get_params(0), .H = H, .F = F, .T = T, .C = C, .L = L, .A = A });
+    @export_name("X", [*]f32, true);
+    @export_name("SCALE1", [*]f32, true);
+    @export_name("WG", [*]f32, true);
+    @export_name("WU", [*]f32, true);
+    @export_name("WD", [*]f32, true);
+    @export_name("SCALE2", [*]f32, true);
+    @export_name("WQ", [*]f32, true);
+    @export_name("WK", [*]f32, true);
+    @export_name("WV", [*]f32, true);
+    @export_name("WO", [*]f32, true);
+    @export_name("CACHE", [*]f32, true);
+    @export_name("Y", [*]f32, false);
+    @export_name("HISTORY", [*]f32, false);
+    @export_name("times", [*]u16, false);
+    @export_name("compute", fn()void);
+}

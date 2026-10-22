@@ -2,18 +2,54 @@
 
 import io
 import json
+import os
+import signal
+import subprocess
+import sys
 import tempfile
 import unittest
 from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
-from cerebras_research.paths import write_json
+from cerebras_research.paths import digest, write_json
 from tests.support.records import make_record
 from tools import run_campaign
 
 
 class CampaignTests(unittest.TestCase):
+    def test_detached_interrupt_and_termination_raise_catchable_cancellation(self):
+        script = """
+import signal
+signal.signal(signal.SIGINT, signal.SIG_IGN)
+from tools.run_campaign import install_signal_handlers
+install_signal_handlers()
+try:
+    print("ready", flush=True)
+    signal.pause()
+except KeyboardInterrupt:
+    print("cancelled", flush=True)
+    raise SystemExit(130)
+"""
+        for signum in (signal.SIGINT, signal.SIGTERM):
+            with self.subTest(signum=signum):
+                process = subprocess.Popen(
+                    [sys.executable, "-c", script],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                )
+                try:
+                    self.assertEqual(process.stdout.readline().strip(), "ready")
+                    os.kill(process.pid, signum)
+                    stdout, stderr = process.communicate(timeout=5)
+                    self.assertEqual(process.returncode, 130, stderr)
+                    self.assertEqual(stdout.strip(), "cancelled")
+                finally:
+                    if process.poll() is None:
+                        process.kill()
+                        process.communicate()
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
@@ -162,3 +198,69 @@ class CampaignTests(unittest.TestCase):
         self.assertEqual(len(self.calls), 6)
         self.assertEqual(len(result["attempts"]), 6)
         self.assertEqual(result["attempts"][1]["outcome"], "cancelled")
+
+    def fresh_import_plan(self, wrong_seed=False):
+        prior = self.run_plan()
+        key = "pipeline.k8-n8/baseline/" + str(7 if wrong_seed else 8) + "/full"
+        pointer = prior["runs"][key]
+        plan = json.loads(self.plan.read_text())
+        plan["cells"][0]["fresh_baseline_receipt"] = pointer
+        write_json(self.plan, plan)
+        self.state = self.root / "next-state.json"
+        return pointer
+
+    def test_matched_fresh_baseline_reuse_is_an_import_not_a_new_attempt(self):
+        self.fresh_import_plan()
+        before = len(self.calls)
+        result = self.run_plan()
+        self.assertEqual(len(self.calls) - before, 4)
+        self.assertEqual(len(result["attempts"]), 4)
+        self.assertEqual(len(result["imports"]), 1)
+        self.assertEqual(result["cells"]["pipeline.k8-n8"]["status"], "confirmed_improvement")
+        self.assertNotIn(("baseline", 8, False), self.calls[before:])
+
+    def test_fresh_baseline_with_initial_seed_is_rejected_before_fresh_candidate(self):
+        self.fresh_import_plan(wrong_seed=True)
+        before = len(self.calls)
+        with self.assertRaisesRegex(ValueError, "not matched"):
+            self.run_plan()
+        self.assertNotIn(("fused", 8, False), self.calls[before:])
+
+    def test_changed_imported_fresh_receipt_is_rejected(self):
+        pointer = self.fresh_import_plan()
+        path = self.root / pointer["path"]
+        data = json.loads(path.read_text())
+        data["note"] = "modified after import selection"
+        write_json(path, data)
+        with self.assertRaisesRegex(ValueError, "receipt changed"):
+            self.run_plan()
+
+    def test_exception_after_successful_sdk_receipt_stops_before_promotion(self):
+        def fail_after_sdk(*args):
+            self.execute(*args)
+            raise OSError("journal unavailable after SDK success")
+
+        with self.assertRaisesRegex(OSError, "journal unavailable"):
+            self.run_plan(fail_after_sdk)
+        state = json.loads(self.state.read_text())
+        self.assertEqual(len(self.calls), 1)
+        self.assertEqual(state["status"], "failed")
+        self.assertEqual(state["attempts"][0]["outcome"], "validated")
+        self.assertEqual(state["decisions"], {})
+
+    def test_completed_campaign_fresh_cache_is_reused_and_its_identity_frozen(self):
+        prior = self.run_plan()
+        prior_path = self.state
+        plan = json.loads(self.plan.read_text())
+        plan["fresh_baselines_from_campaign"] = str(prior_path.relative_to(self.root))
+        write_json(self.plan, plan)
+        self.state = self.root / "next-state.json"
+        before = len(self.calls)
+        result = self.run_plan()
+        self.assertEqual(len(self.calls) - before, 4)
+        self.assertEqual(len(result["imports"]), 1)
+        self.assertEqual(result["fresh_baseline_campaign_sha256"], digest(prior_path))
+        prior["note"] = "changed after import"
+        write_json(prior_path, prior)
+        with self.assertRaisesRegex(ValueError, "changed"):
+            self.run_plan()

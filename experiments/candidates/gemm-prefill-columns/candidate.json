@@ -1,0 +1,15 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-scaled",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "meshgemm.prefill-column-loop",
+  "hypothesis": "Use direct column FMA dispatch instead of a map callback on larger FFN tiles while preserving DSR progression and all communication. The larger tile may amortize dispatch differently than tiny GEMM.",
+  "falsification": "Reject numerical failures, speedup below 1.05x, memory growth above 1.10x or failed fresh paired confirmation.",
+  "agent_harness": "Codex"
+}

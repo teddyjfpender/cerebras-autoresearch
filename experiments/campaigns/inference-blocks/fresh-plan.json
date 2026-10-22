@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "name": "four-inference-tracks",
+  "seed": 20261025,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-scaled",
+      "candidates": [
+        {
+          "candidate": "gemm-prefill-columns"
+        },
+        {
+          "candidate": "gemm-vector-columns"
+        },
+        {
+          "candidate": "gemm-row-major-accum"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-scaled",
+      "candidates": [
+        {
+          "candidate": "gemm-prefill-columns"
+        },
+        {
+          "candidate": "gemm-vector-columns"
+        },
+        {
+          "candidate": "gemm-row-major-accum"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemv.ffn-up-medium",
+      "candidates": [
+        {
+          "variant": "unroll"
+        },
+        {
+          "variant": "bank-alignment"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemv.ffn-down-medium",
+      "candidates": [
+        {
+          "variant": "unroll"
+        },
+        {
+          "variant": "bank-alignment"
+        }
+      ]
+    },
+    {
+      "profile": "gated-mlp.h16-f32",
+      "candidates": [
+        {
+          "candidate": "mlp-vector-projections"
+        }
+      ]
+    },
+    {
+      "profile": "gated-mlp.h32-f64",
+      "candidates": [
+        {
+          "candidate": "mlp-vector-projections"
+        }
+      ]
+    },
+    {
+      "profile": "decoder.h16-f32-ctx4",
+      "candidates": [
+        {
+          "candidate": "decoder-vector-projections"
+        },
+        {
+          "candidate": "decoder-vector-rope-softmax"
+        }
+      ]
+    },
+    {
+      "profile": "decoder.h16-f32-ctx12",
+      "candidates": [
+        {
+          "candidate": "decoder-vector-projections"
+        },
+        {
+          "candidate": "decoder-vector-rope-softmax"
+        }
+      ]
+    }
+  ]
+}

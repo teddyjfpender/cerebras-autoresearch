@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "name": "independent-mlp-batched-block-packing",
+  "seed": 20261025,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "gated-mlp.h16-f32",
+      "candidates": [
+        {
+          "candidate": "mlp-batched-block-pack"
+        }
+      ]
+    },
+    {
+      "profile": "gated-mlp.h32-f64",
+      "candidates": [
+        {
+          "candidate": "mlp-batched-block-pack"
+        }
+      ]
+    }
+  ]
+}

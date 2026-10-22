@@ -1,0 +1,106 @@
+// Independent scalar baseline; candidate work belongs in experiments/candidates.
+param memcpy_params;
+param H: i16;
+param F: i16;
+param T: i16;
+const sys = @import_module("<memcpy/memcpy>", memcpy_params);
+const clock = @import_module("<time>");
+const math = @import_module("<math>");
+var X: [T*H]f32;
+var ptr_X: [*]f32 = &X;
+var SCALE1: [H]f32;
+var ptr_SCALE1: [*]f32 = &SCALE1;
+var WG: [F*H]f32;
+var ptr_WG: [*]f32 = &WG;
+var WU: [F*H]f32;
+var ptr_WU: [*]f32 = &WU;
+var WD: [H*F]f32;
+var ptr_WD: [*]f32 = &WD;
+var Y: [T*H]f32;
+const ptr_Y: [*]f32 = &Y;
+var norm: [H]f32;
+var gate: [F]f32;
+var up: [F]f32;
+var hidden: [F]f32;
+var residual: [H]f32;
+var begin = @zeros([3]u16);
+var end = @zeros([3]u16);
+var times = @zeros([6]u16);
+const ptr_times: [*]u16 = &times;
+
+fn rmsnorm(input: [*]f32, scale: [*]f32) void {
+    var ss: f32 = 0.0;
+    var i: i16 = 0;
+    while (i < H) : (i += 1) { ss += input[i] * input[i]; }
+    const inv: f32 = 1.0 / math.sqrt(ss / @as(f32, H) + 0.00001);
+    i = 0;
+    while (i < H) : (i += 1) { norm[i] = input[i] * inv * scale[i]; }
+}
+
+
+// Vector accumulators preserve all projections and nonlinear/state work.
+var gate_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{F} -> gate[i] });
+var up_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{F} -> up[i] });
+var wg_column = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{F} -> WG[i*H] });
+var wu_column = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{F} -> WU[i*H] });
+var wd_column = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> WD[i*F] });
+var residual_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> residual[i] });
+var output_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{H} -> Y[i] });
+
+fn mlp(frame: i16) void {
+    @fmovs(gate_dsd, 0.0);
+    @fmovs(up_dsd, 0.0);
+    var gw = @set_dsd_base_addr(wg_column, &WG);
+    var uw = @set_dsd_base_addr(wu_column, &WU);
+    var i: i16 = 0;
+    while (i < H) : (i += 1) {
+        @fmacs(gate_dsd, gate_dsd, gw, norm[i]);
+        @fmacs(up_dsd, up_dsd, uw, norm[i]);
+        gw = @increment_dsd_offset(gw, 1, f32);
+        uw = @increment_dsd_offset(uw, 1, f32);
+    }
+    var j: i16 = 0;
+    while (j < F) : (j += 1) {
+        hidden[j] = (gate[j] / (1.0 + math.exp(-gate[j]))) * up[j];
+    }
+    var output = @increment_dsd_offset(output_dsd, frame*H, f32);
+    @fmovs(output, residual_dsd);
+    var dw = @set_dsd_base_addr(wd_column, &WD);
+    j = 0;
+    while (j < F) : (j += 1) {
+        @fmacs(output, output, dw, hidden[j]);
+        dw = @increment_dsd_offset(dw, 1, f32);
+    }
+}
+
+fn token(frame: i16) void {
+    var i: i16 = 0;
+    while (i < H) : (i += 1) { residual[i] = X[frame*H+i]; }
+    rmsnorm(@ptrcast([*]f32, &X[frame*H]), &SCALE1);
+    mlp(frame);
+}
+
+// Protected: all frames/tokens and output/state stores are inside the timer.
+fn compute() void {
+    clock.enable_tsc();
+    clock.get_timestamp(&begin);
+    var frame: i16 = 0;
+    while (frame < T) : (frame += 1) {
+        token(frame);
+    }
+    clock.get_timestamp(&end);
+    clock.disable_tsc();
+    for (@range(i16, 3)) |i| { times[i] = begin[i]; times[i+3] = end[i]; }
+    sys.unblock_cmd_stream();
+}
+
+comptime {
+    @export_symbol(ptr_X, "X");
+    @export_symbol(ptr_SCALE1, "SCALE1");
+    @export_symbol(ptr_WG, "WG");
+    @export_symbol(ptr_WU, "WU");
+    @export_symbol(ptr_WD, "WD");
+    @export_symbol(ptr_Y, "Y");
+    @export_symbol(ptr_times, "times");
+    @export_symbol(compute);
+}

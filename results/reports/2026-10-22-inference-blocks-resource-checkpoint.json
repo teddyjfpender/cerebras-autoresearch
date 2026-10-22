@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "checked_utc": "2026-10-22T23:49:18.814031+00:00",
+  "scope": "Immutable research checkpoint after safe disk cancellation and metadata-only suite confirmations; no SDK worker active",
+  "ledger_prefix_rows": 169,
+  "ledger_prefix_sha256": "c3d10c7bb190136c8f4eaa6ab519eaec76b313ab9071bdc387afc3bc106c22de",
+  "ledger_head": "404b1b38cd853cf3033562897e63da32368248b0d2bf8f8cd35e9681ab60b802",
+  "terminal_receipts": 169,
+  "missing_terminal_receipts": [],
+  "active_receipts": [],
+  "outcomes": {
+    "screen_passed": 46,
+    "partial_failure": 4,
+    "failed": 16,
+    "reference_validated": 15,
+    "validated": 50,
+    "diagnostic_completed": 2,
+    "rejected": 1,
+    "needs_fresh_confirmation": 12,
+    "confirmed_improvement": 11,
+    "cancelled": 2,
+    "completed": 8,
+    "confirmed_suite_improvement": 2
+  },
+  "verification": {
+    "full_artifact_replay": "passed",
+    "accepted_git_prefix": "a456da53e5ff2cc071119ce9c7c000bdcf86217d",
+    "host_tests": 86,
+    "host_tests_skipped": 1,
+    "staged_tests": 97,
+    "staged_tests_skipped": 1
+  },
+  "qwen_tps_result": false
+}

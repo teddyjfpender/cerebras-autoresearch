@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "gated-mlp.h16-f32",
+    "gated-mlp.h32-f64"
+  ]
+}

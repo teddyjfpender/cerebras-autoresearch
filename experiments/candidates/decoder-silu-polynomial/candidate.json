@@ -1,0 +1,15 @@
+{
+  "adapter": "decoder",
+  "initial_profile": "decoder.h16-f32-ctx4",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decoder.fp32-silu-polynomial",
+  "hypothesis": "After vector projections and elementwise work, software exp in every SiLU may dominate. Evaluate exp(-g/16) with a degree-eight FP32 polynomial and four runtime squarings for |g|<=8; use SDK exp outside. Preserve every activation and the existing fixed end-to-end numerical contract. A 30001-point FP64 primitive probe passed with worst absolute SiLU error 7.04e-7.",
+  "falsification": "Reject primitive error above 2e-6+2e-6*abs(SiLU), any full six-case output/cache/exit failure, changed FP32 precision or timing/PE budget, speedup below 1.05x, memory above 1.10x or failed fresh paired confirmation. Keep the previous confirmed implementation if it is faster.",
+  "derived_from": "decoder-vector-elementwise",
+  "agent_harness": "Codex"
+}

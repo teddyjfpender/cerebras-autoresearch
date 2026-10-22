@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "started_utc": "2026-10-22T17:53:34Z",
+  "deadline_utc": "2026-10-23T05:53:34Z",
+  "scope": "four inference tracks, CSL optimization, TSV dogfooding, reusable GEMM investigation",
+  "qualification_state": "runs/campaigns/inference-blocks-qualification/result.json",
+  "optimization_state": "runs/campaigns/inference-blocks-optimization/result.json",
+  "next_benchmark": "resident reusable GEMM with distinct frames and full output/state oracle",
+  "status": "active",
+  "qwen_tps_result": false,
+  "last_verified_milestone": "Five distinct profile gains confirmed; complete MLP suite 4.8073x and decoder suite 2.3231x from existing full/fresh arms. All 169 terminal receipts artifact/prefix verified. Live/staged host tests 86/97 (one Mac skip each). SDK stopped below 1 GiB host free; no simulation active. New reusable GEMM remains staged/unqualified.",
+  "second_iteration_state": "runs/campaigns/inference-blocks-second-iteration/result.json",
+  "confirmed_receipts": [
+    "runs/v2/20261022T201404Z-confirmation-0d5d512d/result.json",
+    "runs/v2/20261022T203652Z-confirmation-03cf791e/result.json",
+    "runs/v2/20261022T210426Z-confirmation-c20a1d9c/result.json",
+    "runs/v2/20261022T214257Z-confirmation-76c5a3c1/result.json",
+    "runs/v2/20261022T222937Z-confirmation-e5a490d4/result.json",
+    "runs/v2/20261022T225349Z-confirmation-5195d91f/result.json",
+    "runs/v2/20261022T230641Z-confirmation-b1946980/result.json"
+  ],
+  "sdk_worker_status": "stopped_low_disk",
+  "resource_incident": "runs/maintenance/low-disk-cancellation.json",
+  "suite_report": "results/reports/2026-10-22-inference-blocks-confirmed-suites.json",
+  "resource_checkpoint": "results/reports/2026-10-22-inference-blocks-resource-checkpoint.json"
+}

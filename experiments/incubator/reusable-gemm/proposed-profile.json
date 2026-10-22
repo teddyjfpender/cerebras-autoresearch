@@ -1,0 +1,16 @@
+{
+  "id": "reusable-gemm.tiny-sequence",
+  "status": "incubator_not_registered",
+  "dimensions": {
+    "P": 4,
+    "M": 16,
+    "K": 16,
+    "N": 16,
+    "T": 4
+  },
+  "precision": "fp16",
+  "scope": "four distinct resident GEMMs with canonical resets, every output and canonical/working weight state collected",
+  "source_commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8",
+  "metric": "max_local_sequence_cycles",
+  "qwen_tps_result": false
+}

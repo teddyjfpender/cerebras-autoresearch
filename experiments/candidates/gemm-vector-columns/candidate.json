@@ -1,0 +1,15 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-scaled",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "meshgemm.vector-output-columns",
+  "hypothesis": "Short local M tiles underutilize row-vector FMA dispatch. Accumulate across all N output columns with strided output descriptors and contiguous weight vectors, preserving communication, FP16 precision and K order. Descriptor stride/bank conflicts may offset the dispatch saving.",
+  "falsification": "Reject any numerical or shutdown failure, changed timed work/PE budget, less than 1.05x matched cycle speedup, more than 1.10x program-object memory, or failed fresh paired confirmation.",
+  "agent_harness": "Codex"
+}

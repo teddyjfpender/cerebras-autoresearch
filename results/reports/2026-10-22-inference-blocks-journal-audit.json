@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "checked_utc": "2026-10-22T18:04:04.922740+00:00",
+  "scope": "historical snapshot of terminal-receipt coverage and ledger prefix during live qualification",
+  "ledger_prefix_rows": 88,
+  "ledger_prefix_sha256": "32ca0109555c0a1b9f6df14435227c5c80d3c1c0b4e3a00d7bb1ee48172a1ecc",
+  "ledger_head": "523bcfcf85317070a15de4cd40ed87f8ee93a046f8055b8335be71595e8279a2",
+  "terminal_receipts": 88,
+  "missing_terminal_receipts": [],
+  "active_receipts": [
+    "runs/v2/20261022T175756Z-meshgemm.cold-prefill-ffn-down-scaled-e9441822/result.json"
+  ],
+  "full_artifact_and_git_prefix_verification": "passed in the same research stage",
+  "qwen_tps_result": false
+}

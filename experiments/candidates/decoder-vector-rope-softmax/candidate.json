@@ -1,0 +1,14 @@
+{
+  "adapter": "decoder",
+  "initial_profile": "decoder.h16-f32-ctx4",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decoder.vector-rope-softmax",
+  "hypothesis": "Keep vectorized projections, replace D=8 RoPE powers with fixed FP32 parameter frequencies, and normalize each attention score once before its reuse across value channels. This removes redundant data-independent powers and repeated divisions while keeping all tokens, nonlinearities and cache states.",
+  "falsification": "Reject any full output/state failure at either context, changed precision/PE/timing contract, less than 1.05x baseline speedup, memory growth above 1.10x or failed fresh paired confirmation.",
+  "agent_harness": "Codex"
+}

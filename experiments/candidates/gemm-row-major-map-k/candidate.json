@@ -1,0 +1,15 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-scaled",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "meshgemm.contiguous-columns-k-map",
+  "hypothesis": "Use N-wide contiguous output rows and map over the K inputs for each local row. The weight source DSR advances automatically by Nt after every FMA, replacing repeated inner-loop output/weight descriptor updates and scalar indexing. Preserve the K order, all four communication steps, full vector output transpose and FP16 precision.",
+  "falsification": "Reject any output, communication, exit or protected-control failure; under 1.05x speedup; over 1.10x program memory; or failed full six-case/fresh paired confirmation. Measure both FFN shapes before cross-shape claims.",
+  "agent_harness": "Codex"
+}

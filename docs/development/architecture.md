@@ -52,3 +52,6 @@ Changes to oracle, timing, precision, layout budget, or workload require new
 baselines and an explicit contract/profile change. Preserve historical records.
 Formatting a trusted driver changes its digest and requires a fresh paired
 baseline for promotion.
+
+The [CSL bringup findings](csl-pitfalls.md) cover concrete pointer/export errors
+and the repeated-state failure found while dogfooding this workflow.

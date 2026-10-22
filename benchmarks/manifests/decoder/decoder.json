@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "decoder.h16-f32-ctx4",
+      "adapter": "decoder",
+      "family": "resident-decoder",
+      "dimensions": {
+        "H": 16,
+        "F": 32,
+        "T": 4,
+        "C": 8,
+        "L": 4,
+        "A": 2
+      },
+      "pe_grid": [
+        1,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_transformer_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 22144,
+      "work_unit": "projection_and_attention_arithmetic_operations",
+      "description": "Four sequential pre-norm causal MHA/RoPE/SwiGLU decoder-layer tokens; every output and cache snapshot verified.",
+      "timeout_seconds": 1200,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "complete four-frame sequence including all output and state stores"
+      }
+    },
+    {
+      "id": "decoder.h16-f32-ctx12",
+      "adapter": "decoder",
+      "family": "resident-decoder",
+      "dimensions": {
+        "H": 16,
+        "F": 32,
+        "T": 4,
+        "C": 16,
+        "L": 12,
+        "A": 2
+      },
+      "pe_grid": [
+        1,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_transformer_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 24192,
+      "work_unit": "projection_and_attention_arithmetic_operations",
+      "description": "Four sequential pre-norm causal MHA/RoPE/SwiGLU decoder-layer tokens; every output and cache snapshot verified.",
+      "timeout_seconds": 1200,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "complete four-frame sequence including all output and state stores"
+      }
+    }
+  ]
+}

@@ -7,7 +7,7 @@ import re
 from .paths import ROOT, contained, identity
 
 CATALOG = ROOT / "benchmarks/manifests/catalog.json"
-ADAPTERS = {"meshgemv", "meshgemm", "pipeline", "sdk"}
+ADAPTERS = {"meshgemv", "meshgemm", "pipeline", "gated_mlp", "decoder", "sdk"}
 
 
 def load_catalog():
@@ -60,9 +60,13 @@ def load_catalog():
                 raise ValueError(
                     f"Independent adapter requires its numerical/timing contract: {name}"
                 )
-            expected_timing = {"meshgemv": (1, 10), "meshgemm": (0, 1), "pipeline": (1, 4)}[
-                profile["adapter"]
-            ]
+            expected_timing = {
+                "meshgemv": (1, 10),
+                "meshgemm": (0, 1),
+                "pipeline": (1, 4),
+                "gated_mlp": (0, 1),
+                "decoder": (0, 1),
+            }[profile["adapter"]]
             timing = profile["timing_protocol"]
             if (timing["warmups"], timing["repeats"]) != expected_timing:
                 raise ValueError(f"Timing profile disagrees with trusted driver: {name}")
@@ -73,6 +77,25 @@ def load_catalog():
                 raise ValueError(f"Dense dimensions must be positive multiples of four: {name}")
         if profile["adapter"] == "pipeline" and grid != [1, 1]:
             raise ValueError(f"Current pipeline adapter requires one PE: {name}")
+        if profile["adapter"] in ("gated_mlp", "decoder"):
+            dims = profile["dimensions"]
+            if (
+                grid != [1, 1]
+                or profile["precision"] != "fp32"
+                or profile.get("oracle_contract") != "resident_transformer_fp32_v1"
+                or dims.get("T") != 4
+                or set(dims)
+                != (
+                    {"H", "F", "T", "C", "L", "A"}
+                    if profile["adapter"] == "decoder"
+                    else {"H", "F", "T"}
+                )
+            ):
+                raise ValueError(f"Invalid resident block contract: {name}")
+            if profile["adapter"] == "decoder" and (
+                dims["L"] + dims["T"] > dims["C"] or dims["H"] % (2 * dims["A"])
+            ):
+                raise ValueError(f"Invalid decoder cache/head dimensions: {name}")
         if profile["adapter"] == "sdk":
             contained(ROOT / ".deps/sdk-examples", profile["source_path"])
             for key in ("compile", "run"):

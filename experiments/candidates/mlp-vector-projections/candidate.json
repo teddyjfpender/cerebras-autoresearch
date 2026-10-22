@@ -1,0 +1,14 @@
+{
+  "adapter": "gated_mlp",
+  "initial_profile": "gated-mlp.h16-f32",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "5847c2b6a5a30f4d41dc8a12e2be15b86e8883b057fc1ed9dc0aa043432543a5",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "gated_mlp.vector-projections",
+  "hypothesis": "Vector accumulation across output channels reduces scalar projection loop overhead; retain RMSNorm, nonlinear operations, all token outputs and cache snapshots. Additional descriptors may increase memory.",
+  "falsification": "Reject any full-output/state numerical failure, changed timed work or PE budget, speedup below 1.05x, memory growth above 1.10x, or failed fresh-seed confirmation.",
+  "agent_harness": "Codex"
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "name": "four-inference-tracks-qualification",
+  "seed": 20261025,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-scaled",
+      "candidates": []
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-scaled",
+      "candidates": []
+    },
+    {
+      "profile": "meshgemv.ffn-up-medium",
+      "candidates": []
+    },
+    {
+      "profile": "meshgemv.ffn-down-medium",
+      "candidates": []
+    },
+    {
+      "profile": "gated-mlp.h16-f32",
+      "candidates": []
+    },
+    {
+      "profile": "gated-mlp.h32-f64",
+      "candidates": []
+    },
+    {
+      "profile": "decoder.h16-f32-ctx4",
+      "candidates": []
+    },
+    {
+      "profile": "decoder.h16-f32-ctx12",
+      "candidates": []
+    }
+  ],
+  "purpose": "Full six-case baselines for all eight profiles before optimization; empty candidate lists imply no optimization decision."
+}
