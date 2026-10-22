@@ -246,3 +246,12 @@ hash manifest in `experiments/incubator/reusable-gemm/`. Its device programs and
 candidate hypotheses remain uncompiled and unqualified. The batched MLP pack
 and corrected cold map-K hypotheses are also unmeasured. These preparations do
 not count as benchmark execution or performance gains.
+
+
+## Session blocked by host capacity
+
+After three consecutive resource audits, the session is blocked below the
+1 GiB SDK reserve, with no simulator or campaign worker running. The committed
+results and all raw evidence remain intact. Resume requires additional host
+disk capacity; the twelve-hour request has not been completed. The cancelled
+F1 refinement and the next reusable-GEMM device qualification remain pending.
