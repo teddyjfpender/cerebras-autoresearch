@@ -24,6 +24,14 @@ timing contract. Record memory, work per cycle, imbalance, and numerical errors.
 8. A new oracle, timing definition, precision, layout budget, or workload needs
    a documented contract/profile change and new baselines. V1 and V2 scores are
    distinct. Do not rewrite archived metrics during refactors.
+9. Follow `docs/experiments/ledger.md`. Never hand-edit `results/results.tsv` or
+   the derived board. Every V2 run and decision is journaled automatically.
+   Run `ledger verify --artifacts`; use `ledger sync` after interruption and
+   inspect its skipped receipts. Incomplete runs are not completed attempts.
+10. Before a candidate run, set concrete `approach`, `hypothesis`, and
+    `falsification` fields in candidate.json. Declare known author/model/harness
+    attribution; use unknown when unavailable. New retention requires matched
+    evaluator source capsules. Historical receipts need fresh baselines.
 
 Larger composed programs are a research direction. Require full-chain output and
 state validation before layer/decoder claims. Model targets, including Qwen's

@@ -8,5 +8,7 @@
   "baseline_tree_sha256": "11d6f7ea37d7dda0cc12fb22f63dba570d4fa6d126c3d80b3144b61803690f3c",
   "starting_variant": "unroll",
   "shape_specific": true,
+  "approach": "meshgemv.unroll",
+  "falsification": "Reject any failed numerical family, less than 1.05x matched cycle speedup, or program-object memory above 1.10x baseline; repeat with a fresh seed.",
   "hypothesis": "Expanding the local 16-row FMA map removes callback/loop overhead at unchanged FP16 arithmetic and PE grid. Reject on any numerical failure, absent cycle gain, or memory-budget overrun. Historical V1 improvement requires fresh V2 measurement."
 }

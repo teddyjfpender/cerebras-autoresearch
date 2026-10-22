@@ -8,6 +8,7 @@ lint:
 	$(RUFF) check .
 	$(RUFF) format --check .
 	$(PYTHON) research.py validate
+	$(PYTHON) research.py ledger verify
 	$(PYTHON) -m compileall -q src benchmarks/drivers tools research.py
 	bash -n tools/sdk-run
 

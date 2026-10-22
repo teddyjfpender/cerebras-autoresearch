@@ -9,8 +9,9 @@ import uuid
 
 from .adapters import prepare
 from .catalog import profile_identity
-from .paths import ROOT, digest, identity, tree_digest, write_json
+from .paths import ROOT, contained, digest, identity, tree_digest, write_json
 from .process import run_logged
+from .provenance import capture
 
 CASES = ("positive", "signed", "zero", "cancellation", "one_hot", "mixed_scale")
 
@@ -69,6 +70,13 @@ def execute(
         return (work / data["log"]).read_text()
 
     try:
+        record["provenance"], record["research"] = capture(profile, variant, candidate)
+        for relative, sha in record["provenance"]["evaluator_files"].items():
+            target = contained(folder / "evaluator-source", relative)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / relative, target)
+            if digest(target) != sha:
+                raise ValueError("Evaluator changed while capturing its source capsule")
         compile_args, source, baseline_hash = prepare(profile, work, variant, candidate)
         record.update(
             source=source,
@@ -175,4 +183,7 @@ def execute(
                     record["artifacts"][str(path.relative_to(folder))] = digest(path)
         write_json(receipt, record)
         print(receipt, flush=True)
+        from .ledger import append_receipts
+
+        append_receipts([receipt])
     return receipt

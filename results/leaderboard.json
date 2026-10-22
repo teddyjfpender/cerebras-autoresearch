@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "ledger_rows": 43,
+  "ledger_head": "033cd8e3b69829574b0b450b1ea462afa43fbedb295ca05325a4b8f0de7a4882",
+  "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
+  "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
+  "measured_best_by_approach": [
+    {
+      "event_id": "4a8f609c86c38ca8ff5b712b4837d3e10e1ac9fd30355464842ebf73f4cf2771",
+      "profile": "meshgemv.square64",
+      "approach": "meshgemv.baseline",
+      "variant": "baseline",
+      "primary_value": "264.1",
+      "memory_bytes": "6624",
+      "source_sha256": "11d6f7ea37d7dda0cc12fb22f63dba570d4fa6d126c3d80b3144b61803690f3c",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T105303Z-meshgemv.square64-7cabf74c/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "4495fb4a79dced322717abfe31e236b80f8bff79849355fafac6aa19e966bf33",
+      "profile": "meshgemm.cold-tiny",
+      "approach": "meshgemm.baseline",
+      "variant": "baseline",
+      "primary_value": "1545.0",
+      "memory_bytes": "5936",
+      "source_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T105637Z-meshgemm.cold-tiny-ea193fc5/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "7ba34771f475f6b2d881dfaa9afc1af32c472a93a76fec1ee7e53518f5588f1c",
+      "profile": "meshgemm.cold-prefill-ffn-up-scaled",
+      "approach": "meshgemm.baseline",
+      "variant": "baseline",
+      "primary_value": "23230.0",
+      "memory_bytes": "12096",
+      "source_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T105943Z-meshgemm.cold-prefill-ffn-up-scaled-898ea179/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "6891d9266090784de9594292f458c9c81d4841681fae2f6cad3e82a56e78d590",
+      "profile": "pipeline.k8-n8",
+      "approach": "pipeline.baseline",
+      "variant": "baseline",
+      "primary_value": "971.0",
+      "memory_bytes": "6016",
+      "source_sha256": "c03b8ec986c617f3301b2b7a4df29e4263aaf16742fbe3779836c7e4b02cecb3",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T113636Z-pipeline.k8-n8-499a897e/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "0e7deb908cde663a8cf9b8f4d284c19cf55c60330f920fd2694fa3c14ed4cb67",
+      "profile": "pipeline.k8-n8",
+      "approach": "pipeline.fused",
+      "variant": "fused",
+      "primary_value": "1001.0",
+      "memory_bytes": "5664",
+      "source_sha256": "c03b8ec986c617f3301b2b7a4df29e4263aaf16742fbe3779836c7e4b02cecb3",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T114913Z-pipeline.k8-n8-ea048e3a/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "2e5b3b98e1d632146540aba113396b078c69483d6f83237debfc68f44db1365c",
+      "profile": "meshgemv.square64",
+      "approach": "meshgemv.candidate",
+      "variant": "candidate",
+      "primary_value": "240.7",
+      "memory_bytes": "6720",
+      "source_sha256": "2bae9ff3230a6848647800dd11ab496fa964c9e386198a49d573deee783497d6",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T115116Z-meshgemv.square64-9e7a1800/result.json",
+      "decision": "measured_unconfirmed"
+    }
+  ],
+  "measured_cycle_memory_front": [
+    {
+      "event_id": "4a8f609c86c38ca8ff5b712b4837d3e10e1ac9fd30355464842ebf73f4cf2771",
+      "profile": "meshgemv.square64",
+      "approach": "meshgemv.baseline",
+      "variant": "baseline",
+      "primary_value": "264.1",
+      "memory_bytes": "6624",
+      "source_sha256": "11d6f7ea37d7dda0cc12fb22f63dba570d4fa6d126c3d80b3144b61803690f3c",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T105303Z-meshgemv.square64-7cabf74c/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "4495fb4a79dced322717abfe31e236b80f8bff79849355fafac6aa19e966bf33",
+      "profile": "meshgemm.cold-tiny",
+      "approach": "meshgemm.baseline",
+      "variant": "baseline",
+      "primary_value": "1545.0",
+      "memory_bytes": "5936",
+      "source_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T105637Z-meshgemm.cold-tiny-ea193fc5/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "7ba34771f475f6b2d881dfaa9afc1af32c472a93a76fec1ee7e53518f5588f1c",
+      "profile": "meshgemm.cold-prefill-ffn-up-scaled",
+      "approach": "meshgemm.baseline",
+      "variant": "baseline",
+      "primary_value": "23230.0",
+      "memory_bytes": "12096",
+      "source_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T105943Z-meshgemm.cold-prefill-ffn-up-scaled-898ea179/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "6891d9266090784de9594292f458c9c81d4841681fae2f6cad3e82a56e78d590",
+      "profile": "pipeline.k8-n8",
+      "approach": "pipeline.baseline",
+      "variant": "baseline",
+      "primary_value": "971.0",
+      "memory_bytes": "6016",
+      "source_sha256": "c03b8ec986c617f3301b2b7a4df29e4263aaf16742fbe3779836c7e4b02cecb3",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T113636Z-pipeline.k8-n8-499a897e/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "0e7deb908cde663a8cf9b8f4d284c19cf55c60330f920fd2694fa3c14ed4cb67",
+      "profile": "pipeline.k8-n8",
+      "approach": "pipeline.fused",
+      "variant": "fused",
+      "primary_value": "1001.0",
+      "memory_bytes": "5664",
+      "source_sha256": "c03b8ec986c617f3301b2b7a4df29e4263aaf16742fbe3779836c7e4b02cecb3",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T114913Z-pipeline.k8-n8-ea048e3a/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "2e5b3b98e1d632146540aba113396b078c69483d6f83237debfc68f44db1365c",
+      "profile": "meshgemv.square64",
+      "approach": "meshgemv.candidate",
+      "variant": "candidate",
+      "primary_value": "240.7",
+      "memory_bytes": "6720",
+      "source_sha256": "2bae9ff3230a6848647800dd11ab496fa964c9e386198a49d573deee783497d6",
+      "evaluator_sha256": "",
+      "receipt": "runs/v2/20261022T115116Z-meshgemv.square64-9e7a1800/result.json",
+      "decision": "measured_unconfirmed"
+    }
+  ],
+  "confirmed_improvements": [],
+  "confirmed_suite_events": [],
+  "qwen_tps_result": false
+}

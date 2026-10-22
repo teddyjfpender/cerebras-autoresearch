@@ -59,6 +59,9 @@ manifest, and trusted harness. All six families and artifact digests must pass.
 Default gates are 1.05× speedup and ≤1.10× program-object memory. Repeat both
 arms with a different seed and unchanged candidate source.
 Fresh confirmation also requires identical compiler arguments for each arm.
+New runs snapshot the trusted evaluator sources. Confirmation requires identical
+evaluator fingerprints across both arms and seeds; archived runs without this
+provenance must be rebaselined before retention under this protocol.
 
 Suites require identical complete coverage, geometric mean speedup, and every
 cell's regression guard. Default tolerance is 2% (candidate cycles ≤1.02×

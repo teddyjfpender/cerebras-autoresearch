@@ -51,6 +51,20 @@ class ScoringTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "compile_command"):
             confirm(*first, *fresh)
 
+    def test_historical_runs_without_evaluator_provenance_need_new_baselines(self):
+        paths = (
+            self.run_record("base"),
+            self.run_record("candidate", "candidate", cycles=80),
+            self.run_record("fresh-base", seed=8),
+            self.run_record("fresh-candidate", "candidate", seed=8, cycles=80),
+        )
+        for path in paths:
+            data = json.loads(path.read_text())
+            data.pop("provenance")
+            write_json(path, data)
+        with self.assertRaisesRegex(ValueError, "provenance"):
+            confirm(*paths)
+
     def test_fast_but_larger_memory_is_rejected(self):
         result = compare(
             self.run_record("base"),

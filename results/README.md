@@ -1,5 +1,18 @@
 # Results and qualification
 
+## Canonical research journal
+
+[`results.tsv`](results.tsv) automatically records terminal V2 attempts and
+decisions. [`leaderboard.json`](leaderboard.json) derives measured bests by
+declared approach, a cycle/memory tradeoff front, and confirmed events.
+Measured views remain provisional; the confirmed view is currently empty.
+
+The [ledger setup report](reports/ledger-qualification.json) records 43 events:
+40 historical receipts, two replayed comparison decisions, and one live SDK
+screen proving automatic logging with an evaluator source capsule. All 48 host
+tests and artifact replay passed. This is an unsigned local ledger; see the
+[ledger contract](../docs/experiments/ledger.md) for guarantees and limits.
+
 ## Repository qualification — 2026-10-22
 
 **20 of 30 configured profiles exercised:** four full six-case independent

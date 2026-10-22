@@ -153,7 +153,9 @@ def candidate_init(profile, name, start_variant="baseline"):
             "baseline_tree_sha256": baseline_hash,
             "starting_variant": start_variant,
             "shape_specific": start_variant == "unroll",
-            "hypothesis": "Describe the change, expected bottleneck, and falsification test here.",
+            "approach": profile["adapter"] + "." + start_variant,
+            "hypothesis": "TODO: describe the change, bottleneck, and expected resource tradeoff.",
+            "falsification": "TODO: state the observation that would reject this hypothesis.",
         },
     )
     return folder

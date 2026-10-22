@@ -16,6 +16,10 @@ Before finishing a change:
    identities before retaining an optimization.
 5. Export a compact result report and reference raw artifact paths. Keep SDK
    binaries, credentials, weights, and generated simulator logs out of Git.
+6. Run `python3 research.py ledger verify --artifacts`. Check the automatic TSV
+   event and derived board; include appended rows when committing an experiment.
+   CI rejects changes to the ledger prefix from the base commit. Read the
+   [ledger contract](docs/experiments/ledger.md) before importing or recovering runs.
 
 Keep kernel hypotheses in `experiments/candidates/NAME/candidate.json`, with
 editable CSL beside them. Add independent correctness evidence before widening

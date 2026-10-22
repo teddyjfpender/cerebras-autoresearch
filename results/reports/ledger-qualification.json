@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-10-22T14:41:39.884241+00:00",
+  "scope": "Local journal and research-practice qualification; no independent signed judge",
+  "base_commit": "326147e",
+  "ledger": {
+    "path": "results/results.tsv",
+    "sha256": "f1fb7dd4ab16fa6c0691ff3374cf637e761c8b4a24010c2d475a40bba2742811",
+    "rows": 43,
+    "head": "033cd8e3b69829574b0b450b1ea462afa43fbedb295ca05325a4b8f0de7a4882",
+    "origins": {
+      "historical_import": 40,
+      "live": 3
+    },
+    "outcomes": {
+      "screen_passed": 4,
+      "partial_failure": 4,
+      "failed": 10,
+      "reference_validated": 15,
+      "validated": 6,
+      "diagnostic_completed": 2,
+      "rejected": 1,
+      "needs_fresh_confirmation": 1
+    }
+  },
+  "verification": {
+    "status": "verified",
+    "rows": 43,
+    "head": "033cd8e3b69829574b0b450b1ea462afa43fbedb295ca05325a4b8f0de7a4882",
+    "artifacts_checked": true,
+    "git_prefix_checked": false,
+    "authenticated_judge": false
+  },
+  "tests": {
+    "host_tests": 48,
+    "make_check": "passed",
+    "append_only_git_prefix_guard": "covered by committed-history/truncation test",
+    "sdk_end_to_end": {
+      "receipt": "runs/v2/20261022T143712Z-pipeline.k8-n8-28f48176/result.json",
+      "receipt_sha256": "ce71627189db6cc775c6d2cb6ed2150266dbceaa646124e9ad9f84f6cc8aa76c",
+      "outcome": "screen_passed",
+      "decision": "screen_only",
+      "evaluator_sha256": "016268587f080dcae42acd7cf964f5606b303515b230681891b4e6e12950233d",
+      "source_capsule_files": 18,
+      "numerical_cases": 1
+    }
+  },
+  "confirmed_improvements": 0,
+  "authenticated_judge": false,
+  "secret_holdout_seed": false,
+  "remote_ci": "configured, not executed",
+  "quantum_reference": "https://github.com/teddyjfpender/quantum-autoresearch-challenge/blob/main/spec/LEDGER.md"
+}

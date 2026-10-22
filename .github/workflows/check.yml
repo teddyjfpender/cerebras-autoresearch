@@ -12,6 +12,8 @@ jobs:
         python: ['3.10', '3.11', '3.14']
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: ${{ matrix.python }}
@@ -19,6 +21,14 @@ jobs:
       - run: ruff check .
       - run: ruff format --check .
       - run: python research.py validate
+      - run: python research.py ledger verify
+      - name: Preserve accepted ledger history
+        env:
+          LEDGER_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [[ -n "$LEDGER_BASE" && "$LEDGER_BASE" != "0000000000000000000000000000000000000000" ]]; then
+            python research.py ledger verify --base-ref "$LEDGER_BASE"
+          fi
       - run: python -m unittest discover -s tests -t .
       - run: python -m compileall -q src benchmarks/drivers tools research.py
       - run: bash -n tools/sdk-run

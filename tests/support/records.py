@@ -13,6 +13,10 @@ def make_record(
     (work / "out").mkdir(parents=True)
     (work / "kernel.csl").write_text("// " + variant)
     (work / "driver.py").write_text("# fixed oracle")
+    capsule = folder / "evaluator-source"
+    capsule.mkdir()
+    (capsule / "evaluator.py").write_text("# synthetic evaluator fixture")
+    evaluator = {"evaluator.py": digest(capsule / "evaluator.py")}
     profile = get_profile(profile_id)
     cases = []
     for case in CASES:
@@ -34,6 +38,7 @@ def make_record(
     harness = {"driver.py": digest(work / "driver.py")}
     data = {
         "schema_version": 2,
+        "provenance": {"evaluator_files": evaluator, "evaluator_sha256": identity(evaluator)},
         "status": "validated",
         "screen_only": False,
         "profile": profile,

@@ -5,6 +5,8 @@
    expected tradeoff, and a test that could reject the hypothesis.
 3. Run `candidate-init PROFILE NAME`. Edit CSL inside the candidate workspace.
    Keep the pinned baseline and trusted Python drivers fixed.
+   Fill in `approach`, `hypothesis`, and `falsification` in candidate.json first;
+   unfinished templates are rejected before compilation.
 4. Run `challenge PROFILE --variant candidate --candidate NAME` with a finite
    `--max-seconds` budget. Start with small profiles on the emulated host.
 5. Review numerical errors, source hashes, raw evidence, and memory observations.
@@ -58,6 +60,17 @@ environment; use one benchmark runner in the VM.
 `export OUTPUT.json` saves compact review metadata; preserve the corresponding
 raw artifacts. `storage` reports their size without deleting evidence. Cleanup
 is manual after archiving retained results.
+
+Terminal V2 runs, suites, challenges, and CLI comparisons/confirmations append
+to `results/results.tsv`. The [ledger contract](ledger.md) specifies attribution,
+source capsules, recovery, Git history checks, and the derived board. A validated
+measurement is provisional until a fresh confirmation event passes replay.
+
+For already measured matching arms, `confirm INITIAL_BASE INITIAL_CAND
+FRESH_BASE FRESH_CAND` performs the profile confirmation without repeating the
+simulator runs. Both arms require the same recorded evaluator fingerprint and
+compiler arguments across seeds. Legacy receipts without evaluator capsules
+need new baselines; their measurements remain in the historical journal.
 
 ## Candidate review
 

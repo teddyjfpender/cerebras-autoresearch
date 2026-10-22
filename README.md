@@ -50,6 +50,18 @@ candidate review, budgets, and evidence. The checked-in
 [GEMV workspace](experiments/candidates/gemv-unroll/README.md) is an actual
 editable candidate. Baselines and trusted host oracles stay separate.
 
+Every terminal V2 attempt and CLI decision automatically appends to
+[`results/results.tsv`](results/results.tsv), including failures and screens.
+[`results/leaderboard.json`](results/leaderboard.json) derives measured bests by
+declared approach, the cycle/memory tradeoff front, and confirmed improvements.
+Measured points remain provisional. See the [ledger contract](docs/experiments/ledger.md).
+
+```sh
+python3 research.py ledger verify             # Chain, schema, derived board
+python3 research.py ledger verify --artifacts # Also replay receipts/evidence
+python3 research.py ledger sync               # Recover unjournaled terminal receipts
+```
+
 ## Benchmark coverage
 
 **30 configured profiles, 10 families, 10 suites.** The
@@ -98,6 +110,7 @@ config/                     Source pins, SDK manifest, VM and model targets
 tests/unit/                 SDK-free acceptance and orchestration tests
 tests/integration/          SDK-side numerical/timestamp contract checks
 results/                    Compact reports and historical snapshots
+results/results.tsv         Append-only V2 attempt and decision journal
 docs/                       Metrics, protocols, architecture, setup, research
 runs/                       Ignored raw evidence and compiled artifacts
 .deps/  .sdk/               Ignored source checkouts and licensed SDK

@@ -8,7 +8,7 @@ import time
 import uuid
 from pathlib import Path
 
-from . import legacy
+from . import ledger, legacy
 from .adapters import candidate_init
 from .catalog import get_profile, get_suite, load_catalog
 from .paths import ROOT, contained, digest, write_json
@@ -23,6 +23,31 @@ def dump(value):
 
 def candidate_path(name):
     return contained(ROOT / "experiments/candidates", name) if name else None
+
+
+def save_decision(report, kind, inputs, args):
+    """Persist a reviewable decision before appending its journal event."""
+    folder = (
+        ROOT
+        / "runs/v2"
+        / (time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()) + "-" + kind + "-" + uuid.uuid4().hex[:8])
+    )
+    report.update(
+        schema_version=2,
+        record_type=kind,
+        inputs={
+            key: str(contained(ROOT, value).relative_to(ROOT)) for key, value in inputs.items()
+        },
+        budgets={
+            key: getattr(args, key)
+            for key in ("minimum_speedup", "max_memory_growth", "regression_limit")
+            if hasattr(args, key) and (key != "regression_limit" or "suite" in kind)
+        },
+    )
+    path = folder / "result.json"
+    write_json(path, report)
+    ledger.append_receipts([path])
+    return dict(report, receipt=str(path.relative_to(ROOT)))
 
 
 def challenge(profile, args, deadline):
@@ -80,6 +105,7 @@ def challenge(profile, args, deadline):
     finally:
         write_json(folder / "result.json", report)
         print(folder / "result.json", flush=True)
+        ledger.append_receipts([folder / "result.json"])
     return report
 
 
@@ -130,6 +156,7 @@ def suite_run(profiles, args, deadline):
     finally:
         write_json(folder / "result.json", report)
         print(folder / "result.json", flush=True)
+        ledger.append_receipts([folder / "result.json"])
     return report
 
 
@@ -270,6 +297,17 @@ def parser():
     confirm_command.add_argument("--minimum-speedup", type=float, default=1.05)
     confirm_command.add_argument("--max-memory-growth", type=float, default=1.10)
     confirm_command.add_argument("--regression-limit", type=float, default=1.02)
+    single_confirm = commands.add_parser(
+        "confirm", help="Replay and record a fresh matched profile pair"
+    )
+    for name in ("initial_baseline", "initial_candidate", "fresh_baseline", "fresh_candidate"):
+        single_confirm.add_argument(name)
+    single_confirm.add_argument("--minimum-speedup", type=float, default=1.05)
+    single_confirm.add_argument("--max-memory-growth", type=float, default=1.10)
+    journal = commands.add_parser("ledger", help="Append, verify, and inspect the research TSV")
+    journal.add_argument("action", choices=("sync", "verify", "board"))
+    journal.add_argument("--artifacts", action="store_true")
+    journal.add_argument("--base-ref", help="Require exact TSV prefix from this Git commit")
     exp = commands.add_parser(
         "export", help="Export compact receipts; preserve raw evidence in runs/"
     )
@@ -330,23 +368,84 @@ def main(argv=None):
             print(candidate_init(get_profile(args.profile), args.name, args.start_variant))
             return 0
         if args.command == "compare":
+            result = compare(
+                args.baseline, args.candidate, args.minimum_speedup, args.max_memory_growth
+            )
             dump(
-                compare(args.baseline, args.candidate, args.minimum_speedup, args.max_memory_growth)
+                save_decision(
+                    result,
+                    "comparison",
+                    {"baseline": args.baseline, "candidate": args.candidate},
+                    args,
+                )
             )
             return 0
         if args.command == "compare-suite":
-            dump(compare_suites(args.baseline, args.candidate, args))
-            return 0
-        if args.command == "confirm-suite":
             dump(
-                confirm_suites(
+                save_decision(
+                    compare_suites(args.baseline, args.candidate, args),
+                    "suite_comparison",
+                    {"baseline": args.baseline, "candidate": args.candidate},
+                    args,
+                )
+            )
+            return 0
+        if args.command in ("confirm", "confirm-suite"):
+            paths = (
+                args.initial_baseline,
+                args.initial_candidate,
+                args.fresh_baseline,
+                args.fresh_candidate,
+            )
+            if args.command == "confirm-suite":
+                result = confirm_suites(
                     args.initial_baseline,
                     args.initial_candidate,
                     args.fresh_baseline,
                     args.fresh_candidate,
                     args,
                 )
+                kind = "suite_confirmation"
+            else:
+                result = confirm(
+                    *paths,
+                    minimum_speedup=args.minimum_speedup,
+                    max_memory_growth=args.max_memory_growth,
+                )
+                kind = "confirmation"
+            dump(
+                save_decision(
+                    result,
+                    kind,
+                    dict(
+                        zip(
+                            (
+                                "initial_baseline",
+                                "initial_candidate",
+                                "fresh_baseline",
+                                "fresh_candidate",
+                            ),
+                            paths,
+                        )
+                    ),
+                    args,
+                )
             )
+            return 0
+        if args.command == "ledger":
+            if args.action == "sync":
+                dump(
+                    ledger.append_receipts(
+                        sorted((ROOT / "runs/v2").glob("*/result.json")), "historical_import"
+                    )
+                )
+            elif args.action == "verify":
+                dump(ledger.verify(args.artifacts, args.base_ref))
+            else:
+                with ledger.lock():
+                    result = ledger.board(ledger.read_rows())
+                    write_json(ROOT / "results/leaderboard.json", result)
+                dump(result)
             return 0
         if args.command == "export":
             dump(export_report(args.output))

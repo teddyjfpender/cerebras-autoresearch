@@ -12,6 +12,8 @@ installation. An editable install exposes `cerebras-research`; set
 | `process.py` | Deadlines, process groups, log limits, simulator lease |
 | `paths.py` | Fingerprints, streaming digests, contained artifact paths |
 | `scoring.py` | Integrity, comparability, budgets, confirmation, aggregation |
+| `provenance.py` | Evaluator fingerprints, Git state, declared research context |
+| `ledger.py` | Automatic TSV journal, evidence replay, derived research views |
 | `cli.py` | Commands and bounded orchestration |
 | `legacy.py` | Original commands and V1 receipts |
 | `telemetry.py` | Separate hosted API measurement |

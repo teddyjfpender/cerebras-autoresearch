@@ -8,6 +8,17 @@ from .paths import contained, digest, identity, tree_digest
 from .runner import CASES
 
 
+def verify_provenance(data, folder):
+    provenance = data.get("provenance", {})
+    if provenance:
+        evaluator = provenance["evaluator_files"]
+        if not evaluator or identity(evaluator) != provenance["evaluator_sha256"]:
+            raise ValueError("Evaluator fingerprint changed")
+        for relative, sha in evaluator.items():
+            if digest(contained(folder / "evaluator-source", relative)) != sha:
+                raise ValueError("Evaluator source capsule changed")
+
+
 def load_validated(path):
     path = Path(path)
     data = json.loads(path.read_text())
@@ -21,6 +32,7 @@ def load_validated(path):
         )
     if data["profile_sha256"] != identity(data["profile"]):
         raise ValueError("Profile fingerprint changed")
+    verify_provenance(data, path.parent)
     if data["source_sha256"] != tree_digest(path.parent / "work"):
         raise ValueError("Compiled source fingerprint changed")
     if not data.get("harness_files") or data["harness_sha256"] != identity(data["harness_files"]):
@@ -76,6 +88,10 @@ def compare(base_path, candidate_path, minimum_speedup=1.05, max_memory_growth=1
     if not math.isfinite(max_memory_growth) or max_memory_growth < 1:
         raise ValueError("Memory growth budget must be at least one")
     base, candidate = load_validated(base_path), load_validated(candidate_path)
+    if base.get("provenance", {}).get("evaluator_sha256") != candidate.get("provenance", {}).get(
+        "evaluator_sha256"
+    ):
+        raise ValueError("Incomparable runs: evaluator fingerprint; create a matched new baseline")
     if base["variant"] != "baseline" or candidate["variant"] == "baseline":
         raise ValueError("Expected baseline and candidate")
     for key in (
@@ -121,6 +137,12 @@ def confirm(initial_base, initial_candidate, fresh_base, fresh_candidate, **budg
     fresh = compare(fresh_base, fresh_candidate, **budgets)
     for old_path, new_path in ((initial_base, fresh_base), (initial_candidate, fresh_candidate)):
         old, new = load_validated(old_path), load_validated(new_path)
+        if not old.get("provenance", {}).get("evaluator_sha256") or old.get("provenance", {}).get(
+            "evaluator_sha256"
+        ) != new.get("provenance", {}).get("evaluator_sha256"):
+            raise ValueError(
+                "Fresh confirmation requires matching evaluator provenance; rebaseline historical runs"
+            )
         if old["seed"] == new["seed"]:
             raise ValueError("Fresh confirmation reused the initial seed")
         for key in (
