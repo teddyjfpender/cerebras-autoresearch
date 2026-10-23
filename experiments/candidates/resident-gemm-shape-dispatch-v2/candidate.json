@@ -1,0 +1,18 @@
+{
+  "adapter": "reusable_gemm",
+  "initial_profile": "reusable-gemm.prefill-ffn-up-scaled",
+  "source": {
+    "repository": "local",
+    "derived_from": "WaferLLM",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+  "hypothesis": "Keep the previously frozen expansion threshold Nt>=32 and Nt>Kt: use contiguous row accumulation with hoisted weight DSR there, and the reference column map with proven array-form output base resets elsewhere. Preserve every FP16 term and its order, timed full output pack, receive-before-use resets and exact complete frame weight restoration. Test the complete three-shape suite rather than extrapolating the expansion gain.",
+  "falsification": "Reject any six-case output/state/shutdown failure, missing arithmetic term, modified protected controls or memory ratio above1.10x. Suite retention needs full coverage, fresh paired seeds, geometric mean speedup at least1.05x and every fixed worst-cell regression guard; do not label a sub5percent cell individually retained.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

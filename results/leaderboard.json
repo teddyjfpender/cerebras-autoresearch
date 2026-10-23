@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 261,
-  "ledger_head": "fcc60173a303e13092b1230bfa0e1b722c470d1bab482f80d8ca3065c4e22ca4",
+  "ledger_rows": 269,
+  "ledger_head": "05afe2b90788cebc5cd435018d349e90368c0323e810ed68b2342e7981d61f75",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -536,6 +536,19 @@
       "source_sha256": "cc985faf27c21aab7cac478c6a6473ba53c3836a50939e4ac959f481e20af023",
       "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
       "receipt": "runs/v2/20261023T090625Z-reusable-gemm.prefill-ffn-up-scaled-2d1efe9b/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "7dd33d8847ad3954c00d73bcc0e1395bf171721e53e77393424e140548f87a2e",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "approach": "resident-gemm.column-output-array-base-reset",
+      "candidate": "resident-gemm-column-reset-array",
+      "variant": "candidate",
+      "primary_value": "120701.0",
+      "memory_bytes": "30112",
+      "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T091854Z-reusable-gemm.prefill-ffn-down-scaled-91047251/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -1230,19 +1243,6 @@
       "decision": "baseline"
     },
     {
-      "event_id": "d0b0bf3a725a04da0f70225e010120b97ad49953a6ec1ccf21f829a07c301a30",
-      "profile": "reusable-gemm.prefill-ffn-down-scaled",
-      "approach": "reusable_gemm.baseline",
-      "candidate": "",
-      "variant": "baseline",
-      "primary_value": "128315.0",
-      "memory_bytes": "30160",
-      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
-      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
-      "receipt": "runs/v2/20261023T081851Z-reusable-gemm.prefill-ffn-down-scaled-33fe8cf4/result.json",
-      "decision": "baseline"
-    },
-    {
       "event_id": "9936ffa11c564df83a36dd074d1ba8f4912eca6391ad9cd07a4b6566c3c822c5",
       "profile": "reusable-gemm.prefill-ffn-up-scaled",
       "approach": "reusable_gemm.baseline",
@@ -1321,19 +1321,6 @@
       "decision": "measured_unconfirmed"
     },
     {
-      "event_id": "a2e9300723dca582dad72d0db1cb6b8cffd737115bb85ab8c7ebfec8515b4942",
-      "profile": "reusable-gemm.prefill-ffn-down-scaled",
-      "approach": "reusable_gemm.baseline",
-      "candidate": "",
-      "variant": "baseline",
-      "primary_value": "128315.0",
-      "memory_bytes": "30160",
-      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
-      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
-      "receipt": "runs/v2/20261023T085922Z-reusable-gemm.prefill-ffn-down-scaled-06e8c3eb/result.json",
-      "decision": "baseline"
-    },
-    {
       "event_id": "dbe2fe431beee4b34de320b07fb365d7e19834625190faa1a5b10a6b0c3cb2c9",
       "profile": "reusable-gemm.prefill-ffn-up-scaled",
       "approach": "resident-gemm.aspect-ratio-vector-dispatch",
@@ -1357,6 +1344,32 @@
       "source_sha256": "cc985faf27c21aab7cac478c6a6473ba53c3836a50939e4ac959f481e20af023",
       "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
       "receipt": "runs/v2/20261023T090756Z-reusable-gemm.prefill-ffn-up-scaled-7236a3c0/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "7dd33d8847ad3954c00d73bcc0e1395bf171721e53e77393424e140548f87a2e",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "approach": "resident-gemm.column-output-array-base-reset",
+      "candidate": "resident-gemm-column-reset-array",
+      "variant": "candidate",
+      "primary_value": "120701.0",
+      "memory_bytes": "30112",
+      "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T091854Z-reusable-gemm.prefill-ffn-down-scaled-91047251/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "fbdeaacf8e4747a5c8f759a4bc8d008d6f59390708685d0e5486c0068a64035e",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "approach": "resident-gemm.column-output-array-base-reset",
+      "candidate": "resident-gemm-column-reset-array",
+      "variant": "candidate",
+      "primary_value": "120701.0",
+      "memory_bytes": "30112",
+      "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T092322Z-reusable-gemm.prefill-ffn-down-scaled-d8bb8d6f/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -1568,6 +1581,19 @@
       "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
       "receipt": "runs/v2/20261023T090927Z-confirmation-768746ee/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "d2aa1bbbb2d9acf06bffc9f5439edacc5cac04a7507031c1214b20457ef6f163",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "approach": "resident-gemm.column-output-array-base-reset",
+      "candidate": "resident-gemm-column-reset-array",
+      "variant": "candidate",
+      "primary_value": "120701.0",
+      "memory_bytes": "30112",
+      "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T092533Z-confirmation-ce9bba6a/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -1741,6 +1767,25 @@
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
       "speedup": "1.383581268812225",
       "memory_ratio": "1.0284640171858217"
+    },
+    {
+      "event_id": "d2aa1bbbb2d9acf06bffc9f5439edacc5cac04a7507031c1214b20457ef6f163",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "approach": "resident-gemm.column-output-array-base-reset",
+      "candidate": "resident-gemm-column-reset-array",
+      "variant": "candidate",
+      "primary_value": "120701.0",
+      "memory_bytes": "30112",
+      "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T092533Z-confirmation-ce9bba6a/result.json",
+      "decision": "confirmed",
+      "profile_sha256": "5623c21be2738e6790f1ac243d8af0720a350fed3f0d75f50f639fd7d0d207c8",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+      "speedup": "1.063081498910531",
+      "memory_ratio": "0.9984084880636604"
     }
   ],
   "confirmed_suite_events": [

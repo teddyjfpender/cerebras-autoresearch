@@ -346,3 +346,17 @@ experiments failed compilation or simulation and were not retained.
 - [Third campaign and all failures](reports/2026-10-23-resident-gemm-iteration3-campaign.json)
 - [Dispatcher 24-case numerical replay](reports/2026-10-23-resident-gemm-iteration3-up-numerics.json)
 - [Dispatcher 24-case complete core replay](reports/2026-10-23-resident-gemm-iteration3-up-snapshots.json)
+
+## Resident GEMM contraction refinement (2026-10-23)
+
+FFN-down's reference column map benefits from array-form output-descriptor
+base resets: 128,315 -> 120,701 cycles (1.06308x; 5.934% fewer cycles), with
+30,112 vs 30,160 program bytes/PE. All six cases pass both seeds20261029/20261030;
+all24 paired cases pass independent FP64 numerical replay and complete core
+output/state/timestamp corroboration. Tiny's same-approach screen is only
+1.02527x and is not individually retained. The combined dispatcher is awaiting
+full complete-suite qualification.
+
+- [Array-base campaign](reports/2026-10-23-resident-gemm-iteration5-campaign.json)
+- [FFN-down 24-case numerical replay](reports/2026-10-23-resident-gemm-iteration5-down-numerics.json)
+- [FFN-down 24-case full-core replay](reports/2026-10-23-resident-gemm-iteration5-down-snapshots.json)
