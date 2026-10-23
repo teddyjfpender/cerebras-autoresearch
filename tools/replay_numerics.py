@@ -19,6 +19,7 @@ sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
 import numpy as np
 from common import timing
 from resident_oracle import evidence as resident_evidence
+from resident_swiglu_oracle import evidence as swiglu_evidence
 from reusable_gemm_oracle import evidence as sequence_evidence
 
 from cerebras_research.paths import contained, digest, write_json
@@ -61,6 +62,28 @@ def recompute(profile, raw):
             raw["canonical_x_after"],
             raw["canonical_w_after"],
         )
+        np.testing.assert_array_equal(
+            raw["expected_working_w_history"], arrays["expected_working_w_history"]
+        )
+        expected = arrays["expected"]
+        strict = bool(arrays["exact_state_match"])
+    elif kind == "resident_swiglu":
+        if profile.get("oracle_contract") != "resident_swiglu_sequence_fp16_fp32_v1":
+            raise ValueError("Unsupported resident SwiGLU oracle version")
+        t, m, h, f = (dims[n] for n in ("T", "M", "H", "F"))
+        if any(
+            raw[n].shape != shape
+            for n, shape in dict(x=(t, m, h), wg=(h, f), wu=(h, f), wd=(f, h)).items()
+        ):
+            raise ValueError("Resident SwiGLU inputs disagree with profile")
+        arrays, _, bound = swiglu_evidence(
+            profile["pe_grid"][0],
+            *(raw[n] for n in ("x", "wg", "wu", "wd")),
+            {k: raw["stage_" + k] for k in "guvdy"},
+            {k: raw["canonical_" + k] for k in ("X_FRAMES", "WG_CANON", "WU_CANON", "WD_CANON")},
+            raw["working_w_history"],
+        )
+        np.testing.assert_array_equal(raw["actual"], arrays["actual"])
         np.testing.assert_array_equal(
             raw["expected_working_w_history"], arrays["expected_working_w_history"]
         )
@@ -157,9 +180,14 @@ def check_summary(data):
         "gated_mlp": "cycles_per_frame",
         "decoder": "cycles_per_token",
         "reusable_gemm": "cycles_per_gemm",
+        "resident_swiglu": "cycles_per_frame",
     }.get(profile["adapter"])
     if unit:
         expected[unit] = primary / profile["dimensions"]["T"]
+    if profile["adapter"] == "resident_swiglu":
+        expected["amortized_cycles_per_batch_row"] = primary / (
+            profile["dimensions"]["T"] * profile["dimensions"]["M"]
+        )
     if data.get("steps"):
         expected["experiment_wall_seconds"] = sum(step["wall_seconds"] for step in data["steps"])
     if any(metrics[name] != value for name, value in expected.items() if name in metrics):
@@ -207,6 +235,7 @@ def audit(manifest):
                 ROOT / "benchmarks/drivers/common.py",
                 ROOT / "benchmarks/drivers/resident_oracle.py",
                 ROOT / "benchmarks/drivers/reusable_gemm_oracle.py",
+                ROOT / "benchmarks/drivers/resident_swiglu_oracle.py",
             )
         },
         "records": records,

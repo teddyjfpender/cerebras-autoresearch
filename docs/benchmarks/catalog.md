@@ -5,6 +5,8 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 
 | Profile | Family | Precision | Validation | Primary |
 | --- | --- | --- | --- | --- |
+| `resident-swiglu.small` | distributed-resident-swiglu | fp16-fp32 | independent_six_case | max_local_cycles |
+| `resident-swiglu.ffn-scaled` | distributed-resident-swiglu | fp16-fp32 | independent_six_case | max_local_cycles |
 | `pipeline.k8-n8` | composed | fp32 | independent_six_case | max_local_cycles |
 | `pipeline.k16-n32` | composed | fp32 | independent_six_case | max_local_cycles |
 | `pipeline.k64-n32` | composed | fp32 | independent_six_case | max_local_cycles |
@@ -84,3 +86,7 @@ See [complete inference block contracts](inference-blocks.md) for equations,
 state coverage, precision, timing, work counts and qualification commands.
 
 See [resident reusable GEMM](reusable-gemm.md) for its distinct sequence/state contract.
+
+The [distributed resident SwiGLU contract](resident-swiglu.md) defines two newly
+registered cells. Device qualification is outstanding until full receipts are
+linked in results. These are scaled FP16/FP32 FFNs with no RMSNorm or attention.

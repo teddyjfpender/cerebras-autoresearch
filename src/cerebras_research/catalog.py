@@ -7,7 +7,16 @@ import re
 from .paths import ROOT, contained, identity
 
 CATALOG = ROOT / "benchmarks/manifests/catalog.json"
-ADAPTERS = {"meshgemv", "meshgemm", "pipeline", "gated_mlp", "decoder", "reusable_gemm", "sdk"}
+ADAPTERS = {
+    "meshgemv",
+    "meshgemm",
+    "pipeline",
+    "gated_mlp",
+    "decoder",
+    "reusable_gemm",
+    "resident_swiglu",
+    "sdk",
+}
 
 
 def load_catalog():
@@ -67,6 +76,7 @@ def load_catalog():
                 "gated_mlp": (0, 1),
                 "decoder": (0, 1),
                 "reusable_gemm": (0, 1),
+                "resident_swiglu": (0, 1),
             }[profile["adapter"]]
             timing = profile["timing_protocol"]
             if (timing["warmups"], timing["repeats"]) != expected_timing:
@@ -88,6 +98,21 @@ def load_catalog():
                 or (dims["K"] + 4) * 2**-11 >= 1
             ):
                 raise ValueError(f"Invalid resident GEMM sequence contract: {name}")
+        if profile["adapter"] == "resident_swiglu":
+            dims = profile["dimensions"]
+            if (
+                grid != [4, 4]
+                or set(dims) != {"M", "H", "F", "T"}
+                or dims.get("T") != 4
+                or any(dims[k] % 4 for k in ("M", "H", "F"))
+                or dims["F"] < dims["H"]
+                or profile["precision"] != "fp16-fp32"
+                or profile.get("oracle_contract") != "resident_swiglu_sequence_fp16_fp32_v1"
+                or (dims["F"] + 4) * 2**-11 >= 1
+                or profile["work_unit"] != "projection_arithmetic_operations"
+                or profile["work_units"] != 6 * dims["T"] * dims["M"] * dims["H"] * dims["F"]
+            ):
+                raise ValueError(f"Invalid resident SwiGLU sequence contract: {name}")
         if profile["adapter"] == "pipeline" and grid != [1, 1]:
             raise ValueError(f"Current pipeline adapter requires one PE: {name}")
         if profile["adapter"] in ("gated_mlp", "decoder"):

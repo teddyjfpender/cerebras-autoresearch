@@ -14,6 +14,19 @@ screen proving automatic logging with an evaluator source capsule. All 48 host
 tests and artifact replay passed. This is an unsigned local ledger; see the
 [ledger contract](../docs/experiments/ledger.md) for guarantees and limits.
 
+## Latest resident GEMM result
+
+The complete three-shape dispatcher suite is freshly confirmed at **1.146754x
+geometric mean speedup** (worst1.025274x), with all72 paired numerical/core
+cases independently replayed. FFN-up is95,611 ->69,104 cycles and FFN-down
+128,315 ->120,701. Tiny is6,653 ->6,489 within the suite guard.
+[Complete evidence](reports/2026-10-23/resident-gemm/dispatch-suite-confirmed.json).
+
+The newly registered distributed resident SwiGLU chain has its own precision,
+intermediate/state and timing contract. Its device qualification is outstanding.
+Existing results retain their original evaluator tracks; adding this evaluator
+requires new matched baselines for subsequent optimization.
+
 ## Four inference tracks — qualified baselines
 
 All eight profiles passed six independent numerical families under one frozen
@@ -38,11 +51,12 @@ scores cover the complete four-frame/token sequence, including output/state
 stores. Compare matched arms within one profile. The blocks are scaled FP32
 local programs; no Qwen/model/hardware TPS claim follows.
 
-Across historical evaluator tracks, the current 37-profile catalog now has
+Across historical evaluator tracks, the current 39-profile catalog now has
 **16 full independent baselines, 14 reference checks and two diagnostics**:
-32 exercised profiles. Five independent shapes remain unqualified:
+32 exercised profiles. Seven independent shapes remain unqualified:
 `meshgemm.cold-square32`, `meshgemm.cold-rectangular`, `meshgemv.ffn-down-scaled`,
-`meshgemv.square128`, and `pipeline.k64-n32`.
+`meshgemv.square128`, `pipeline.k64-n32`, and the newly registered
+`resident-swiglu.small` / `resident-swiglu.ffn-scaled`.
 
 The [complete numerical replay](reports/2026-10-22-inference-blocks-numerics-qualified.json)
 independently recomputed all 48 cases from the eight qualified baselines,

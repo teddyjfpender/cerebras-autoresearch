@@ -12,6 +12,12 @@ def baseline_source(profile):
     kind = profile["adapter"]
     if kind == "pipeline":
         return ROOT / "kernels/composed/matvec-epilogue", {"repository": "local"}
+    if kind == "resident_swiglu":
+        return ROOT / "kernels/composed/resident-swiglu", {
+            "repository": "local",
+            "derived_from": "WaferLLM",
+            "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8",
+        }
     if kind == "reusable_gemm":
         return ROOT / "kernels/dense/reusable-gemm", {
             "repository": "local",
@@ -125,6 +131,7 @@ def verify_timing_contract(original, edited, kind):
         else {
             "sequence_host",
             "save_frame",
+            "save_stage",
             "init_task",
             "exit",
             "f_memcpy_timestamps",
@@ -211,6 +218,10 @@ def prepare(profile, folder, variant, candidate=None):
             params = f"P:4,Mt:{dims['M'] // 4},Kt:{dims['K'] // 4},Nt:{dims['N'] // 4}"
             if kind == "reusable_gemm":
                 params += f",T:{dims['T']}"
+        elif kind == "resident_swiglu":
+            params = (
+                f"P:4,Mt:{dims['M'] // 4},Ht:{dims['H'] // 4},Ft:{dims['F'] // 4},T:{dims['T']}"
+            )
         elif kind in ("gated_mlp", "decoder"):
             params = ",".join(f"{key}:{value}" for key, value in dims.items())
         else:

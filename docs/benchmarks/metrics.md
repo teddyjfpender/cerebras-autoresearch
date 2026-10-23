@@ -20,6 +20,7 @@ V1 receipts for promotion.
 | --- | --- | --- |
 | MeshGEMV | Resident GEMV and reduction | 1 / 10 |
 | Cold MeshGEMM | One complete GEMM, including communication | 0 / 1 |
+| Distributed resident SwiGLU | Four resident batches: all three GEMMs, SiLU/product, residual and every intermediate/state store | 0 / 1 sequence |
 | Resident reusable GEMM | Four frames, timed resets/communication, every output and working-weight snapshot | 0 / 1 sequence |
 | Resident chain | Matvec, bias, ReLU, residual, full output stores | 1 distinct frame / 4 distinct frames |
 | Complete gated MLP / decoder layer | Full four-frame/token sequence and all output/state stores | 0 / 1 sequence |
@@ -85,3 +86,9 @@ Resident nonlinear blocks use the separately versioned
 Their primary score includes all four frames/tokens, and work units count only
 projection/attention arithmetic, while normalization, nonlinearities, RoPE and
 cache history stores remain timed.
+
+The distributed [resident SwiGLU chain](resident-swiglu.md) declares
+`projection_arithmetic_operations = 6*T*M*H*F`. All nonlinear/residual work and
+instrumentation remain timed, but are excluded from that numerator.
+`amortized_cycles_per_batch_row` divides whole-sequence cycles by T*M; it is an
+instrumented workload average, not the latency of one row or a TPS measurement.

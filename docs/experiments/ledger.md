@@ -189,4 +189,4 @@ tools/sdk-run cs_python tools/replay_snapshots.py \
 The manifest schema matches numerical replay. Reports cannot be overwritten.
 Unsupported contracts, duplicate receipts, changed/missing cores, mismatched
 snapshot helpers and any array/timestamp mismatch fail the audit. Distributed
-SwiGLU is currently staged and requires registration/device qualification.
+SwiGLU is registered; its current device qualification is recorded in results.
