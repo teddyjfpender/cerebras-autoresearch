@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 314,
-  "ledger_head": "4e43f3f189aaa13d55d8b7954d8857c216e5e5a3a58d291739eb5f7107b7f6d0",
+  "ledger_rows": 330,
+  "ledger_head": "c6477015d6bdb7acf35204cdd05d131f03dfba89713422828025efb734a59f6e",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -667,6 +667,19 @@
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T105451Z-resident-swiglu-bf16.ffn-scaled-1a17f4c9/result.json",
       "decision": "baseline"
+    },
+    {
+      "event_id": "169c5ad675fb798e1f33872aeeda1b0992dfe0fe6a4f815dcb8ac7d55dd7e560",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.projection-silu6-buffer-composition",
+      "candidate": "bf16-swiglu-projection-silu6-reuse",
+      "variant": "candidate",
+      "primary_value": "38382.0",
+      "memory_bytes": "11328",
+      "source_sha256": "146c69ffad40bcb1d173646aaf492e450dd60012ee57868c9ee05e57d3e8afd2",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T110446Z-resident-swiglu-bf16.small-7067e8b4/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "measured_cycle_memory_front": [
@@ -1657,6 +1670,45 @@
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T105451Z-resident-swiglu-bf16.ffn-scaled-1a17f4c9/result.json",
       "decision": "baseline"
+    },
+    {
+      "event_id": "169c5ad675fb798e1f33872aeeda1b0992dfe0fe6a4f815dcb8ac7d55dd7e560",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.projection-silu6-buffer-composition",
+      "candidate": "bf16-swiglu-projection-silu6-reuse",
+      "variant": "candidate",
+      "primary_value": "38382.0",
+      "memory_bytes": "11328",
+      "source_sha256": "146c69ffad40bcb1d173646aaf492e450dd60012ee57868c9ee05e57d3e8afd2",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T110446Z-resident-swiglu-bf16.small-7067e8b4/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "03f1558e7cab56123ce9ec10b4883621568cc5e7b2de8b973226581ddc0104ca",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "57573.0",
+      "memory_bytes": "11088",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T110535Z-resident-swiglu-bf16.small-3dfce701/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "a8d4ab30269d950cf01e6b4f4b596e069bd8e8e3cdee296144ec3eb324ffa2e7",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.projection-silu6-buffer-composition",
+      "candidate": "bf16-swiglu-projection-silu6-reuse",
+      "variant": "candidate",
+      "primary_value": "38382.0",
+      "memory_bytes": "11328",
+      "source_sha256": "146c69ffad40bcb1d173646aaf492e450dd60012ee57868c9ee05e57d3e8afd2",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T110631Z-resident-swiglu-bf16.small-c4fc2805/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "confirmed_improvements": [
@@ -1932,6 +1984,19 @@
       "evaluator_sha256": "91f1236a2df72a9ac422df7d6728a3fe723070338435e8ed51e96fa7016aedb8",
       "receipt": "runs/v2/20261023T104719Z-confirmation-d0223b0d/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "aecdbf061f16edade15fc15e40a02b33580c64d4cde3030a126cae43bf045164",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.projection-silu6-buffer-composition",
+      "candidate": "bf16-swiglu-projection-silu6-reuse",
+      "variant": "candidate",
+      "primary_value": "38382.0",
+      "memory_bytes": "11328",
+      "source_sha256": "146c69ffad40bcb1d173646aaf492e450dd60012ee57868c9ee05e57d3e8afd2",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T110720Z-confirmation-9d6bff8f/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -2162,6 +2227,25 @@
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
       "speedup": "1.4559722914852389",
       "memory_ratio": "1.033674963396779"
+    },
+    {
+      "event_id": "aecdbf061f16edade15fc15e40a02b33580c64d4cde3030a126cae43bf045164",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.projection-silu6-buffer-composition",
+      "candidate": "bf16-swiglu-projection-silu6-reuse",
+      "variant": "candidate",
+      "primary_value": "38382.0",
+      "memory_bytes": "11328",
+      "source_sha256": "146c69ffad40bcb1d173646aaf492e450dd60012ee57868c9ee05e57d3e8afd2",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T110720Z-confirmation-9d6bff8f/result.json",
+      "decision": "confirmed",
+      "profile_sha256": "d81a0cbf509ef27adf889c963581673958cddcb944f6802ee14913a6a7220ebc",
+      "baseline_tree_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+      "speedup": "1.5",
+      "memory_ratio": "1.0216450216450217"
     }
   ],
   "confirmed_suite_events": [

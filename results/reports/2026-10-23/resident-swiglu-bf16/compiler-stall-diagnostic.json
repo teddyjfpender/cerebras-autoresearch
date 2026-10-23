@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "status": "cancelled_compile_stall_preserved",
+  "created_utc": "2026-10-23T11:17:00.013370+00:00",
+  "observed": {
+    "parent": "cslc-driver",
+    "wait_channel": "futex_wait_queue",
+    "threads": 8,
+    "zombie_linker_children": 5,
+    "process_snapshot": {
+      "path": "runs/maintenance/bf16-optimization-processes.log",
+      "sha256": "9056c6e8eec870422992d2586889e80e3e6616917b405b77ef06656273cc2951"
+    }
+  },
+  "cancelled_receipt": {
+    "path": "runs/v2/20261023T111313Z-resident-swiglu-bf16.ffn-scaled-b257ca79/result.json",
+    "sha256": "64433497b55a2bbbf373ea4a15bc0de62c9225c0d8456cf19c102e30435eb7e6"
+  },
+  "campaign_checkpoint": {
+    "path": "runs/campaigns/resident-swiglu-bf16/optimization-initial-cancelled-state.json",
+    "sha256": "3db965773c72747997ce331ef441b583bef2831d2dfa444f2ec57dd11cf9136f"
+  },
+  "reason": "Previously compiled identical source/arguments stalled with completed linker children; cancelled the bounded attempt and preserved all partial evidence before retry. Root cause undetermined.",
+  "performance_result": false,
+  "qwen_tps_result": false
+}
