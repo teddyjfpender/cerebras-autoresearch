@@ -274,6 +274,7 @@ fn save_stage() void {
     }
 }
 
+var total_repeat_times: i16 = 0;
 var total_warmup_times: i16 = 0;
 
 var repeat_times: i16 = 0;
