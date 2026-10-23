@@ -15,6 +15,7 @@
     "sdk/sparse-stencil.json",
     "sdk/spatial.json",
     "composed/gated-mlp.json",
-    "decoder/decoder.json"
+    "decoder/decoder.json",
+    "dense/reusable-gemm.json"
   ]
 }

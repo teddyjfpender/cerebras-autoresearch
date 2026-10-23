@@ -277,6 +277,54 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(research["approach"], manifest["approach"])
         self.assertNotEqual(first["evaluator_sha256"], second["evaluator_sha256"])
 
+    def test_best_confirmed_view_preserves_incumbent_and_separates_evaluator_tracks(self):
+        paths = (
+            make_record(self.root, "base"),
+            make_record(self.root, "candidate", "candidate", cycles=80),
+            make_record(self.root, "fresh-base", seed=8),
+            make_record(self.root, "fresh-candidate", "candidate", seed=8, cycles=80),
+        )
+        report = confirm(*paths)
+        args = argparse.Namespace(minimum_speedup=1.05, max_memory_growth=1.1)
+        cli.save_decision(
+            report,
+            "confirmation",
+            dict(
+                zip(
+                    ("initial_baseline", "initial_candidate", "fresh_baseline", "fresh_candidate"),
+                    paths,
+                )
+            ),
+            args,
+        )
+        incumbent = ledger.read_rows()[0]
+        slower = dict(incumbent, primary_value="90", receipt="slower.json", event_id="slower")
+        other = dict(
+            incumbent,
+            primary_value="1",
+            evaluator_sha256="another-evaluator",
+            receipt="other.json",
+            event_id="other",
+        )
+        provisional = dict(
+            incumbent,
+            kind="run",
+            outcome="validated",
+            decision="",
+            primary_value="0.5",
+            receipt="provisional.json",
+            event_id="provisional",
+        )
+        lucky = dict(
+            incumbent, primary_value="60", speedup="1.15", receipt="lucky.json", event_id="lucky"
+        )
+        view = ledger.board([incumbent, slower, other, lucky, provisional])
+        self.assertEqual(len(view["confirmed_improvements"]), 4)
+        selected = {row["evaluator_sha256"]: row for row in view["best_confirmed_by_track"]}
+        self.assertEqual(len(selected), 2)
+        self.assertEqual(selected[incumbent["evaluator_sha256"]]["receipt"], incumbent["receipt"])
+        self.assertEqual(selected["another-evaluator"]["receipt"], "other.json")
+
 
 if __name__ == "__main__":
     unittest.main()

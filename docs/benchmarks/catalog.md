@@ -35,23 +35,27 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 | `sdk.local-matvec` | local-bandwidth | fp32 | upstream_reference | upstream_cycles |
 | `sdk.spmv7` | sparse-stencil | fp32 | upstream_reference | upstream_cycles |
 | `sdk.game-of-life` | spatial | integer | upstream_reference | correctness only |
-
 | `gated-mlp.h16-f32` | resident-gated-mlp | fp32 | independent_six_case | max_local_cycles |
 | `gated-mlp.h32-f64` | resident-gated-mlp | fp32 | independent_six_case | max_local_cycles |
 | `decoder.h16-f32-ctx4` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
 | `decoder.h16-f32-ctx12` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
 
+| `reusable-gemm.tiny-sequence` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |
+| `reusable-gemm.prefill-ffn-up-scaled` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |
+| `reusable-gemm.prefill-ffn-down-scaled` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |
+
 ## Suites
 
 | Suite | Profiles | Purpose |
 | --- | ---: | --- |
-| `all` | 34 | Every configured profile; potentially slow under emulation |
+| `all` | 37 | Every configured profile; potentially slow under emulation |
 | `communication` | 4 | Broadcast and emulated host transfers |
 | `dense` | 11 | Dense inference primitives |
 | `fusion` | 3 | Independent composed chains; staged/fused suite comparison |
 | `gemm` | 5 | Five cold GEMM shapes |
+| `reusable-gemm` | 3 | Four resident frames, shared weights, complete output/state oracle |
 | `gemv` | 6 | Six GEMV shapes |
-| `qualification` | 24 | Representative independent oracles and every SDK profile |
+| `qualification` | 27 | Representative independent oracles and every SDK profile |
 | `regression` | 5 | Fixed dense/composed cross-shape guard set |
 | `sdk` | 16 | All pinned SDK reference/diagnostic profiles |
 | `prefill-ffn` | 2 | Larger cold FFN up/down GEMM projections |
@@ -79,3 +83,5 @@ timing protocols, dimensions, PE budgets, and units.
 
 See [complete inference block contracts](inference-blocks.md) for equations,
 state coverage, precision, timing, work counts and qualification commands.
+
+See [resident reusable GEMM](reusable-gemm.md) for its distinct sequence/state contract.

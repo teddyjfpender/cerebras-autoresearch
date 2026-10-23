@@ -7,7 +7,7 @@ import re
 from .paths import ROOT, contained, identity
 
 CATALOG = ROOT / "benchmarks/manifests/catalog.json"
-ADAPTERS = {"meshgemv", "meshgemm", "pipeline", "gated_mlp", "decoder", "sdk"}
+ADAPTERS = {"meshgemv", "meshgemm", "pipeline", "gated_mlp", "decoder", "reusable_gemm", "sdk"}
 
 
 def load_catalog():
@@ -66,6 +66,7 @@ def load_catalog():
                 "pipeline": (1, 4),
                 "gated_mlp": (0, 1),
                 "decoder": (0, 1),
+                "reusable_gemm": (0, 1),
             }[profile["adapter"]]
             timing = profile["timing_protocol"]
             if (timing["warmups"], timing["repeats"]) != expected_timing:
@@ -75,6 +76,18 @@ def load_catalog():
             dims = profile["dimensions"]
             if grid != [4, 4] or any(v % p for v in dims.values()):
                 raise ValueError(f"Dense dimensions must be positive multiples of four: {name}")
+        if profile["adapter"] == "reusable_gemm":
+            dims = profile["dimensions"]
+            if (
+                grid != [4, 4]
+                or set(dims) != {"M", "K", "N", "T"}
+                or dims.get("T") != 4
+                or any(dims[k] % 4 for k in ("M", "K", "N"))
+                or profile["precision"] != "fp16"
+                or profile.get("oracle_contract") != "resident_gemm_sequence_fp16_v1"
+                or (dims["K"] + 4) * 2**-11 >= 1
+            ):
+                raise ValueError(f"Invalid resident GEMM sequence contract: {name}")
         if profile["adapter"] == "pipeline" and grid != [1, 1]:
             raise ValueError(f"Current pipeline adapter requires one PE: {name}")
         if profile["adapter"] in ("gated_mlp", "decoder"):

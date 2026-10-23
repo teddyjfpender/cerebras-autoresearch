@@ -24,6 +24,9 @@
     "gated-mlp.h16-f32",
     "gated-mlp.h32-f64",
     "decoder.h16-f32-ctx4",
-    "decoder.h16-f32-ctx12"
+    "decoder.h16-f32-ctx12",
+    "reusable-gemm.tiny-sequence",
+    "reusable-gemm.prefill-ffn-up-scaled",
+    "reusable-gemm.prefill-ffn-down-scaled"
   ]
 }

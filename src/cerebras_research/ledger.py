@@ -327,10 +327,30 @@ def board(rows):
             for other in measured
         )
     ]
+    confirmed_best = {}
+    for row in rows:
+        if (
+            row["decision"] == "confirmed"
+            and row["primary_metric"] == "max_local_cycles"
+            and row["evidence_audit"] == "verified"
+            and row["primary_value"]
+            and row["memory_bytes"]
+            and row["speedup"]
+            and all(track(row))
+        ):
+            key = track(row)
+            cost = (-float(row["speedup"]), float(row["primary_value"]), float(row["memory_bytes"]))
+            if key not in confirmed_best or cost < (
+                -float(confirmed_best[key]["speedup"]),
+                float(confirmed_best[key]["primary_value"]),
+                float(confirmed_best[key]["memory_bytes"]),
+            ):
+                confirmed_best[key] = row
     keys = (
         "event_id",
         "profile",
         "approach",
+        "candidate",
         "variant",
         "primary_value",
         "memory_bytes",
@@ -352,6 +372,23 @@ def board(rows):
         "measured_best_by_approach": [compact(r) for r in best.values()],
         "measured_cycle_memory_front": [compact(r) for r in front],
         "confirmed_improvements": [compact(r) for r in rows if r["decision"] == "confirmed"],
+        "best_confirmed_by_track": [
+            dict(
+                compact(r),
+                **{
+                    key: r[key]
+                    for key in (
+                        "profile_sha256",
+                        "baseline_tree_sha256",
+                        "harness_sha256",
+                        "sdk_sha256",
+                        "speedup",
+                        "memory_ratio",
+                    )
+                },
+            )
+            for r in confirmed_best.values()
+        ],
         "confirmed_suite_events": [
             r["event_id"] for r in rows if r["decision"] == "confirmed_suite"
         ],
@@ -372,8 +409,19 @@ def append_receipts(paths, origin="live"):
     with lock():
         rows = read_rows(ledger)
         existing = {r["event_id"]: r for r in rows}
+        by_receipt = {r["receipt"]: r for r in rows}
         added, skipped = 0, []
         for path in paths:
+            path = resolve(path)
+            previous = by_receipt.get(cell(str(path.relative_to(ROOT))))
+            if previous:
+                if digest(path) != previous["receipt_sha256"]:
+                    raise ValueError(
+                        "An already-recorded receipt changed; preserve it and create a new attempt"
+                    )
+                # Repeated recovery is incremental. Explicit --artifacts audits
+                # still replay all evidence, including immutable prior receipts.
+                continue
             fields = receipt_row(path, origin)
             if fields is None:
                 skipped.append(str(Path(path).relative_to(ROOT)))
@@ -395,6 +443,7 @@ def append_receipts(paths, origin="live"):
             row["row_sha256"] = identity({k: row[k] for k in FIELDS if k != "row_sha256"})
             rows.append(row)
             existing[row["event_id"]] = row
+            by_receipt[row["receipt"]] = row
             added += 1
         ledger.parent.mkdir(parents=True, exist_ok=True)
         temporary = ledger.with_name(".ledger-" + uuid.uuid4().hex + ".tmp")

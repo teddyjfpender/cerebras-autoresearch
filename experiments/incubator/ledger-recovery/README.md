@@ -1,7 +1,9 @@
 # Staged ledger recovery improvement
 
-Status: unapplied, unqualified patch. Keep the current evaluator frozen until
-its campaign finishes, then review/test/apply with the next evaluator version.
+Current status: applied with reusable-GEMM evaluator
+`315443cd2ad3f1f2fadba98d225e8cae57e9bb27e5d7272d22f72f1318c338d0`.
+The live tree passed 97 host checks (one Mac skip) and 27 SDK contract checks.
+Historical development notes below preserve the pre-integration findings.
 
 Observed problem: SDK VM recovery previously spent about six minutes replaying
 already-journaled receipts. `append_receipts` currently calls `receipt_row` and

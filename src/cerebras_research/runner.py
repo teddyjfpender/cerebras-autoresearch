@@ -64,7 +64,21 @@ def execute(
             raise RuntimeError("Experiment budget exhausted")
         index = len(record["steps"])
         print(f"{profile['id']} [{variant}] step {index}: {' '.join(args)}", flush=True)
-        data = run_logged(args, work, work / f"step-{index}.log", remaining)
+        started = time.monotonic()
+        try:
+            data = run_logged(args, work, work / f"step-{index}.log", remaining)
+        except BaseException as error:
+            record["steps"].append(
+                {
+                    "command": args,
+                    "wall_seconds": time.monotonic() - started,
+                    "log": f"step-{index}.log",
+                    "status": "cancelled" if isinstance(error, KeyboardInterrupt) else "failed",
+                    "error": str(error),
+                }
+            )
+            write_json(receipt, record)
+            raise
         record["steps"].append(data)
         write_json(receipt, record)
         return (work / data["log"]).read_text()
@@ -85,10 +99,7 @@ def execute(
             status="running",
         )
         record["harness_files"] = {
-            "benchmark_" + p.name if p.name == "pipeline.py" else p.name: digest(
-                work / ("benchmark_" + p.name if p.name == "pipeline.py" else p.name)
-            )
-            for p in (ROOT / "benchmarks/drivers").glob("*.py")
+            str(path.relative_to(work)): digest(path) for path in sorted(work.rglob("*.py"))
         }
         record["harness_sha256"] = identity(record["harness_files"])
         record["compile_command"] = compile_args
@@ -133,10 +144,11 @@ def execute(
                 "pipeline": "benchmark_pipeline.py",
                 "gated_mlp": "resident.py",
                 "decoder": "resident.py",
+                "reusable_gemm": "reusable_gemm.py",
             }.get(kind, "dense.py")
             for case in CASES[:1] if screen else CASES:
                 args = ["cs_python", driver, "--name", "out", "--case", case, "--seed", str(seed)]
-                if kind != "pipeline":
+                if kind not in ("pipeline", "reusable_gemm"):
                     args.extend(["--kind", kind])
                 log = step(args)
                 if "SUCCESS!" not in log:
@@ -163,6 +175,10 @@ def execute(
                 record["metrics"][
                     "cycles_per_frame" if kind == "gated_mlp" else "cycles_per_token"
                 ] = record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
+            if kind == "reusable_gemm":
+                record["metrics"]["cycles_per_gemm"] = (
+                    record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
+                )
         step(["cs_python", "memory.py", "out"])
         record["memory"] = json.loads((work / "out/memory.json").read_text())
         observed = {(row["x"], row["y"]) for row in record["memory"]["observations"]}
@@ -185,9 +201,19 @@ def execute(
         record["error"] = str(error)
         raise
     finally:
+        record["metrics"]["experiment_wall_seconds"] = sum(
+            step["wall_seconds"] for step in record["steps"]
+        )
         if work.exists():
             for path in sorted(work.rglob("*")):
-                if path.is_file() and path.suffix in (".npz", ".json", ".log", ".csl", ".txt"):
+                if path.is_file() and path.suffix in (
+                    ".npz",
+                    ".json",
+                    ".log",
+                    ".csl",
+                    ".txt",
+                    ".elf",
+                ):
                     record["artifacts"][str(path.relative_to(folder))] = digest(path)
         write_json(receipt, record)
         from .ledger import append_receipts

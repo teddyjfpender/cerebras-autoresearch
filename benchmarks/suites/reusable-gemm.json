@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "id": "reusable-gemm",
+  "description": "Four distinct resident GEMMs with full output and canonical/working weight state qualification.",
+  "profiles": [
+    "reusable-gemm.tiny-sequence",
+    "reusable-gemm.prefill-ffn-up-scaled",
+    "reusable-gemm.prefill-ffn-down-scaled"
+  ]
+}

@@ -12,6 +12,12 @@ def baseline_source(profile):
     kind = profile["adapter"]
     if kind == "pipeline":
         return ROOT / "kernels/composed/matvec-epilogue", {"repository": "local"}
+    if kind == "reusable_gemm":
+        return ROOT / "kernels/dense/reusable-gemm", {
+            "repository": "local",
+            "derived_from": "WaferLLM",
+            "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8",
+        }
     if kind in ("gated_mlp", "decoder"):
         return ROOT / {
             "gated_mlp": "kernels/composed/gated-mlp",
@@ -44,7 +50,25 @@ def materialize(profile, folder, csl_only=False):
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(path, target)
         else:
-            shutil.copytree(origin, destination, dirs_exist_ok=True)
+            shutil.copytree(
+                origin,
+                destination,
+                dirs_exist_ok=True,
+                ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.pyo"),
+            )
+    # Candidate initialization copies CSL only; retain the pinned repository's
+    # notices alongside that code, including locally derived reference kernels.
+    notice_roots = [source]
+    kind = profile.get("adapter")
+    if kind in ("meshgemv", "meshgemm", "sdk"):
+        notice_roots.append(ROOT / ".deps" / ("sdk-examples" if kind == "sdk" else "waferllm"))
+    for name in ("LICENSE", "NOTICE"):
+        options = [
+            parent / suffix for parent in notice_roots for suffix in (name + ".upstream", name)
+        ]
+        notice = next((path for path in options if path.is_file()), None)
+        if notice:
+            shutil.copy2(notice, folder / (name + ".upstream"))
     # Original SDK examples import sibling benchmark-libs from src/. Relocate
     # those imports (including dynamic library path strings) into this run's
     # own tree, without changing arithmetic.
@@ -99,6 +123,8 @@ def verify_timing_contract(original, edited, kind):
         {"compute", "snapshot"}
         if kind in ("pipeline", "gated_mlp", "decoder")
         else {
+            "sequence_host",
+            "save_frame",
             "init_task",
             "exit",
             "f_memcpy_timestamps",
@@ -181,8 +207,10 @@ def prepare(profile, folder, variant, candidate=None):
     else:
         if kind == "meshgemv":
             params = f"P:4,Mt:{dims['M'] // 4},Nt:{dims['N'] // 4},pe_num_group:2,root_1st_phase:1,root_2nd_phase:3"
-        elif kind == "meshgemm":
+        elif kind in ("meshgemm", "reusable_gemm"):
             params = f"P:4,Mt:{dims['M'] // 4},Kt:{dims['K'] // 4},Nt:{dims['N'] // 4}"
+            if kind == "reusable_gemm":
+                params += f",T:{dims['T']}"
         elif kind in ("gated_mlp", "decoder"):
             params = ",".join(f"{key}:{value}" for key, value in dims.items())
         else:

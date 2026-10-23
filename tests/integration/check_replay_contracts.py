@@ -13,6 +13,8 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
 from common import timing
 from resident_oracle import evidence, inputs, reference
+from reusable_gemm_oracle import evidence as sequence_evidence
+from reusable_gemm_oracle import pack_inputs
 
 from cerebras_research.paths import digest
 from tools.replay_numerics import check_case, check_summary
@@ -143,6 +145,43 @@ class ReplayTests(unittest.TestCase):
         }
         arrays, _, bound = evidence("gated_mlp", short, data, actual)
         arrays.update(error_bound=bound, timer_u32=packed())
+        with self.assertRaisesRegex(ValueError, "shape"):
+            self.check(profile, arrays)
+
+    def sequence(self):
+        dims = dict(M=16, K=16, N=16, T=4)
+        profile = dict(
+            adapter="reusable_gemm",
+            dimensions=dims,
+            pe_grid=[4, 4],
+            oracle_contract="resident_gemm_sequence_fp16_v1",
+            timing_protocol=dict(repeats=1),
+        )
+        x = (np.arange(4 * 16 * 16).reshape(4, 16, 16) / 1024).astype(np.float16)
+        w = np.eye(16, dtype=np.float16)
+        px, pw = pack_inputs(4, 4, 4, 4, x, w)
+        history = np.broadcast_to(pw[:, :, None], (4, 4, 4, 16)).copy()
+        arrays, _, bound = sequence_evidence(
+            4, x, w, x.astype(np.float64), history, px.ravel(), pw.ravel()
+        )
+        arrays.update(error_bound=bound, timer_u32=np.tile(packed(), (16, 1)))
+        return profile, arrays
+
+    def test_every_resident_gemm_frame_and_state_replays(self):
+        result = self.check(*self.sequence())
+        self.assertEqual(result["max_abs_error_recomputed"], 0)
+        self.assertTrue(result["exact_state_match"])
+
+    def test_resident_gemm_middle_state_corruption_rejected_despite_saved_success(self):
+        profile, arrays = self.sequence()
+        arrays["working_w_history"][0, 0, 1, 0] += 1
+        self.assertTrue(bool(arrays["exact_state_match"]))
+        with self.assertRaisesRegex(ValueError, "state"):
+            self.check(profile, arrays)
+
+    def test_resident_gemm_shortened_sequence_is_rejected(self):
+        profile, arrays = self.sequence()
+        arrays["x"] = arrays["x"][:3]
         with self.assertRaisesRegex(ValueError, "shape"):
             self.check(profile, arrays)
 

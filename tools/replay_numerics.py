@@ -19,6 +19,7 @@ sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
 import numpy as np
 from common import timing
 from resident_oracle import evidence as resident_evidence
+from reusable_gemm_oracle import evidence as sequence_evidence
 
 from cerebras_research.paths import contained, digest, write_json
 from cerebras_research.scoring import load_validated
@@ -43,6 +44,28 @@ def recompute(profile, raw):
         length, u = (k // p if gemv else k) + p, 2.0**-11
         gamma = length * u / (1 - length * u)
         bound = gamma * (np.abs(x) @ np.abs(w)) + (k + p) * 2.0**-24
+    elif kind == "reusable_gemm":
+        if profile.get("oracle_contract") != "resident_gemm_sequence_fp16_v1":
+            raise ValueError("Unsupported resident GEMM oracle version")
+        if raw["x"].shape != (dims["T"], dims["M"], dims["K"]) or raw["w"].shape != (
+            dims["K"],
+            dims["N"],
+        ):
+            raise ValueError("Sequence input shape disagrees with the profile")
+        arrays, _, bound = sequence_evidence(
+            profile["pe_grid"][0],
+            raw["x"],
+            raw["w"],
+            raw["actual"],
+            raw["working_w_history"],
+            raw["canonical_x_after"],
+            raw["canonical_w_after"],
+        )
+        np.testing.assert_array_equal(
+            raw["expected_working_w_history"], arrays["expected_working_w_history"]
+        )
+        expected = arrays["expected"]
+        strict = bool(arrays["exact_state_match"])
     elif kind == "pipeline":
         x, w = raw["x"].astype(np.float64), raw["w"].astype(np.float64)
         if x.shape != (5, dims["K"]) or w.shape != (dims["K"], dims["N"]):
@@ -183,6 +206,7 @@ def audit(manifest):
             for p in (
                 ROOT / "benchmarks/drivers/common.py",
                 ROOT / "benchmarks/drivers/resident_oracle.py",
+                ROOT / "benchmarks/drivers/reusable_gemm_oracle.py",
             )
         },
         "records": records,

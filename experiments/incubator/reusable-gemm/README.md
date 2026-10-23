@@ -1,8 +1,10 @@
 # Incubator: resident reusable MeshGEMM
 
-**Status: source/design under investigation; not registered, compiled or
-qualified.** No cycle score or improvement is claimed. Existing cold profiles
-and pinned sources are unchanged.
+**Current status:** the baseline adapter and all three profiles are registered.
+Canonical code is in `kernels/dense/reusable-gemm/`; the contract is in
+`docs/benchmarks/reusable-gemm.md`. Device qualification is in progress.
+The design snapshots and unmeasured candidate ideas below remain historical
+preparation material. The reviewed evaluator patch has been applied.
 
 This is the next important benchmark for the twelve-hour session. The original
 warmed sequence fails correctness, so it cannot supply a throughput score.

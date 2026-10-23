@@ -20,6 +20,7 @@ V1 receipts for promotion.
 | --- | --- | --- |
 | MeshGEMV | Resident GEMV and reduction | 1 / 10 |
 | Cold MeshGEMM | One complete GEMM, including communication | 0 / 1 |
+| Resident reusable GEMM | Four frames, timed resets/communication, every output and working-weight snapshot | 0 / 1 sequence |
 | Resident chain | Matvec, bias, ReLU, residual, full output stores | 1 distinct frame / 4 distinct frames |
 | Complete gated MLP / decoder layer | Full four-frame/token sequence and all output/state stores | 0 / 1 sequence |
 | Timed SDK references | Audited upstream region | Profile-specific |
@@ -27,8 +28,10 @@ V1 receipts for promotion.
 | Host I/O diagnostics | Emulated transfer interval | No hardware bandwidth claim |
 
 The original GEMM warmup/repeat sequence failed the independent output oracle.
-Cold profiles validate the actual timed invocation. Reusable GEMM state is a
-future correctness/performance challenge; the bound was not relaxed.
+Cold profiles validate the actual timed invocation. The new [resident reusable GEMM](reusable-gemm.md) profiles restore counters and
+working buffers inside the timer and check every frame and weight-state boundary.
+Their new oracle/sequence contract requires its own baseline qualification; the
+original cold profiles and numerical bounds remain separate.
 
 ## Additional metrics
 

@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "reusable-gemm.tiny-sequence",
+      "adapter": "reusable_gemm",
+      "family": "resident-gemm-sequence",
+      "dimensions": {
+        "M": 16,
+        "K": 16,
+        "N": 16,
+        "T": 4
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_gemm_sequence_fp16_v1",
+      "metric": "max_local_cycles",
+      "work_units": 32768,
+      "work_unit": "arithmetic_operations",
+      "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+      "timeout_seconds": 1200,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+      }
+    },
+    {
+      "id": "reusable-gemm.prefill-ffn-up-scaled",
+      "adapter": "reusable_gemm",
+      "family": "resident-gemm-sequence",
+      "dimensions": {
+        "M": 16,
+        "K": 80,
+        "N": 272,
+        "T": 4
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_gemm_sequence_fp16_v1",
+      "metric": "max_local_cycles",
+      "work_units": 2785280,
+      "work_unit": "arithmetic_operations",
+      "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+      "timeout_seconds": 1200,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+      }
+    },
+    {
+      "id": "reusable-gemm.prefill-ffn-down-scaled",
+      "adapter": "reusable_gemm",
+      "family": "resident-gemm-sequence",
+      "dimensions": {
+        "M": 16,
+        "K": 272,
+        "N": 80,
+        "T": 4
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_gemm_sequence_fp16_v1",
+      "metric": "max_local_cycles",
+      "work_units": 2785280,
+      "work_unit": "arithmetic_operations",
+      "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+      "timeout_seconds": 1200,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+      }
+    }
+  ]
+}
