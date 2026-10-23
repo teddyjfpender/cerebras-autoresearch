@@ -1,5 +1,26 @@
 # Results and qualification
 
+## Distributed attention — confirmed >5x SDK improvement
+
+The [GQA challenge](../docs/benchmarks/decode-attention.md) has seven configured
+profiles, including two finer-shard latency points. The
+[>5x report](reports/2026-10-23-attention-5x.json) confirms **5.103x** on
+`d64-ctx128-latency32`: **220,273 → 43,165 sequence cycles**, with 32 compute
+PEs in both arms. Program-object memory grows **29,216 → 30,480 bytes per PE**
+(4.3%). Every case passes at both seeds; the independent replay checks all
+24 cases from the four full paired runs.
+
+The earlier [stage-one report](reports/2026-10-23-attention-sdk-stage1.json)
+confirms 1.816x on the 4-PE source track. These are separate profile/source
+tracks, and their gains are not multiplied. No family-wide >5x, hardware/model
+TPS or training-throughput result is claimed.
+The [shape-screen report](reports/2026-10-23-attention-shape-screens.json) records
+successful compilation, memory observations, clean exits and positive-case
+output/cache checks for both arms of all seven shapes. Screens remain provisional.
+The [readiness report](reports/2026-10-23-attention-readiness.json) preserves
+the earlier host-only state. Older-machine raw artifacts are absent here;
+new-session ledger rows were individually audited against their raw evidence.
+
 ## Canonical research journal
 
 [`results.tsv`](results.tsv) automatically records terminal V2 attempts and

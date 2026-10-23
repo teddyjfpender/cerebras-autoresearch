@@ -255,6 +255,10 @@ class LedgerTests(unittest.TestCase):
         driver = self.root / "benchmarks/drivers/oracle.py"
         driver.parent.mkdir(parents=True)
         driver.write_text("# first oracle")
+        for name in ("sdk-run", "sdk-unpacked", "unpacked-sdk-bin/cslc"):
+            wrapper = self.root / "tools" / name
+            wrapper.parent.mkdir(parents=True, exist_ok=True)
+            wrapper.write_text("# fixture SDK entrypoint")
         candidate = self.root / "candidate"
         candidate.mkdir()
         manifest = {
@@ -274,8 +278,11 @@ class LedgerTests(unittest.TestCase):
             first, research = capture(get_profile("meshgemv.square64"), "candidate", candidate)
             driver.write_text("# changed oracle")
             second, _ = capture(get_profile("meshgemv.square64"), "candidate", candidate)
+            wrapper.write_text("# changed SDK entrypoint")
+            third, _ = capture(get_profile("meshgemv.square64"), "candidate", candidate)
         self.assertEqual(research["approach"], manifest["approach"])
         self.assertNotEqual(first["evaluator_sha256"], second["evaluator_sha256"])
+        self.assertNotEqual(second["evaluator_sha256"], third["evaluator_sha256"])
 
     def test_best_confirmed_view_preserves_incumbent_and_separates_evaluator_tracks(self):
         paths = (

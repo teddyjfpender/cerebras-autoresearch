@@ -1,0 +1,728 @@
+// Resident GQA decode: vector reference, one dispatch plus three collectives/token.
+// Same SDK collectives API as the Apache-2.0 example cited in layout.csl.
+param memcpy_params;
+param c2d_params;
+param P: i16;
+param S: i16;
+param D: i16;
+param G: i16;
+param T: i16;
+param L: i16;
+const sys = @import_module("<memcpy/memcpy>", memcpy_params);
+const mpi = @import_module("<collectives_2d/pe>", .{ .dim_params = c2d_params.x });
+const clock = @import_module("<time>");
+const math = @import_module("<math>");
+const BEGIN: local_task_id = @get_local_task_id(9);
+const MAXIMA: local_task_id = @get_local_task_id(10);
+const PARTIAL: local_task_id = @get_local_task_id(11);
+const OUTPUT: local_task_id = @get_local_task_id(12);
+const ROOT: u16 = @as(u16, P-1);
+const R: i16 = D+1;
+var Q: [T*G*D]f32;
+var NEW_K: [T*D]f32;
+var NEW_V: [T*D]f32;
+// Dimension-major cache permits vector operations over the local context.
+var K: [D*S]f32;
+var V: [D*S]f32;
+var Y: [T*G*D]f32;
+var ptr_Q: [*]f32 = &Q;
+var ptr_NEW_K: [*]f32 = &NEW_K;
+var ptr_NEW_V: [*]f32 = &NEW_V;
+var ptr_K: [*]f32 = &K;
+var ptr_V: [*]f32 = &V;
+const ptr_Y: [*]f32 = &Y;
+var scores: [G*S]f32;
+var weights: [G*S]f32;
+var local_max: [G]f32;
+var all_max: [P*G]f32;
+var global_max: [G]f32;
+var partial: [G*R]f32;
+var merged: [G*R]f32;
+var flag = @zeros([1]u32);
+var step: i16 = 0;
+var valid: i16 = 0;
+var px: i16 = 0;
+var begin = @zeros([3]u16);
+var end = @zeros([3]u16);
+var times = @zeros([6]u16);
+const ptr_times: [*]u16 = &times;
+var score_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{S} -> scores[i] });
+var weight_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{S} -> weights[i] });
+var key_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{S} -> K[i] });
+var value_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> V[i*S] });
+var num_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> partial[i] });
+
+// BEGIN LOCAL COMPUTE: candidate edits are confined to this region.
+fn attention_exp(x: f32) f32 { return math.exp(x); }
+
+var bank_logits: [S+1]f32 align(16);
+var scaled_query: [D]f32 align(16);
+var max_scratch: [G+1]f32 align(16);
+const compute_dest = @get_dsr(dsr_dest, 2);
+const compute_src0 = @get_dsr(dsr_src0, 2);
+const compute_src1 = @get_dsr(dsr_src1, 2);
+fn qk_step(q: f32, inv_scale: f32) void {
+    @fmacs(compute_dest, compute_src0, compute_src1, q * inv_scale);
+}
+
+fn make_logits() void {
+    @comptime_assert(S <= 32);
+    @comptime_assert(D <= 128);
+    const inv_scale: f32 = if (D == 64) 0.125 else 0.08838834764831845;
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        var logits = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{S} -> bank_logits[i+1] });
+        var keys = @set_dsd_base_addr(key_dsd, &K);
+        @fmovs(logits, 0.0);
+        @load_to_dsr(compute_dest, logits, .{ .save_address = false });
+        @load_to_dsr(compute_src0, logits, .{ .save_address = false });
+        @load_to_dsr(compute_src1, keys, .{ .save_address = true });
+        var queries = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> Q[i] });
+        queries = @increment_dsd_offset(queries, (step*G+head)*D, f32);
+        const scaled = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> scaled_query[i] });
+        @fmuls(scaled, queries, inv_scale);
+        if (D > 0) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[0]); }
+        if (D > 1) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[1]); }
+        if (D > 2) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[2]); }
+        if (D > 3) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[3]); }
+        if (D > 4) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[4]); }
+        if (D > 5) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[5]); }
+        if (D > 6) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[6]); }
+        if (D > 7) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[7]); }
+        if (D > 8) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[8]); }
+        if (D > 9) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[9]); }
+        if (D > 10) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[10]); }
+        if (D > 11) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[11]); }
+        if (D > 12) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[12]); }
+        if (D > 13) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[13]); }
+        if (D > 14) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[14]); }
+        if (D > 15) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[15]); }
+        if (D > 16) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[16]); }
+        if (D > 17) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[17]); }
+        if (D > 18) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[18]); }
+        if (D > 19) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[19]); }
+        if (D > 20) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[20]); }
+        if (D > 21) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[21]); }
+        if (D > 22) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[22]); }
+        if (D > 23) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[23]); }
+        if (D > 24) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[24]); }
+        if (D > 25) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[25]); }
+        if (D > 26) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[26]); }
+        if (D > 27) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[27]); }
+        if (D > 28) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[28]); }
+        if (D > 29) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[29]); }
+        if (D > 30) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[30]); }
+        if (D > 31) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[31]); }
+        if (D > 32) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[32]); }
+        if (D > 33) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[33]); }
+        if (D > 34) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[34]); }
+        if (D > 35) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[35]); }
+        if (D > 36) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[36]); }
+        if (D > 37) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[37]); }
+        if (D > 38) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[38]); }
+        if (D > 39) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[39]); }
+        if (D > 40) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[40]); }
+        if (D > 41) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[41]); }
+        if (D > 42) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[42]); }
+        if (D > 43) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[43]); }
+        if (D > 44) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[44]); }
+        if (D > 45) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[45]); }
+        if (D > 46) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[46]); }
+        if (D > 47) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[47]); }
+        if (D > 48) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[48]); }
+        if (D > 49) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[49]); }
+        if (D > 50) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[50]); }
+        if (D > 51) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[51]); }
+        if (D > 52) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[52]); }
+        if (D > 53) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[53]); }
+        if (D > 54) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[54]); }
+        if (D > 55) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[55]); }
+        if (D > 56) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[56]); }
+        if (D > 57) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[57]); }
+        if (D > 58) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[58]); }
+        if (D > 59) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[59]); }
+        if (D > 60) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[60]); }
+        if (D > 61) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[61]); }
+        if (D > 62) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[62]); }
+        if (D > 63) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[63]); }
+        if (D > 64) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[64]); }
+        if (D > 65) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[65]); }
+        if (D > 66) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[66]); }
+        if (D > 67) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[67]); }
+        if (D > 68) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[68]); }
+        if (D > 69) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[69]); }
+        if (D > 70) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[70]); }
+        if (D > 71) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[71]); }
+        if (D > 72) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[72]); }
+        if (D > 73) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[73]); }
+        if (D > 74) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[74]); }
+        if (D > 75) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[75]); }
+        if (D > 76) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[76]); }
+        if (D > 77) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[77]); }
+        if (D > 78) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[78]); }
+        if (D > 79) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[79]); }
+        if (D > 80) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[80]); }
+        if (D > 81) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[81]); }
+        if (D > 82) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[82]); }
+        if (D > 83) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[83]); }
+        if (D > 84) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[84]); }
+        if (D > 85) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[85]); }
+        if (D > 86) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[86]); }
+        if (D > 87) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[87]); }
+        if (D > 88) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[88]); }
+        if (D > 89) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[89]); }
+        if (D > 90) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[90]); }
+        if (D > 91) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[91]); }
+        if (D > 92) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[92]); }
+        if (D > 93) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[93]); }
+        if (D > 94) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[94]); }
+        if (D > 95) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[95]); }
+        if (D > 96) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[96]); }
+        if (D > 97) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[97]); }
+        if (D > 98) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[98]); }
+        if (D > 99) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[99]); }
+        if (D > 100) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[100]); }
+        if (D > 101) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[101]); }
+        if (D > 102) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[102]); }
+        if (D > 103) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[103]); }
+        if (D > 104) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[104]); }
+        if (D > 105) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[105]); }
+        if (D > 106) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[106]); }
+        if (D > 107) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[107]); }
+        if (D > 108) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[108]); }
+        if (D > 109) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[109]); }
+        if (D > 110) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[110]); }
+        if (D > 111) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[111]); }
+        if (D > 112) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[112]); }
+        if (D > 113) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[113]); }
+        if (D > 114) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[114]); }
+        if (D > 115) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[115]); }
+        if (D > 116) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[116]); }
+        if (D > 117) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[117]); }
+        if (D > 118) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[118]); }
+        if (D > 119) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[119]); }
+        if (D > 120) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[120]); }
+        if (D > 121) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[121]); }
+        if (D > 122) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[122]); }
+        if (D > 123) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[123]); }
+        if (D > 124) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[124]); }
+        if (D > 125) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[125]); }
+        if (D > 126) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[126]); }
+        if (D > 127) { @fmacs(compute_dest, compute_src0, compute_src1, scaled_query[127]); }
+        const destination = @increment_dsd_offset(score_dsd, head*S, f32);
+        @fmovs(destination, logits);
+    }
+}
+
+fn make_partial() void {
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        var denominator: f32 = 0.0;
+        var local_weights = @increment_dsd_offset(weight_dsd, head*S, f32);
+        @fmovs(local_weights, 0.0);
+        var slot: i16 = 0;
+        if (S == 4) {
+            const shift: f32 = global_max[head];
+            if (valid > 0) {
+                const w: f32 = attention_exp(scores[head*S+0] - shift);
+                weights[head*S+0] = w;
+                denominator += w;
+            }
+            if (valid > 1) {
+                const w: f32 = attention_exp(scores[head*S+1] - shift);
+                weights[head*S+1] = w;
+                denominator += w;
+            }
+            if (valid > 2) {
+                const w: f32 = attention_exp(scores[head*S+2] - shift);
+                weights[head*S+2] = w;
+                denominator += w;
+            }
+            if (valid > 3) {
+                const w: f32 = attention_exp(scores[head*S+3] - shift);
+                weights[head*S+3] = w;
+                denominator += w;
+            }
+        } else {
+            while (slot < valid) : (slot += 1) {
+                const w: f32 = attention_exp(scores[head*S+slot] - global_max[head]);
+                weights[head*S+slot] = w;
+                denominator += w;
+            }
+        }
+        partial[head*R] = denominator;
+        var numerator = @increment_dsd_offset(num_dsd, head*R+1, f32);
+        var values = @set_dsd_base_addr(value_dsd, &V);
+        @fmovs(numerator, 0.0);
+        @load_to_dsr(compute_dest, numerator, .{ .save_address = false });
+        @load_to_dsr(compute_src0, numerator, .{ .save_address = false });
+        if (S > 0) {
+            if (valid > 0) {
+                const vector = @increment_dsd_offset(values, 0, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+0]);
+            }
+        }
+        if (S > 1) {
+            if (valid > 1) {
+                const vector = @increment_dsd_offset(values, 1, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+1]);
+            }
+        }
+        if (S > 2) {
+            if (valid > 2) {
+                const vector = @increment_dsd_offset(values, 2, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+2]);
+            }
+        }
+        if (S > 3) {
+            if (valid > 3) {
+                const vector = @increment_dsd_offset(values, 3, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+3]);
+            }
+        }
+        if (S > 4) {
+            if (valid > 4) {
+                const vector = @increment_dsd_offset(values, 4, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+4]);
+            }
+        }
+        if (S > 5) {
+            if (valid > 5) {
+                const vector = @increment_dsd_offset(values, 5, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+5]);
+            }
+        }
+        if (S > 6) {
+            if (valid > 6) {
+                const vector = @increment_dsd_offset(values, 6, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+6]);
+            }
+        }
+        if (S > 7) {
+            if (valid > 7) {
+                const vector = @increment_dsd_offset(values, 7, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+7]);
+            }
+        }
+        if (S > 8) {
+            if (valid > 8) {
+                const vector = @increment_dsd_offset(values, 8, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+8]);
+            }
+        }
+        if (S > 9) {
+            if (valid > 9) {
+                const vector = @increment_dsd_offset(values, 9, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+9]);
+            }
+        }
+        if (S > 10) {
+            if (valid > 10) {
+                const vector = @increment_dsd_offset(values, 10, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+10]);
+            }
+        }
+        if (S > 11) {
+            if (valid > 11) {
+                const vector = @increment_dsd_offset(values, 11, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+11]);
+            }
+        }
+        if (S > 12) {
+            if (valid > 12) {
+                const vector = @increment_dsd_offset(values, 12, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+12]);
+            }
+        }
+        if (S > 13) {
+            if (valid > 13) {
+                const vector = @increment_dsd_offset(values, 13, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+13]);
+            }
+        }
+        if (S > 14) {
+            if (valid > 14) {
+                const vector = @increment_dsd_offset(values, 14, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+14]);
+            }
+        }
+        if (S > 15) {
+            if (valid > 15) {
+                const vector = @increment_dsd_offset(values, 15, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+15]);
+            }
+        }
+        if (S > 16) {
+            if (valid > 16) {
+                const vector = @increment_dsd_offset(values, 16, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+16]);
+            }
+        }
+        if (S > 17) {
+            if (valid > 17) {
+                const vector = @increment_dsd_offset(values, 17, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+17]);
+            }
+        }
+        if (S > 18) {
+            if (valid > 18) {
+                const vector = @increment_dsd_offset(values, 18, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+18]);
+            }
+        }
+        if (S > 19) {
+            if (valid > 19) {
+                const vector = @increment_dsd_offset(values, 19, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+19]);
+            }
+        }
+        if (S > 20) {
+            if (valid > 20) {
+                const vector = @increment_dsd_offset(values, 20, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+20]);
+            }
+        }
+        if (S > 21) {
+            if (valid > 21) {
+                const vector = @increment_dsd_offset(values, 21, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+21]);
+            }
+        }
+        if (S > 22) {
+            if (valid > 22) {
+                const vector = @increment_dsd_offset(values, 22, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+22]);
+            }
+        }
+        if (S > 23) {
+            if (valid > 23) {
+                const vector = @increment_dsd_offset(values, 23, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+23]);
+            }
+        }
+        if (S > 24) {
+            if (valid > 24) {
+                const vector = @increment_dsd_offset(values, 24, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+24]);
+            }
+        }
+        if (S > 25) {
+            if (valid > 25) {
+                const vector = @increment_dsd_offset(values, 25, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+25]);
+            }
+        }
+        if (S > 26) {
+            if (valid > 26) {
+                const vector = @increment_dsd_offset(values, 26, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+26]);
+            }
+        }
+        if (S > 27) {
+            if (valid > 27) {
+                const vector = @increment_dsd_offset(values, 27, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+27]);
+            }
+        }
+        if (S > 28) {
+            if (valid > 28) {
+                const vector = @increment_dsd_offset(values, 28, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+28]);
+            }
+        }
+        if (S > 29) {
+            if (valid > 29) {
+                const vector = @increment_dsd_offset(values, 29, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+29]);
+            }
+        }
+        if (S > 30) {
+            if (valid > 30) {
+                const vector = @increment_dsd_offset(values, 30, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+30]);
+            }
+        }
+        if (S > 31) {
+            if (valid > 31) {
+                const vector = @increment_dsd_offset(values, 31, f32);
+                @load_to_dsr(compute_src1, vector, .{ .save_address = false });
+                @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+31]);
+            }
+        }
+    }
+}
+// For normal positive x, the bit-linear seed has at most 1/8 relative error.
+// Four FP32 Newton steps square that error repeatedly. Stable-softmax sums
+// are finite and in [1, context] by construction; the supported context is
+// at most 4096, safely inside the host-checked [1,8192] range.
+fn positive_reciprocal(x: f32) f32 {
+    var y: f32 = @bitcast(f32, @as(u32, 0x7f000000) - @bitcast(u32, x));
+    y = y * (2.0 - x*y);
+    y = y * (2.0 - x*y);
+    y = y * (2.0 - x*y);
+    return y * (2.0 - x*y);
+}
+
+fn store_output() void {
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        const inv_denominator: f32 = positive_reciprocal(merged[head*R]);
+        var output = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> Y[i] });
+        var numerator = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> merged[i] });
+        output = @increment_dsd_offset(output, (step*G+head)*D, f32);
+        numerator = @increment_dsd_offset(numerator, head*R+1, f32);
+        @fmuls(output, numerator, inv_denominator);
+    }
+}
+fn merge_maxima() void {
+    const maximum = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{G} -> max_scratch[i+1] });
+    const gathered = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{G} -> all_max[i] });
+    const output = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{G} -> global_max[i] });
+    @fmovs(maximum, -3.4e38);
+    @load_to_dsr(compute_dest, maximum, .{ .save_address = false });
+    @load_to_dsr(compute_src0, maximum, .{ .save_address = false });
+    @load_to_dsr(compute_src1, gathered, .{ .save_address = true });
+    @comptime_assert(P <= 128);
+    if (P > 0) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 1) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 2) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 3) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 4) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 5) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 6) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 7) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 8) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 9) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 10) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 11) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 12) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 13) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 14) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 15) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 16) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 17) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 18) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 19) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 20) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 21) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 22) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 23) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 24) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 25) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 26) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 27) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 28) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 29) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 30) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 31) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 32) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 33) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 34) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 35) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 36) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 37) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 38) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 39) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 40) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 41) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 42) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 43) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 44) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 45) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 46) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 47) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 48) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 49) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 50) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 51) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 52) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 53) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 54) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 55) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 56) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 57) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 58) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 59) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 60) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 61) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 62) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 63) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 64) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 65) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 66) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 67) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 68) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 69) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 70) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 71) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 72) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 73) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 74) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 75) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 76) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 77) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 78) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 79) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 80) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 81) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 82) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 83) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 84) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 85) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 86) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 87) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 88) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 89) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 90) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 91) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 92) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 93) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 94) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 95) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 96) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 97) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 98) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 99) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 100) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 101) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 102) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 103) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 104) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 105) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 106) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 107) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 108) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 109) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 110) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 111) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 112) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 113) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 114) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 115) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 116) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 117) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 118) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 119) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 120) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 121) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 122) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 123) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 124) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 125) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 126) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    if (P > 127) { @fmaxs(compute_dest, compute_src0, compute_src1); }
+    @fmovs(output, maximum);
+}
+// END LOCAL COMPUTE
+
+// Trusted control: cache writes, causal maxima, collectives, output dispatch and timers.
+fn compute() void {
+    mpi.init();
+    px = @as(i16, mpi.pe_id);
+    step = 0;
+    clock.enable_tsc();
+    clock.get_timestamp(&begin);
+    // The coordinator's own interval encloses dispatch and complete outputs.
+    mpi.broadcast(ROOT, @ptrcast([*]u32, &flag), 1, BEGIN);
+}
+
+task begin_token() void {
+    const position: i16 = L+step;
+    if (position/S == px) {
+        var dim: i16 = 0;
+        while (dim < D) : (dim += 1) {
+            K[dim*S+position%S] = NEW_K[step*D+dim];
+            V[dim*S+position%S] = NEW_V[step*D+dim];
+        }
+    }
+    valid = position-px*S+1;
+    if (valid < 0) { valid = 0; }
+    if (valid > S) { valid = S; }
+    make_logits();
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        local_max[head] = -3.4e38;
+        var slot: i16 = 0;
+        while (slot < valid) : (slot += 1) {
+            if (scores[head*S+slot] > local_max[head]) {
+                local_max[head] = scores[head*S+slot];
+            }
+        }
+    }
+    mpi.gather(ROOT, @ptrcast([*]u32, &local_max), @ptrcast([*]u32, &all_max),
+               @as(u16, G), MAXIMA);
+}
+
+task after_maxima() void {
+    if (px == P-1) {
+        merge_maxima();
+    }
+    mpi.broadcast(ROOT, @ptrcast([*]u32, &global_max), @as(u16, G), PARTIAL);
+}
+
+task after_broadcast() void {
+    make_partial();
+    mpi.reduce_fadds(ROOT, @ptrcast([*]f32, &partial), @ptrcast([*]f32, &merged),
+                     @as(u16, G*R), OUTPUT);
+}
+
+task after_reduce() void {
+    if (px == P-1) {
+        store_output();
+    }
+    step += 1;
+    if (step < T) {
+        @activate(BEGIN);
+    } else {
+        clock.get_timestamp(&end);
+        clock.disable_tsc();
+        for (@range(i16, 3)) |i| { times[i] = begin[i]; times[i+3] = end[i]; }
+        sys.unblock_cmd_stream();
+    }
+}
+
+comptime {
+    @bind_local_task(begin_token, BEGIN);
+    @bind_local_task(after_maxima, MAXIMA);
+    @bind_local_task(after_broadcast, PARTIAL);
+    @bind_local_task(after_reduce, OUTPUT);
+    @export_symbol(ptr_Q, "Q");
+    @export_symbol(ptr_NEW_K, "NEW_K");
+    @export_symbol(ptr_NEW_V, "NEW_V");
+    @export_symbol(ptr_K, "K");
+    @export_symbol(ptr_V, "V");
+    @export_symbol(ptr_Y, "Y");
+    @export_symbol(ptr_times, "times");
+    @export_symbol(compute);
+}

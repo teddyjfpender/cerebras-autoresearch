@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Execute the verified SDK's own entrypoints without a container runtime.
+set -euo pipefail
+task_sdk_root=$(realpath "${CEREBRAS_SDK_ROOTFS:?Set CEREBRAS_SDK_ROOTFS to the unpacked SIF root}")
+for task_sdk_path in cb cbcore python; do
+  [[ "$(realpath "/$task_sdk_path")" == "$task_sdk_root/$task_sdk_path" ]] || {
+    echo "/$task_sdk_path must resolve to $task_sdk_root/$task_sdk_path" >&2
+    exit 2
+  }
+done
+. "$task_sdk_root/.singularity.d/env/10-docker2singularity.sh"
+export CSL_SUPPRESS_SIMFAB_TRACE=${CSL_SUPPRESS_SIMFAB_TRACE:-1}
+task_sdk_command=$1
+shift
+case "$task_sdk_command" in
+  cslc) exec /cbcore/bin/sdk_debug_shell compile "$@" ;;
+  cs_python) exec /python/python-x86_64/bin/python "$@" ;;
+  cs_readelf) exec /cbcore/bin/cs-readelf "$@" ;;
+  *) echo "Unknown unpacked SDK command: $task_sdk_command" >&2; exit 2 ;;
+esac

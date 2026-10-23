@@ -1,0 +1,17 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.vector-exp",
+  "hypothesis": "Map independent exp operations over a shifted context vector; retain vectorized QK and PV, exact causal masking and collective control. Expect fewer scalar dispatch instructions without extra PEs.",
+  "falsification": "Reject if any full numerical/state case fails, coordinator cycles fail to improve by 1.05x, memory grows by more than 10%, or any suite cell regresses by over 2%.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "ChatGPT Work",
+  "qualification_status": "Positive-case screen passed before the normalization hook; no meaningful gain; requalification required"
+}

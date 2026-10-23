@@ -12,6 +12,14 @@ from unittest.mock import patch
 from tools.run_campaign import status, worker_identity, worker_liveness
 
 
+def matching_proc_namespace():
+    """A mounted /proc may describe host PIDs rather than this runtime's PIDs."""
+    try:
+        return int(Path("/proc/self/stat").read_text().partition(" ")[0]) == os.getpid()
+    except (OSError, ValueError):
+        return False
+
+
 class CampaignLivenessTests(unittest.TestCase):
     def make_proc(self, folder, state="S", ticks=123):
         root = Path(folder)
@@ -75,7 +83,7 @@ class CampaignLivenessTests(unittest.TestCase):
             self.assertEqual(summary["worker_liveness"]["state"], "not_running")
             self.assertEqual(state.read_bytes(), before)
 
-    @unittest.skipUnless(Path("/proc/self/stat").exists(), "requires Linux process observations")
+    @unittest.skipUnless(matching_proc_namespace(), "requires /proc in the current PID namespace")
     def test_actual_child_identity_reports_exit(self):
         child = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(60)"])
         try:

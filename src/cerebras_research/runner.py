@@ -145,6 +145,7 @@ def execute(
                 "gated_mlp": "resident.py",
                 "decoder": "resident.py",
                 "reusable_gemm": "reusable_gemm.py",
+                "decode_attention": "decode_attention.py",
             }.get(kind, "dense.py")
             for case in CASES[:1] if screen else CASES:
                 args = ["cs_python", driver, "--name", "out", "--case", case, "--seed", str(seed)]
@@ -161,6 +162,13 @@ def execute(
                 write_json(receipt, record)
             for metric in ("max_local_cycles", "mean_local_cycles", "pe_cycle_spread"):
                 record["metrics"][metric] = max(c["metrics"][metric] for c in record["cases"])
+            if kind == "decode_attention":
+                record["metrics"]["coordinator_cycles"] = max(
+                    c["metrics"]["coordinator_cycles"] for c in record["cases"]
+                )
+                record["metrics"]["cycles_per_token"] = (
+                    record["metrics"]["coordinator_cycles"] / profile["dimensions"]["T"]
+                )
             record["metrics"]["max_error_fraction"] = max(
                 c["max_fraction_of_error_bound"] for c in record["cases"]
             )

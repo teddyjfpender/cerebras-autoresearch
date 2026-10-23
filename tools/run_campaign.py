@@ -29,6 +29,9 @@ def evaluator_identity():
     paths = sorted((ROOT / "src/cerebras_research").glob("*.py")) + sorted(
         (ROOT / "benchmarks/drivers").glob("*.py")
     )
+    paths += [ROOT / "tools/sdk-run", ROOT / "tools/sdk-unpacked"] + sorted(
+        (ROOT / "tools/unpacked-sdk-bin").iterdir()
+    )
     return identity({str(path.relative_to(ROOT)): digest(path) for path in paths})
 
 

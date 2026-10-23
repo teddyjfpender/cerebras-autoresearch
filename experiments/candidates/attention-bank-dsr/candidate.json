@@ -1,0 +1,17 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.bank-offset-dsr-normalize",
+  "hypothesis": "Add an aligned scratch QK accumulator to DSR reuse/vector normalization. Its address differs from the input-key bank offset; expect fewer bank conflicts at the cost of one score-vector copy per head.",
+  "falsification": "Reject numerical/state failures, no cycle gain over DSR-normalize, footprint changes, or program-object memory growth over 10% versus the original baseline.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "ChatGPT Work",
+  "qualification_at_creation": "uncompiled"
+}

@@ -1,0 +1,17 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.dsr-vector-softmax-normalize",
+  "hypothesis": "Extend DSR and vector normalization with degree-ten exp(x/16) evaluated by vector Horner steps and four vector squarings on [-16,0], with SDK exp fallback outside. Replace scalar transcendental calls while preserving fixed output tolerance and exact cache state.",
+  "falsification": "Reject any full six-case/fresh-seed mismatch, a speedup below the selected gate, program-object memory growth over 10%, or changed work, precision, footprint, cache, collectives or timing.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "ChatGPT Work",
+  "qualification_at_creation": "uncompiled"
+}

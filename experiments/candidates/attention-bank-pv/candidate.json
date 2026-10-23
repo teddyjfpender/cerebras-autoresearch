@@ -1,0 +1,17 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.bank-separated-pv",
+  "hypothesis": "Extend bank-offset QK, DSR reuse and vector normalization with four strided PV accumulators. Group KV slots by SRAM bank and put each accumulator in a different bank from its V stream, then sum the four partial vectors. Same FP32 arithmetic/work with a different reduction order.",
+  "falsification": "Reject any output tolerance or exact-cache failure, no cycle gain over bank-DSR, program-object memory growth over 10% versus the original reference, or changed PE budget, work, precision, communication or timing.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "ChatGPT Work",
+  "qualification_at_creation": "uncompiled"
+}

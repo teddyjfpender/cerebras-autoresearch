@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-23T09:02:24.098448+00:00",
+  "upstream_commit": "386128a7565f22867ec366f633d5192fdb8f632d",
+  "scope": "Host readiness and failed SDK preflight; no compiled or measured device result",
+  "status": "sdk_unavailable",
+  "profiles": [
+    "decode-attention.d64-ctx128",
+    "decode-attention.d64-boundary",
+    "decode-attention.d64-ctx1024",
+    "decode-attention.d64-ctx4096",
+    "decode-attention.d128-ctx512"
+  ],
+  "device_qualified_profiles": [],
+  "source_tree_sha256": {
+    "kernels/attention/sharded-gqa": "0473866b6b4442bb1ba4edcbbce6d0514373ea8e1c6dd4b13008e4647d8c052f",
+    "experiments/candidates/attention-vector-exp": "58abd1c0be8769f0635ec384139b2017ebf7d73d075012f13e4c33454e11b278",
+    "experiments/candidates/attention-polynomial-exp": "337107f70998774f9607fa585e8763629719cbf3a703a3b315d2ccb295da882e"
+  },
+  "host_validation": {
+    "repository_check": "passed",
+    "unit_tests_discovered": 102,
+    "unit_tests_passed": 101,
+    "unit_tests_skipped": 1,
+    "skip_reason": "Existing live-child test requires /proc in the current PID namespace; host and runtime PIDs differ here",
+    "attention_numerical_properties": 8,
+    "distributed_fp32_software_model_comparisons": 120,
+    "software_model_seeds": [
+      7,
+      808
+    ],
+    "input_families": 6,
+    "profiles": 5,
+    "source_preparation_contracts": 15,
+    "lint": "ruff 0.17.1 passed",
+    "format": "ruff 0.17.1 passed",
+    "catalog": "42 profiles and 17 suites validated",
+    "ledger": "193 existing rows verified; no fabricated device records added",
+    "raw_numerical_replay": "temporary synthetic gate fixture only; not simulator evidence"
+  },
+  "sdk_preflight": {
+    "command": [
+      "python3",
+      "research.py",
+      "run",
+      "decode-attention.d64-ctx128",
+      "--max-seconds",
+      "30"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "ERROR: SDK tools absent from PATH; run through tools/sdk-run\n",
+    "cslc": null,
+    "cs_python": null,
+    "sdk_container_present": false
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "system": "Linux",
+    "machine": "x86_64"
+  },
+  "measured_device_cycles": null,
+  "measured_speedup": null,
+  "hardware_tps": null,
+  "goal": {
+    "minimum_speedup": 5.01,
+    "memory_growth_limit": 1.1,
+    "met": false,
+    "reason": "No SDK compiler/simulator or hardware execution available in this session"
+  },
+  "next_required_evidence": [
+    "Compile baseline and candidates with SDK 2.10.1; inspect actual per-PE program-object memory",
+    "Qualify all six numerical families for each baseline",
+    "Run incremental and >5x target campaigns with fresh paired confirmation",
+    "Replay raw numerical/state/timestamp evidence",
+    "Validate retained kernels on physical WSE and model integration before hardware/service claims"
+  ]
+}

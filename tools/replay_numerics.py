@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
 
 import numpy as np
 from common import timing
+from decode_attention_oracle import evidence as attention_evidence
 from resident_oracle import evidence as resident_evidence
 from reusable_gemm_oracle import evidence as sequence_evidence
 
@@ -81,6 +82,15 @@ def recompute(profile, raw):
             gamma * (np.abs(x) @ np.abs(w) + np.abs(raw["bias"]) + np.abs(raw["residual"]))
             + 32 * 2.0**-149
         )
+    elif kind == "decode_attention":
+        if profile.get("oracle_contract") != "sharded_gqa_decode_fp32_v1":
+            raise ValueError("Unsupported attention oracle version")
+        data = {name[6:]: raw[name] for name in raw.files if name.startswith("input_")}
+        actual = {name: raw["actual_" + name] for name in ("Y", "K", "V")}
+        arrays, _, bound = attention_evidence(dims, data, actual)
+        np.testing.assert_array_equal(raw["actual"], arrays["actual"])
+        expected = arrays["expected"]
+        strict = bool(arrays["exact_state_match"])
     elif kind in ("gated_mlp", "decoder"):
         if profile.get("oracle_contract") != "resident_transformer_fp32_v1":
             raise ValueError("Unsupported resident oracle version")
@@ -129,7 +139,10 @@ def check_case(profile, case, artifact):
             "max_fraction_of_error_bound"
         ] != float((saved_error / raw["error_bound"]).max()):
             raise ValueError("Saved numerical summary disagrees with its arrays")
-        metrics = timing(raw["timer_u32"], profile["timing_protocol"]["repeats"])
+        coordinator = (
+            profile["dimensions"]["P"] - 1 if profile["adapter"] == "decode_attention" else None
+        )
+        metrics = timing(raw["timer_u32"], profile["timing_protocol"]["repeats"], coordinator)
         if metrics != case["metrics"]:
             raise ValueError("Recomputed timestamps disagree with the case receipt")
         return {
@@ -148,7 +161,9 @@ def check_summary(data):
         name: max(case["metrics"][name] for case in cases)
         for name in ("max_local_cycles", "mean_local_cycles", "pe_cycle_spread")
     }
-    primary = expected["max_local_cycles"]
+    if profile["adapter"] == "decode_attention":
+        expected["coordinator_cycles"] = max(c["metrics"]["coordinator_cycles"] for c in cases)
+    primary = expected[profile["metric"]]
     expected["max_error_fraction"] = max(case["max_fraction_of_error_bound"] for case in cases)
     expected["pe_cycles"] = primary * math.prod(profile["pe_grid"])
     if "work_units" in profile:
@@ -157,6 +172,7 @@ def check_summary(data):
         "gated_mlp": "cycles_per_frame",
         "decoder": "cycles_per_token",
         "reusable_gemm": "cycles_per_gemm",
+        "decode_attention": "cycles_per_token",
     }.get(profile["adapter"])
     if unit:
         expected[unit] = primary / profile["dimensions"]["T"]

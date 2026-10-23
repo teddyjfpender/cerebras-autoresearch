@@ -1,0 +1,17 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.dsr-reuse-vector-normalize",
+  "hypothesis": "Extend DSR reuse with one denominator reciprocal per head and a vector multiply over all output dimensions, replacing repeated divisions at the fixed FP32 output tolerance.",
+  "falsification": "Reject any six-case output or exact-cache mismatch, fresh speedup below the selected gate, memory growth over 10%, or changes to communication, work, precision, PE budget or timing.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "ChatGPT Work",
+  "qualification_status": "uncompiled"
+}

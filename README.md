@@ -16,8 +16,8 @@ tools/sdk-run python3 research.py doctor
 make smoke
 ```
 
-This checkout has SDK 2.10.1 in ignored `.sdk/sdk-2.10.1` and a Linux VM.
-[SDK setup](docs/sdk/setup.md) describes reproduction. The host CLI uses the
+The default SDK location is ignored `.sdk/sdk-2.10.1`.
+[SDK setup](docs/sdk/setup.md) covers Lima and native Linux execution. The host CLI uses the
 Python standard library; NumPy and the Cerebras runtime come from the container.
 
 ## Research workflow
@@ -68,7 +68,7 @@ python3 research.py ledger sync               # Recover unjournaled terminal rec
 
 ## Benchmark coverage
 
-**37 configured profiles, 13 families, 16 suites.** The
+**44 configured profiles, 14 families, 17 suites.** The
 [catalog](docs/benchmarks/catalog.md) describes coverage; [results](results/README.md)
 separate measured profiles from configured ones.
 
@@ -76,18 +76,27 @@ separate measured profiles from configured ones.
 | --- | --- |
 | Dense inference | Six GEMV shapes; five cold GEMM shapes; three resident GEMM sequences; scaled FFN up/down projections |
 | Complete inference blocks | RMSNorm/SwiGLU MLP at two widths; causal RoPE attention with KV state and MLP at two contexts |
+| Distributed decode attention | Seven GQA profiles: 4–128 PEs, 64/128-wide heads, contexts to 4,096, including finer latency shards; qualification tracked separately |
 | Composed programs | Three FP32 matvec → bias → ReLU → residual chains with staged/fused variants; SDK residual norm |
 | Communication/I/O | Row/column broadcast; H2D/D2H diagnostics |
 | Numerical/scientific | Sparse 7-point stencil; 1D/2D/3D FFT; local matvec bandwidth |
 | Exact/spatial | 256-bit multiplication; Game of Life |
 
-Twenty-one profiles have independent six-case oracles. Fourteen use pinned
+Twenty-eight profiles have independent six-case oracles. Fourteen use pinned
 upstream reference checks; two are diagnostics. Only the independent-oracle
 tier can pass automatic promotion. Untimed examples receive no cycle score.
 
 The [four-track inference challenge](docs/benchmarks/inference-blocks.md) groups
 the larger FFN GEMM/GEMV pairs and complete gated MLP/decoder-layer workloads.
 Execution qualification is recorded separately from configuration.
+
+The [distributed GQA challenge](docs/benchmarks/decode-attention.md) adds a
+coordinator-clock score and staged optimization candidates. SDK measurements
+confirm **5.103x** on `d64-ctx128-latency32`: 220,273 → 43,165 sequence cycles,
+with the same 32 compute PEs, six cases at both seeds, and 4.3% program-memory
+growth. This is a simulator operator result; hardware/model TPS is unmeasured.
+All seven baseline/final-candidate shapes also pass compilation and positive-case
+output/cache/memory screens; the >5x full confirmation applies to the one profile.
 
 ## What to optimize
 

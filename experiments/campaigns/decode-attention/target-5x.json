@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "name": "decode-attention-target-5x",
+  "seed": 20261023,
+  "minimum_speedup": 5.01,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "candidates": [
+        {
+          "candidate": "attention-newton"
+        }
+      ]
+    }
+  ]
+}

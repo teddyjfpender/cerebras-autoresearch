@@ -65,6 +65,12 @@ def load_validated(path):
             raise ValueError("Raw numerical artifact changed")
     if data["metrics"]["max_local_cycles"] != max(c["metrics"]["max_local_cycles"] for c in cases):
         raise ValueError("Timing summary changed")
+    if data["profile"]["adapter"] == "decode_attention":
+        values = [c["metrics"].get("coordinator_cycles", 0) for c in cases]
+        if any(not math.isfinite(v) or v <= 0 for v in values) or data["metrics"].get(
+            "coordinator_cycles"
+        ) != max(values):
+            raise ValueError("Coordinator timing summary changed")
     memory = json.loads((path.parent / "work/out/memory.json").read_text())
     if (
         data["memory"] != memory

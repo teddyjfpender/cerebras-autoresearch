@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "name": "decode-attention-incremental",
+  "seed": 20261023,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "decode-attention.d64-ctx128",
+      "candidates": [
+        {
+          "candidate": "attention-vector-exp"
+        },
+        {
+          "candidate": "attention-polynomial-exp"
+        },
+        {
+          "candidate": "attention-dsr"
+        },
+        {
+          "candidate": "attention-dsr-normalize"
+        },
+        {
+          "candidate": "attention-bank-dsr"
+        },
+        {
+          "candidate": "attention-unrolled"
+        },
+        {
+          "candidate": "attention-vector-max"
+        },
+        {
+          "candidate": "attention-reciprocal"
+        },
+        {
+          "candidate": "attention-newton"
+        }
+      ]
+    },
+    {
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "candidates": [
+        {
+          "candidate": "attention-vector-exp"
+        },
+        {
+          "candidate": "attention-polynomial-exp"
+        },
+        {
+          "candidate": "attention-dsr"
+        },
+        {
+          "candidate": "attention-dsr-normalize"
+        },
+        {
+          "candidate": "attention-bank-dsr"
+        },
+        {
+          "candidate": "attention-unrolled"
+        },
+        {
+          "candidate": "attention-vector-max"
+        },
+        {
+          "candidate": "attention-reciprocal"
+        },
+        {
+          "candidate": "attention-newton"
+        }
+      ]
+    }
+  ]
+}

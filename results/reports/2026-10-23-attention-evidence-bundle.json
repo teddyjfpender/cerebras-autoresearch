@@ -1,0 +1,10 @@
+{
+  "bytes": 65541520,
+  "sha256": "752b14c1f8d28a379e8aa7b5b798b0a9da4867a199db8d6ec8c90462f36b42f5",
+  "raw_files": 3534,
+  "current_session_ledger_rows": 52,
+  "retained_raw_cases": 48,
+  "filename": "cerebras-attention-evidence-2026-10-23.tar.gz",
+  "status": "saved_private_evidence_bundle",
+  "contents": "Current-session raw outputs/timestamps, source and evaluator capsules, commands, logs, memory observations and generated program artifacts. SDK distribution excluded."
+}

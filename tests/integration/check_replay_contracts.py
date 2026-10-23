@@ -195,6 +195,7 @@ class ReplayTests(unittest.TestCase):
     def test_derived_metric_summaries_must_match_verified_cases_and_steps(self):
         profile, _ = self.linear()
         profile["work_units"] = 32
+        profile["metric"] = "max_local_cycles"
         case = dict(
             metrics=dict(max_local_cycles=10, mean_local_cycles=9, pe_cycle_spread=1),
             max_fraction_of_error_bound=0.5,
