@@ -1,5 +1,6 @@
 import copy
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -72,6 +73,26 @@ class ResidentSwiGLUTests(unittest.TestCase):
         verify_timing_contract(
             source, source.replace(body, body.replace("{", "{ faster();", 1)), "resident_swiglu"
         )
+
+    def test_every_exported_pointer_is_global_and_matches_layout_mutability(self):
+        folder = ROOT / "kernels/composed/resident-swiglu/src"
+        source = (folder / "meshgemm.csl").read_text()
+        layout = (folder / "layout.csl").read_text()
+        exports = dict(
+            (name, ptr) for ptr, name in re.findall(r'@export_symbol\((\w+), "(\w+)"\)', source)
+        )
+        declarations = dict(
+            (name, kind)
+            for kind, name in re.findall(r"^(var|const) (\w+): \[\*\](?:f16|f32)", source, re.M)
+        )
+        names = re.findall(r'@export_name\("(\w+)", \[\*\](?:f16|f32), (true|false)\)', layout)
+        self.assertGreaterEqual(len(names), 13)
+        for name, mutable in names:
+            with self.subTest(symbol=name):
+                self.assertIn(name, exports)
+                self.assertEqual(
+                    declarations.get(exports[name]), "var" if mutable == "true" else "const"
+                )
 
     def test_materialized_sources_and_params_include_complete_chain(self):
         with tempfile.TemporaryDirectory() as folder:

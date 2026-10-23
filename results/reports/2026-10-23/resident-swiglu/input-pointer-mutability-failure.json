@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-23T09:55:49Z",
+  "campaign_status": "partial_failure",
+  "plan": {
+    "path": "experiments/campaigns/resident-swiglu/qualification-small.json",
+    "sha256": "3ef008a4ffa64f65d941f89863a37e66ff4e1bfe35e0e217ea85cfcab24a0dfa",
+    "identity": "42307b203782a3bcd3787887721473bb626419dd3edac26ab8e2ef2b0d190a2b"
+  },
+  "checkpoint": {
+    "path": "runs/campaigns/resident-swiglu/small-v2-result.json",
+    "sha256": "986e515890d1ee160dd811b09c761033780bc51aa9988c09d1f2a0442d670288"
+  },
+  "evaluator_sha256": "91f1236a2df72a9ac422df7d6728a3fe723070338435e8ed51e96fa7016aedb8",
+  "audit_tool_sha256": "d0afff8452b814db032899c7d26c94d27bd0bacf6180033a5ed75e60c124f1a6",
+  "audit_evaluator_sha256": "91f1236a2df72a9ac422df7d6728a3fe723070338435e8ed51e96fa7016aedb8",
+  "candidate_identities": {},
+  "imports": {
+    "initial_baselines": {},
+    "fresh_baselines": {}
+  },
+  "executed_attempt_count": 1,
+  "requested_profiles": [
+    "resident-swiglu.small"
+  ],
+  "cells": {
+    "resident-swiglu.small": {
+      "status": "baseline_failed",
+      "receipt": "runs/v2/20261023T095205Z-resident-swiglu.small-207b4bd4/result.json"
+    }
+  },
+  "records": [
+    {
+      "receipt": "runs/v2/20261023T095205Z-resident-swiglu.small-207b4bd4/result.json",
+      "receipt_sha256": "fc335b96812295d79d6753a7c0958c2c59b4dd02d50fa627124e9ceca2e16080",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "failed",
+      "profile": {
+        "id": "resident-swiglu.small",
+        "adapter": "resident_swiglu",
+        "family": "distributed-resident-swiglu",
+        "dimensions": {
+          "M": 16,
+          "H": 16,
+          "F": 32,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16-fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_swiglu_sequence_fp16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 196608,
+        "work_unit": "projection_arithmetic_operations",
+        "description": "Four distinct resident batches: gate/up projections, SiLU/product, down projection and residual; every intermediate/output and canonical/boundary weight state checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-batch chain including all copies, padded communication, three projections, nonlinear/residual, all intermediate/output and boundary-state stores"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261031,
+      "screen_only": false,
+      "metrics": {
+        "experiment_wall_seconds": 2.487288269000601
+      },
+      "cases": [],
+      "research": {
+        "approach": "resident_swiglu.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "9cd2e2d2e8ad88934e86eee5dbd588a704b80e9b",
+        "git_dirty": false,
+        "evaluator_sha256": "91f1236a2df72a9ac422df7d6728a3fe723070338435e8ed51e96fa7016aedb8",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "54d050a83d0ab43e2dcbec8e01f1f74836faefad81ce1471f22a3abcce703e83",
+          "src/cerebras_research/catalog.py": "b06dc7dbeef926a081cde40d8853b6ded03095ed4d2e28059d69a86e1d055a5f",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "16c1e821d68ff922fb030a0a5231b69cd9c83ca2c9abccb02cea524954ab3b90",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "a944cbf199c93eb8e4002a3876e1a4b97d8307ae9a779c9cbb5f8ef9469fbe6a",
+      "baseline_tree_sha256": "4f0999487ba0c660e07129fa7bb4e863c150e61272119a77c146bf2eebe82817",
+      "source_sha256": "4f0999487ba0c660e07129fa7bb4e863c150e61272119a77c146bf2eebe82817",
+      "harness_sha256": "d143d36875f2c1038606c72fa744ba9ec52a0a813b276bb9f51e4eb4adefc818",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Ht:4,Ft:8,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:4,Ht:4,Ft:8,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 2.487288269000601,
+          "log": "step-0.log",
+          "status": "failed",
+          "error": "Step failed (1): /Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T095205Z-resident-swiglu.small-207b4bd4/work/step-0.log"
+        }
+      ],
+      "error": "Step failed (1): /Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T095205Z-resident-swiglu.small-207b4bd4/work/step-0.log"
+    }
+  ],
+  "record_count": 1,
+  "validated_case_count": 0,
+  "artifact_integrity_replayed": true,
+  "numerical_arrays_recomputed": false,
+  "qwen_tps_result": false
+}

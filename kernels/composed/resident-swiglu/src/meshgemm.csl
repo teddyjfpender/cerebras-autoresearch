@@ -416,10 +416,10 @@ comptime {
     @export_symbol(meshgemm_entry);
     @export_symbol(meshgemm_host);
 }
-const ptr_X_FRAMES: [*]f16 = &X_FRAMES;
-const ptr_WG_CANON: [*]f16 = &WG_CANON;
-const ptr_WU_CANON: [*]f16 = &WU_CANON;
-const ptr_WD_CANON: [*]f16 = &WD_CANON;
+var ptr_X_FRAMES: [*]f16 = &X_FRAMES;
+var ptr_WG_CANON: [*]f16 = &WG_CANON;
+var ptr_WU_CANON: [*]f16 = &WU_CANON;
+var ptr_WD_CANON: [*]f16 = &WD_CANON;
 const ptr_G_HISTORY: [*]f16 = &G_HISTORY;
 const ptr_U_HISTORY: [*]f16 = &U_HISTORY;
 const ptr_V_HISTORY: [*]f16 = &V_HISTORY;
