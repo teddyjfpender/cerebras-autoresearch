@@ -336,3 +336,13 @@ remain failures in the journal. Further candidate work is unmeasured until run.
 - [Second campaign including all failures](reports/2026-10-23-resident-gemm-iteration2-campaign.json)
 - [24-case numerical replay](reports/2026-10-23-resident-gemm-iteration2-up-numerics.json)
 - [24-case simulator-core replay](reports/2026-10-23-resident-gemm-iteration2-up-snapshots.json)
+
+The third resident GEMM campaign confirmed the same 69,104-cycle FFN-up result
+using the parameterized aspect-ratio dispatcher; tiny/down screens keep the
+reference column-map layout. This confirms FFN-up only: a cross-shape suite
+claim still needs full tiny/down pairs. Additional mapped and fixed-descriptor
+experiments failed compilation or simulation and were not retained.
+
+- [Third campaign and all failures](reports/2026-10-23-resident-gemm-iteration3-campaign.json)
+- [Dispatcher 24-case numerical replay](reports/2026-10-23-resident-gemm-iteration3-up-numerics.json)
+- [Dispatcher 24-case complete core replay](reports/2026-10-23-resident-gemm-iteration3-up-snapshots.json)

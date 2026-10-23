@@ -1,0 +1,18 @@
+{
+  "adapter": "reusable_gemm",
+  "initial_profile": "reusable-gemm.prefill-ffn-down-scaled",
+  "source": {
+    "repository": "local",
+    "derived_from": "WaferLLM",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "resident-gemm.column-map-base-only-updates",
+  "hypothesis": "Retain the reference Mt-wide column map. Preload its fixed output and X descriptor extents once per local product, then update only their base addresses for every K term instead of reloading full DSDs. Preserve auto-advancing output columns, exact FP16 K order and complete invariant-checked resident state. Use only proven compute descriptor bank1.",
+  "falsification": "Reject stale descriptor state, omitted/reordered work, any six-case output/state or shutdown failure, changed protected timing/repeat/PE contract, speedup below1.05x or memory above1.10x. Retain only after a full matched fresh paired seed.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}
