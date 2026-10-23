@@ -41,6 +41,10 @@ precision. New profile fingerprints and fresh baselines keep those budgets
 separate from the original failed attempt. The stage-one report qualifies the
 4-PE source track; the final >5x report qualifies the 32-PE latency source track.
 Other profile results must be labeled by their actual validation tier.
+The [shape-screen report](../../results/reports/2026-10-23-attention-shape-screens.json)
+records both arms of all seven profiles passing compilation, memory inspection,
+positive-case output/cache checks and clean process exit at seed 20261022.
+Those screens do not establish full six-case or fresh-pair improvements.
 
 All IDs start with `decode-attention.`. Four distinct supplied tokens execute
 in one resident sequence, without host traffic between tokens. The boundary

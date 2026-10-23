@@ -95,6 +95,8 @@ coordinator-clock score and staged optimization candidates. SDK measurements
 confirm **5.103x** on `d64-ctx128-latency32`: 220,273 → 43,165 sequence cycles,
 with the same 32 compute PEs, six cases at both seeds, and 4.3% program-memory
 growth. This is a simulator operator result; hardware/model TPS is unmeasured.
+All seven baseline/final-candidate shapes also pass compilation and positive-case
+output/cache/memory screens; the >5x full confirmation applies to the one profile.
 
 ## What to optimize
 

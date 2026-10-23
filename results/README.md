@@ -14,6 +14,9 @@ The earlier [stage-one report](reports/2026-10-23-attention-sdk-stage1.json)
 confirms 1.816x on the 4-PE source track. These are separate profile/source
 tracks, and their gains are not multiplied. No family-wide >5x, hardware/model
 TPS or training-throughput result is claimed.
+The [shape-screen report](reports/2026-10-23-attention-shape-screens.json) records
+successful compilation, memory observations, clean exits and positive-case
+output/cache checks for both arms of all seven shapes. Screens remain provisional.
 The [readiness report](reports/2026-10-23-attention-readiness.json) preserves
 the earlier host-only state. Older-machine raw artifacts are absent here;
 new-session ledger rows were individually audited against their raw evidence.

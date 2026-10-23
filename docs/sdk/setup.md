@@ -4,6 +4,8 @@ The pinned installation uses SDK 2.10.1 and WSE-3 compilation. Exact source
 revisions are in `config/sources.lock.json`; the SIF digest and current
 execution route are in `config/sdk-install.json`. Historical receipts embed
 their own environment manifests, including the original Lima installation.
+The manifest's qualification note records the bootstrap check at its creation;
+later benchmark qualification is recorded in `results/reports/`.
 
 The archive's bundled checksums were verified during installation. SDK binaries
 and its private download URL are excluded from Git. Obtain your own archive

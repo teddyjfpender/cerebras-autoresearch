@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 232,
-  "ledger_head": "e44fd3beb544b40f1d532be3111a350a839121bb6ed3c082d165133c6137efd7",
+  "ledger_rows": 245,
+  "ledger_head": "1c05f49ace97944e5505e2f10df48a1b620a030fa84cfbf83096d5ac38c6b08d",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [

@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "status": "all_seven_shapes_screen_passed",
+  "scope": "14 compilation/positive-case/memory/clean-exit screens at seed 20261022; not full six-case qualification or family-wide retention",
+  "suites": {
+    "baseline": {
+      "path": "runs/v2/20261023T142234Z-suite-18952583/result.json",
+      "sha256": "79c0d71416c09972f2469687282a587222916e9c272a0d244482cacf201977b5"
+    },
+    "candidate": {
+      "path": "runs/v2/20261023T143929Z-suite-82b39d92/result.json",
+      "sha256": "8e5df1f51a6bded69f49f298c4a4753a7e58206848b4326ba66df632d4a01a8c"
+    }
+  },
+  "profiles": [
+    {
+      "profile": "decode-attention.d64-ctx128",
+      "status": "positive_case_screen_only",
+      "seed": 20261022,
+      "baseline": {
+        "path": "runs/v2/20261023T142234Z-decode-attention.d64-ctx128-4a500c25/result.json",
+        "sha256": "8475032495a2e7884964f52504f5b8fb088cabed09943d023b9c5142d6b0ebf4"
+      },
+      "candidate": {
+        "path": "runs/v2/20261023T143929Z-decode-attention.d64-ctx128-1bf92b2e/result.json",
+        "sha256": "4b66e27d6f9853a6b6ad1fba0548efc8573b6c7b83c761e72094e2d17fc6383c"
+      },
+      "baseline_cycles": 380054.0,
+      "candidate_cycles": 173429.0,
+      "screen_speedup": 2.191409741162089,
+      "baseline_memory_bytes_per_pe": 44064,
+      "candidate_memory_bytes_per_pe": 46096,
+      "max_error_fraction": 0.0011553106107552076,
+      "exact_state_match": true
+    },
+    {
+      "profile": "decode-attention.d64-boundary",
+      "status": "positive_case_screen_only",
+      "seed": 20261022,
+      "baseline": {
+        "path": "runs/v2/20261023T142256Z-decode-attention.d64-boundary-920d5062/result.json",
+        "sha256": "abfaba4ed0e06dc6886ced4a7c96f4f2c31d81bea3c46d81b50055835be3adb1"
+      },
+      "candidate": {
+        "path": "runs/v2/20261023T143944Z-decode-attention.d64-boundary-9334816d/result.json",
+        "sha256": "e60e5c5cc56d045facae6068d537e61b3113fbbfc9b7937afb38b3ccbf1d6757"
+      },
+      "baseline_cycles": 366410.0,
+      "candidate_cycles": 166640.0,
+      "screen_speedup": 2.198811809889582,
+      "baseline_memory_bytes_per_pe": 44064,
+      "candidate_memory_bytes_per_pe": 46096,
+      "max_error_fraction": 0.0014394969303085225,
+      "exact_state_match": true
+    },
+    {
+      "profile": "decode-attention.d64-ctx1024",
+      "status": "positive_case_screen_only",
+      "seed": 20261022,
+      "baseline": {
+        "path": "runs/v2/20261023T142317Z-decode-attention.d64-ctx1024-30c50db8/result.json",
+        "sha256": "86a5e6c9d1879c0831499b745da0e663f3524695c0a1a4aaf4d8d5d8e973f375"
+      },
+      "candidate": {
+        "path": "runs/v2/20261023T143959Z-decode-attention.d64-ctx1024-9af6ce0f/result.json",
+        "sha256": "d8010025e45450d8470e859cf272921a0e2509759621fd06b47e16bd3da67e20"
+      },
+      "baseline_cycles": 390527.0,
+      "candidate_cycles": 175496.0,
+      "screen_speedup": 2.22527578976159,
+      "baseline_memory_bytes_per_pe": 44496,
+      "candidate_memory_bytes_per_pe": 46720,
+      "max_error_fraction": 0.0013045668817415403,
+      "exact_state_match": true
+    },
+    {
+      "profile": "decode-attention.d64-ctx4096",
+      "status": "positive_case_screen_only",
+      "seed": 20261022,
+      "baseline": {
+        "path": "runs/v2/20261023T142521Z-decode-attention.d64-ctx4096-aed14867/result.json",
+        "sha256": "9444342492e09ba221fb6fd3b6e84a917d3c95b2f7bea59ec6550c97dbdea275"
+      },
+      "candidate": {
+        "path": "runs/v2/20261023T144136Z-decode-attention.d64-ctx4096-f217c8b1/result.json",
+        "sha256": "902b5d5a29899a3264ef4c3b44f1f271ddc0abb1c284008c51c32ead0d851e14"
+      },
+      "baseline_cycles": 424123.0,
+      "candidate_cycles": 182606.0,
+      "screen_speedup": 2.3226126195196213,
+      "baseline_memory_bytes_per_pe": 46032,
+      "candidate_memory_bytes_per_pe": 48640,
+      "max_error_fraction": 0.002541756520678127,
+      "exact_state_match": true
+    },
+    {
+      "profile": "decode-attention.d128-ctx512",
+      "status": "positive_case_screen_only",
+      "seed": 20261022,
+      "baseline": {
+        "path": "runs/v2/20261023T143702Z-decode-attention.d128-ctx512-5ef23f60/result.json",
+        "sha256": "43396d43d3ba46aa3682fb0713a7f1d4f8209feb8c6ef29e06317725a7625ec7"
+      },
+      "candidate": {
+        "path": "runs/v2/20261023T145129Z-decode-attention.d128-ctx512-002a2258/result.json",
+        "sha256": "4fb06231bc506a53220a024a97c4c4daedb2b74b887e33c14fabe7d9b4baceaf"
+      },
+      "baseline_cycles": 273917.0,
+      "candidate_cycles": 88511.0,
+      "screen_speedup": 3.094722689835162,
+      "baseline_memory_bytes_per_pe": 44576,
+      "candidate_memory_bytes_per_pe": 46784,
+      "max_error_fraction": 0.0013276591345637093,
+      "exact_state_match": true
+    },
+    {
+      "profile": "decode-attention.d64-ctx128-latency16",
+      "status": "positive_case_screen_only",
+      "seed": 20261022,
+      "baseline": {
+        "path": "runs/v2/20261023T143833Z-decode-attention.d64-ctx128-latency16-b1f916a0/result.json",
+        "sha256": "ce07af6c74b4d860d0ceb41e51ca51ec94506f443f832bd2e9709c6fd138e1d5"
+      },
+      "candidate": {
+        "path": "runs/v2/20261023T145249Z-decode-attention.d64-ctx128-latency16-384d1779/result.json",
+        "sha256": "b0f65c45a525faeca3a038c354b53dd7a4d5ee8dd41d493ec9bc7dd0883e9f9b"
+      },
+      "baseline_cycles": 238581.0,
+      "candidate_cycles": 61109.0,
+      "screen_speedup": 3.9041875992079724,
+      "baseline_memory_bytes_per_pe": 31136,
+      "candidate_memory_bytes_per_pe": 31488,
+      "max_error_fraction": 0.0010736555703993414,
+      "exact_state_match": true
+    },
+    {
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "status": "positive_case_screen_only",
+      "seed": 20261022,
+      "baseline": {
+        "path": "runs/v2/20261023T143855Z-decode-attention.d64-ctx128-latency32-c20fd289/result.json",
+        "sha256": "e6569ef82e3435d02eef901cd7a845bacfd33cbe728e197cc4f1cba7c1cb288a"
+      },
+      "candidate": {
+        "path": "runs/v2/20261023T145306Z-decode-attention.d64-ctx128-latency32-6b963468/result.json",
+        "sha256": "e1d155a258eab8d2cd5c275b6a5c4d887b9630e54bd8ca2caa6b79eeca48809e"
+      },
+      "baseline_cycles": 220193.0,
+      "candidate_cycles": 43158.0,
+      "screen_speedup": 5.102020482876871,
+      "baseline_memory_bytes_per_pe": 29216,
+      "candidate_memory_bytes_per_pe": 30480,
+      "max_error_fraction": 0.0014026460533585383,
+      "exact_state_match": true
+    }
+  ],
+  "artifact_audit": {
+    "status": "verified",
+    "initial_ledger_rows_preserved": 193,
+    "current_session_rows_checked": 52,
+    "ledger_head": "1c05f49ace97944e5505e2f10df48a1b620a030fa84cfbf83096d5ac38c6b08d",
+    "historical_artifacts": "Prior-machine raw artifacts for rows 1-193 are not present; whole-history artifact replay remains unavailable."
+  },
+  "retained_gain": "See 2026-10-23-attention-5x.json for the separate four-run, six-case, fresh-seed 5.103x confirmation."
+}
