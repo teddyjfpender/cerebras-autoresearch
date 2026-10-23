@@ -22,10 +22,24 @@ cases independently replayed. FFN-up is95,611 ->69,104 cycles and FFN-down
 128,315 ->120,701. Tiny is6,653 ->6,489 within the suite guard.
 [Complete evidence](reports/2026-10-23/resident-gemm/dispatch-suite-confirmed.json).
 
-The newly registered distributed resident SwiGLU chain has its own precision,
-intermediate/state and timing contract. Both cells now have full six-case baseline and numerical/core replay qualification.
-Existing results retain their original evaluator tracks; adding this evaluator
-requires new matched baselines for subsequent optimization.
+## Distributed resident SwiGLU — confirmed complete chain
+
+`swiglu-projection-silu-reuse` passed full validation and fresh paired confirmation
+on both profiles, including every G/U/V/D/Y intermediate and canonical/working
+state. All **48 cases** passed independent numerical and saved-core/timer replay.
+The conservative suite geometric mean is **1.415571x**, worst cell **1.376291x**.
+
+| Profile | Initial reference → candidate cycles | Fresh reference → candidate cycles | Program bytes/PE |
+| --- | ---: | ---: | ---: |
+| `resident-swiglu.small` | 58,502 → 42,506 | 58,502 → 42,506 | 10,496 → 10,768 |
+| `resident-swiglu.ffn-scaled` | 586,834 → 400,069 | 586,834 → 403,053 | 43,712 → 45,184 |
+
+[Complete evidence](reports/2026-10-23/resident-swiglu/initial-suite-confirmed.json)
+binds the two seeds and complete suite. The scaled cell is data dependent, so
+both measured seed arms are shown. The candidate combines projection layout,
+bounded FP32 SiLU evaluation and invariant-backed receive-buffer reuse. This
+track retains its original FP16 accumulation/storage and FP32 residual contract;
+BF16/FP32-accumulation work requires separate profiles and new baselines.
 
 ## Four inference tracks — qualified baselines
 

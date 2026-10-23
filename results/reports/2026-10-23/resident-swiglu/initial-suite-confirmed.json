@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_suite_improvement",
+  "created_utc": "2026-10-23T10:52:34.102675+00:00",
+  "decision": {
+    "status": "confirmed_suite_improvement",
+    "initial": {
+      "geometric_mean_speedup": 1.4208404512217898,
+      "worst_speedup": 1.3762909638412497,
+      "profiles": [
+        "resident-swiglu.small",
+        "resident-swiglu.ffn-scaled"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "resident-swiglu.small",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T095750Z-resident-swiglu.small-e10bd3dd/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T102127Z-resident-swiglu.small-177d4fc2/result.json",
+          "speedup": 1.3762909638412497,
+          "memory_ratio": 1.0259146341463414,
+          "cycle_reduction_percent": 27.340945608697144,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu.ffn-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T100030Z-resident-swiglu.ffn-scaled-76fcd3bf/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T102904Z-resident-swiglu.ffn-scaled-8919ac30/result.json",
+          "speedup": 1.466831971484919,
+          "memory_ratio": 1.033674963396779,
+          "cycle_reduction_percent": 31.825865576977485,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "confirmation": {
+      "geometric_mean_speedup": 1.4155710891277669,
+      "worst_speedup": 1.3762909638412497,
+      "profiles": [
+        "resident-swiglu.small",
+        "resident-swiglu.ffn-scaled"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "resident-swiglu.small",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T102218Z-resident-swiglu.small-0789a5fc/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T102315Z-resident-swiglu.small-250b8a26/result.json",
+          "speedup": 1.3762909638412497,
+          "memory_ratio": 1.0259146341463414,
+          "cycle_reduction_percent": 27.340945608697144,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu.ffn-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T103439Z-resident-swiglu.ffn-scaled-936fe78a/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T104144Z-resident-swiglu.ffn-scaled-56970259/result.json",
+          "speedup": 1.4559722914852389,
+          "memory_ratio": 1.033674963396779,
+          "cycle_reduction_percent": 31.317374248935813,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "cell_evidence": {
+      "resident-swiglu.small": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.3762909638412497,
+        "confirmation_speedup": 1.3762909638412497
+      },
+      "resident-swiglu.ffn-scaled": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.466831971484919,
+        "confirmation_speedup": 1.4559722914852389
+      }
+    },
+    "scope": "exact complete suite coverage",
+    "qwen_tps_result": false,
+    "schema_version": 2,
+    "record_type": "suite_confirmation",
+    "inputs": {
+      "initial_baseline": "runs/v2/20261023T104818Z-suite-reuse-a8e4bc98/result.json",
+      "initial_candidate": "runs/v2/20261023T104818Z-suite-reuse-5387ae57/result.json",
+      "fresh_baseline": "runs/v2/20261023T104819Z-suite-reuse-d0de77d5/result.json",
+      "fresh_candidate": "runs/v2/20261023T104819Z-suite-reuse-2ae2e8eb/result.json"
+    },
+    "budgets": {
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "regression_limit": 1.02
+    },
+    "receipt": "runs/v2/20261023T104820Z-suite_confirmation-d720f736/result.json"
+  },
+  "state": {
+    "path": "runs/campaigns/resident-swiglu/initial-suite-state.json",
+    "sha256": "8dfb823aa6eea32fd2a090ba1476fc572d9c3c667befcc722010aba8889a79fa"
+  },
+  "arms": {
+    "initial_baseline": {
+      "path": "runs/v2/20261023T104818Z-suite-reuse-a8e4bc98/result.json",
+      "sha256": "5fc8c1db91a238b1b2522b711c5fb04e8340db589ba3ce77b8d27010ce659a4d"
+    },
+    "initial_candidate": {
+      "path": "runs/v2/20261023T104818Z-suite-reuse-5387ae57/result.json",
+      "sha256": "43e36e9e35ce8af902ad629e2625feb73ca6a4423f1d943518a29c1786309d8f"
+    },
+    "fresh_baseline": {
+      "path": "runs/v2/20261023T104819Z-suite-reuse-d0de77d5/result.json",
+      "sha256": "0296dd18288aaa553ec12cc4cee53d1b23ae8db5c5f4abca3c584d78c23e8ddc"
+    },
+    "fresh_candidate": {
+      "path": "runs/v2/20261023T104819Z-suite-reuse-2ae2e8eb/result.json",
+      "sha256": "abc29de03f87a31f2c029458b8ef9bc3e6ca336650789f0fbb6fd581133aeb74"
+    }
+  },
+  "campaign": {
+    "path": "results/reports/2026-10-23/resident-swiglu/initial-optimization-campaign.json",
+    "sha256": "0a3a90cfbd95cb6beb556541d62f48438f9b554901960eb4b4da3a520c99af3c"
+  },
+  "numerics": {
+    "path": "results/reports/2026-10-23/resident-swiglu/initial-suite-numerics.json",
+    "sha256": "680e1d8eae8456d64e1666f6002d08042b89d728bcd9885ddeff6a60753133b8"
+  },
+  "snapshots": {
+    "path": "results/reports/2026-10-23/resident-swiglu/initial-suite-snapshots.json",
+    "sha256": "ebb310fa137bbaee079326564195eb32ddd141f95419e1fed7910c57f1d69af6"
+  },
+  "case_count": 48,
+  "qwen_tps_result": false,
+  "scope": "Complete four-frame distributed FP16-accumulation SwiGLU with FP32 SiLU and residual; two fixed 16-PE profiles, two seeds, all five stages and canonical/working state."
+}
