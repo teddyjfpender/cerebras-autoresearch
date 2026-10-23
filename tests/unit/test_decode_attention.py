@@ -16,7 +16,7 @@ from tests.support.records import make_record
 class DecodeAttentionTests(unittest.TestCase):
     def test_real_head_dimensions_and_distributed_contexts(self):
         suite = get_suite("decode-attention")
-        self.assertEqual(len(suite), 5)
+        self.assertEqual(len(suite), 7)
         self.assertEqual({p["dimensions"]["D"] for p in suite}, {64, 128})
         self.assertIn(128, {p["dimensions"]["P"] for p in suite})
         for profile in suite:
@@ -32,6 +32,14 @@ class DecodeAttentionTests(unittest.TestCase):
                 "attention-polynomial-exp",
                 "attention-dsr",
                 "attention-dsr-normalize",
+                "attention-vector-softmax",
+                "attention-bank-dsr",
+                "attention-bank-vector",
+                "attention-bank-pv",
+                "attention-unrolled",
+                "attention-vector-max",
+                "attention-reciprocal",
+                "attention-newton",
             ):
                 with (
                     self.subTest(profile=profile["id"], candidate=name),
@@ -58,6 +66,7 @@ class DecodeAttentionTests(unittest.TestCase):
             ("slot < valid", "slot < S"),
             ("mpi.reduce_fadds(ROOT", "mpi.reduce_fadds(0"),
             ("store_output();", ""),
+            ("merge_maxima();", ""),
         ):
             # The local compute body can change; replace the last occurrence,
             # which belongs to immutable cache/control for the causal-mask case.

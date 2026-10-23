@@ -1,0 +1,17 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128-latency32",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.bank-dsr-vector-max-newton",
+  "hypothesis": "Extend descriptor reuse, bank offset, bounded unrolling and vector max/normalization with a bit-linear reciprocal seed and four FP32 Newton iterations for finite stable-softmax sums in [1,8192], a range guaranteed by the operator. Expect less normalization overhead without changing FP32 precision or the fixed output tolerance.",
+  "falsification": "Require exhaustive host mantissa/range checks plus every device output/cache check at both paired seeds, at least 5.01x coordinator gain against the matched original reference, and no more than 10% program-object memory growth. Reject any changed PE count, work, state, precision, communication or timing.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "ChatGPT Work",
+  "qualification_at_creation": "uncompiled"
+}

@@ -6,87 +6,10 @@
   "max_memory_growth": 1.1,
   "cells": [
     {
-      "profile": "decode-attention.d64-ctx128",
+      "profile": "decode-attention.d64-ctx128-latency32",
       "candidates": [
         {
-          "candidate": "attention-vector-exp"
-        },
-        {
-          "candidate": "attention-polynomial-exp"
-        },
-        {
-          "candidate": "attention-dsr"
-        },
-        {
-          "candidate": "attention-dsr-normalize"
-        }
-      ]
-    },
-    {
-      "profile": "decode-attention.d64-boundary",
-      "candidates": [
-        {
-          "candidate": "attention-vector-exp"
-        },
-        {
-          "candidate": "attention-polynomial-exp"
-        },
-        {
-          "candidate": "attention-dsr"
-        },
-        {
-          "candidate": "attention-dsr-normalize"
-        }
-      ]
-    },
-    {
-      "profile": "decode-attention.d64-ctx1024",
-      "candidates": [
-        {
-          "candidate": "attention-vector-exp"
-        },
-        {
-          "candidate": "attention-polynomial-exp"
-        },
-        {
-          "candidate": "attention-dsr"
-        },
-        {
-          "candidate": "attention-dsr-normalize"
-        }
-      ]
-    },
-    {
-      "profile": "decode-attention.d64-ctx4096",
-      "candidates": [
-        {
-          "candidate": "attention-vector-exp"
-        },
-        {
-          "candidate": "attention-polynomial-exp"
-        },
-        {
-          "candidate": "attention-dsr"
-        },
-        {
-          "candidate": "attention-dsr-normalize"
-        }
-      ]
-    },
-    {
-      "profile": "decode-attention.d128-ctx512",
-      "candidates": [
-        {
-          "candidate": "attention-vector-exp"
-        },
-        {
-          "candidate": "attention-polynomial-exp"
-        },
-        {
-          "candidate": "attention-dsr"
-        },
-        {
-          "candidate": "attention-dsr-normalize"
+          "candidate": "attention-newton"
         }
       ]
     }

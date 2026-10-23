@@ -68,7 +68,7 @@ python3 research.py ledger sync               # Recover unjournaled terminal rec
 
 ## Benchmark coverage
 
-**42 configured profiles, 14 families, 17 suites.** The
+**44 configured profiles, 14 families, 17 suites.** The
 [catalog](docs/benchmarks/catalog.md) describes coverage; [results](results/README.md)
 separate measured profiles from configured ones.
 
@@ -76,13 +76,13 @@ separate measured profiles from configured ones.
 | --- | --- |
 | Dense inference | Six GEMV shapes; five cold GEMM shapes; three resident GEMM sequences; scaled FFN up/down projections |
 | Complete inference blocks | RMSNorm/SwiGLU MLP at two widths; causal RoPE attention with KV state and MLP at two contexts |
-| Distributed decode attention | Five GQA profiles: 4–128 PEs, 64/128-wide heads, contexts to 4,096; qualification tracked separately |
+| Distributed decode attention | Seven GQA profiles: 4–128 PEs, 64/128-wide heads, contexts to 4,096, including finer latency shards; qualification tracked separately |
 | Composed programs | Three FP32 matvec → bias → ReLU → residual chains with staged/fused variants; SDK residual norm |
 | Communication/I/O | Row/column broadcast; H2D/D2H diagnostics |
 | Numerical/scientific | Sparse 7-point stencil; 1D/2D/3D FFT; local matvec bandwidth |
 | Exact/spatial | 256-bit multiplication; Game of Life |
 
-Twenty-six profiles have independent six-case oracles. Fourteen use pinned
+Twenty-eight profiles have independent six-case oracles. Fourteen use pinned
 upstream reference checks; two are diagnostics. Only the independent-oracle
 tier can pass automatic promotion. Untimed examples receive no cycle score.
 
@@ -92,8 +92,9 @@ Execution qualification is recorded separately from configuration.
 
 The [distributed GQA challenge](docs/benchmarks/decode-attention.md) adds a
 coordinator-clock score and staged optimization candidates. SDK measurements
-confirm **1.816x** on `d64-ctx128`, with six numerical cases at both seeds and
-slightly lower program memory. The >5x campaign remains a target.
+confirm **5.103x** on `d64-ctx128-latency32`: 220,273 → 43,165 sequence cycles,
+with the same 32 compute PEs, six cases at both seeds, and 4.3% program-memory
+growth. This is a simulator operator result; hardware/model TPS is unmeasured.
 
 ## What to optimize
 

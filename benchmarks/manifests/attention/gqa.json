@@ -175,6 +175,76 @@
         "repeats": 1,
         "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
       }
+    },
+    {
+      "id": "decode-attention.d64-ctx128-latency16",
+      "adapter": "decode_attention",
+      "family": "sharded-gqa-decode",
+      "dimensions": {
+        "P": 16,
+        "S": 8,
+        "D": 64,
+        "G": 4,
+        "T": 4,
+        "L": 124
+      },
+      "pe_grid": [
+        16,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "coordinator_cycles",
+      "oracle_contract": "sharded_gqa_decode_fp32_v1",
+      "work_units": 518144,
+      "work_unit": "projection_free_attention_arithmetic",
+      "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+      }
+    },
+    {
+      "id": "decode-attention.d64-ctx128-latency32",
+      "adapter": "decode_attention",
+      "family": "sharded-gqa-decode",
+      "dimensions": {
+        "P": 32,
+        "S": 4,
+        "D": 64,
+        "G": 4,
+        "T": 4,
+        "L": 124
+      },
+      "pe_grid": [
+        32,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "coordinator_cycles",
+      "oracle_contract": "sharded_gqa_decode_fp32_v1",
+      "work_units": 518144,
+      "work_unit": "projection_free_attention_arithmetic",
+      "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+      }
     }
   ]
 }

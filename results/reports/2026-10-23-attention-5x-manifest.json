@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "receipts": [
+    {
+      "path": "runs/v2/20261023T135901Z-decode-attention.d64-ctx128-latency32-7161f87e/result.json",
+      "sha256": "f7fe04b18cd9d91fb76be313a8d1303709c342edbe2d4025b4ca83a1c1667808"
+    },
+    {
+      "path": "runs/v2/20261023T141137Z-decode-attention.d64-ctx128-latency32-e99264c2/result.json",
+      "sha256": "487b851a75a22b5a216d1d9b9f550cdcf7c069c7b8e349c4132619c038d9d9af"
+    },
+    {
+      "path": "runs/v2/20261023T141341Z-decode-attention.d64-ctx128-latency32-222f7b33/result.json",
+      "sha256": "c9e4a4fccff1e6a11b68f792f2f87da94ec64086dad6c6597b5aaf1606c31cf3"
+    },
+    {
+      "path": "runs/v2/20261023T141655Z-decode-attention.d64-ctx128-latency32-84eed5e5/result.json",
+      "sha256": "65e8d42f62d14e2fc9b2fd2d715c01dc9dc9cb0fc6c40333c78a65aa25f7524c"
+    }
+  ]
+}

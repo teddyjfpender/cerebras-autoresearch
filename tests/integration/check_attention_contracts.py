@@ -45,7 +45,18 @@ def polynomial_exp(x):
     return np.where((x >= -16) & (x <= 0), v, np.exp(x))
 
 
-def distributed_model(dims, data, exp=np.exp):
+def newton_reciprocal(x):
+    """Unfused FP32 model of the positive-denominator reciprocal candidate."""
+    x = np.asarray(x, dtype=np.float32)
+    if not np.all(np.isfinite(x) & (x >= 1) & (x <= 8192)):
+        raise ValueError("Outside the stable-softmax reciprocal domain")
+    y = (np.uint32(0x7F000000) - x.view(np.uint32)).view(np.float32)
+    for _ in range(4):
+        y = y * (np.float32(2) - x * y)
+    return y
+
+
+def distributed_model(dims, data, exp=np.exp, reciprocal=None):
     """CPU model of the sharding/reduction scheme, separate from dense oracle."""
     p, s, d, g, t = (dims[k] for k in ("P", "S", "D", "G", "T"))
     keys, values = data["K"].copy(), data["V"].copy()
@@ -67,13 +78,27 @@ def distributed_model(dims, data, exp=np.exp):
             weights = exp(score - maximum[:, None])
             denominator += weights.sum(axis=1)
             numerator += weights @ values[shard, : score.shape[1]]
-        result[step] = numerator / denominator[:, None]
+        result[step] = (
+            numerator / denominator[:, None]
+            if reciprocal is None
+            else numerator * reciprocal(denominator)[:, None]
+        )
     return dict(Y=result, K=keys, V=values)
 
 
 class AttentionProperties(unittest.TestCase):
     def setUp(self):
         self.dims = get_suite("decode-attention")[0]["dimensions"]
+
+    def test_finer_sharding_preserves_the_global_workload(self):
+        profiles = [p for p in get_suite("decode-attention") if "ctx128" in p["id"]]
+        base = inputs(profiles[0]["dimensions"], 19, "signed")
+        expected = reference(profiles[0]["dimensions"], base)["Y"]
+        for profile in profiles[1:]:
+            data = inputs(profile["dimensions"], 19, "signed")
+            for name in base:
+                np.testing.assert_array_equal(data[name].ravel(), base[name].ravel())
+            np.testing.assert_array_equal(reference(profile["dimensions"], data)["Y"], expected)
 
     def test_all_shapes_cases_and_fresh_seeds(self):
         for profile in get_suite("decode-attention"):
@@ -89,6 +114,27 @@ class AttentionProperties(unittest.TestCase):
                             arrays, error, bound = evidence(dims, data, actual)
                             self.assertTrue(bool(arrays["exact_state_match"]))
                             self.assertTrue(np.all(error <= bound), float(np.max(error / bound)))
+
+    def test_every_normalized_fp32_mantissa_has_a_bounded_reciprocal_error(self):
+        values = np.arange(0x3F800000, 0x40000000, dtype=np.uint32).view(np.float32)
+        relative = np.abs(newton_reciprocal(values).astype(np.float64) * values - 1)
+        self.assertLess(float(relative.max()), 3e-7)
+        # Exact powers-of-two scaling covers the supported denominator range.
+        boundaries = np.array([1, 2, 127, 128, 4096, 8192], np.float32)
+        relative = np.abs(newton_reciprocal(boundaries).astype(np.float64) * boundaries - 1)
+        self.assertLess(float(relative.max()), 3e-7)
+
+    def test_newton_normalization_preserves_the_complete_attention_contract(self):
+        for profile in get_suite("decode-attention"):
+            dims = profile["dimensions"]
+            for seed in (7, 808):
+                for case in CASES:
+                    data = inputs(dims, seed, case)
+                    actual = distributed_model(dims, data, reciprocal=newton_reciprocal)
+                    arrays, error, bound = evidence(dims, data, actual)
+                    with self.subTest(profile=profile["id"], seed=seed, case=case):
+                        self.assertTrue(bool(arrays["exact_state_match"]))
+                        self.assertTrue(np.all(error <= bound), float(np.max(error / bound)))
 
     def test_early_output_and_final_cache_defects_fail(self):
         data = inputs(self.dims, 7, "signed")

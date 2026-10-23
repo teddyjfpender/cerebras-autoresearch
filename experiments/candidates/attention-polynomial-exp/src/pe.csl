@@ -126,6 +126,18 @@ fn store_output() void {
         }
     }
 }
+fn merge_maxima() void {
+        var head: i16 = 0;
+        while (head < G) : (head += 1) {
+            global_max[head] = -3.4e38;
+            var shard: i16 = 0;
+            while (shard < P) : (shard += 1) {
+                if (all_max[shard*G+head] > global_max[head]) {
+                    global_max[head] = all_max[shard*G+head];
+                }
+            }
+        }
+}
 // END LOCAL COMPUTE
 
 // Trusted control: cache writes, causal maxima, collectives, output dispatch and timers.
@@ -168,16 +180,7 @@ task begin_token() void {
 
 task after_maxima() void {
     if (px == P-1) {
-        var head: i16 = 0;
-        while (head < G) : (head += 1) {
-            global_max[head] = -3.4e38;
-            var shard: i16 = 0;
-            while (shard < P) : (shard += 1) {
-                if (all_max[shard*G+head] > global_max[head]) {
-                    global_max[head] = all_max[shard*G+head];
-                }
-            }
-        }
+        merge_maxima();
     }
     mpi.broadcast(ROOT, @ptrcast([*]u32, &global_max), @as(u16, G), PARTIAL);
 }

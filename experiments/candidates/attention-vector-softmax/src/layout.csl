@@ -1,0 +1,43 @@
+// Collective parameter setup follows Cerebras SDK gemv-collectives_2d
+// (06ffd5961e8d35b6324e0ebf6595fe4a5a87c2e1), Apache-2.0.
+// Copyright 2025 Cerebras Systems.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy at http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+param P: i16;
+param S: i16;
+param D: i16;
+param G: i16;
+param T: i16;
+param L: i16;
+const memcpy = @import_module("<memcpy/get_params>", .{ .width = P, .height = 1 });
+const c2d = @import_module("<collectives_2d/params>");
+layout {
+    @set_rectangle(P, 1);
+    for (@range(i16, P)) |x| {
+        const cp = c2d.get_params(@as(u16, x), 0, .{
+            .x_colors = .{ @get_color(0), @get_color(1) },
+            .x_entrypoints = .{ @get_local_task_id(14), @get_local_task_id(15) },
+            .y_colors = .{ @get_color(4), @get_color(5) },
+            .y_entrypoints = .{ @get_local_task_id(16), @get_local_task_id(17) },
+        });
+        @set_tile_code(x, 0, "pe.csl", .{
+            .memcpy_params = memcpy.get_params(x), .c2d_params = cp,
+            .P = P, .S = S, .D = D, .G = G, .T = T, .L = L,
+        });
+    }
+    @export_name("Q", [*]f32, true);
+    @export_name("NEW_K", [*]f32, true);
+    @export_name("NEW_V", [*]f32, true);
+    @export_name("K", [*]f32, true);
+    @export_name("V", [*]f32, true);
+    @export_name("Y", [*]f32, false);
+    @export_name("times", [*]u16, false);
+    @export_name("compute", fn()void);
+}

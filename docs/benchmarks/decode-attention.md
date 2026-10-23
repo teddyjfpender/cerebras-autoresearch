@@ -5,13 +5,18 @@ heads**, with its cache sharded across P on-wafer PEs. Inputs are supplied
 after positional encoding. Projections, RoPE, MLP, model sampling and
 inter-wafer transport are outside this operator's contract. Precision is FP32.
 
-**SDK-qualified on `d64-ctx128`: 1.816x confirmed with six cases at both seeds.**
-The requested >5x improvement is not yet established. The
-[stage-one report](../../results/reports/2026-10-23-attention-sdk-stage1.json)
-and [24-case raw replay](../../results/reports/2026-10-23-attention-sdk-stage1-replay.json)
-record the evidence. The earlier
+**5.103x confirmed on `d64-ctx128-latency32`, with identical 32-PE budgets.**
+The [five-times report](../../results/reports/2026-10-23-attention-5x.json)
+and [24-case raw replay](../../results/reports/2026-10-23-attention-5x-replay.json)
+record six cases at each of two seeds in both arms. This is one profile's
+simulated kernel improvement. Hardware/model TPS and training throughput remain
+unmeasured. The earlier
 [readiness report](../../results/reports/2026-10-23-attention-readiness.json)
 is an immutable record from before SDK installation.
+
+This operator targets resident KV access, grouped-query reuse, stable softmax
+and on-wafer communication: concrete latency costs in inference. Separate
+coarse and fine shards expose the cost of distributing work across the fabric.
 
 | Profile suffix | Compute PEs | Slots/PE | Head width | Queries/KV head | Initial/final context |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -20,12 +25,22 @@ is an immutable record from before SDK installation.
 | `d64-ctx1024` | 32 | 32 | 64 | 4 | 1,020/1,024 |
 | `d64-ctx4096` | 128 | 32 | 64 | 4 | 4,092/4,096 |
 | `d128-ctx512` | 32 | 16 | 128 | 2 | 508/512 |
+| `d64-ctx128-latency16` | 16 | 8 | 64 | 4 | 124/128 |
+| `d64-ctx128-latency32` | 32 | 4 | 64 | 4 | 124/128 |
+
+The latency points run the identical global context-128 workload on finer
+cache shards. A host property checks every quantized input bit and dense output
+against the original 4-PE profile. They expose the tradeoff between latency and
+PE/program-memory cost. Speedup claims compare baseline and candidate within
+one fixed profile, with identical PE counts; cross-profile parallelism is a
+separate resource tradeoff.
 
 SDK compilation rejected the initial larger shards for insufficient PE memory.
 Those configurations now use twice as many PEs, at unchanged context and
 precision. New profile fingerprints and fresh baselines keep those budgets
-separate from the original failed attempt. Only the small profile is qualified
-in the stage-one report; the other rows remain configurations pending execution.
+separate from the original failed attempt. The stage-one report qualifies the
+4-PE source track; the final >5x report qualifies the 32-PE latency source track.
+Other profile results must be labeled by their actual validation tier.
 
 All IDs start with `decode-attention.`. Four distinct supplied tokens execute
 in one resident sequence, without host traffic between tokens. The boundary
@@ -69,17 +84,18 @@ includes KV appends, local work and all reductions. Local PE intervals remain
 diagnostic. `cycles_per_token` divides the sequence by four; it is not model
 TPS. Compilation, initialization and host transfers are excluded.
 
-Candidates cannot change layout, fixed data declarations, cache appends, causal
-maxima, collective control, output dispatch or timing. Local arithmetic and
-normalization/stores inside the guarded compute region are editable. The
-normalization hook contains the original scalar reference unchanged; its new
-source/evaluator track has fresh paired baselines. Precision, PE budget,
+Candidates cannot change layout, fixed data declarations, cache appends, the
+causal local-max scan, collective control, output dispatch or timing. Local
+arithmetic, the global-max merge and normalization/stores inside the guarded
+compute region are editable. Both arithmetic hooks contain the original
+reference bodies unchanged. Each source track has matched paired baselines.
+Precision, PE budget,
 numerical bounds and <=1.10x program-object
 memory gate stay fixed. Actual compiled memory/footprint needs SDK inspection;
 source buffer estimates do not certify SRAM fit. Work units count QK/PV
 multiply/add arithmetic; nonlinear and communication work remains timed.
 
-## Staged hypotheses and >5x target
+## Incremental results
 
 1. `attention-vector-exp`: vector subtraction and map of exp, with future slots
    masked before exponentiation; QK/PV and all distributed control stay fixed.
@@ -98,13 +114,35 @@ multiply. Against the fresh baseline, the latter improves the maximum of six
 cases from **380,121 to 209,313 sequence cycles**, or 95,030.25 to 52,328.25
 cycles per token. The same numbers hold at seed 20261024. Maximum program-object
 memory falls from **44,064 to 43,552 bytes per PE**. This confirmation applies
-to the 4-PE `d64-ctx128` profile only.
+to the earlier 4-PE `d64-ctx128` source track only; see the
+[stage-one report](../../results/reports/2026-10-23-attention-sdk-stage1.json).
 
-The incremental
-campaign uses the ordinary 1.05x gate. A separate target campaign requires
+Subsequent candidates tested bank-offset accumulators, bounded QK/PV unrolling,
+vector merging of gathered maxima and reciprocal normalization. Polynomial
+softmax and bank-separated PV variants failed to improve their prior stages.
+The strict gate also rejected the vector-max candidate's 4.97x screen.
+
+`attention-newton` combines descriptor reuse, a bank-offset QK accumulator,
+vector query scaling and normalization, bounded unrolling, a vector maximum
+merge, and four FP32 Newton reciprocal steps. The stable-softmax denominator
+is finite and at least one. The candidate's supported PE/shard bounds keep it
+inside the independently checked [1,8192] reciprocal range. All 8,388,608
+normalized FP32 mantissas pass a host error check below 1.4e-7; separate device
+checks validate the complete outputs and cache. No precision or tolerance was
+weakened.
+
+On **`d64-ctx128-latency32`**, the maximum of six cases falls from **220,273 to
+43,165 sequence cycles**, or 55,068.25 to 10,791.25 cycles per token. Both
+seeds, 20261023 and 20261024, give **5.103x**. Maximum program-object memory is
+**30,480 versus 29,216 bytes per PE**, a 4.3% increase under the 10% gate.
+Both arms use 32 compute PEs and identical workload/timing contracts. These
+results are independent of the earlier 4-PE ratio; gains are not multiplied.
+
+The incremental campaign covers the coarse and fine context-128 profiles with
+the ordinary 1.05x gate. The focused target campaign requires
 **5.01x versus the original vectorized reference**, at both fresh seeds and
-under the memory gate. Family-wide >5x requires every profile to pass; otherwise
-report individual confirmed cells. Never multiply unrelated gains or treat CPU
+under the memory gate, and is confirmed on the 32-PE latency profile.
+Family-wide >5x requires every profile to pass. Never multiply unrelated gains or treat CPU
 model time as WSE performance.
 
 ```sh

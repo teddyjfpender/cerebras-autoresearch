@@ -1,0 +1,1862 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_improvement",
+  "target_speedup": 5.01,
+  "target_achieved": true,
+  "profile": "decode-attention.d64-ctx128-latency32",
+  "scope": "SDK fabric-simulator cycles for one resident FP32 grouped-query attention unit, four supplied tokens; both arms use the same 32 compute PEs",
+  "confirmation": {
+    "status": "confirmed_improvement",
+    "profile": "decode-attention.d64-ctx128-latency32",
+    "runs": {
+      "initial_baseline": "runs/v2/20261023T135901Z-decode-attention.d64-ctx128-latency32-7161f87e/result.json",
+      "initial_candidate": "runs/v2/20261023T141137Z-decode-attention.d64-ctx128-latency32-e99264c2/result.json",
+      "fresh_baseline": "runs/v2/20261023T141341Z-decode-attention.d64-ctx128-latency32-222f7b33/result.json",
+      "fresh_candidate": "runs/v2/20261023T141655Z-decode-attention.d64-ctx128-latency32-84eed5e5/result.json"
+    },
+    "budgets": {
+      "minimum_speedup": 5.01,
+      "max_memory_growth": 1.1
+    },
+    "initial": {
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "metric": "coordinator_cycles",
+      "baseline": "/tmp/cerebras-autoresearch/runs/v2/20261023T135901Z-decode-attention.d64-ctx128-latency32-7161f87e/result.json",
+      "candidate": "/tmp/cerebras-autoresearch/runs/v2/20261023T141137Z-decode-attention.d64-ctx128-latency32-e99264c2/result.json",
+      "speedup": 5.103046449669871,
+      "memory_ratio": 1.0432639649507118,
+      "cycle_reduction_percent": 80.40386247974105,
+      "eligible": true,
+      "minimum_speedup": 5.01,
+      "max_memory_growth": 1.1,
+      "decision": "needs_fresh_confirmation",
+      "qwen_tps_result": false,
+      "schema_version": 2,
+      "record_type": "comparison",
+      "inputs": {
+        "baseline": "runs/v2/20261023T135901Z-decode-attention.d64-ctx128-latency32-7161f87e/result.json",
+        "candidate": "runs/v2/20261023T141137Z-decode-attention.d64-ctx128-latency32-e99264c2/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 5.01,
+        "max_memory_growth": 1.1
+      },
+      "receipt": "runs/v2/20261023T141341Z-comparison-e75614e4/result.json"
+    },
+    "confirmation": {
+      "status": "confirmed_improvement",
+      "initial": {
+        "profile": "decode-attention.d64-ctx128-latency32",
+        "metric": "coordinator_cycles",
+        "baseline": "/tmp/cerebras-autoresearch/runs/v2/20261023T135901Z-decode-attention.d64-ctx128-latency32-7161f87e/result.json",
+        "candidate": "/tmp/cerebras-autoresearch/runs/v2/20261023T141137Z-decode-attention.d64-ctx128-latency32-e99264c2/result.json",
+        "speedup": 5.103046449669871,
+        "memory_ratio": 1.0432639649507118,
+        "cycle_reduction_percent": 80.40386247974105,
+        "eligible": true,
+        "minimum_speedup": 5.01,
+        "max_memory_growth": 1.1,
+        "decision": "needs_fresh_confirmation",
+        "qwen_tps_result": false
+      },
+      "confirmation": {
+        "profile": "decode-attention.d64-ctx128-latency32",
+        "metric": "coordinator_cycles",
+        "baseline": "/tmp/cerebras-autoresearch/runs/v2/20261023T141341Z-decode-attention.d64-ctx128-latency32-222f7b33/result.json",
+        "candidate": "/tmp/cerebras-autoresearch/runs/v2/20261023T141655Z-decode-attention.d64-ctx128-latency32-84eed5e5/result.json",
+        "speedup": 5.103046449669871,
+        "memory_ratio": 1.0432639649507118,
+        "cycle_reduction_percent": 80.40386247974105,
+        "eligible": true,
+        "minimum_speedup": 5.01,
+        "max_memory_growth": 1.1,
+        "decision": "confirmation_passed",
+        "qwen_tps_result": false
+      },
+      "scope": "one fixed benchmark profile",
+      "qwen_tps_result": false,
+      "schema_version": 2,
+      "record_type": "confirmation",
+      "inputs": {
+        "initial_baseline": "runs/v2/20261023T135901Z-decode-attention.d64-ctx128-latency32-7161f87e/result.json",
+        "initial_candidate": "runs/v2/20261023T141137Z-decode-attention.d64-ctx128-latency32-e99264c2/result.json",
+        "fresh_baseline": "runs/v2/20261023T141341Z-decode-attention.d64-ctx128-latency32-222f7b33/result.json",
+        "fresh_candidate": "runs/v2/20261023T141655Z-decode-attention.d64-ctx128-latency32-84eed5e5/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 5.01,
+        "max_memory_growth": 1.1
+      },
+      "receipt": "runs/v2/20261023T141905Z-confirmation-210955ac/result.json"
+    }
+  },
+  "validated_runs": [
+    {
+      "receipt": "runs/v2/20261023T135901Z-decode-attention.d64-ctx128-latency32-7161f87e/result.json",
+      "receipt_sha256": "f7fe04b18cd9d91fb76be313a8d1303709c342edbe2d4025b4ca83a1c1667808",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128-latency32",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 32,
+          "S": 4,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          32,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "profile_sha256": "706daa89dd8caac1a0d4e75e71085f4f433b11e615c56ebe1b72cbf6522e79ef",
+      "variant": "baseline",
+      "seed": 20261023,
+      "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "source_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "harness_sha256": "bcb68e7d6c930d5cf413054a36ed736c11f83968a61ac850fefc20009fcd84cf",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=39,3",
+        "--fabric-offsets=4,1",
+        "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "metrics": {
+        "max_local_cycles": 220273.0,
+        "mean_local_cycles": 188951.8125,
+        "pe_cycle_spread": 32438.0,
+        "coordinator_cycles": 220273.0,
+        "cycles_per_token": 55068.25,
+        "max_error_fraction": 0.032323040208970304,
+        "max_program_object_bytes_per_pe": 29216,
+        "work_units_per_cycle": 2.352281033081676,
+        "pe_cycles": 7048736.0,
+        "experiment_wall_seconds": 199.29634430200167
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 2.070008149335223e-07,
+          "max_fraction_of_error_bound": 0.001367282783206238,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "e27f74dabe216f755b662063b04ff93e4fa9cfe77da479f021740ec05dc40984",
+          "metrics": {
+            "max_local_cycles": 220209.0,
+            "mean_local_cycles": 188887.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220209.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 5.700831825009023e-08,
+          "max_fraction_of_error_bound": 0.0005614975303337329,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "069d529121185547a8254af2ec611e5ed397b7745ac3bf4aa752be60813189ae",
+          "metrics": {
+            "max_local_cycles": 220217.0,
+            "mean_local_cycles": 188895.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220217.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 2.424580057558412e-08,
+          "max_fraction_of_error_bound": 0.0002163019739997077,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "e78121c1aefc9303649a3183d68cc596261c8029bab9b63662a7ce00b6e04453",
+          "metrics": {
+            "max_local_cycles": 220273.0,
+            "mean_local_cycles": 188951.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220273.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 2.3319730625692703e-09,
+          "max_fraction_of_error_bound": 2.294243047218513e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "55abc6da66eb9800ab8df327f80dcd824de7591cf6c8d92054f08f7a021f40c7",
+          "metrics": {
+            "max_local_cycles": 220273.0,
+            "mean_local_cycles": 188951.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220273.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 4.8513405515038244e-08,
+          "max_fraction_of_error_bound": 0.0004159739555058453,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "5a05465d94f969ca4c9a30c7f22eee9909431378cc36aaeabf8999ac63c93c32",
+          "metrics": {
+            "max_local_cycles": 220221.0,
+            "mean_local_cycles": 188899.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220221.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 1.0795606890212639e-05,
+          "max_fraction_of_error_bound": 0.032323040208970304,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "9dab8feca5ca50270808959fbae26e858c10b48e68aa70067c4415051d237fa3",
+          "metrics": {
+            "max_local_cycles": 220217.0,
+            "mean_local_cycles": 188895.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220217.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "memory": {
+        "max_program_object_bytes_per_pe": 29216,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 16,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 17,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 18,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 19,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 20,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 21,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 22,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 23,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 24,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 25,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 26,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 27,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 28,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 29,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 30,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 31,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 32,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 33,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 34,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 35,
+            "y": 1,
+            "bytes": 29216
+          }
+        ]
+      },
+      "provenance": {
+        "git_commit": "3b645962e17059199d5338a7de80b5373d1242c0",
+        "git_dirty": true,
+        "evaluator_sha256": "20dab72f7f72cf48c2b8e80b4726d3197518cffecd59a4c27b9e29a8faa81c49",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "38a9d01e9f911c23ff07ff6a42e4971568204373a74a505bb2977f515488c98d",
+          "src/cerebras_research/catalog.py": "94ca9ad3f2c1fbafd1075a05558b1bdd1246d2379db690b114f62f32e5b88e55",
+          "src/cerebras_research/cli.py": "9d70db3a74bb4bc23c6931c03cb26329d9c8f5d9df2ce4779baa94a0ab9e5f58",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "b5494d87bf7d6cb41b9f4ec4f684060121c1a6c6fa2c9e2e15dcd6c4c4bab907",
+          "src/cerebras_research/runner.py": "b9b1f920ceca5d94adf3a161f4d67e92ff92474df839c954e081784b86d62e37",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "bfbae2049330059384c3a41ff21547b49f02e57149e184eb2cd8deb5e2b33ad7",
+          "tools/sdk-unpacked": "9089c4c66adea808c51aa2bf4bff4211ef2ae774a3dc381f4be5784826aca280",
+          "tools/unpacked-sdk-bin/cs_python": "6b53cc1e30e4c2bc3db9794dd78f40e82da6de1ae28bcee8867c0d1d87182b37",
+          "tools/unpacked-sdk-bin/cs_readelf": "be5eb46e22fb61ada8e7012b728f748444d7f533af0b06d3c1b85df278746b54",
+          "tools/unpacked-sdk-bin/cslc": "259427c9d01841e7faa0c91166a7a91f6586bf526664b3a4cc3c03a8a6e72b7a"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_route": "native_unpacked_sif",
+        "host_os": "Linux x86_64; host glibc 2.39",
+        "container_runtime": null,
+        "sdk_python_version": "3.11.8",
+        "sdk_numpy_version": "1.25.0",
+        "unpack_tool": "unsquashfs 4.6.1; SIF filesystem offset 40960",
+        "environment_source": ".singularity.d/env/10-docker2singularity.sh",
+        "entrypoints": "tools/sdk-unpacked; vendor binaries and SDK libraries unchanged",
+        "qualification": "Compiler help, runtime import, and d64-ctx128 positive-case screen passed; full qualification pending",
+        "initial_screen": "runs/v2/20261023T131356Z-decode-attention.d64-ctx128-19919aa4/result.json",
+        "initial_screen_note": "Exploratory screen predates this environment manifest and the wrapper source capsule; cannot establish a retained gain."
+      },
+      "research": {
+        "approach": "decode_attention.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "ChatGPT Work"
+      }
+    },
+    {
+      "receipt": "runs/v2/20261023T141137Z-decode-attention.d64-ctx128-latency32-e99264c2/result.json",
+      "receipt_sha256": "487b851a75a22b5a216d1d9b9f550cdcf7c069c7b8e349c4132619c038d9d9af",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128-latency32",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 32,
+          "S": 4,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          32,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "profile_sha256": "706daa89dd8caac1a0d4e75e71085f4f433b11e615c56ebe1b72cbf6522e79ef",
+      "variant": "candidate",
+      "seed": 20261023,
+      "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "source_sha256": "addb72920f98c8be374c1ff6a981fcd214fa9faca94da96dc0943f76ef7c17f6",
+      "harness_sha256": "bcb68e7d6c930d5cf413054a36ed736c11f83968a61ac850fefc20009fcd84cf",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=39,3",
+        "--fabric-offsets=4,1",
+        "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "metrics": {
+        "max_local_cycles": 43165.0,
+        "mean_local_cycles": 42319.71875,
+        "pe_cycle_spread": 979.0,
+        "coordinator_cycles": 43165.0,
+        "cycles_per_token": 10791.25,
+        "max_error_fraction": 0.032323040208970304,
+        "max_program_object_bytes_per_pe": 30480,
+        "work_units_per_cycle": 12.003799374493223,
+        "pe_cycles": 1381280.0,
+        "experiment_wall_seconds": 123.39985935300137
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 2.5129035552406975e-07,
+          "max_fraction_of_error_bound": 0.001634855915276197,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "7a973ab3c1c48befd9e14c46411b687619b15eea7d318f1d0d1b7ec667c46e48",
+          "metrics": {
+            "max_local_cycles": 43146.0,
+            "mean_local_cycles": 42300.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43146.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 6.141103747747678e-08,
+          "max_fraction_of_error_bound": 0.0005706704956419985,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "71372fe04b731d517587dc2388d5fbc4d339d7030ac6d971ffefdb7d114b3344",
+          "metrics": {
+            "max_local_cycles": 43158.0,
+            "mean_local_cycles": 42312.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43158.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 3.169638117250795e-08,
+          "max_fraction_of_error_bound": 0.00028277019745698653,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "bf94d0b14d591cb4462356149c4a8592e99ab0698fe3cc1bffe512b2f2c336df",
+          "metrics": {
+            "max_local_cycles": 43165.0,
+            "mean_local_cycles": 42319.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43165.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 2.3319730625692703e-09,
+          "max_fraction_of_error_bound": 2.294243047218513e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "3ed197d87ba77a6800aebec4528c8501b377801e4857eeb839b61cdd41b33cf5",
+          "metrics": {
+            "max_local_cycles": 43165.0,
+            "mean_local_cycles": 42319.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43165.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 4.8513405515038244e-08,
+          "max_fraction_of_error_bound": 0.0004159739555058453,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "c2c4df92c773caa86c03034768ef080279889b12a9c37f315c2d27e4183d3b60",
+          "metrics": {
+            "max_local_cycles": 43158.0,
+            "mean_local_cycles": 42312.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43158.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 1.0795606890212639e-05,
+          "max_fraction_of_error_bound": 0.032323040208970304,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "a3a425d85f4d39337c26490b54484e6a44c3a4596a1a75163773b18ac17c0b7f",
+          "metrics": {
+            "max_local_cycles": 43158.0,
+            "mean_local_cycles": 42312.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43158.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "memory": {
+        "max_program_object_bytes_per_pe": 30480,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 16,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 17,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 18,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 19,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 20,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 21,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 22,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 23,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 24,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 25,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 26,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 27,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 28,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 29,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 30,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 31,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 32,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 33,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 34,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 35,
+            "y": 1,
+            "bytes": 30480
+          }
+        ]
+      },
+      "provenance": {
+        "git_commit": "3b645962e17059199d5338a7de80b5373d1242c0",
+        "git_dirty": true,
+        "evaluator_sha256": "20dab72f7f72cf48c2b8e80b4726d3197518cffecd59a4c27b9e29a8faa81c49",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "38a9d01e9f911c23ff07ff6a42e4971568204373a74a505bb2977f515488c98d",
+          "src/cerebras_research/catalog.py": "94ca9ad3f2c1fbafd1075a05558b1bdd1246d2379db690b114f62f32e5b88e55",
+          "src/cerebras_research/cli.py": "9d70db3a74bb4bc23c6931c03cb26329d9c8f5d9df2ce4779baa94a0ab9e5f58",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "b5494d87bf7d6cb41b9f4ec4f684060121c1a6c6fa2c9e2e15dcd6c4c4bab907",
+          "src/cerebras_research/runner.py": "b9b1f920ceca5d94adf3a161f4d67e92ff92474df839c954e081784b86d62e37",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "bfbae2049330059384c3a41ff21547b49f02e57149e184eb2cd8deb5e2b33ad7",
+          "tools/sdk-unpacked": "9089c4c66adea808c51aa2bf4bff4211ef2ae774a3dc381f4be5784826aca280",
+          "tools/unpacked-sdk-bin/cs_python": "6b53cc1e30e4c2bc3db9794dd78f40e82da6de1ae28bcee8867c0d1d87182b37",
+          "tools/unpacked-sdk-bin/cs_readelf": "be5eb46e22fb61ada8e7012b728f748444d7f533af0b06d3c1b85df278746b54",
+          "tools/unpacked-sdk-bin/cslc": "259427c9d01841e7faa0c91166a7a91f6586bf526664b3a4cc3c03a8a6e72b7a"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_route": "native_unpacked_sif",
+        "host_os": "Linux x86_64; host glibc 2.39",
+        "container_runtime": null,
+        "sdk_python_version": "3.11.8",
+        "sdk_numpy_version": "1.25.0",
+        "unpack_tool": "unsquashfs 4.6.1; SIF filesystem offset 40960",
+        "environment_source": ".singularity.d/env/10-docker2singularity.sh",
+        "entrypoints": "tools/sdk-unpacked; vendor binaries and SDK libraries unchanged",
+        "qualification": "Compiler help, runtime import, and d64-ctx128 positive-case screen passed; full qualification pending",
+        "initial_screen": "runs/v2/20261023T131356Z-decode-attention.d64-ctx128-19919aa4/result.json",
+        "initial_screen_note": "Exploratory screen predates this environment manifest and the wrapper source capsule; cannot establish a retained gain."
+      },
+      "research": {
+        "approach": "decode_attention.bank-dsr-vector-max-newton",
+        "candidate": "attention-newton",
+        "hypothesis": "Extend descriptor reuse, bank offset, bounded unrolling and vector max/normalization with a bit-linear reciprocal seed and four FP32 Newton iterations for finite stable-softmax sums in [1,8192], a range guaranteed by the operator. Expect less normalization overhead without changing FP32 precision or the fixed output tolerance.",
+        "falsification": "Require exhaustive host mantissa/range checks plus every device output/cache check at both paired seeds, at least 5.01x coordinator gain against the matched original reference, and no more than 10% program-object memory growth. Reject any changed PE count, work, state, precision, communication or timing.",
+        "manifest_sha256": "7dd0043bdad51a9564c69667cd93ef72b6b7f0f59726fc6b77b1ea8c6dc4aa62",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "ChatGPT Work"
+      }
+    },
+    {
+      "receipt": "runs/v2/20261023T141341Z-decode-attention.d64-ctx128-latency32-222f7b33/result.json",
+      "receipt_sha256": "c9e4a4fccff1e6a11b68f792f2f87da94ec64086dad6c6597b5aaf1606c31cf3",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128-latency32",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 32,
+          "S": 4,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          32,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "profile_sha256": "706daa89dd8caac1a0d4e75e71085f4f433b11e615c56ebe1b72cbf6522e79ef",
+      "variant": "baseline",
+      "seed": 20261024,
+      "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "source_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "harness_sha256": "bcb68e7d6c930d5cf413054a36ed736c11f83968a61ac850fefc20009fcd84cf",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=39,3",
+        "--fabric-offsets=4,1",
+        "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "metrics": {
+        "max_local_cycles": 220273.0,
+        "mean_local_cycles": 188951.8125,
+        "pe_cycle_spread": 32438.0,
+        "coordinator_cycles": 220273.0,
+        "cycles_per_token": 55068.25,
+        "max_error_fraction": 0.3040980962474748,
+        "max_program_object_bytes_per_pe": 29216,
+        "work_units_per_cycle": 2.352281033081676,
+        "pe_cycles": 7048736.0,
+        "experiment_wall_seconds": 194.13538058000995
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 2.563763599194857e-07,
+          "max_fraction_of_error_bound": 0.001641728800260175,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "a2e2daa4983a0b382aa97c9c08a37a65a139be47fe1bca031c9ef821d47d62dd",
+          "metrics": {
+            "max_local_cycles": 220240.0,
+            "mean_local_cycles": 188918.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220240.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 5.956616649233082e-08,
+          "max_fraction_of_error_bound": 0.000573272089398214,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "add88d89d8438f53abbf272299d75e58c50ce798ee7957c47b5408fd257e59fd",
+          "metrics": {
+            "max_local_cycles": 220213.0,
+            "mean_local_cycles": 188891.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220213.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 2.9604324644494362e-08,
+          "max_fraction_of_error_bound": 0.00027784693666499643,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "1e668c037c68375a4a4822b866cece8f42ba8eb97cea2173dbcd84c7a0a5048f",
+          "metrics": {
+            "max_local_cycles": 220273.0,
+            "mean_local_cycles": 188951.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220273.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 1.5106492133598604e-09,
+          "max_fraction_of_error_bound": 1.4852577811016437e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "4cdb589e3cc6f686bb5976e7a9c7813be83dce08c7663993415cac5712831231",
+          "metrics": {
+            "max_local_cycles": 220273.0,
+            "mean_local_cycles": 188951.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220273.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 4.211503701334607e-08,
+          "max_fraction_of_error_bound": 0.00039319102585653337,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "8d7a1bef29b5051d42fc477e15f00e17161d0544cef6dc5e4ec6b7dd085661ec",
+          "metrics": {
+            "max_local_cycles": 220213.0,
+            "mean_local_cycles": 188891.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220213.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 6.600059596539865e-05,
+          "max_fraction_of_error_bound": 0.3040980962474748,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "6524c0d2af6746055edef73b78cbcd24c37274231d3ff0801d4cee40ecf9aa96",
+          "metrics": {
+            "max_local_cycles": 220201.0,
+            "mean_local_cycles": 188879.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220201.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "memory": {
+        "max_program_object_bytes_per_pe": 29216,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 16,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 17,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 18,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 19,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 20,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 21,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 22,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 23,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 24,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 25,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 26,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 27,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 28,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 29,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 30,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 31,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 32,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 33,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 34,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 35,
+            "y": 1,
+            "bytes": 29216
+          }
+        ]
+      },
+      "provenance": {
+        "git_commit": "3b645962e17059199d5338a7de80b5373d1242c0",
+        "git_dirty": true,
+        "evaluator_sha256": "20dab72f7f72cf48c2b8e80b4726d3197518cffecd59a4c27b9e29a8faa81c49",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "38a9d01e9f911c23ff07ff6a42e4971568204373a74a505bb2977f515488c98d",
+          "src/cerebras_research/catalog.py": "94ca9ad3f2c1fbafd1075a05558b1bdd1246d2379db690b114f62f32e5b88e55",
+          "src/cerebras_research/cli.py": "9d70db3a74bb4bc23c6931c03cb26329d9c8f5d9df2ce4779baa94a0ab9e5f58",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "b5494d87bf7d6cb41b9f4ec4f684060121c1a6c6fa2c9e2e15dcd6c4c4bab907",
+          "src/cerebras_research/runner.py": "b9b1f920ceca5d94adf3a161f4d67e92ff92474df839c954e081784b86d62e37",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "bfbae2049330059384c3a41ff21547b49f02e57149e184eb2cd8deb5e2b33ad7",
+          "tools/sdk-unpacked": "9089c4c66adea808c51aa2bf4bff4211ef2ae774a3dc381f4be5784826aca280",
+          "tools/unpacked-sdk-bin/cs_python": "6b53cc1e30e4c2bc3db9794dd78f40e82da6de1ae28bcee8867c0d1d87182b37",
+          "tools/unpacked-sdk-bin/cs_readelf": "be5eb46e22fb61ada8e7012b728f748444d7f533af0b06d3c1b85df278746b54",
+          "tools/unpacked-sdk-bin/cslc": "259427c9d01841e7faa0c91166a7a91f6586bf526664b3a4cc3c03a8a6e72b7a"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_route": "native_unpacked_sif",
+        "host_os": "Linux x86_64; host glibc 2.39",
+        "container_runtime": null,
+        "sdk_python_version": "3.11.8",
+        "sdk_numpy_version": "1.25.0",
+        "unpack_tool": "unsquashfs 4.6.1; SIF filesystem offset 40960",
+        "environment_source": ".singularity.d/env/10-docker2singularity.sh",
+        "entrypoints": "tools/sdk-unpacked; vendor binaries and SDK libraries unchanged",
+        "qualification": "Compiler help, runtime import, and d64-ctx128 positive-case screen passed; full qualification pending",
+        "initial_screen": "runs/v2/20261023T131356Z-decode-attention.d64-ctx128-19919aa4/result.json",
+        "initial_screen_note": "Exploratory screen predates this environment manifest and the wrapper source capsule; cannot establish a retained gain."
+      },
+      "research": {
+        "approach": "decode_attention.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "ChatGPT Work"
+      }
+    },
+    {
+      "receipt": "runs/v2/20261023T141655Z-decode-attention.d64-ctx128-latency32-84eed5e5/result.json",
+      "receipt_sha256": "65e8d42f62d14e2fc9b2fd2d715c01dc9dc9cb0fc6c40333c78a65aa25f7524c",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128-latency32",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 32,
+          "S": 4,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          32,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "profile_sha256": "706daa89dd8caac1a0d4e75e71085f4f433b11e615c56ebe1b72cbf6522e79ef",
+      "variant": "candidate",
+      "seed": 20261024,
+      "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "source_sha256": "addb72920f98c8be374c1ff6a981fcd214fa9faca94da96dc0943f76ef7c17f6",
+      "harness_sha256": "bcb68e7d6c930d5cf413054a36ed736c11f83968a61ac850fefc20009fcd84cf",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=39,3",
+        "--fabric-offsets=4,1",
+        "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "metrics": {
+        "max_local_cycles": 43165.0,
+        "mean_local_cycles": 42319.71875,
+        "pe_cycle_spread": 979.0,
+        "coordinator_cycles": 43165.0,
+        "cycles_per_token": 10791.25,
+        "max_error_fraction": 0.3040980962474748,
+        "max_program_object_bytes_per_pe": 30480,
+        "work_units_per_cycle": 12.003799374493223,
+        "pe_cycles": 1381280.0,
+        "experiment_wall_seconds": 130.1162220390106
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 2.563763599194857e-07,
+          "max_fraction_of_error_bound": 0.0017137070652709157,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "14e793a4736f7ce3667335772f5c36c41711a56e3bfa4bd337c6ad70a254dfab",
+          "metrics": {
+            "max_local_cycles": 43163.0,
+            "mean_local_cycles": 42317.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43163.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 5.956616649233082e-08,
+          "max_fraction_of_error_bound": 0.000573272089398214,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "85839841fb9fd024c1ca89b9e48e7b65af7d388a8d0fc64655d50b3cc8a748dc",
+          "metrics": {
+            "max_local_cycles": 43156.0,
+            "mean_local_cycles": 42310.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43156.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 2.9604324644494362e-08,
+          "max_fraction_of_error_bound": 0.00027784693666499643,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "cf42f7f6779d27d839f0bdafdb110e64bade032d68957568edb68dddc7622cc4",
+          "metrics": {
+            "max_local_cycles": 43165.0,
+            "mean_local_cycles": 42319.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43165.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 1.56698718931092e-09,
+          "max_fraction_of_error_bound": 1.5491126353745864e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "234d61cbd6423864e21857a5bf47a1ea55546d8fc0122a917aad83279bc083eb",
+          "metrics": {
+            "max_local_cycles": 43165.0,
+            "mean_local_cycles": 42319.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43165.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 4.0879086782297236e-08,
+          "max_fraction_of_error_bound": 0.00037298287570572034,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "1dee0036f9cbd74adbad60062c74866e2dd94f64634c2e82db16327229ef4d5b",
+          "metrics": {
+            "max_local_cycles": 43154.0,
+            "mean_local_cycles": 42308.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43154.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 6.600059596539865e-05,
+          "max_fraction_of_error_bound": 0.3040980962474748,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "132a769d1c5a74bdca4b592de55ee2e16ae85403b1817153072637b5e68b38ce",
+          "metrics": {
+            "max_local_cycles": 43144.0,
+            "mean_local_cycles": 42298.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43144.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "memory": {
+        "max_program_object_bytes_per_pe": 30480,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 16,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 17,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 18,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 19,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 20,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 21,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 22,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 23,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 24,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 25,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 26,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 27,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 28,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 29,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 30,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 31,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 32,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 33,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 34,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 35,
+            "y": 1,
+            "bytes": 30480
+          }
+        ]
+      },
+      "provenance": {
+        "git_commit": "3b645962e17059199d5338a7de80b5373d1242c0",
+        "git_dirty": true,
+        "evaluator_sha256": "20dab72f7f72cf48c2b8e80b4726d3197518cffecd59a4c27b9e29a8faa81c49",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "38a9d01e9f911c23ff07ff6a42e4971568204373a74a505bb2977f515488c98d",
+          "src/cerebras_research/catalog.py": "94ca9ad3f2c1fbafd1075a05558b1bdd1246d2379db690b114f62f32e5b88e55",
+          "src/cerebras_research/cli.py": "9d70db3a74bb4bc23c6931c03cb26329d9c8f5d9df2ce4779baa94a0ab9e5f58",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "b5494d87bf7d6cb41b9f4ec4f684060121c1a6c6fa2c9e2e15dcd6c4c4bab907",
+          "src/cerebras_research/runner.py": "b9b1f920ceca5d94adf3a161f4d67e92ff92474df839c954e081784b86d62e37",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "bfbae2049330059384c3a41ff21547b49f02e57149e184eb2cd8deb5e2b33ad7",
+          "tools/sdk-unpacked": "9089c4c66adea808c51aa2bf4bff4211ef2ae774a3dc381f4be5784826aca280",
+          "tools/unpacked-sdk-bin/cs_python": "6b53cc1e30e4c2bc3db9794dd78f40e82da6de1ae28bcee8867c0d1d87182b37",
+          "tools/unpacked-sdk-bin/cs_readelf": "be5eb46e22fb61ada8e7012b728f748444d7f533af0b06d3c1b85df278746b54",
+          "tools/unpacked-sdk-bin/cslc": "259427c9d01841e7faa0c91166a7a91f6586bf526664b3a4cc3c03a8a6e72b7a"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_route": "native_unpacked_sif",
+        "host_os": "Linux x86_64; host glibc 2.39",
+        "container_runtime": null,
+        "sdk_python_version": "3.11.8",
+        "sdk_numpy_version": "1.25.0",
+        "unpack_tool": "unsquashfs 4.6.1; SIF filesystem offset 40960",
+        "environment_source": ".singularity.d/env/10-docker2singularity.sh",
+        "entrypoints": "tools/sdk-unpacked; vendor binaries and SDK libraries unchanged",
+        "qualification": "Compiler help, runtime import, and d64-ctx128 positive-case screen passed; full qualification pending",
+        "initial_screen": "runs/v2/20261023T131356Z-decode-attention.d64-ctx128-19919aa4/result.json",
+        "initial_screen_note": "Exploratory screen predates this environment manifest and the wrapper source capsule; cannot establish a retained gain."
+      },
+      "research": {
+        "approach": "decode_attention.bank-dsr-vector-max-newton",
+        "candidate": "attention-newton",
+        "hypothesis": "Extend descriptor reuse, bank offset, bounded unrolling and vector max/normalization with a bit-linear reciprocal seed and four FP32 Newton iterations for finite stable-softmax sums in [1,8192], a range guaranteed by the operator. Expect less normalization overhead without changing FP32 precision or the fixed output tolerance.",
+        "falsification": "Require exhaustive host mantissa/range checks plus every device output/cache check at both paired seeds, at least 5.01x coordinator gain against the matched original reference, and no more than 10% program-object memory growth. Reject any changed PE count, work, state, precision, communication or timing.",
+        "manifest_sha256": "7dd0043bdad51a9564c69667cd93ef72b6b7f0f59726fc6b77b1ea8c6dc4aa62",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "ChatGPT Work"
+      }
+    }
+  ],
+  "host_reciprocal_analysis": {
+    "status": "host_only_not_device",
+    "input_range": "All 8388608 FP32 mantissas in [1,2), representing positive normal [1,8192] by exact powers-of-two scaling; unfused arithmetic",
+    "maximum_relative_error": 1.3641059126712207e-07,
+    "samples": 8388608,
+    "iterations": 4
+  },
+  "source_policy": {
+    "baseline": "Original vector QK/PV arithmetic, scalar exponentials/global maxima, and scalar per-output division. Reference arithmetic was not slowed or weakened to create gains.",
+    "editable_arithmetic": "Normalization and global-max bodies were extracted unchanged into the candidate region. Dispatch, causal local maxima/masks, KV appends, PE budget, collective calls and full-sequence timers remain frozen. Every reported pair uses the same new baseline/evaluator identities.",
+    "precision": "All candidate arithmetic remains FP32. Four Newton reciprocal iterations use the stable-softmax denominator invariant [1, context] and a host-checked [1,8192] range. The fixed 1e-4+1e-4*abs(expected) output requirement and bit-exact cache check are unchanged.",
+    "sharding": "The 16/32-PE latency profiles use identical global quantized inputs and context-128 work to the original 4-PE profile. The 5.103x ratio compares two 32-PE programs; it does not count added PEs as an optimization."
+  },
+  "earlier_milestone": {
+    "report": "results/reports/2026-10-23-attention-sdk-stage1.json",
+    "profile": "decode-attention.d64-ctx128",
+    "speedup": 1.8160410485731895,
+    "source_track": "Earlier baseline with normalization hook, before the global-max hook; historical record is unchanged. Gains across profiles are not multiplied."
+  },
+  "qualification_scope": {
+    "full_six_case_fresh_pair": [
+      "decode-attention.d64-ctx128-latency32"
+    ],
+    "other_final_source_profiles": "Pending screen/full qualification at report creation; no cross-shape >5x claim.",
+    "hardware_model_tps": null,
+    "training_throughput": null,
+    "energy": null
+  },
+  "checks": {
+    "make_check": "101 tests passed, one PID namespace platform skip; Ruff/catalog/ledger/syntax passed",
+    "make_sdk_test": "50 contract properties passed in SDK Python",
+    "host_numeric_properties": 11,
+    "distributed_host_comparisons": 252,
+    "exhaustive_reciprocal_mantissas": 8388608
+  },
+  "raw_manifest": "results/reports/2026-10-23-attention-5x-manifest.json",
+  "numerical_replay": "results/reports/2026-10-23-attention-5x-replay.json"
+}
