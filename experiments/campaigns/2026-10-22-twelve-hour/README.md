@@ -255,3 +255,18 @@ After three consecutive resource audits, the session is blocked below the
 results and all raw evidence remain intact. Resume requires additional host
 disk capacity; the twelve-hour request has not been completed. The cancelled
 F1 refinement and the next reusable-GEMM device qualification remain pending.
+
+
+## Storage blocker cleared: 2026-10-23 04:55 UTC
+
+User-authorized host cleanup removed stale Rust incremental compiler caches,
+old clean temporary plugin-upgrade checkouts, and inactive npx downloads.
+Measured net recovery was **14.8 GiB**, with **19.31 GiB free** at verification.
+Source trees, built executables, SDK files and all research evidence remain
+intact. Full artifact/Git-prefix replay passed for all 169 terminal receipts;
+the SDK simulator lease passed its original disk reserve without a device launch.
+The cleanup audit is local at `runs/maintenance/storage-cleanup-2026-10-23.json`.
+
+The source/plan guards and cancelled F1 checkpoint are ready for resumption.
+Device workers remain stopped. Reusable-GEMM compilation and qualification
+remain outstanding; the cleanup is not additional benchmark execution.
