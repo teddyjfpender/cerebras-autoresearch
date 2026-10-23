@@ -44,6 +44,7 @@ original cold profiles and numerical bounds remain separate.
 | `work_units_per_cycle` | Declared algorithmic work / primary interval | Within-profile comparison |
 | `max_error_fraction` | Error / fixed numerical bound | Must be finite and ≤1 |
 | `cycles_per_frame` / `cycles_per_token` | Whole-sequence cycles divided by four for resident blocks | Fixed sequence average, not steady-state TPS |
+| `cycles_per_gemm` | Whole resident GEMM sequence cycles divided by four | Instrumented sequence average for that profile |
 | `experiment_wall_seconds` | Sum of measured compiler, case-run, and memory-inspection subprocess durations | SDK step cost; not WSE speed |
 
 `experiment_wall_seconds` excludes source preparation, provenance capture,

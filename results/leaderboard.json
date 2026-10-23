@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 185,
-  "ledger_head": "03f6e8d894a1221c68e2debde236c31fe0ee6cee52c44d9ae8d6cb5e4cc1f976",
+  "ledger_rows": 188,
+  "ledger_head": "098e4cbaafdbd07a15ce77dc23139f9f440e99eb91d78092bb2793f101a99d7d",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -420,6 +420,19 @@
       "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
       "receipt": "runs/v2/20261023T052747Z-decoder.h16-f32-ctx12-637ebfc5/result.json",
       "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "24237a8f0abfb0cca6a11a78a63d949b0423a6117a8337123eba3c74766488be",
+      "profile": "reusable-gemm.tiny-sequence",
+      "approach": "reusable_gemm.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "6612.0",
+      "memory_bytes": "7360",
+      "source_sha256": "6dd5fb4dc6166154b910a10554dc98778c9e77991d2df8a44ec61bc76514c8ac",
+      "evaluator_sha256": "315443cd2ad3f1f2fadba98d225e8cae57e9bb27e5d7272d22f72f1318c338d0",
+      "receipt": "runs/v2/20261023T055940Z-reusable-gemm.tiny-sequence-670186ee/result.json",
+      "decision": "baseline"
     }
   ],
   "measured_cycle_memory_front": [
@@ -1046,6 +1059,19 @@
       "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
       "receipt": "runs/v2/20261023T054041Z-decoder.h16-f32-ctx12-def4c10a/result.json",
       "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "24237a8f0abfb0cca6a11a78a63d949b0423a6117a8337123eba3c74766488be",
+      "profile": "reusable-gemm.tiny-sequence",
+      "approach": "reusable_gemm.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "6612.0",
+      "memory_bytes": "7360",
+      "source_sha256": "6dd5fb4dc6166154b910a10554dc98778c9e77991d2df8a44ec61bc76514c8ac",
+      "evaluator_sha256": "315443cd2ad3f1f2fadba98d225e8cae57e9bb27e5d7272d22f72f1318c338d0",
+      "receipt": "runs/v2/20261023T055940Z-reusable-gemm.tiny-sequence-670186ee/result.json",
+      "decision": "baseline"
     }
   ],
   "confirmed_improvements": [

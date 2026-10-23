@@ -12,6 +12,27 @@ from common import CASES, matrix_inputs, save_case
 from reusable_gemm_oracle import evidence, pack_inputs, unpack_outputs
 
 
+def read_symbol(runner, symbol, p, count, options):
+    """Read every word with bounded row groups after the device timer ends.
+
+    A full-grid weight-history read stalled in the simulator. Keep each reply
+    below a conservative software cap while preserving the complete PE-major
+    array. This changes transport only; no output or state check is omitted.
+    """
+    max_words = 32768
+    if p < 1 or count < 1 or p * count > max_words:
+        raise ValueError("A single readback row exceeds the transport word budget")
+    rows_per_read = min(p, max_words // (p * count))
+    raw = np.zeros((p, p, count), np.uint32)
+    identifier = runner.get_id(symbol)
+    for row in range(0, p, rows_per_read):
+        rows = min(rows_per_read, p - row)
+        block = np.zeros(rows * p * count, np.uint32)
+        runner.memcpy_d2h(block, identifier, 0, row, p, rows, count, **options)
+        raw[row : row + rows] = block.reshape(rows, p, count)
+    return memcpy_view(raw.ravel(), np.dtype(np.float16)).copy()
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", required=True)
@@ -59,9 +80,7 @@ def main():
             ("X_FRAMES", t * mt * kt),
             ("W_CANON", kt * nt),
         ):
-            raw = np.zeros(p * p * count, np.uint32)
-            runner.memcpy_d2h(raw, runner.get_id(symbol), 0, 0, p, p, count, **options)
-            captured[symbol] = memcpy_view(raw, np.dtype(np.float16)).copy()
+            captured[symbol] = read_symbol(runner, symbol, p, count, options)
         actual = unpack_outputs(p, mt, nt, t, captured["ALL_OUT"])
         timer = np.zeros(p * p * 3, np.uint32)
         timer_options = dict(options, data_type=MemcpyDataType.MEMCPY_32BIT)

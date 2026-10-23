@@ -84,3 +84,18 @@ requires all six numerical families, a matched source/harness/SDK/evaluator,
 at least 1.05x speedup, at most 1.10x program-memory growth and a fresh paired
 seed. Every terminal attempt and decision enters the append-only TSV; preserve
 raw output/state/timestamps and verify artifacts before widening a claim.
+
+
+## Readback transport
+
+After the timer ends, the driver retrieves all outputs, working-weight history
+and canonical inputs. A full-grid history read of 87,040 half values stalled in
+the simulator during scaled-profile bringup and hit the existing 1,200-second
+step limit. That attempt is failed and remains in the journal; diagnostic output
+inspection does not qualify it.
+
+The readback driver now groups rows into replies of at most 32,768 transport
+words. This is a conservative software bound, not a claimed hardware/API limit.
+Every PE word is reconstructed in its original order, and the entire state
+oracle is unchanged. Because the trusted driver changed, qualification requires
+new evaluator-bound baselines. The timed CSL program is unchanged.

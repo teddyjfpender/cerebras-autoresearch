@@ -8,10 +8,44 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
+from reusable_gemm import read_symbol  # noqa: E402
 from reusable_gemm_oracle import evidence, pack_inputs, unpack_outputs  # noqa: E402
 
 
 class SequencePackingTests(unittest.TestCase):
+    def check_readback(self, count):
+        calls = []
+
+        class FakeRuntime:
+            def get_id(self, symbol):
+                return 7
+
+            def memcpy_d2h(self, destination, identifier, x, y, width, height, length, **options):
+                calls.append((x, y, width, height, length))
+                destination[:] = [
+                    ((row * 4 + column) * count + index) & 0xFFFF
+                    for row in range(y, y + height)
+                    for column in range(x, x + width)
+                    for index in range(length)
+                ]
+
+        actual = read_symbol(FakeRuntime(), "W_HISTORY", 4, count, {})
+        expected = np.arange(16 * count, dtype=np.uint32).astype(np.uint16)
+        np.testing.assert_array_equal(actual.view(np.uint16), expected)
+        self.assertEqual(sum(w * h * n for _, _, w, h, n in calls), 16 * count)
+        self.assertTrue(all(w * h * n <= 32768 for _, _, w, h, n in calls))
+        return calls
+
+    def test_large_readback_preserves_every_pe_word_across_bounded_requests(self):
+        self.assertGreater(len(self.check_readback(5440)), 1)
+
+    def test_small_readback_keeps_one_request_and_exact_half_bits(self):
+        self.assertEqual(len(self.check_readback(64)), 1)
+
+    def test_impossible_readback_is_rejected_before_transfer(self):
+        with self.assertRaisesRegex(ValueError, "transport word budget"):
+            read_symbol(None, "W_HISTORY", 4, 10000, {})
+
     def test_every_input_frame_has_the_required_pe_and_column_major_layout(self):
         frames = np.arange(4 * 16 * 16, dtype=np.float16).reshape(4, 16, 16)
         weights = np.arange(16 * 16, dtype=np.float16).reshape(16, 16)
