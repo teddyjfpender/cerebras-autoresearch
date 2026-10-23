@@ -90,6 +90,10 @@ The [four-track inference challenge](docs/benchmarks/inference-blocks.md) groups
 the larger FFN GEMM/GEMV pairs and complete gated MLP/decoder-layer workloads.
 Execution qualification is recorded separately from configuration.
 
+After registering profiles or suites, run `make docs` to regenerate the catalog
+tables. `make check` rejects stale tables and requires the `all` aggregate to
+contain every configured profile exactly once.
+
 ## What to optimize
 
 Cycles are primary, with constraints. Also inspect PE count, program-object

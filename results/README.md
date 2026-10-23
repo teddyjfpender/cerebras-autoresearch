@@ -74,7 +74,11 @@ Two additional workloads now have full six-case baselines and independent
 numerical/core replay: M4/H80/F272 at 383,514 cycles (36,544 program bytes/PE),
 and M32/H64/F192 at 651,264 cycles (37,648 bytes/PE), each T4 on 16 PEs. They form the distinct four-cell
 `resident-swiglu-bf16-generalization` suite with the original profiles. Candidate
-source identities were frozen before any held-out device observations.
+source identities were frozen before any held-out device observations. The
+frozen source is freshly confirmed on M4 at1.8139x conservative speedup. Its M32
+screen reached1.5755x but exceeded the fixed memory budget (+12.49%); it is
+rejected there. See the [held-out campaign](reports/2026-10-23/resident-swiglu-bf16/heldout-frozen-campaign.json).
+The follow-up two-buffer source needs its own full/fresh four-shape qualification.
 
 ## Four inference tracks — qualified baselines
 

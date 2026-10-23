@@ -3,70 +3,79 @@
 Manifests describe configured workloads. Actual execution coverage is recorded in
 [`results/`](../../results/README.md); configuration alone is not a validation result.
 
+<!-- catalog:profiles:start -->
 | Profile | Family | Precision | Validation | Primary |
 | --- | --- | --- | --- | --- |
-| `resident-swiglu-bf16.small` | distributed-resident-swiglu | bf16-fp32-accum | independent_six_case | max_local_cycles |
-| `resident-swiglu-bf16.ffn-scaled` | distributed-resident-swiglu | bf16-fp32-accum | independent_six_case | max_local_cycles |
-| `resident-swiglu.small` | distributed-resident-swiglu | fp16-fp32 | independent_six_case | max_local_cycles |
-| `resident-swiglu.ffn-scaled` | distributed-resident-swiglu | fp16-fp32 | independent_six_case | max_local_cycles |
-| `pipeline.k8-n8` | composed | fp32 | independent_six_case | max_local_cycles |
+| `decoder.h16-f32-ctx12` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
+| `decoder.h16-f32-ctx4` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
+| `gated-mlp.h16-f32` | resident-gated-mlp | fp32 | independent_six_case | max_local_cycles |
+| `gated-mlp.h32-f64` | resident-gated-mlp | fp32 | independent_six_case | max_local_cycles |
+| `meshgemm.cold-prefill-ffn-down-scaled` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
+| `meshgemm.cold-prefill-ffn-up-scaled` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
+| `meshgemm.cold-rectangular` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
+| `meshgemm.cold-square32` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
+| `meshgemm.cold-tiny` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
+| `meshgemv.ffn-down-medium` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
+| `meshgemv.ffn-down-scaled` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
+| `meshgemv.ffn-up-medium` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
+| `meshgemv.ffn-up-scaled` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
+| `meshgemv.square128` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
+| `meshgemv.square64` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
 | `pipeline.k16-n32` | composed | fp32 | independent_six_case | max_local_cycles |
 | `pipeline.k64-n32` | composed | fp32 | independent_six_case | max_local_cycles |
-| `meshgemm.cold-tiny` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
-| `meshgemm.cold-square32` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
-| `meshgemm.cold-prefill-ffn-up-scaled` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
-| `meshgemm.cold-prefill-ffn-down-scaled` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
-| `meshgemm.cold-rectangular` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
-| `meshgemv.square64` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
-| `meshgemv.ffn-up-scaled` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
-| `meshgemv.ffn-down-scaled` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
-| `meshgemv.square128` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
-| `meshgemv.ffn-up-medium` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
-| `meshgemv.ffn-down-medium` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
-| `sdk.broadcast-row` | communication | fp32 | upstream_reference | upstream_cycles |
+| `pipeline.k8-n8` | composed | fp32 | independent_six_case | max_local_cycles |
+| `resident-swiglu-bf16.batch32-h64-f192` | distributed-resident-swiglu | bf16-fp32-accum | independent_six_case | max_local_cycles |
+| `resident-swiglu-bf16.batch4-ffn` | distributed-resident-swiglu | bf16-fp32-accum | independent_six_case | max_local_cycles |
+| `resident-swiglu-bf16.ffn-scaled` | distributed-resident-swiglu | bf16-fp32-accum | independent_six_case | max_local_cycles |
+| `resident-swiglu-bf16.small` | distributed-resident-swiglu | bf16-fp32-accum | independent_six_case | max_local_cycles |
+| `resident-swiglu.ffn-scaled` | distributed-resident-swiglu | fp16-fp32 | independent_six_case | max_local_cycles |
+| `resident-swiglu.small` | distributed-resident-swiglu | fp16-fp32 | independent_six_case | max_local_cycles |
+| `reusable-gemm.prefill-ffn-down-scaled` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |
+| `reusable-gemm.prefill-ffn-up-scaled` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |
+| `reusable-gemm.tiny-sequence` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |
 | `sdk.broadcast-column` | communication | fp32 | upstream_reference | upstream_cycles |
-| `sdk.residual` | composed | fp32 | upstream_reference | correctness only |
-| `sdk.gemm-collectives` | dense-gemm | fp32 | upstream_reference | correctness only |
-| `sdk.gemv-collectives` | dense-gemv | fp32 | upstream_reference | correctness only |
+| `sdk.broadcast-row` | communication | fp32 | upstream_reference | upstream_cycles |
 | `sdk.fft1d-forward` | fft | complex-fp32 | upstream_reference | correctness only |
 | `sdk.fft1d-inverse` | fft | complex-fp32 | upstream_reference | correctness only |
 | `sdk.fft2d-forward` | fft | complex-fp16 | upstream_reference | correctness only |
 | `sdk.fft2d-inverse` | fft | complex-fp16 | upstream_reference | correctness only |
 | `sdk.fft3d` | fft | complex-fp32 | upstream_reference | upstream_cycles |
-| `sdk.memcpy-h2d` | host-io | fp32 | diagnostic_only | upstream_cycles |
-| `sdk.memcpy-d2h` | host-io | fp32 | diagnostic_only | upstream_cycles |
-| `sdk.wide-multiply256` | integer | u16-limbs | upstream_reference | correctness only |
-| `sdk.local-matvec` | local-bandwidth | fp32 | upstream_reference | upstream_cycles |
-| `sdk.spmv7` | sparse-stencil | fp32 | upstream_reference | upstream_cycles |
 | `sdk.game-of-life` | spatial | integer | upstream_reference | correctness only |
-| `gated-mlp.h16-f32` | resident-gated-mlp | fp32 | independent_six_case | max_local_cycles |
-| `gated-mlp.h32-f64` | resident-gated-mlp | fp32 | independent_six_case | max_local_cycles |
-| `decoder.h16-f32-ctx4` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
-| `decoder.h16-f32-ctx12` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
-| `reusable-gemm.tiny-sequence` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |
-| `reusable-gemm.prefill-ffn-up-scaled` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |
-| `reusable-gemm.prefill-ffn-down-scaled` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |
+| `sdk.gemm-collectives` | dense-gemm | fp32 | upstream_reference | correctness only |
+| `sdk.gemv-collectives` | dense-gemv | fp32 | upstream_reference | correctness only |
+| `sdk.local-matvec` | local-bandwidth | fp32 | upstream_reference | upstream_cycles |
+| `sdk.memcpy-d2h` | host-io | fp32 | diagnostic_only | upstream_cycles |
+| `sdk.memcpy-h2d` | host-io | fp32 | diagnostic_only | upstream_cycles |
+| `sdk.residual` | composed | fp32 | upstream_reference | correctness only |
+| `sdk.spmv7` | sparse-stencil | fp32 | upstream_reference | upstream_cycles |
+| `sdk.wide-multiply256` | integer | u16-limbs | upstream_reference | correctness only |
+<!-- catalog:profiles:end -->
 
 ## Suites
 
+<!-- catalog:suites:start -->
 | Suite | Profiles | Purpose |
 | --- | ---: | --- |
-| `all` | 37 | Every configured profile; potentially slow under emulation |
+| `all` | 43 | Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion. |
 | `communication` | 4 | Broadcast and emulated host transfers |
+| `decode-ffn` | 2 | Medium FFN up/down GEMV projections |
+| `decoder` | 2 | Stateful causal decoder layer at two initial contexts |
 | `dense` | 11 | Dense inference primitives |
 | `fusion` | 3 | Independent composed chains; staged/fused suite comparison |
+| `gated-mlp` | 2 | Complete RMSNorm/SwiGLU/residual at two widths |
 | `gemm` | 5 | Five cold GEMM shapes |
-| `reusable-gemm` | 3 | Four resident frames, shared weights, complete output/state oracle |
 | `gemv` | 6 | Six GEMV shapes |
+| `inference-blocks` | 8 | All four inference challenge tracks |
+| `prefill-ffn` | 2 | Larger cold FFN up/down GEMM projections |
 | `qualification` | 27 | Representative independent oracles and every SDK profile |
 | `regression` | 5 | Fixed dense/composed cross-shape guard set |
+| `resident-swiglu-bf16-generalization` | 4 | Fixed original two-cell suite plus predeclared smaller-batch and different-aspect-ratio workloads; independent full/fresh coverage and per-cell memory/worst-speed guards. |
+| `resident-swiglu-bf16` | 2 | Distinct complete BF16-storage/FP32-accumulator resident FFN contracts. |
+| `resident-swiglu` | 2 | Complete distributed four-batch resident SwiGLU chains, scaled FP16/FP32 precision. |
+| `reusable-gemm` | 3 | Four distinct resident GEMMs with full output and canonical/working weight state qualification. |
 | `sdk` | 16 | All pinned SDK reference/diagnostic profiles |
-| `prefill-ffn` | 2 | Larger cold FFN up/down GEMM projections |
-| `decode-ffn` | 2 | Medium FFN up/down GEMV projections |
-| `gated-mlp` | 2 | Complete RMSNorm/SwiGLU/residual at two widths |
-| `decoder` | 2 | Stateful causal decoder layer at two initial contexts |
-| `inference-blocks` | 8 | All four inference challenge tracks |
 | `smoke` | 4 | Quick positive-input screens; no retention |
+<!-- catalog:suites:end -->
 
 ## Validation tiers
 

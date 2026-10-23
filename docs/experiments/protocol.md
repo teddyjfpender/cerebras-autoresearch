@@ -109,3 +109,10 @@ tools/sdk-run cs_python tools/paired_array_report.py \
 This read-only report describes these arrays. It does not grant retention,
 replace the independent numerical/core replay, or prove equivalent requested work.
 Keep its immutable output and audit-tool identity alongside the full evidence.
+
+The `all` suite is the current catalog aggregate. Its membership grows when new
+profiles are registered; each receipt preserves the exact requested membership
+and identities. Historical aggregate receipts retain their original scope and
+metrics. Obtain new baselines for changed aggregate membership. Dedicated frozen
+family suites keep their published contracts; `all` mixes validation tiers and
+cannot receive automatic promotion.
