@@ -1,0 +1,21 @@
+{
+  "adapter": "resident_swiglu_bf16",
+  "initial_profile": "resident-swiglu-bf16.small",
+  "source": {
+    "repository": "local",
+    "derived_from": "WaferLLM",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "resident_swiglu_bf16.fp32-silu-degree6",
+  "hypothesis": "Reduce the FP32 SiLU polynomial to degree six using the separate exhaustive BF16 gate screen, reserving one quarter of the original 4*u_b local allowance after normal product rounding. Retain stable exp outside |g|<=4, FP32 arithmetic and every BF16 stage boundary; no bounds change.",
+  "falsification": "Reject skipped/reordered projection terms, BF16 accumulation, missing stage quantization, stale logical reads, numerical/state/shutdown failures, protected-control changes, speedup below 1.05x or memory above 1.10x. Require six families, fresh matched seed and complete suite guards for cross-shape claims.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "qualification_receipt": "runs/v2/20261023T105329Z-resident-swiglu-bf16.small-55f690a3/result.json",
+  "qualification_receipt_sha256": "1d3ff86207d657306e22cd828f4cca774d014d66874f81276b6ff685b5861efc",
+  "primitive_math_probe_sha256": "250dac003d2405e3d6256cea9e55b8512d572f4647ed5dbe0396ab19bb622099"
+}

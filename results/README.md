@@ -41,6 +41,22 @@ bounded FP32 SiLU evaluation and invariant-backed receive-buffer reuse. This
 track retains its original FP16 accumulation/storage and FP32 residual contract;
 BF16/FP32-accumulation work requires separate profiles and new baselines.
 
+## Native BF16 resident SwiGLU — qualified baselines
+
+Both BF16-storage/FP32-accumulator cells passed all six numerical families,
+complete stage/state validation, and independent raw numerical/core/timer replay
+(**12 device cases**). These are fresh baselines on the distinct BF16 track.
+
+| Profile | Four-frame cycles | Program bytes/PE |
+| --- | ---: | ---: |
+| `resident-swiglu-bf16.small` | 57,573 | 11,088 |
+| `resident-swiglu-bf16.ffn-scaled` | 585,178 | 43,600 |
+
+[Qualification evidence](reports/2026-10-23/resident-swiglu-bf16/qualification.json)
+preserves exact identities and all raw artifacts. The precision contract rounds
+G/U/V/D/Y to BF16 and keeps projection accumulation, activation and residual
+arithmetic in FP32. It remains a scaled FFN operator chain.
+
 ## Four inference tracks — qualified baselines
 
 All eight profiles passed six independent numerical families under one frozen
@@ -66,9 +82,8 @@ stores. Compare matched arms within one profile. The blocks are scaled FP32
 local programs; no Qwen/model/hardware TPS claim follows.
 
 Across historical evaluator tracks, the current 41-profile catalog has
-**18 full independent baselines, 14 reference checks and two diagnostics**:
-34 exercised profiles. The two newly registered BF16 profiles await device
-qualification. Five older independent shapes also remain unqualified:
+**20 full independent baselines, 14 reference checks and two diagnostics**:
+36 exercised profiles. Five older independent shapes remain unqualified:
 `meshgemm.cold-square32`, `meshgemm.cold-rectangular`, `meshgemv.ffn-down-scaled`,
 `meshgemv.square128`, and `pipeline.k64-n32`.
 

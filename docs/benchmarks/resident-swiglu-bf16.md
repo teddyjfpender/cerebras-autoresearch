@@ -1,6 +1,7 @@
 # BF16 storage / FP32 accumulator contract v1
 
-Registered benchmark contract; complete-chain device qualification is outstanding.
+Registered benchmark contract; both initial six-case baselines are now device qualified.
+See [qualification evidence](../../results/reports/2026-10-23/resident-swiglu-bf16/qualification.json).
 Native scalar/vector BF16 conversions and mixed FMA passed the separate exact
 SDK capability fixture. The mathematical bounds below were fixed before any
 BF16 FFN device bringup. This contract remains separate from FP16 scores.

@@ -34,3 +34,13 @@ The separate BF16 chain contract/oracle is now registered under
 This folder preserves the original staging/probe sources. Active benchmark
 sources live under `kernels/composed/resident-swiglu-bf16/`; optimization uses
 `candidate-init` workspaces.
+
+## First optimization hypotheses
+
+The separate exhaustive BF16-gate host probe (`primitive_silu_probe.py`) screens
+FP32 polynomial degrees against a predeclared normal-product envelope with one
+quarter of the fixed local BF16 allowance reserved. Degrees six through ten
+passed; degrees four/five failed. This is a host arithmetic screen, not device
+or full-chain proof. `create_candidates.py` requires a matching full baseline,
+uses candidate-init and records the exact primitive/baseline digests before
+projection, activation and overwrite-invariant composition experiments.

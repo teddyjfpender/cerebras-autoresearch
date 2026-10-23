@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "name": "bf16-resident-swiglu-layout-silu-and-lifetime-reuse",
+  "seed": 20261033,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "resident-swiglu-bf16.small",
+      "baseline_receipt": "runs/v2/20261023T105329Z-resident-swiglu-bf16.small-55f690a3/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-projection-dispatch"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-silu-degree9"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-silu-degree6"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-projection-silu6-reuse"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-vector-silu6-reuse"
+        }
+      ]
+    },
+    {
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "baseline_receipt": "runs/v2/20261023T105451Z-resident-swiglu-bf16.ffn-scaled-1a17f4c9/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-projection-dispatch"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-silu-degree9"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-silu-degree6"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-projection-silu6-reuse"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-vector-silu6-reuse"
+        }
+      ]
+    }
+  ]
+}
