@@ -69,6 +69,17 @@ class RecurrentOracleTests(unittest.TestCase):
                     data = inputs(k, 16, 123, case)
                     self.assertFalse(fails(k, 16, data, simulation(data, k, 16)))
 
+    def test_named_error_segments_cover_every_check(self):
+        for k in (16, 32):
+            data = inputs(k, 16, 77, "signed")
+            arrays, _, _ = evidence(k, 16, data, simulation(data, k, 16), data)
+            self.assertEqual(len(arrays["check_labels"]), 23)
+            self.assertEqual(len(set(arrays["check_labels"])), 23)
+            offsets = arrays["check_offsets"]
+            self.assertEqual(offsets[0], 0)
+            self.assertEqual(offsets[-1], arrays["actual"].size)
+            self.assertTrue(np.all(np.diff(offsets) > 0))
+
     def test_independent_transition_matrix_matches_recurrence(self):
         for case in CASES:
             data = validated(inputs(16, 16, 99, case), 16, 16)

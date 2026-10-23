@@ -5,7 +5,8 @@ model performance claim exists yet. The current BF16 SwiGLU evaluator remains
 frozen while its campaign executes.
 
 The target configuration uses the Qwen3_5 architecture, including 16 key heads
-and 48 value heads. The pinned primary reference is recorded in `reference.json`:
+and 48 value heads. The [pinned primary reference](https://github.com/huggingface/transformers/blob/129e8dc306932532e0b9e702d1fb4d5d7771c2a4/src/transformers/models/qwen3_5/modeling_qwen3_5.py#L424)
+is recorded in `kernels/attention/recurrent-gdn/reference.json`:
 Transformers `torch_recurrent_gated_delta_rule` and its caller explicitly convert
 to FP32, normalize Q/K, apply query scaling, decay the state, compute the delta,
 update the state and read the result. This benchmark will isolate that recurrent

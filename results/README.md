@@ -60,7 +60,11 @@ remains separate. The candidate preserves BF16 G/U/V/D/Y boundaries and FP32
 projection accumulation, activation and residual arithmetic under the fixed
 contract. The faster vector screens exceeded the memory gate and remain rejected;
 the [compiler interruption](reports/2026-10-23/resident-swiglu-bf16/compiler-stall-diagnostic.json)
-is preserved in the journal. This is a scaled FFN operator-chain result.
+is preserved in the journal. The [paired stage audit](reports/2026-10-23/resident-swiglu-bf16/initial-paired-stage-differences.json)
+found every G/U word identical in all24 matched case pairs (233,472 values per
+stage). The bounded SiLU approximation changes some V/D/Y words; the unchanged
+local and ideal full-chain bounds passed separately. This is a scaled FFN
+operator-chain result.
 
 ## Four inference tracks — qualified baselines
 

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 350,
-  "ledger_head": "7e527c5fb4a14a01a488bee5e2955b29babba337383cc6accba4169fddcce8b8",
+  "ledger_rows": 357,
+  "ledger_head": "734cca1074c573d87dd925472de52ebfdbdb422921e87ed446d840a40940e674",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -705,6 +705,19 @@
       "source_sha256": "6a26b892babbdc653624f0b0ac7058aac746a410c6678f2b4298604564603c26",
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T114044Z-resident-swiglu-bf16.small-a5b2d49c/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "b0e0185b598d845152bd69f915c78a3d8ca72303dfaad789582dfd51d170eb64",
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "approach": "resident_swiglu_bf16.vector-silu6-scratch-tail4.runtime-dsd-alias",
+      "candidate": "bf16-swiglu-vector-scratch-tail4-runtime",
+      "variant": "candidate",
+      "primary_value": "368626.0",
+      "memory_bytes": "47184",
+      "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T114904Z-resident-swiglu-bf16.ffn-scaled-353381bc/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -1787,6 +1800,19 @@
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T114133Z-resident-swiglu-bf16.small-057789ad/result.json",
       "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "b0e0185b598d845152bd69f915c78a3d8ca72303dfaad789582dfd51d170eb64",
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "approach": "resident_swiglu_bf16.vector-silu6-scratch-tail4.runtime-dsd-alias",
+      "candidate": "bf16-swiglu-vector-scratch-tail4-runtime",
+      "variant": "candidate",
+      "primary_value": "368626.0",
+      "memory_bytes": "47184",
+      "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T114904Z-resident-swiglu-bf16.ffn-scaled-353381bc/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "confirmed_improvements": [
@@ -2101,6 +2127,19 @@
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T114221Z-confirmation-308fdbaa/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "bca9e6161658c447f0e714d9ac58597ba54f140d586a28419b89c4638c7804a6",
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "approach": "resident_swiglu_bf16.vector-silu6-scratch-tail4.runtime-dsd-alias",
+      "candidate": "bf16-swiglu-vector-scratch-tail4-runtime",
+      "variant": "candidate",
+      "primary_value": "371395.0",
+      "memory_bytes": "47184",
+      "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T115931Z-confirmation-da2c49a5/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -2352,23 +2391,23 @@
       "memory_ratio": "1.0216450216450217"
     },
     {
-      "event_id": "4a83056ef8ca81eddb8d7c7358871efc952936ccfa61706ed77c1c88e34d4260",
+      "event_id": "bca9e6161658c447f0e714d9ac58597ba54f140d586a28419b89c4638c7804a6",
       "profile": "resident-swiglu-bf16.ffn-scaled",
-      "approach": "resident_swiglu_bf16.projection-silu6-buffer-composition",
-      "candidate": "bf16-swiglu-projection-silu6-reuse",
+      "approach": "resident_swiglu_bf16.vector-silu6-scratch-tail4.runtime-dsd-alias",
+      "candidate": "bf16-swiglu-vector-scratch-tail4-runtime",
       "variant": "candidate",
-      "primary_value": "416711.0",
-      "memory_bytes": "45504",
-      "source_sha256": "146c69ffad40bcb1d173646aaf492e450dd60012ee57868c9ee05e57d3e8afd2",
+      "primary_value": "371395.0",
+      "memory_bytes": "47184",
+      "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
-      "receipt": "runs/v2/20261023T113754Z-confirmation-c1fa2c2d/result.json",
+      "receipt": "runs/v2/20261023T115931Z-confirmation-da2c49a5/result.json",
       "decision": "confirmed",
       "profile_sha256": "165c3b949452de78a24e13b9e55fa1fea3a1cf2c03f2badb7a5231886ada78c3",
       "baseline_tree_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
       "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
-      "speedup": "1.4042777848436927",
-      "memory_ratio": "1.0436697247706421"
+      "speedup": "1.5756216427254002",
+      "memory_ratio": "1.0822018348623854"
     }
   ],
   "confirmed_suite_events": [

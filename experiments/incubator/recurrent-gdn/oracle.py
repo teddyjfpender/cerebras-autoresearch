@@ -186,6 +186,7 @@ def evidence(k, v, inputs_raw, actual_raw, canonical):
     ea = 16 * U * np.abs(a) + 16 * Q32
     checks = [(actual["Q_HISTORY"], q, eq), (actual["K_HISTORY"], key, ek)]
     checks.append((actual["A_HISTORY"], a, ea))
+    labels = ["q_normalized", "k_normalized", "decay_exp"]
     previous = data["S0"]
     ideal_previous = previous.copy()
     ideal_error = np.zeros_like(previous)
@@ -226,6 +227,10 @@ def evidence(k, v, inputs_raw, actual_raw, canonical):
             q[:, :, frame], eq[:, :, frame], ideal_previous, ideal_error, k
         )
         checks.append((actual["Y_HISTORY"][:, :, frame], ideal_output, ideal_output_error))
+        labels.extend(
+            f"token{frame}.{name}"
+            for name in ("delta_local", "state_local", "y_local", "state_full", "y_full")
+        )
         previous = state
     flattened, expected, bound = (
         np.concatenate([row[i].ravel() for row in checks]).astype(np.float64) for i in range(3)
@@ -234,6 +239,8 @@ def evidence(k, v, inputs_raw, actual_raw, canonical):
         **{"input_" + k: v for k, v in inputs_raw.items()},
         **{"canonical_" + k: v for k, v in canonical.items()},
         **actual_raw,
+        check_labels=np.array(labels),
+        check_offsets=np.cumsum([0] + [row[0].size for row in checks], dtype=np.int64),
         actual=flattened,
         expected=expected,
         exact_state_match=np.array(exact),
