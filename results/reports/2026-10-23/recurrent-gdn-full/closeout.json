@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-23T18:51:07.279573+00:00",
+  "status": "deferred_at_user_stop",
+  "latest_user_request": "Finish this up and wrap it up now.",
+  "queued_check_started": false,
+  "queued_check_cancelled": true,
+  "queue_pid": 89950,
+  "planned_max_seconds": 1200,
+  "candidate": "full-gdn-constant-input-exports",
+  "full_six_case_qualified": false,
+  "retained_improvement": false,
+  "qwen_tps_result": false,
+  "prior_investigation": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-full/runtime-investigation-1724.json",
+    "sha256": "21fbc067a1982b83331f76389e348b734445fce9ba06280e6d7e01c99d061a8f"
+  },
+  "scope": "No new device run was launched for this queued check. The earlier cancelled full-head baseline and unscored runtime diagnostics remain preserved; no accepted full-head cycle result.",
+  "runtime_boundary": "Earlier45-second timeouts do not prove a general SDK deadlock: a later immutable-pointer N64 transfer probe completed in51.1seconds. Pointer mutability is not isolated as a performance cause."
+}

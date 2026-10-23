@@ -105,6 +105,29 @@ follow-up after held-out observations, not an unseen-shape claim.
 [96-case core/state/timer replay](reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-snapshots.json).
 These are simulator operator-chain results; Qwen TPS is unmeasured.
 
+## Native recurrent suite — PR1 row reuse and bounded unrolling
+
+One frozen `native-gdn-pr1-dsr-unroll8` source confirms **2.569953× geometric
+mean**, worst **2.428316×**, across both complete native-width profiles and
+fresh paired seeds. The reference already uses vector FP32 state arithmetic.
+All **48 baseline/candidate case executions** pass independent numerical and
+complete core/state/timer replay. All compared normalized operands, decay/delta, full state histories, BF16 outputs and final states are bit identical to their matched controls.
+
+| Profile | Initial baseline → candidate cycles | Fresh candidate cycles | Conservative speedup | Program bytes/PE |
+| --- | ---: | ---: | ---: | ---: |
+| `recurrent-gdn-native.k128-v128-t4` | 115,634 → 47,619 | 47,618 | 2.428316× | 39,472 → 40,224 |
+| `recurrent-gdn-native.k128-v128-t8` | 211,278 → 77,680 | 77,680 | 2.719851× | 41,536 → 42,320 |
+
+Every ascending-K FP32 FMA remains. The implementation combines normalization
+conversion reuse, a bank-offset accumulator, persistent DSR row addresses and
+bounded unrolling. The two workloads each retain their fixed PE/precision/timing
+budget and every full state snapshot. This is one key-head group with three
+value heads; full 16-key/48-value-head and model TPS remain separate claims.
+
+[Complete confirmed suite](reports/2026-10-23/recurrent-gdn-native/unroll-suite-confirmed.json),
+[48-case numerical replay](reports/2026-10-23/recurrent-gdn-native/unroll-suite-numerics.json),
+[48-case core/state/timer replay](reports/2026-10-23/recurrent-gdn-native/unroll-suite-snapshots.json).
+
 ## Native T4 recurrent operator — PR1 descriptor reuse confirmed
 
 `native-gdn-pr1-dsr-bank-offset` confirms **1.991629×** on the fixed K128/V128,

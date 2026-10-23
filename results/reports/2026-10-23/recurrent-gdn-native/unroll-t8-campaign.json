@@ -1,0 +1,4852 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-23T18:54:31Z",
+  "campaign_status": "completed",
+  "plan": {
+    "path": "experiments/campaigns/recurrent-gdn-native/optimization-pr1-unroll-t8.json",
+    "sha256": "c5e6da6cb40b5b420364a879cc8a4607c1041c9d570b585d050b5820c051da76",
+    "identity": "c47afb09fcd0703ad64877c99cba3f64d8b471691e4f42b5f055d853fbf25cd1"
+  },
+  "checkpoint": {
+    "path": "runs/campaigns/recurrent-gdn-native/optimization-pr1-unroll-t8-result.json",
+    "sha256": "dd97578a72c4c0a37716937c93f94b4acfd2161b463293641bced5607cb92724"
+  },
+  "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+  "audit_tool_sha256": "d0afff8452b814db032899c7d26c94d27bd0bacf6180033a5ed75e60c124f1a6",
+  "audit_evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+  "candidate_identities": {
+    "native-gdn-pr1-dsr-unroll8": {
+      "source": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "manifest": "fbb1f437dd6700a68599ee348c7d7a5ea174155b3e538923c08d4c0d727201f2"
+    }
+  },
+  "imports": {
+    "initial_baselines": {},
+    "fresh_baselines": {}
+  },
+  "executed_attempt_count": 5,
+  "requested_profiles": [
+    "recurrent-gdn-native.k128-v128-t8"
+  ],
+  "cells": {
+    "recurrent-gdn-native.k128-v128-t8": {
+      "status": "confirmed_improvement",
+      "baseline": "runs/v2/20261023T175941Z-recurrent-gdn-native.k128-v128-t8-9a25bf6a/result.json",
+      "screens": [
+        {
+          "candidate": {
+            "variant": "candidate",
+            "candidate": "native-gdn-pr1-dsr-unroll8"
+          },
+          "receipt": "runs/v2/20261023T181436Z-recurrent-gdn-native.k128-v128-t8-f9088c1d/result.json",
+          "outcome": "screen_passed",
+          "speedup": 2.7198506694129763,
+          "memory_ratio": 1.018875192604006,
+          "eligible": true
+        }
+      ],
+      "selected": {
+        "variant": "candidate",
+        "candidate": "native-gdn-pr1-dsr-unroll8"
+      },
+      "confirmation": "runs/v2/20261023T185238Z-confirmation-da167660/result.json"
+    }
+  },
+  "records": [
+    {
+      "receipt": "runs/v2/20261023T175941Z-recurrent-gdn-native.k128-v128-t8-9a25bf6a/result.json",
+      "receipt_sha256": "2851c8f6a6ec17196136bf19231e97b5b615e61addebc48e267a12e7aad16575",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn-native.k128-v128-t8",
+        "adapter": "recurrent_gdn_native",
+        "family": "recurrent-gated-delta-native-head-group",
+        "dimensions": {
+          "K": 128,
+          "V": 128,
+          "T": 8,
+          "R": 3,
+          "VT": 4
+        },
+        "pe_grid": [
+          12,
+          8
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_native_head_group_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2758656,
+        "work_unit": "state_arithmetic_operations",
+        "description": "One native K128 key-head group, three V128 value heads, 8 resident tokens; full FP32 state and BF16 output, complete V-column sharding on 96 PEs, all physical immutable/normalized replicas and full logical histories checked.",
+        "timeout_seconds": 3600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "Whole 8-token native-width recurrent head group, initial-state copy, all replicated normalization/exp, every state operation and all intermediate/output/full-state stores"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261043,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 211278.0,
+        "mean_local_cycles": 211271.33333333334,
+        "pe_cycle_spread": 20.0,
+        "max_error_fraction": 0.9848727667751392,
+        "cycles_per_token": 26409.75,
+        "max_program_object_bytes_per_pe": 41536,
+        "work_units_per_cycle": 13.056995995797006,
+        "pe_cycles": 20282688.0,
+        "experiment_wall_seconds": 908.8499301959964
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 41536,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 8,
+            "bytes": 41536
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_native_head_group_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 0.00024240511121118025,
+          "max_fraction_of_error_bound": 0.9840430230189572,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "e324831979a962dd2aeb5414d6a7097c1e5d67708c3a51916f87f7f9d84ff4b4",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211271.33333333334,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 5.612507610672918e-05,
+          "max_fraction_of_error_bound": 0.9437685150041595,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "4ef8c7fff50bd03bd4fb535d00708fe911bfe278d2db51c5ce57055561647e50",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211271.33333333334,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 5.499216126914064e-08,
+          "max_fraction_of_error_bound": 0.3325794537611107,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "ff981ea150040d6bc786b668e0dba6d36d902dfab9b2600b087afeda228a750a",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211271.33333333334,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 0.00012769683152834277,
+          "max_fraction_of_error_bound": 0.8576738846901117,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "eb89f5d27e66d3dd2133e0d852b77fad670a36442e988d2fd2b7fe774e964f33",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211271.33333333334,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 0.00022493224997999217,
+          "max_fraction_of_error_bound": 0.9848727667751392,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "f3571616f418796caae06b473373f05004826cfa37ce5125850032afa0c578ad",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211271.33333333334,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 6.033154239014002e-05,
+          "max_fraction_of_error_bound": 0.9659486939568669,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "24403b0af876eccd7f834beab0ca676021cea071eb8cde7f8ebe98ed2f7700a6",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211271.33333333334,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn_native.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "8de9669a5748377f8171e84069b4106d5365db95",
+        "git_dirty": true,
+        "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "8bdc72bbb81779865ff166f2fef33d12b85edabd26f1ab95616c8b68cd3b573d",
+          "src/cerebras_research/catalog.py": "429019c891ae3604e215ba6ab9be873aacc9abe55d6cdc1d249b7f47f8c6e247",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "8a3eab6d5124092acbb7a75e0c8826e042b184cb45690ddf5f432b0af30262e2",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "b874b1d7237e81635c7c907c6568b88df41e342206e68791dc78e7fa1d0dda54",
+      "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "source_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "harness_sha256": "00b43d3c96b33a23a293e829292599d0bbbca12b59c8bb866445d7dcb479433d",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=19,10",
+        "--fabric-offsets=4,1",
+        "--params=K:128,V:4,T:8,W:12,H:8",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=19,10",
+            "--fabric-offsets=4,1",
+            "--params=K:128,V:4,T:8,W:12,H:8",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.931326512996748,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 149.74215879500116,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 150.25693756099645,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 146.5778914659968,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 150.28360742299992,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 149.81822322800144,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 152.8169526290003,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.422832581003604,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T181436Z-recurrent-gdn-native.k128-v128-t8-f9088c1d/result.json",
+      "receipt_sha256": "9df2912c417be7d24d319ed075d1312763306aa2ca9c861f156dabefb2d0730e",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "screen_passed",
+      "profile": {
+        "id": "recurrent-gdn-native.k128-v128-t8",
+        "adapter": "recurrent_gdn_native",
+        "family": "recurrent-gated-delta-native-head-group",
+        "dimensions": {
+          "K": 128,
+          "V": 128,
+          "T": 8,
+          "R": 3,
+          "VT": 4
+        },
+        "pe_grid": [
+          12,
+          8
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_native_head_group_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2758656,
+        "work_unit": "state_arithmetic_operations",
+        "description": "One native K128 key-head group, three V128 value heads, 8 resident tokens; full FP32 state and BF16 output, complete V-column sharding on 96 PEs, all physical immutable/normalized replicas and full logical histories checked.",
+        "timeout_seconds": 3600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "Whole 8-token native-width recurrent head group, initial-state copy, all replicated normalization/exp, every state operation and all intermediate/output/full-state stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261043,
+      "screen_only": true,
+      "metrics": {
+        "max_local_cycles": 77680.0,
+        "mean_local_cycles": 77674.0,
+        "pe_cycle_spread": 18.0,
+        "max_error_fraction": 0.9840430230189572,
+        "cycles_per_token": 9710.0,
+        "max_program_object_bytes_per_pe": 42320,
+        "work_units_per_cycle": 35.51307929969104,
+        "pe_cycles": 7457280.0,
+        "experiment_wall_seconds": 95.89684112400573
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 42320,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 8,
+            "bytes": 42320
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_native_head_group_v1",
+        "cases": [
+          "positive"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 0.00024240511121118025,
+          "max_fraction_of_error_bound": 0.9840430230189572,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "5bd170ce9686746b450ca1b990a11635cb0ca749b0188ce32e6530243a247bcd",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77674.0,
+            "pe_cycle_spread": 18.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "native_gdn.pr1_dsr_bank_unroll8",
+        "candidate": "native-gdn-pr1-dsr-unroll8",
+        "hypothesis": "Unroll each persistent DSR FMA walk by8. Keep every K term in the identical ascending order with unchanged FP32 FMA, normalization/exp and complete state/history. Reduce loop branch/index overhead while preserving pointer progress and bank offset.",
+        "falsification": "Reject any changed normalization/exp/FMA ordering, skipped K/V term/group/token/history, descriptor overrun or bank side effect, fixed numerical/state/precision/timing failure, shutdown failure, speedup below1.05x or memory above1.10x. Full six-case matched and fresh pairs required; PR1 GQA gains do not establish recurrent gains.",
+        "manifest_sha256": "fbb1f437dd6700a68599ee348c7d7a5ea174155b3e538923c08d4c0d727201f2",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "05cacd203cdbed5e118e75caf7f885690e28185d",
+        "git_dirty": true,
+        "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "8bdc72bbb81779865ff166f2fef33d12b85edabd26f1ab95616c8b68cd3b573d",
+          "src/cerebras_research/catalog.py": "429019c891ae3604e215ba6ab9be873aacc9abe55d6cdc1d249b7f47f8c6e247",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "8a3eab6d5124092acbb7a75e0c8826e042b184cb45690ddf5f432b0af30262e2",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "b874b1d7237e81635c7c907c6568b88df41e342206e68791dc78e7fa1d0dda54",
+      "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "harness_sha256": "00b43d3c96b33a23a293e829292599d0bbbca12b59c8bb866445d7dcb479433d",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=19,10",
+        "--fabric-offsets=4,1",
+        "--params=K:128,V:4,T:8,W:12,H:8",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=19,10",
+            "--fabric-offsets=4,1",
+            "--params=K:128,V:4,T:8,W:12,H:8",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.787369632002083,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 86.68694925800082,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.42252223400282674,
+          "log": "step-2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T181611Z-recurrent-gdn-native.k128-v128-t8-fbafb8b1/result.json",
+      "receipt_sha256": "a1d178adf9e3852ee976f82f7d2332bf640d8ba4b0df4f0327f7df1445fe41ae",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn-native.k128-v128-t8",
+        "adapter": "recurrent_gdn_native",
+        "family": "recurrent-gated-delta-native-head-group",
+        "dimensions": {
+          "K": 128,
+          "V": 128,
+          "T": 8,
+          "R": 3,
+          "VT": 4
+        },
+        "pe_grid": [
+          12,
+          8
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_native_head_group_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2758656,
+        "work_unit": "state_arithmetic_operations",
+        "description": "One native K128 key-head group, three V128 value heads, 8 resident tokens; full FP32 state and BF16 output, complete V-column sharding on 96 PEs, all physical immutable/normalized replicas and full logical histories checked.",
+        "timeout_seconds": 3600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "Whole 8-token native-width recurrent head group, initial-state copy, all replicated normalization/exp, every state operation and all intermediate/output/full-state stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261043,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 77680.0,
+        "mean_local_cycles": 77674.0,
+        "pe_cycle_spread": 18.0,
+        "max_error_fraction": 0.9848727667751392,
+        "cycles_per_token": 9710.0,
+        "max_program_object_bytes_per_pe": 42320,
+        "work_units_per_cycle": 35.51307929969104,
+        "pe_cycles": 7457280.0,
+        "experiment_wall_seconds": 589.4025733050003
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 42320,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 8,
+            "bytes": 42320
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_native_head_group_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 0.00024240511121118025,
+          "max_fraction_of_error_bound": 0.9840430230189572,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "5bd170ce9686746b450ca1b990a11635cb0ca749b0188ce32e6530243a247bcd",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77674.0,
+            "pe_cycle_spread": 18.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 5.612507610672918e-05,
+          "max_fraction_of_error_bound": 0.9437685150041595,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "c74e32da74f2e1fe0f29cf5162ddc1a9b90718164e89b37a8fca6dbeffed765a",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77674.0,
+            "pe_cycle_spread": 18.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 5.499216126914064e-08,
+          "max_fraction_of_error_bound": 0.3325794537611107,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "3c0547d9386e5d3b2f86e28abf2fc285677cd66839bf3ade545e3a11112041df",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77674.0,
+            "pe_cycle_spread": 18.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 0.00012769683152834277,
+          "max_fraction_of_error_bound": 0.8576738846901117,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "c3728cf37b6a18a20173453cc7e088ed0d3d71cf4d2799eb715f93640ac12091",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77674.0,
+            "pe_cycle_spread": 18.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 0.00022493224997999217,
+          "max_fraction_of_error_bound": 0.9848727667751392,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "b11aea997cda2d3a7de0d4a3480f1d75095044ee18ff36b8c106cc78dc349469",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77674.0,
+            "pe_cycle_spread": 18.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261043,
+          "passed": true,
+          "max_abs_error": 6.033154239014002e-05,
+          "max_fraction_of_error_bound": 0.9659486939568669,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "83867a87db40ba41b8152a8164e4c9f0a643b9cf38c8749d3d6e21ae45ca57f5",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77674.0,
+            "pe_cycle_spread": 18.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "native_gdn.pr1_dsr_bank_unroll8",
+        "candidate": "native-gdn-pr1-dsr-unroll8",
+        "hypothesis": "Unroll each persistent DSR FMA walk by8. Keep every K term in the identical ascending order with unchanged FP32 FMA, normalization/exp and complete state/history. Reduce loop branch/index overhead while preserving pointer progress and bank offset.",
+        "falsification": "Reject any changed normalization/exp/FMA ordering, skipped K/V term/group/token/history, descriptor overrun or bank side effect, fixed numerical/state/precision/timing failure, shutdown failure, speedup below1.05x or memory above1.10x. Full six-case matched and fresh pairs required; PR1 GQA gains do not establish recurrent gains.",
+        "manifest_sha256": "fbb1f437dd6700a68599ee348c7d7a5ea174155b3e538923c08d4c0d727201f2",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "05cacd203cdbed5e118e75caf7f885690e28185d",
+        "git_dirty": true,
+        "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "8bdc72bbb81779865ff166f2fef33d12b85edabd26f1ab95616c8b68cd3b573d",
+          "src/cerebras_research/catalog.py": "429019c891ae3604e215ba6ab9be873aacc9abe55d6cdc1d249b7f47f8c6e247",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "8a3eab6d5124092acbb7a75e0c8826e042b184cb45690ddf5f432b0af30262e2",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "b874b1d7237e81635c7c907c6568b88df41e342206e68791dc78e7fa1d0dda54",
+      "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "harness_sha256": "00b43d3c96b33a23a293e829292599d0bbbca12b59c8bb866445d7dcb479433d",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=19,10",
+        "--fabric-offsets=4,1",
+        "--params=K:128,V:4,T:8,W:12,H:8",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=19,10",
+            "--fabric-offsets=4,1",
+            "--params=K:128,V:4,T:8,W:12,H:8",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.51448255500145,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 87.97237924699584,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 95.90855838100106,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 100.2152857109977,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 90.27256121399842,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 107.04623354400246,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261043"
+          ],
+          "wall_seconds": 98.63363649899838,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.8394361540049431,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T182553Z-comparison-a56daa92/result.json",
+      "receipt_sha256": "84f16a688025661067fddedca3686a9d1dd56b28544c6ffcddcaeabfcda65736",
+      "kind": "comparison",
+      "evidence_audit": "verified",
+      "status": "needs_fresh_confirmation",
+      "decision": "needs_fresh_confirmation",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "inputs": {
+        "baseline": "runs/v2/20261023T175941Z-recurrent-gdn-native.k128-v128-t8-9a25bf6a/result.json",
+        "candidate": "runs/v2/20261023T181611Z-recurrent-gdn-native.k128-v128-t8-fbafb8b1/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "eligible": true,
+      "speedup": 2.7198506694129763,
+      "memory_ratio": 1.018875192604006,
+      "metric": "max_local_cycles",
+      "cycle_reduction_percent": 63.23327558950766
+    },
+    {
+      "receipt": "runs/v2/20261023T182554Z-recurrent-gdn-native.k128-v128-t8-2dec97e0/result.json",
+      "receipt_sha256": "9a493a6c622ccf02bcd48f4edef810aa96adf23e42a45c5097151f59246e2aa6",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn-native.k128-v128-t8",
+        "adapter": "recurrent_gdn_native",
+        "family": "recurrent-gated-delta-native-head-group",
+        "dimensions": {
+          "K": 128,
+          "V": 128,
+          "T": 8,
+          "R": 3,
+          "VT": 4
+        },
+        "pe_grid": [
+          12,
+          8
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_native_head_group_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2758656,
+        "work_unit": "state_arithmetic_operations",
+        "description": "One native K128 key-head group, three V128 value heads, 8 resident tokens; full FP32 state and BF16 output, complete V-column sharding on 96 PEs, all physical immutable/normalized replicas and full logical histories checked.",
+        "timeout_seconds": 3600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "Whole 8-token native-width recurrent head group, initial-state copy, all replicated normalization/exp, every state operation and all intermediate/output/full-state stores"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261044,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 211278.0,
+        "mean_local_cycles": 211268.0,
+        "pe_cycle_spread": 30.0,
+        "max_error_fraction": 0.9896897407494215,
+        "cycles_per_token": 26409.75,
+        "max_program_object_bytes_per_pe": 41536,
+        "work_units_per_cycle": 13.056995995797006,
+        "pe_cycles": 20282688.0,
+        "experiment_wall_seconds": 1011.9630042800054
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 41536,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 8,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 2,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 3,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 4,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 5,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 6,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 7,
+            "bytes": 41536
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 8,
+            "bytes": 41536
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_native_head_group_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 0.0002423978932389187,
+          "max_fraction_of_error_bound": 0.9742906131435033,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "e25bde7c79ebb66482ab3c34c1adfade79bb540eff3d614dfe682738dcbf3213",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211268.0,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 6.0929001769877145e-05,
+          "max_fraction_of_error_bound": 0.9436515192973262,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "191c2b73025c4dcdfc1b6c54bceaa1ee2b4d08f8cc72994cbd23bcbba97e6b7f",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211268.0,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 4.60138419589029e-08,
+          "max_fraction_of_error_bound": 0.33323282966101936,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "9e7a30b7c9572266fc7258c3dfd4abb983ee88cd2ddd39fadac17b38b5b24601",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211268.0,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 0.0002362396074134243,
+          "max_fraction_of_error_bound": 0.8316682622277838,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "ccbeccadbd1d7b64c2828649f3e35dceaa3cce5f0b5b262d231badd0ca419815",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211268.0,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 0.00024284819412434544,
+          "max_fraction_of_error_bound": 0.9896897407494215,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "7a79a455b133bcebf62812bab03b4280eae9d465fe1ef85ed08980d4968ef7d0",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211268.0,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 3.8697740268076736e-05,
+          "max_fraction_of_error_bound": 0.9335423295555235,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "fd58e794ad6a51b12d4578dad64f9b60d5cb8b3c641bf49ff3bafde415382c0c",
+          "metrics": {
+            "max_local_cycles": 211278.0,
+            "mean_local_cycles": 211268.0,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn_native.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "e176212e032c2ef4f33d6ed23f4c9bb72f59fc4f",
+        "git_dirty": true,
+        "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "8bdc72bbb81779865ff166f2fef33d12b85edabd26f1ab95616c8b68cd3b573d",
+          "src/cerebras_research/catalog.py": "429019c891ae3604e215ba6ab9be873aacc9abe55d6cdc1d249b7f47f8c6e247",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "8a3eab6d5124092acbb7a75e0c8826e042b184cb45690ddf5f432b0af30262e2",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "b874b1d7237e81635c7c907c6568b88df41e342206e68791dc78e7fa1d0dda54",
+      "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "source_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "harness_sha256": "00b43d3c96b33a23a293e829292599d0bbbca12b59c8bb866445d7dcb479433d",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=19,10",
+        "--fabric-offsets=4,1",
+        "--params=K:128,V:4,T:8,W:12,H:8",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=19,10",
+            "--fabric-offsets=4,1",
+            "--params=K:128,V:4,T:8,W:12,H:8",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 11.96329348799918,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 186.06464289600262,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 172.00526787999843,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 160.5437389899962,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 167.52547269800561,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 154.62939397399896,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 158.55401155800064,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.6771827960037626,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T184230Z-recurrent-gdn-native.k128-v128-t8-0d52dbc3/result.json",
+      "receipt_sha256": "1a05d340bea96ff8ed1e839b208739a4489b43406636026d1469f51b3771d382",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn-native.k128-v128-t8",
+        "adapter": "recurrent_gdn_native",
+        "family": "recurrent-gated-delta-native-head-group",
+        "dimensions": {
+          "K": 128,
+          "V": 128,
+          "T": 8,
+          "R": 3,
+          "VT": 4
+        },
+        "pe_grid": [
+          12,
+          8
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_native_head_group_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2758656,
+        "work_unit": "state_arithmetic_operations",
+        "description": "One native K128 key-head group, three V128 value heads, 8 resident tokens; full FP32 state and BF16 output, complete V-column sharding on 96 PEs, all physical immutable/normalized replicas and full logical histories checked.",
+        "timeout_seconds": 3600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "Whole 8-token native-width recurrent head group, initial-state copy, all replicated normalization/exp, every state operation and all intermediate/output/full-state stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261044,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 77680.0,
+        "mean_local_cycles": 77671.0,
+        "pe_cycle_spread": 27.0,
+        "max_error_fraction": 0.9896897407494215,
+        "cycles_per_token": 9710.0,
+        "max_program_object_bytes_per_pe": 42320,
+        "work_units_per_cycle": 35.51307929969104,
+        "pe_cycles": 7457280.0,
+        "experiment_wall_seconds": 615.3891058449954
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 42320,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 8,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 2,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 3,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 4,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 5,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 6,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 7,
+            "bytes": 42320
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 15,
+            "y": 8,
+            "bytes": 42320
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_native_head_group_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 0.0002423978932389187,
+          "max_fraction_of_error_bound": 0.9742906131435033,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "4af094be59f566d6de5e43c0c45a6d9e8e0085e8239a1a539b2b8a3c27756466",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77671.0,
+            "pe_cycle_spread": 27.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 6.0929001769877145e-05,
+          "max_fraction_of_error_bound": 0.9436515192973262,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "97e052f9bc810875df1b202acc2ee4a1bfcbda38fad8afbc6dc86eddcd90f770",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77671.0,
+            "pe_cycle_spread": 27.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 4.60138419589029e-08,
+          "max_fraction_of_error_bound": 0.33323282966101936,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "c6efa2512b578de2ee95d1fddf830d05fc5f59372c596de6d8056068af66a1b1",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77671.0,
+            "pe_cycle_spread": 27.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 0.0002362396074134243,
+          "max_fraction_of_error_bound": 0.8316682622277838,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "3f70515c9ccc23e21c728d8a54c68c915ac438206624fddadb55a95f008b4526",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77671.0,
+            "pe_cycle_spread": 27.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 0.00024284819412434544,
+          "max_fraction_of_error_bound": 0.9896897407494215,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "f85d1808e07eb651aa5665698d9c1c934ac9ee1d70be96c23a8e030867f8db51",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77671.0,
+            "pe_cycle_spread": 27.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261044,
+          "passed": true,
+          "max_abs_error": 3.8697740268076736e-05,
+          "max_fraction_of_error_bound": 0.9335423295555235,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "8e1fe4fc67bf4b403c7388167d215ea477d376a3cec6b6b95d8b8b3309dcc0a5",
+          "metrics": {
+            "max_local_cycles": 77680.0,
+            "mean_local_cycles": 77671.0,
+            "pe_cycle_spread": 27.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "native_gdn.pr1_dsr_bank_unroll8",
+        "candidate": "native-gdn-pr1-dsr-unroll8",
+        "hypothesis": "Unroll each persistent DSR FMA walk by8. Keep every K term in the identical ascending order with unchanged FP32 FMA, normalization/exp and complete state/history. Reduce loop branch/index overhead while preserving pointer progress and bank offset.",
+        "falsification": "Reject any changed normalization/exp/FMA ordering, skipped K/V term/group/token/history, descriptor overrun or bank side effect, fixed numerical/state/precision/timing failure, shutdown failure, speedup below1.05x or memory above1.10x. Full six-case matched and fresh pairs required; PR1 GQA gains do not establish recurrent gains.",
+        "manifest_sha256": "fbb1f437dd6700a68599ee348c7d7a5ea174155b3e538923c08d4c0d727201f2",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "e176212e032c2ef4f33d6ed23f4c9bb72f59fc4f",
+        "git_dirty": true,
+        "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "8bdc72bbb81779865ff166f2fef33d12b85edabd26f1ab95616c8b68cd3b573d",
+          "src/cerebras_research/catalog.py": "429019c891ae3604e215ba6ab9be873aacc9abe55d6cdc1d249b7f47f8c6e247",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "8a3eab6d5124092acbb7a75e0c8826e042b184cb45690ddf5f432b0af30262e2",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "b874b1d7237e81635c7c907c6568b88df41e342206e68791dc78e7fa1d0dda54",
+      "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "harness_sha256": "00b43d3c96b33a23a293e829292599d0bbbca12b59c8bb866445d7dcb479433d",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=19,10",
+        "--fabric-offsets=4,1",
+        "--params=K:128,V:4,T:8,W:12,H:8",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=19,10",
+            "--fabric-offsets=4,1",
+            "--params=K:128,V:4,T:8,W:12,H:8",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 12.608659305995388,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 90.30855822399462,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 90.36345516500296,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 98.54892516800464,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 107.7113106379984,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 106.29864888299926,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn_native.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261044"
+          ],
+          "wall_seconds": 109.04508876000182,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.5044597009982681,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T185238Z-confirmation-da167660/result.json",
+      "receipt_sha256": "3678a8a35acd7c0a4a76f5f45ea7f8b36602a406c3f826eeca0c6becfe29464b",
+      "kind": "confirmation",
+      "evidence_audit": "verified",
+      "status": "confirmed_improvement",
+      "inputs": {
+        "initial_baseline": "runs/v2/20261023T175941Z-recurrent-gdn-native.k128-v128-t8-9a25bf6a/result.json",
+        "initial_candidate": "runs/v2/20261023T181611Z-recurrent-gdn-native.k128-v128-t8-fbafb8b1/result.json",
+        "fresh_baseline": "runs/v2/20261023T182554Z-recurrent-gdn-native.k128-v128-t8-2dec97e0/result.json",
+        "fresh_candidate": "runs/v2/20261023T184230Z-recurrent-gdn-native.k128-v128-t8-0d52dbc3/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "initial": {
+        "profile": "recurrent-gdn-native.k128-v128-t8",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T175941Z-recurrent-gdn-native.k128-v128-t8-9a25bf6a/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T181611Z-recurrent-gdn-native.k128-v128-t8-fbafb8b1/result.json",
+        "speedup": 2.7198506694129763,
+        "memory_ratio": 1.018875192604006,
+        "cycle_reduction_percent": 63.23327558950766,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "needs_fresh_confirmation",
+        "qwen_tps_result": false
+      },
+      "confirmation": {
+        "profile": "recurrent-gdn-native.k128-v128-t8",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T182554Z-recurrent-gdn-native.k128-v128-t8-2dec97e0/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T184230Z-recurrent-gdn-native.k128-v128-t8-0d52dbc3/result.json",
+        "speedup": 2.7198506694129763,
+        "memory_ratio": 1.018875192604006,
+        "cycle_reduction_percent": 63.23327558950766,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "confirmation_passed",
+        "qwen_tps_result": false
+      }
+    }
+  ],
+  "record_count": 7,
+  "validated_case_count": 24,
+  "artifact_integrity_replayed": true,
+  "numerical_arrays_recomputed": false,
+  "qwen_tps_result": false
+}

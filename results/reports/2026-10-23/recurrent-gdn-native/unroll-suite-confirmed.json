@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_suite_improvement",
+  "created_utc": "2026-10-23T18:54:32.045625+00:00",
+  "candidate": "native-gdn-pr1-dsr-unroll8",
+  "conservative_geometric_mean_speedup": 2.569952930133734,
+  "worst_confirmed_speedup": 2.4283164283164282,
+  "decision": {
+    "status": "confirmed_suite_improvement",
+    "initial": {
+      "geometric_mean_speedup": 2.569952930133734,
+      "worst_speedup": 2.4283164283164282,
+      "profiles": [
+        "recurrent-gdn-native.k128-v128-t4",
+        "recurrent-gdn-native.k128-v128-t8"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "recurrent-gdn-native.k128-v128-t4",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T172358Z-recurrent-gdn-native.k128-v128-t4-f3666d22/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T175339Z-recurrent-gdn-native.k128-v128-t4-c621b946/result.json",
+          "speedup": 2.4283164283164282,
+          "memory_ratio": 1.0190514795297934,
+          "cycle_reduction_percent": 58.81920542401025,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "recurrent-gdn-native.k128-v128-t8",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T175941Z-recurrent-gdn-native.k128-v128-t8-9a25bf6a/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T181611Z-recurrent-gdn-native.k128-v128-t8-fbafb8b1/result.json",
+          "speedup": 2.7198506694129763,
+          "memory_ratio": 1.018875192604006,
+          "cycle_reduction_percent": 63.23327558950766,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "confirmation": {
+      "geometric_mean_speedup": 2.569979915091499,
+      "worst_speedup": 2.42836742408333,
+      "profiles": [
+        "recurrent-gdn-native.k128-v128-t4",
+        "recurrent-gdn-native.k128-v128-t8"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "recurrent-gdn-native.k128-v128-t4",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T173415Z-recurrent-gdn-native.k128-v128-t4-118886b3/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T175642Z-recurrent-gdn-native.k128-v128-t4-752647e5/result.json",
+          "speedup": 2.42836742408333,
+          "memory_ratio": 1.0190514795297934,
+          "cycle_reduction_percent": 58.820070221561124,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "recurrent-gdn-native.k128-v128-t8",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T182554Z-recurrent-gdn-native.k128-v128-t8-2dec97e0/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T184230Z-recurrent-gdn-native.k128-v128-t8-0d52dbc3/result.json",
+          "speedup": 2.7198506694129763,
+          "memory_ratio": 1.018875192604006,
+          "cycle_reduction_percent": 63.23327558950766,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "cell_evidence": {
+      "recurrent-gdn-native.k128-v128-t4": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 2.4283164283164282,
+        "confirmation_speedup": 2.42836742408333
+      },
+      "recurrent-gdn-native.k128-v128-t8": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 2.7198506694129763,
+        "confirmation_speedup": 2.7198506694129763
+      }
+    },
+    "scope": "exact complete suite coverage",
+    "qwen_tps_result": false,
+    "schema_version": 2,
+    "record_type": "suite_confirmation",
+    "inputs": {
+      "initial_baseline": "runs/v2/20261023T185242Z-suite-reuse-efd0fccf/result.json",
+      "initial_candidate": "runs/v2/20261023T185242Z-suite-reuse-0b1d06ef/result.json",
+      "fresh_baseline": "runs/v2/20261023T185242Z-suite-reuse-d9771530/result.json",
+      "fresh_candidate": "runs/v2/20261023T185243Z-suite-reuse-300e0c9e/result.json"
+    },
+    "budgets": {
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "regression_limit": 1.02
+    },
+    "receipt": "runs/v2/20261023T185247Z-suite_confirmation-656b9882/result.json"
+  },
+  "state": {
+    "path": "runs/campaigns/recurrent-gdn-native/unroll-suite-state.json",
+    "sha256": "e7a5d8791eedd53283cb60931de1bf82b391c2d067c29fad16578f6f1783cdac"
+  },
+  "arms": {
+    "initial_baseline": {
+      "path": "runs/v2/20261023T185242Z-suite-reuse-efd0fccf/result.json",
+      "sha256": "a27438f70daf7ccb9bd61478cdd69f7097c1f07a17a9e771b2e098738677b6e7"
+    },
+    "initial_candidate": {
+      "path": "runs/v2/20261023T185242Z-suite-reuse-0b1d06ef/result.json",
+      "sha256": "cbd50d1782cf69a285d11c7c3af7cb19ee2e39b53be49bf371d87c0ba0b6c93e"
+    },
+    "fresh_baseline": {
+      "path": "runs/v2/20261023T185242Z-suite-reuse-d9771530/result.json",
+      "sha256": "ae5b5c9d4380a5a61eab56fc1f324978cfe9422db902c0c9510002df57286e70"
+    },
+    "fresh_candidate": {
+      "path": "runs/v2/20261023T185243Z-suite-reuse-300e0c9e/result.json",
+      "sha256": "926fa9805fedd3a1d77cebfaac7b3e84b36ac51a1523aa39c4fc932fb4d6c540"
+    }
+  },
+  "numerics": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/unroll-suite-numerics.json",
+    "sha256": "f1fe749f3c2199996ea634bb49fd4090915d73cf15bf86af908022235e9109ab"
+  },
+  "snapshots": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/unroll-suite-snapshots.json",
+    "sha256": "4d99036373958d0e065c5e783c86f89b3110999a17c236170e8fe94a14a85b5c"
+  },
+  "paired_bits": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/unroll-suite-paired-bits.json",
+    "sha256": "91cfced703ec7f0f991929693f2e9866e8f00dd98d35d8a95b987719500bdfa2"
+  },
+  "records": [
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "initial_speedup": 2.4283164283164282,
+      "fresh_speedup": 2.42836742408333,
+      "conservative_speedup": 2.4283164283164282,
+      "baseline_metrics": {
+        "max_local_cycles": 115634.0,
+        "mean_local_cycles": 115630.66666666667,
+        "pe_cycle_spread": 10.0,
+        "max_error_fraction": 0.9633738148651233,
+        "cycles_per_token": 28908.5,
+        "max_program_object_bytes_per_pe": 39472,
+        "work_units_per_cycle": 11.928394762786033,
+        "pe_cycles": 5550432.0,
+        "experiment_wall_seconds": 288.3452368059952
+      },
+      "initial_candidate_metrics": {
+        "max_local_cycles": 47619.0,
+        "mean_local_cycles": 47614.666666666664,
+        "pe_cycle_spread": 12.0,
+        "max_error_fraction": 0.9633738148651233,
+        "cycles_per_token": 11904.75,
+        "max_program_object_bytes_per_pe": 40224,
+        "work_units_per_cycle": 28.965916965916964,
+        "pe_cycles": 2285712.0,
+        "experiment_wall_seconds": 185.25231208198966
+      },
+      "fresh_candidate_metrics": {
+        "max_local_cycles": 47618.0,
+        "mean_local_cycles": 47611.666666666664,
+        "pe_cycle_spread": 18.0,
+        "max_error_fraction": 0.9758267767076151,
+        "cycles_per_token": 11904.5,
+        "max_program_object_bytes_per_pe": 40224,
+        "work_units_per_cycle": 28.9665252635558,
+        "pe_cycles": 2285664.0,
+        "experiment_wall_seconds": 178.89126358899375
+      },
+      "initial_memory_ratio": 1.0190514795297934,
+      "fresh_memory_ratio": 1.0190514795297934
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "initial_speedup": 2.7198506694129763,
+      "fresh_speedup": 2.7198506694129763,
+      "conservative_speedup": 2.7198506694129763,
+      "baseline_metrics": {
+        "max_local_cycles": 211278.0,
+        "mean_local_cycles": 211271.33333333334,
+        "pe_cycle_spread": 20.0,
+        "max_error_fraction": 0.9848727667751392,
+        "cycles_per_token": 26409.75,
+        "max_program_object_bytes_per_pe": 41536,
+        "work_units_per_cycle": 13.056995995797006,
+        "pe_cycles": 20282688.0,
+        "experiment_wall_seconds": 908.8499301959964
+      },
+      "initial_candidate_metrics": {
+        "max_local_cycles": 77680.0,
+        "mean_local_cycles": 77674.0,
+        "pe_cycle_spread": 18.0,
+        "max_error_fraction": 0.9848727667751392,
+        "cycles_per_token": 9710.0,
+        "max_program_object_bytes_per_pe": 42320,
+        "work_units_per_cycle": 35.51307929969104,
+        "pe_cycles": 7457280.0,
+        "experiment_wall_seconds": 589.4025733050003
+      },
+      "fresh_candidate_metrics": {
+        "max_local_cycles": 77680.0,
+        "mean_local_cycles": 77671.0,
+        "pe_cycle_spread": 27.0,
+        "max_error_fraction": 0.9896897407494215,
+        "cycles_per_token": 9710.0,
+        "max_program_object_bytes_per_pe": 42320,
+        "work_units_per_cycle": 35.51307929969104,
+        "pe_cycles": 7457280.0,
+        "experiment_wall_seconds": 615.3891058449954
+      },
+      "initial_memory_ratio": 1.018875192604006,
+      "fresh_memory_ratio": 1.018875192604006
+    }
+  ],
+  "case_executions": 48,
+  "case_pairs": 24,
+  "all_compared_bits_identical": true,
+  "scope": "One frozen ascending-K FP32 FMA implementation across both complete native K128/V128 three-value-head T4/48PE and T8/96PE profiles, initial/fresh seeds20261043/20261044. BF16 inputs/output, FP32 state, every physical canonical/prefix copy, full state and timer preserved. One key-head group, not16 key/48 value heads or a full decoder/model.",
+  "qwen_tps_result": false
+}

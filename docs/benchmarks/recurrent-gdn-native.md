@@ -73,3 +73,8 @@ PR1-derived persistent DSR row reuse and bank-offset accumulation freshly confir
 1.991629× on T4 only:115,634→58,060 cycles,24 fully replayed case executions,
 all compared output/state bits identical. T8 and full-head claims require new
 complete qualification. [Evidence](../../results/reports/2026-10-23/recurrent-gdn-native/pr1-t4-confirmed.json).
+
+
+The frozen PR1-derived unroll8 source now confirms both complete profiles at
+2.569953× geometric mean, worst 2.428316×, with 48 fully replayed case executions.
+[Complete suite evidence](../../results/reports/2026-10-23/recurrent-gdn-native/unroll-suite-confirmed.json).

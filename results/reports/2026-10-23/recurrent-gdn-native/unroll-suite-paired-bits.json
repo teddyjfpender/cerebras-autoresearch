@@ -1,0 +1,2430 @@
+{
+  "schema_version": 1,
+  "status": "matched_raw_arrays_compared",
+  "case_pairs": 24,
+  "tool_sha256": "73f62fb2710c9f5c05032630047bc7b2aa6d00624297cd9c5800815e2962b98a",
+  "records": [
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "seed": 20261043,
+      "receipts": {
+        "baseline": {
+          "path": "runs/v2/20261023T172358Z-recurrent-gdn-native.k128-v128-t4-f3666d22/result.json",
+          "sha256": "f6209b8bc4e8cacfa78ef015a07ef94d29d9160e96cd59f83bfd926034b35203"
+        },
+        "candidate": {
+          "path": "runs/v2/20261023T175339Z-recurrent-gdn-native.k128-v128-t4-c621b946/result.json",
+          "sha256": "68ca9732501be285d11beb13999d153d9d6b923dd666d2249f82787be7e61777"
+        }
+      },
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "cases": [
+        {
+          "case": "positive",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "57638cb19a809eb278c17337601567720618d90150fe52cd054e984b3e024ac4",
+            "2c64758405411d63535102d1915ea3ea3683e9bd5cec684ad90fa0f60f086d18"
+          ]
+        },
+        {
+          "case": "signed",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "8d8ac4b5515e5f197f219ff27b359fb65b1627f6814942205afc5373d173225d",
+            "5887271fa91e5bedc03b5cafdc196c6b4840d7f732ad910eea8681571f2f3c01"
+          ]
+        },
+        {
+          "case": "zero",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "9d5e9c95d0f0142d8ad95c13acfd16c02f4743cced92df93616e62d68783b66a",
+            "682c5e1bea89fafc36bc00d6e5892a321344ab12103bdc8257ca42c4df5d16a4"
+          ]
+        },
+        {
+          "case": "cancellation",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "5144e24c19a458f338b1518057bed60907f950d2adf2113e9b4fae12716f8997",
+            "3b00e5264ff3bb2db69adc729006541978c191e177fdfe74a402f93bd29e5245"
+          ]
+        },
+        {
+          "case": "one_hot",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "a7e55bc61043f57a4b78470f50d9a34bd1b22f6adca9a428fcd74ae6b5ba77e1",
+            "878723a9271cecd605bbc0296a6600ed8d5bf34c22e4b433f6c141e602486de0"
+          ]
+        },
+        {
+          "case": "mixed_scale",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "831c3612b642442ee5de73e02b77bd0b87cbb0d8e007cce82f198e611f1637e9",
+            "409f8cd4f2d5d224e7ed90c056c225e2530fdd8cae508eb36f8e445e96fd5541"
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "seed": 20261044,
+      "receipts": {
+        "baseline": {
+          "path": "runs/v2/20261023T173415Z-recurrent-gdn-native.k128-v128-t4-118886b3/result.json",
+          "sha256": "352112e50bd401fa7a143c5de6500d210b23174892e604bb855cd799262cb03e"
+        },
+        "candidate": {
+          "path": "runs/v2/20261023T175642Z-recurrent-gdn-native.k128-v128-t4-752647e5/result.json",
+          "sha256": "8ed5fba75f79476ed8e9212a7922bd6c1d8d58596021ebdcaea674757fe68deb"
+        }
+      },
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "cases": [
+        {
+          "case": "positive",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "2dd061e82808fe7894ae7f420246dd2354452606e5ef5fa49502f6a5e93203e1",
+            "1f0e5d312aa62521dea61aed929dc629c119e8f9899e0acb87f627b38a751ab1"
+          ]
+        },
+        {
+          "case": "signed",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "2fbea63be0df1fe887f5fd3676b34d504558858a86340a0e2aed92e14f4c0eb1",
+            "a1c39506b042f7997d35fd6da055a2e46ff6f77b198b38fd0bf54bd1bd02f618"
+          ]
+        },
+        {
+          "case": "zero",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "ded66012e2645c5a68b5f8862b6e01210bf6663a72fc7241b7ff43ee96fcdb8a",
+            "2ad5ce89cef6644f63823b8c683642fb00dc9b81b30474ff5a65826a4cac7bfd"
+          ]
+        },
+        {
+          "case": "cancellation",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "8af9b45464a587fae55bb0aea996b4a210363ff2aa78cb8ff35061b387ec1f5d",
+            "f051529c76676af442c5f0ff20522d98a8b9291d136879ea5eaac495aadbd13e"
+          ]
+        },
+        {
+          "case": "one_hot",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "b1686b9659fdb08ffc6393881c55b02029e497eeaf9b55e51013b6d1bb38e02c",
+            "84555514d6471fbbfa6f20528478cda7515674672d95ab4fb9c3cb76b82830d8"
+          ]
+        },
+        {
+          "case": "mixed_scale",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                128
+              ],
+              "element_count": 512,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3
+              ],
+              "element_count": 12,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                4,
+                3,
+                128,
+                128
+              ],
+              "element_count": 196608,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                4,
+                3,
+                128
+              ],
+              "element_count": 1536,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "0c2c50f4e355855ed7b4c621b703b4256999d0132184373b84ed6c89189c78ae",
+            "d71ba6ea2f5715c1387d82c02277f2709de5ebbbcaac6bc65d41a62388604ebc"
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "seed": 20261043,
+      "receipts": {
+        "baseline": {
+          "path": "runs/v2/20261023T175941Z-recurrent-gdn-native.k128-v128-t8-9a25bf6a/result.json",
+          "sha256": "2851c8f6a6ec17196136bf19231e97b5b615e61addebc48e267a12e7aad16575"
+        },
+        "candidate": {
+          "path": "runs/v2/20261023T181611Z-recurrent-gdn-native.k128-v128-t8-fbafb8b1/result.json",
+          "sha256": "a1d178adf9e3852ee976f82f7d2332bf640d8ba4b0df4f0327f7df1445fe41ae"
+        }
+      },
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "cases": [
+        {
+          "case": "positive",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "e324831979a962dd2aeb5414d6a7097c1e5d67708c3a51916f87f7f9d84ff4b4",
+            "5bd170ce9686746b450ca1b990a11635cb0ca749b0188ce32e6530243a247bcd"
+          ]
+        },
+        {
+          "case": "signed",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "4ef8c7fff50bd03bd4fb535d00708fe911bfe278d2db51c5ce57055561647e50",
+            "c74e32da74f2e1fe0f29cf5162ddc1a9b90718164e89b37a8fca6dbeffed765a"
+          ]
+        },
+        {
+          "case": "zero",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "ff981ea150040d6bc786b668e0dba6d36d902dfab9b2600b087afeda228a750a",
+            "3c0547d9386e5d3b2f86e28abf2fc285677cd66839bf3ade545e3a11112041df"
+          ]
+        },
+        {
+          "case": "cancellation",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "eb89f5d27e66d3dd2133e0d852b77fad670a36442e988d2fd2b7fe774e964f33",
+            "c3728cf37b6a18a20173453cc7e088ed0d3d71cf4d2799eb715f93640ac12091"
+          ]
+        },
+        {
+          "case": "one_hot",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "f3571616f418796caae06b473373f05004826cfa37ce5125850032afa0c578ad",
+            "b11aea997cda2d3a7de0d4a3480f1d75095044ee18ff36b8c106cc78dc349469"
+          ]
+        },
+        {
+          "case": "mixed_scale",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "24403b0af876eccd7f834beab0ca676021cea071eb8cde7f8ebe98ed2f7700a6",
+            "83867a87db40ba41b8152a8164e4c9f0a643b9cf38c8749d3d6e21ae45ca57f5"
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "seed": 20261044,
+      "receipts": {
+        "baseline": {
+          "path": "runs/v2/20261023T182554Z-recurrent-gdn-native.k128-v128-t8-2dec97e0/result.json",
+          "sha256": "9a493a6c622ccf02bcd48f4edef810aa96adf23e42a45c5097151f59246e2aa6"
+        },
+        "candidate": {
+          "path": "runs/v2/20261023T184230Z-recurrent-gdn-native.k128-v128-t8-0d52dbc3/result.json",
+          "sha256": "1a05d340bea96ff8ed1e839b208739a4489b43406636026d1469f51b3771d382"
+        }
+      },
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "cases": [
+        {
+          "case": "positive",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "e25bde7c79ebb66482ab3c34c1adfade79bb540eff3d614dfe682738dcbf3213",
+            "4af094be59f566d6de5e43c0c45a6d9e8e0085e8239a1a539b2b8a3c27756466"
+          ]
+        },
+        {
+          "case": "signed",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "191c2b73025c4dcdfc1b6c54bceaa1ee2b4d08f8cc72994cbd23bcbba97e6b7f",
+            "97e052f9bc810875df1b202acc2ee4a1bfcbda38fad8afbc6dc86eddcd90f770"
+          ]
+        },
+        {
+          "case": "zero",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "9e7a30b7c9572266fc7258c3dfd4abb983ee88cd2ddd39fadac17b38b5b24601",
+            "c6efa2512b578de2ee95d1fddf830d05fc5f59372c596de6d8056068af66a1b1"
+          ]
+        },
+        {
+          "case": "cancellation",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "ccbeccadbd1d7b64c2828649f3e35dceaa3cce5f0b5b262d231badd0ca419815",
+            "3f70515c9ccc23e21c728d8a54c68c915ac438206624fddadb55a95f008b4526"
+          ]
+        },
+        {
+          "case": "one_hot",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "7a79a455b133bcebf62812bab03b4280eae9d465fe1ef85ed08980d4968ef7d0",
+            "f85d1808e07eb651aa5665698d9c1c934ac9ee1d70be96c23a8e030867f8db51"
+          ]
+        },
+        {
+          "case": "mixed_scale",
+          "arrays": {
+            "Q_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "K_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                128
+              ],
+              "element_count": 1024,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "A_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3
+              ],
+              "element_count": 24,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "DELTA_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "STATE_HISTORY": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                8,
+                3,
+                128,
+                128
+              ],
+              "element_count": 393216,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "Y_HISTORY": {
+              "dtype": "uint16",
+              "interpretation": "BF16 raw words",
+              "shape": [
+                8,
+                3,
+                128
+              ],
+              "element_count": 3072,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            },
+            "FINAL_STATE": {
+              "dtype": "float32",
+              "interpretation": "stored numeric dtype",
+              "shape": [
+                3,
+                128,
+                128
+              ],
+              "element_count": 49152,
+              "changed_elements_by_bits": 0,
+              "identical_bits": true,
+              "max_absolute_numeric_difference": 0.0
+            }
+          },
+          "artifacts_sha256": [
+            "fd58e794ad6a51b12d4578dad64f9b60d5cb8b3c641bf49ff3bafde415382c0c",
+            "8e1fe4fc67bf4b403c7388167d215ea477d376a3cec6b6b95d8b8b3309dcc0a5"
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "Descriptive bit/numeric differences on these paired arrays; not a new oracle, promotion or equivalent-work proof.",
+  "qwen_tps_result": false
+}

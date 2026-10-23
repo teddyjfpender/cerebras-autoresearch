@@ -67,6 +67,29 @@ units include ReLU comparisons. Communication counts logical delivered elements;
 I/O counts logical bytes. These rates do not measure actual link traffic, peak
 utilization, clock frequency, bandwidth, or energy.
 
+### FLOP/s and bandwidth derived from simulator cycles
+
+The upstream [single-tile-matvec example](https://github.com/Cerebras/sdk-examples/blob/rel-sdk-2.10.0/benchmarks/single-tile-matvec/run.py)
+calculates FLOP/s from an analytical operation count and timestamp cycles, using
+an assumed 850 MHz clock. It also calculates bytes/s from analytical memory
+access counts, and separately extrapolates a program rectangle to 750×994 PEs.
+These are derived rates and a scaling model, not measured hardware counters or
+evidence that a communicating workload scales to a full wafer.
+
+For a documented operation count `F`, repetition count `R`, measured cycle
+interval `C` and explicitly assumed clock `f`, report `F*R/C` FLOPs/cycle and
+`F*R*f/C` estimated FLOP/s. The pinned example's FLOP/s expression omits `iters`
+although its timed loop repeats the matvec; audit repetition accounting before
+reusing that expression. Preserve the original example and historical results.
+
+Current native recurrent profiles count `3*T*(7*K*V+2*V)` useful state arithmetic
+operations: decay, two state reads, delta and update, with FMA counted as two
+operations. Normalization, exp, replicated work and all snapshots remain timed
+but are excluded from this numerator. Their recorded `work_units_per_cycle`
+is therefore a useful state-arithmetic rate, not a count of all executed FLOPs.
+It must not be silently relabeled as total FLOPs/cycle. Distinguish algorithmic
+bytes from actual SRAM/fabric traffic when adding bandwidth estimates.
+
 ## Acceptance
 
 Require unchanged baseline, resolved profile, precision, grid, seed, SDK

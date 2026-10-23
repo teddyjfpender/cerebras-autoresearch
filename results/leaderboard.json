@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 467,
-  "ledger_head": "a3ac53e4fe5ea13646d7c6c6b4d4311837f50f3217a644d209900f4bc4f1414f",
+  "ledger_rows": 477,
+  "ledger_head": "3946cf3e9e9defd59c7d64f21f7dea113b8ab504f8087cf814008e0cd80b19bf",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -979,6 +979,19 @@
       "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
       "receipt": "runs/v2/20261023T175941Z-recurrent-gdn-native.k128-v128-t8-9a25bf6a/result.json",
       "decision": "baseline"
+    },
+    {
+      "event_id": "361706017e2f832f8e9a0570de4af9ecd33941167125419f3d66beedfab98fff",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "native_gdn.pr1_dsr_bank_unroll8",
+      "candidate": "native-gdn-pr1-dsr-unroll8",
+      "variant": "candidate",
+      "primary_value": "77680.0",
+      "memory_bytes": "42320",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T181611Z-recurrent-gdn-native.k128-v128-t8-fbafb8b1/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "measured_cycle_memory_front": [
@@ -2411,6 +2424,45 @@
       "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
       "receipt": "runs/v2/20261023T175941Z-recurrent-gdn-native.k128-v128-t8-9a25bf6a/result.json",
       "decision": "baseline"
+    },
+    {
+      "event_id": "361706017e2f832f8e9a0570de4af9ecd33941167125419f3d66beedfab98fff",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "native_gdn.pr1_dsr_bank_unroll8",
+      "candidate": "native-gdn-pr1-dsr-unroll8",
+      "variant": "candidate",
+      "primary_value": "77680.0",
+      "memory_bytes": "42320",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T181611Z-recurrent-gdn-native.k128-v128-t8-fbafb8b1/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "e2fa35f749856e17b900215262ce204c1514c4480652a6a06821ffa444136bd4",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "recurrent_gdn_native.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "211278.0",
+      "memory_bytes": "41536",
+      "source_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T182554Z-recurrent-gdn-native.k128-v128-t8-2dec97e0/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "ebd94500a9d4f1879a430ff56b59c4efab981bfb976c8c635d8c8f66d86cb18f",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "native_gdn.pr1_dsr_bank_unroll8",
+      "candidate": "native-gdn-pr1-dsr-unroll8",
+      "variant": "candidate",
+      "primary_value": "77680.0",
+      "memory_bytes": "42320",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T184230Z-recurrent-gdn-native.k128-v128-t8-0d52dbc3/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "confirmed_improvements": [
@@ -2894,6 +2946,19 @@
       "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
       "receipt": "runs/v2/20261023T175939Z-confirmation-5d3c7bda/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "266cc5c6de888f78102007e63d2f382b2a3fdf6beb5a9f3a04cdea799d2ce028",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "native_gdn.pr1_dsr_bank_unroll8",
+      "candidate": "native-gdn-pr1-dsr-unroll8",
+      "variant": "candidate",
+      "primary_value": "77680.0",
+      "memory_bytes": "42320",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T185238Z-confirmation-da167660/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -3295,6 +3360,25 @@
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
       "speedup": "2.4283164283164282",
       "memory_ratio": "1.0190514795297934"
+    },
+    {
+      "event_id": "266cc5c6de888f78102007e63d2f382b2a3fdf6beb5a9f3a04cdea799d2ce028",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "native_gdn.pr1_dsr_bank_unroll8",
+      "candidate": "native-gdn-pr1-dsr-unroll8",
+      "variant": "candidate",
+      "primary_value": "77680.0",
+      "memory_bytes": "42320",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T185238Z-confirmation-da167660/result.json",
+      "decision": "confirmed",
+      "profile_sha256": "b874b1d7237e81635c7c907c6568b88df41e342206e68791dc78e7fa1d0dda54",
+      "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "harness_sha256": "00b43d3c96b33a23a293e829292599d0bbbca12b59c8bb866445d7dcb479433d",
+      "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+      "speedup": "2.7198506694129763",
+      "memory_ratio": "1.018875192604006"
     }
   ],
   "confirmed_suite_events": [
@@ -3307,7 +3391,8 @@
     "f5b2149318b70ba3392b6d543f1469f01a7b6084abbf228093209349af0c8b8c",
     "3752e4f17dc93a90d9f88959e6b04fd2f46c0a270a399ce505500d4a164cd0c4",
     "2cadcb27f388e32fb7e93740b60f29faa987fabfe79452d43000fa60ad0afa5b",
-    "1c4939e254a79d7645fd71a9dfaabfeb4ab272cd5ea2e6fabf889945fe87f65e"
+    "1c4939e254a79d7645fd71a9dfaabfeb4ab272cd5ea2e6fabf889945fe87f65e",
+    "9cd09423d6dcb12ad7cc243ccf614f5d35994f586d15aeb67252eacd7ea2b944"
   ],
   "qwen_tps_result": false
 }

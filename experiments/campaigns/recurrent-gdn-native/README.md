@@ -47,3 +47,8 @@ evidence continuations. Cached controls require matching source/profile/harness/
 SDK identities. Use the fresh reproduction plan on a new checkout; historical
 raw artifacts require their evidence bundle for re-audit. Never edit the TSV to
 reproduce a score. Full16-key/48-value-head qualification is a separate contract.
+
+
+The completed unroll8 suite confirms 2.569953× geometric mean across both profiles,
+with 48 raw case executions independently replayed.
+[Suite evidence](../../../results/reports/2026-10-23/recurrent-gdn-native/unroll-suite-confirmed.json).

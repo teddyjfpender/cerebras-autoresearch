@@ -1,19 +1,27 @@
-# Current inference research priority
+# Research closeout and prospective priorities
 
-The active target is the **full native Qwen recurrent operator**:16 key heads,
-48 value heads, K128/V128, BF16 Q/K/V/output and FP32 state, with every requested
-state update/readout validated. The registered full-head workload is a fixed
-two-token decode pair on768 PEs. Existing one-group T4/T8 profiles establish
-longer recurrence coverage. These are distinct contracts with new baselines.
+The session is stopped at the user's request. No further benchmark is queued.
+One frozen native recurrent implementation is freshly confirmed across both
+K128/V128 profiles: **2.428316× on T4/48 PEs**, **2.719851× on T8/96 PEs**,
+**2.569953× conservative suite geometric mean**. All 48 baseline/candidate case
+executions pass independent numerical and saved-core/state/timer replay; all 24
+paired cases have bit-identical compared operands, states and outputs.
+[Complete suite evidence](../../results/reports/2026-10-23/recurrent-gdn-native/unroll-suite-confirmed.json).
 
-The native T4/T8 normalization-reuse suite is confirmed at1.251334× geometric
-mean, with all48 paired cases independently replayed. The priority is now to
-qualify the full-head reference and confirm a full-head improvement with fresh
-paired seeds and complete raw numerical/core/timer replay. All terminal V2
-attempts/decisions remain in the append-only TSV. Profile-specific simulator
-cycles do not establish whole-model latency, hardware TPS or production impact.
-No end-to-end hardware profile currently proves this operator is the model's
-largest latency bottleneck.
+The full 16-key/48-value-head operator remains unqualified. Its planned 20-minute
+positive bringup check was cancelled before launch when the user requested an
+immediate wrap-up. Earlier failed/cancelled runtime probes remain preserved;
+short timeouts do not establish a general simulator deadlock or SDK limitation.
+[Full-head closeout](../../results/reports/2026-10-23/recurrent-gdn-full/closeout.json).
+Simulator cycles do not establish model latency, hardware TPS or production gain.
+
+For a future Cerebras collaboration, propose a native-size low-batch decode FFN
+chain: distributed GEMV, SwiGLU, down projection and the required collectives/data
+movement. Ask their inference engineers to select or confirm the target from a
+production latency profile, supply a representative baseline/harness, and allow
+custom CSL compilation/execution on appliance hardware. Recurrent DeltaNet is
+another candidate if profiling supports its priority. Neither proposal starts
+new work; current evidence does not rank production bottlenecks.
 
 ## What the external projects contribute
 
@@ -38,7 +46,7 @@ gradient and loss validation plus the actual training backend for speed claims.
 
 ## Focused follow-up gates
 
-1. Full native recurrent operator: current priority, complete state validation.
+1. Full native recurrent operator: deferred qualification, complete state validation.
 2. A complete resident hybrid decode block: add the missing projections,
    convolution and gated normalization/output projection with a full-chain oracle.
 3. Speculative state commit/rollback: a new explicit workload/precision/timing
@@ -47,6 +55,6 @@ gradient and loss validation plus the actual training backend for speed claims.
    actual model/step throughput under fixed quality, batch and workload conditions.
 
 The later items are deferred directions, not configured or executed benchmarks.
-Broader model coverage and serving features do not interrupt the current target.
+No follow-up is scheduled; resuming research requires a new user instruction.
 Hardware handoff should contain optimized CSL, fixed profile contracts, reference
 sources, complete correctness/state evidence, memory/PE costs and matched results.
