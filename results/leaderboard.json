@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 340,
-  "ledger_head": "dfe36030a3b108804671260dfe5f90ddbc875b1f776692ead2b43e457834f3ca",
+  "ledger_rows": 350,
+  "ledger_head": "7e527c5fb4a14a01a488bee5e2955b29babba337383cc6accba4169fddcce8b8",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -692,6 +692,19 @@
       "source_sha256": "146c69ffad40bcb1d173646aaf492e450dd60012ee57868c9ee05e57d3e8afd2",
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T111718Z-resident-swiglu-bf16.ffn-scaled-a853a262/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "3a89f4053af0a9d5a016d7b400b677a26beaa6850f750d013d9c4db03b1de24b",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.vector-silu6-receive-scratch-dispatch",
+      "candidate": "bf16-swiglu-vector-scratch-dispatch",
+      "variant": "candidate",
+      "primary_value": "38382.0",
+      "memory_bytes": "11328",
+      "source_sha256": "6a26b892babbdc653624f0b0ac7058aac746a410c6678f2b4298604564603c26",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T114044Z-resident-swiglu-bf16.small-a5b2d49c/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -1748,6 +1761,32 @@
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T112251Z-resident-swiglu-bf16.ffn-scaled-b3067a0c/result.json",
       "decision": "baseline"
+    },
+    {
+      "event_id": "3a89f4053af0a9d5a016d7b400b677a26beaa6850f750d013d9c4db03b1de24b",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.vector-silu6-receive-scratch-dispatch",
+      "candidate": "bf16-swiglu-vector-scratch-dispatch",
+      "variant": "candidate",
+      "primary_value": "38382.0",
+      "memory_bytes": "11328",
+      "source_sha256": "6a26b892babbdc653624f0b0ac7058aac746a410c6678f2b4298604564603c26",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T114044Z-resident-swiglu-bf16.small-a5b2d49c/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "1ef53593c4c945d92fc3c69d5ed3c2b869958717abf833d3e097fb3606d9e345",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.vector-silu6-receive-scratch-dispatch",
+      "candidate": "bf16-swiglu-vector-scratch-dispatch",
+      "variant": "candidate",
+      "primary_value": "38382.0",
+      "memory_bytes": "11328",
+      "source_sha256": "6a26b892babbdc653624f0b0ac7058aac746a410c6678f2b4298604564603c26",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T114133Z-resident-swiglu-bf16.small-057789ad/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "confirmed_improvements": [
@@ -2048,6 +2087,19 @@
       "source_sha256": "146c69ffad40bcb1d173646aaf492e450dd60012ee57868c9ee05e57d3e8afd2",
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T113754Z-confirmation-c1fa2c2d/result.json",
+      "decision": "confirmed"
+    },
+    {
+      "event_id": "e072f184ff5a6060ac6229133a8c27dfd2351d9cd3677c0f087bab096eb3a958",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.vector-silu6-receive-scratch-dispatch",
+      "candidate": "bf16-swiglu-vector-scratch-dispatch",
+      "variant": "candidate",
+      "primary_value": "38382.0",
+      "memory_bytes": "11328",
+      "source_sha256": "6a26b892babbdc653624f0b0ac7058aac746a410c6678f2b4298604564603c26",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T114221Z-confirmation-308fdbaa/result.json",
       "decision": "confirmed"
     }
   ],

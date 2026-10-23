@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "status": "proposed_not_registered_or_executed",
+  "reason": "Runtime-only pointer cast required after the SDK rejected the original comptime alias; no held-out device runs have occurred.",
+  "candidate_manifests": [
+    {
+      "candidate": "bf16-swiglu-vector-scratch-runtime",
+      "source_sha256": "b2ec69a93314bdab994a5b9a03dd7fd4fda0a4b9a07e6199185891591ba6f4d5",
+      "manifest_sha256": "2b3b1b78cb89aec628e61803def158bbe6ec86ef305620c7eadedce748eae637"
+    },
+    {
+      "candidate": "bf16-swiglu-vector-scratch-tail4-runtime",
+      "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
+      "manifest_sha256": "0e345e9b8db8cbefc5993a96ff9da6b4ca478c302e41de3ec0137a750c52b205"
+    },
+    {
+      "candidate": "bf16-swiglu-vector-scratch-tail5-runtime",
+      "source_sha256": "cd20de9719603e600d21dbefc14e484a5fa146a0297e7f08f75b84d32cfd1ad8",
+      "manifest_sha256": "0b772560b240ce5a4561d0d1b7b4d0ed114416fb0b6872968b1699cd2c979d32"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "resident-swiglu-bf16.batch4-ffn",
+      "adapter": "resident_swiglu_bf16",
+      "family": "distributed-resident-swiglu",
+      "dimensions": {
+        "M": 4,
+        "H": 80,
+        "F": 272,
+        "T": 4
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "bf16-fp32-accum",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 2088960,
+      "work_unit": "projection_arithmetic_operations",
+      "description": "Prospective held-out shape: four BF16 resident batches M4/H80/F272, FP32 accumulators and nonlinear/residual arithmetic, BF16 stage boundaries, all outputs/state on16 PEs.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+      }
+    },
+    {
+      "id": "resident-swiglu-bf16.batch32-h64-f192",
+      "adapter": "resident_swiglu_bf16",
+      "family": "distributed-resident-swiglu",
+      "dimensions": {
+        "M": 32,
+        "H": 64,
+        "F": 192,
+        "T": 4
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "bf16-fp32-accum",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 9437184,
+      "work_unit": "projection_arithmetic_operations",
+      "description": "Prospective held-out shape: four BF16 resident batches M32/H64/F192, FP32 accumulators and nonlinear/residual arithmetic, BF16 stage boundaries, all outputs/state on16 PEs.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+      }
+    }
+  ],
+  "device_execution": false,
+  "qwen_tps_result": false
+}
