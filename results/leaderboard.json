@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 357,
-  "ledger_head": "734cca1074c573d87dd925472de52ebfdbdb422921e87ed446d840a40940e674",
+  "ledger_rows": 367,
+  "ledger_head": "f43a78a972a2a71ce9f2bfc594a44d45bc590ffbc39a055ff508e15df6023f00",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -718,6 +718,19 @@
       "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T114904Z-resident-swiglu-bf16.ffn-scaled-353381bc/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "8e07d15445584fc5c71265aada46a48fe0f843e67b503f89e3f8ed8b8869dacb",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.vector-silu6-scratch-tail4.runtime-dsd-alias",
+      "candidate": "bf16-swiglu-vector-scratch-tail4-runtime",
+      "variant": "candidate",
+      "primary_value": "38390.0",
+      "memory_bytes": "11456",
+      "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T120319Z-resident-swiglu-bf16.small-e914c58f/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -2140,6 +2153,19 @@
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T115931Z-confirmation-da2c49a5/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "6c9519581b42b03ac85c682c37834274aec951a014045e91c10c4b47c3d2cb13",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.vector-silu6-scratch-tail4.runtime-dsd-alias",
+      "candidate": "bf16-swiglu-vector-scratch-tail4-runtime",
+      "variant": "candidate",
+      "primary_value": "38390.0",
+      "memory_bytes": "11456",
+      "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T120455Z-confirmation-524d1498/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -2416,7 +2442,8 @@
     "af191a8526202513236d966e7db0c23a7d5b7a5bd345ba3f67889ee92d4ea8a6",
     "917ea1f0a6e80ffb68d01b3eda14d4b60ef858072b807afe33dd65182f19c3ce",
     "1ee071865625cb02819e8903f54804a6a953ae5b84b20efce7d8494ddd2b5196",
-    "6df0a70fa5c22b214db970256bce817a94657eca97ea13cacc11893767df5874"
+    "6df0a70fa5c22b214db970256bce817a94657eca97ea13cacc11893767df5874",
+    "f5b2149318b70ba3392b6d543f1469f01a7b6084abbf228093209349af0c8b8c"
   ],
   "qwen_tps_result": false
 }

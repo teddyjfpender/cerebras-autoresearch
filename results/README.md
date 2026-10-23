@@ -43,28 +43,37 @@ BF16/FP32-accumulation work requires separate profiles and new baselines.
 
 ## Native BF16 resident SwiGLU — confirmed complete chain
 
-`bf16-swiglu-projection-silu6-reuse` passed both six-case cells and fresh paired
-confirmation. All **48 paired cases** passed independent numerical and complete
-saved-core/state/timer replay. The conservative suite geometric mean is
-**1.451350x**, with worst cell **1.404278x**.
+`bf16-swiglu-vector-scratch-tail4-runtime` is freshly confirmed on both original
+profiles, with **1.537186x conservative geometric mean**, worst cell **1.499687x**.
+All **48 paired cases** passed independent numerical and complete saved-core,
+canonical/working-state and raw-timer replay. One frozen parameterized source
+uses vector activation where scratch capacity permits and scalar activation on
+smaller tiles; every BF16 stage boundary and FP32 accumulation remains fixed.
 
 | Profile | Initial reference → candidate cycles | Fresh reference → candidate cycles | Program bytes/PE |
 | --- | ---: | ---: | ---: |
-| `resident-swiglu-bf16.small` | 57,573 → 38,382 | 57,573 → 38,382 | 11,088 → 11,328 |
-| `resident-swiglu-bf16.ffn-scaled` | 585,178 → 414,050 | 585,178 → 416,711 | 43,600 → 45,504 |
+| `resident-swiglu-bf16.small` | 57,573 → 38,390 | 57,573 → 38,390 | 11,088 → 11,456 |
+| `resident-swiglu-bf16.ffn-scaled` | 585,178 → 368,626 | 585,178 → 371,395 | 43,600 → 47,184 |
 
-[Complete suite evidence](reports/2026-10-23/resident-swiglu-bf16/initial-suite-confirmed.json)
-preserves source/evaluator/SDK identities and both seed arms. The original
-[baseline qualification](reports/2026-10-23/resident-swiglu-bf16/qualification.json)
-remains separate. The candidate preserves BF16 G/U/V/D/Y boundaries and FP32
-projection accumulation, activation and residual arithmetic under the fixed
-contract. The faster vector screens exceeded the memory gate and remain rejected;
-the [compiler interruption](reports/2026-10-23/resident-swiglu-bf16/compiler-stall-diagnostic.json)
-is preserved in the journal. The [paired stage audit](reports/2026-10-23/resident-swiglu-bf16/initial-paired-stage-differences.json)
+[Complete refinement evidence](reports/2026-10-23/resident-swiglu-bf16/runtime-suite-confirmed.json)
+binds both seeds and the entire original suite. The scaled cell uses +8.22%
+program memory within the unchanged 10% gate. Scratch reuse fixes the earlier
+vector candidates' memory overrun; the rejected comptime pointer cast and
+compiler interruption remain journaled.
+
+The [initial scalar composition](reports/2026-10-23/resident-swiglu-bf16/initial-suite-confirmed.json)
+remains confirmed at1.451350x conservative mean with less memory. Its
+[paired stage audit](reports/2026-10-23/resident-swiglu-bf16/initial-paired-stage-differences.json)
 found every G/U word identical in all24 matched case pairs (233,472 values per
-stage). The bounded SiLU approximation changes some V/D/Y words; the unchanged
-local and ideal full-chain bounds passed separately. This is a scaled FFN
-operator-chain result.
+stage). The bounded approximation changes some V/D/Y words; the original local
+and ideal full-chain bounds passed separately. The
+[baseline qualification](reports/2026-10-23/resident-swiglu-bf16/qualification.json)
+and all historical reports are unchanged. These are scaled FFN operator results.
+
+Two additional workloads are now configured with fresh baselines pending:
+M4/H80/F272 and M32/H64/F192, eachT4 on16 PEs. They form the distinct four-cell
+`resident-swiglu-bf16-generalization` suite with the original profiles. Candidate
+source identities were frozen before any held-out device observations.
 
 ## Four inference tracks — qualified baselines
 
@@ -90,9 +99,10 @@ scores cover the complete four-frame/token sequence, including output/state
 stores. Compare matched arms within one profile. The blocks are scaled FP32
 local programs; no Qwen/model/hardware TPS claim follows.
 
-Across historical evaluator tracks, the current 41-profile catalog has
+Across historical evaluator tracks, the current 43-profile catalog has
 **20 full independent baselines, 14 reference checks and two diagnostics**:
-36 exercised profiles. Five older independent shapes remain unqualified:
+36 exercised profiles. Two new BF16 held-out workloads await qualification;
+five older independent shapes also remain unqualified:
 `meshgemm.cold-square32`, `meshgemm.cold-rectangular`, `meshgemv.ffn-down-scaled`,
 `meshgemv.square128`, and `pipeline.k64-n32`.
 

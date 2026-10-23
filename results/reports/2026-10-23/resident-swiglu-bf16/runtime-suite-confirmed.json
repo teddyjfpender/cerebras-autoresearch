@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_suite_improvement",
+  "created_utc": "2026-10-23T12:07:13.693730+00:00",
+  "decision": {
+    "status": "confirmed_suite_improvement",
+    "initial": {
+      "geometric_mean_speedup": 1.5429483462918505,
+      "worst_speedup": 1.4996874185985933,
+      "profiles": [
+        "resident-swiglu-bf16.small",
+        "resident-swiglu-bf16.ffn-scaled"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "resident-swiglu-bf16.small",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T105329Z-resident-swiglu-bf16.small-55f690a3/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T120319Z-resident-swiglu-bf16.small-e914c58f/result.json",
+          "speedup": 1.4996874185985933,
+          "memory_ratio": 1.0331890331890332,
+          "cycle_reduction_percent": 33.31943793097458,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu-bf16.ffn-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T105451Z-resident-swiglu-bf16.ffn-scaled-1a17f4c9/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T114904Z-resident-swiglu-bf16.ffn-scaled-353381bc/result.json",
+          "speedup": 1.5874572059485765,
+          "memory_ratio": 1.0822018348623854,
+          "cycle_reduction_percent": 37.00617589861545,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "confirmation": {
+      "geometric_mean_speedup": 1.5371857253002743,
+      "worst_speedup": 1.4996874185985933,
+      "profiles": [
+        "resident-swiglu-bf16.small",
+        "resident-swiglu-bf16.ffn-scaled"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "resident-swiglu-bf16.small",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T110535Z-resident-swiglu-bf16.small-3dfce701/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T120408Z-resident-swiglu-bf16.small-c5714a1d/result.json",
+          "speedup": 1.4996874185985933,
+          "memory_ratio": 1.0331890331890332,
+          "cycle_reduction_percent": 33.31943793097458,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu-bf16.ffn-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T112251Z-resident-swiglu-bf16.ffn-scaled-b3067a0c/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T115420Z-resident-swiglu-bf16.ffn-scaled-2388b949/result.json",
+          "speedup": 1.5756216427254002,
+          "memory_ratio": 1.0822018348623854,
+          "cycle_reduction_percent": 36.532986544265164,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "cell_evidence": {
+      "resident-swiglu-bf16.small": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.4996874185985933,
+        "confirmation_speedup": 1.4996874185985933
+      },
+      "resident-swiglu-bf16.ffn-scaled": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.5874572059485765,
+        "confirmation_speedup": 1.5756216427254002
+      }
+    },
+    "scope": "exact complete suite coverage",
+    "qwen_tps_result": false,
+    "schema_version": 2,
+    "record_type": "suite_confirmation",
+    "inputs": {
+      "initial_baseline": "runs/v2/20261023T120545Z-suite-reuse-8a7d395e/result.json",
+      "initial_candidate": "runs/v2/20261023T120545Z-suite-reuse-6d8977dd/result.json",
+      "fresh_baseline": "runs/v2/20261023T120545Z-suite-reuse-d9851037/result.json",
+      "fresh_candidate": "runs/v2/20261023T120545Z-suite-reuse-f3c447cf/result.json"
+    },
+    "budgets": {
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "regression_limit": 1.02
+    },
+    "receipt": "runs/v2/20261023T120547Z-suite_confirmation-8c0d7b0c/result.json"
+  },
+  "state": {
+    "path": "runs/campaigns/resident-swiglu-bf16/runtime-suite-state.json",
+    "sha256": "dca871fef1594fd99a2ba27baa6b305ef0353352005ab5ab37e51ca1eda6cf5b"
+  },
+  "campaigns": [
+    {
+      "path": "runs/campaigns/resident-swiglu-bf16/optimization-runtime-scratch-scaled-result.json",
+      "sha256": "8c054a6b419a7f6eb2e60928a2eedbceb061d662a9714c9aa714fcd7504a5afd"
+    },
+    {
+      "path": "runs/campaigns/resident-swiglu-bf16/optimization-runtime-scratch-small-result.json",
+      "sha256": "dfe2546df9ee21a32c25c1534a5474dba58014f4f18ae83d95283d0e0b23aeb0"
+    }
+  ],
+  "arms": {
+    "initial_baseline": {
+      "path": "runs/v2/20261023T120545Z-suite-reuse-8a7d395e/result.json",
+      "sha256": "897a400d695ad446c89a043f869b9d4c135558c8570cd12464eb317d91816f42"
+    },
+    "initial_candidate": {
+      "path": "runs/v2/20261023T120545Z-suite-reuse-6d8977dd/result.json",
+      "sha256": "9d915b2eb668f3c25df213d65be6f808dbd262a80429819dd0aa5c403c136162"
+    },
+    "fresh_baseline": {
+      "path": "runs/v2/20261023T120545Z-suite-reuse-d9851037/result.json",
+      "sha256": "1d9f326dd5228b1445a5d02885680a2c01cf66857673729a0c5dbc38e3effda0"
+    },
+    "fresh_candidate": {
+      "path": "runs/v2/20261023T120545Z-suite-reuse-f3c447cf/result.json",
+      "sha256": "58260510dacaf481aa35cba9a6129b2cb505e24e84bb5ef3c532e87ad83801cd"
+    }
+  },
+  "numerics": {
+    "path": "results/reports/2026-10-23/resident-swiglu-bf16/runtime-suite-numerics.json",
+    "sha256": "5032bb9839031229201b3932379f5c29840cdae97647d9c567423406de9e60f5"
+  },
+  "snapshots": {
+    "path": "results/reports/2026-10-23/resident-swiglu-bf16/runtime-suite-snapshots.json",
+    "sha256": "82baa800d915ff3e850b28399a6ee6913c61420bcc63a2aec0919be39d337ff9"
+  },
+  "case_count": 48,
+  "qwen_tps_result": false,
+  "scope": "One frozen parameterized runtime-scratch/tail4 source across both complete BF16 SwiGLU profiles and two paired seeds."
+}

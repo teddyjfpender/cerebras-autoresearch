@@ -18,6 +18,7 @@
     "decoder/decoder.json",
     "dense/reusable-gemm.json",
     "composed/resident-swiglu.json",
-    "composed/resident-swiglu-bf16.json"
+    "composed/resident-swiglu-bf16.json",
+    "composed/resident-swiglu-bf16-heldout.json"
   ]
 }

@@ -96,3 +96,8 @@ linked in results. These are scaled FP16/FP32 FFNs with no RMSNorm or attention.
 The [BF16-storage/FP32-accumulator chain](resident-swiglu-bf16.md) is a distinct
 precision contract. Native format/FMA probes passed; complete-chain device
 qualification remains outstanding until actual receipts are linked.
+
+Two additional BF16 SwiGLU workloads are registered but not yet device-qualified:
+`resident-swiglu-bf16.batch4-ffn` and `.batch32-h64-f192`. They share the fixed
+BF16/FP32 contract and add a distinct four-cell generalization suite. Current
+configuration is43 profiles,14 families,19 suites;27 independent-oracle profiles.

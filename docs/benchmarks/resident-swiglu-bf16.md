@@ -67,3 +67,14 @@ Half-word communication tiles must be complete and even-sized. Every G/U/V/D/Y
 stage is BF16 storage. In particular U and D must be quantized before the
 activation/product and residual respectively; keeping an unrounded internal
 FP32 value across those boundaries changes the declared precision contract.
+
+## Held-out workloads registered 2026-10-23
+
+Two additional profiles keep this oracle/precision/grid/timer contract and need
+new baselines: M4/H80/F272/T4 (`batch4-ffn`) and M32/H64/F192/T4
+(`batch32-h64-f192`). They test smaller batches and a different projection aspect
+ratio; the latter reaches exactly2*Mt==Ht in the scratch-capacity predicate.
+The candidate sources were frozen before any held-out device measurements in
+`experiments/incubator/resident-swiglu-bf16/heldout-runtime-freeze.json`.
+Registration is not qualification. The new four-cell suite is
+`resident-swiglu-bf16-generalization`; the original two-cell suite is unchanged.
