@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "status": "fixed_bulk_fp32_arithmetic_preflight_passed",
+  "script_sha256": "0e0f2da4574d97d1dc8c1d505d5fae91791e6e377335e02a3e6393a79a82afa9",
+  "records": [
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "case": "positive",
+      "source_artifact_sha256": "40aaab3bcf2858be2c3c75dd733b4a292ddcec85f0453181ec44182b4b798fb3",
+      "max_error_fraction": 0.9841135503913011,
+      "passed": true
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "case": "signed",
+      "source_artifact_sha256": "c253184e685c0cca4611b21e948d2d3debd276a80ff5c253230cfa3b5a837049",
+      "max_error_fraction": 0.9326762875082983,
+      "passed": true
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "case": "zero",
+      "source_artifact_sha256": "e37ec730be99b7b0f4f06b1258cc1b2cbe7490b3bf3a07062a10c570c831c474",
+      "max_error_fraction": 0.33208349401230286,
+      "passed": true
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "case": "cancellation",
+      "source_artifact_sha256": "736af68154980bcccb0fc1aa06a59fde9d541fe4ae83569e620a423b4faa5734",
+      "max_error_fraction": 0.7943537575645192,
+      "passed": true
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "case": "one_hot",
+      "source_artifact_sha256": "f683628a33733ea45b0ed1528f45209f9c5bae64ce58cac34c7de2dd90152a10",
+      "max_error_fraction": 0.9552986346009706,
+      "passed": true
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "case": "mixed_scale",
+      "source_artifact_sha256": "9bb2bc957f4644215be3fb236e7d896d8eacd68b0553ea39e9b672e9eaef16c8",
+      "max_error_fraction": 0.9515543468893818,
+      "passed": true
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "case": "positive",
+      "source_artifact_sha256": "2130ac34c72eb3f85ef7477ddbff021f47cae3049c1513ab4314a780fbd021a1",
+      "max_error_fraction": 0.9910563916502292,
+      "passed": true
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "case": "signed",
+      "source_artifact_sha256": "9e88d4a0919c0dc88d70f14721d5dd606d611caeeae753960d5e8ef833fbaba1",
+      "max_error_fraction": 0.9683677883034042,
+      "passed": true
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "case": "zero",
+      "source_artifact_sha256": "218981e19b901784bb1acf0ad2aa7c7293cfc832a25ffeb81dfd41d71327c48a",
+      "max_error_fraction": 0.33272316639174343,
+      "passed": true
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "case": "cancellation",
+      "source_artifact_sha256": "d409e1c160321b3aae90b73379ea759e80299d7887c63b5d379f3feb2449ec81",
+      "max_error_fraction": 0.8414610568338559,
+      "passed": true
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "case": "one_hot",
+      "source_artifact_sha256": "1cb85d220972e4df2d4efde09811554102fef5cec6a2becc6e570a0264e8cef9",
+      "max_error_fraction": 0.990850429113539,
+      "passed": true
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "case": "mixed_scale",
+      "source_artifact_sha256": "73b8a405f0d432e64f9a064f46168356247b6b06bfcb5c16bcc8acac52db65ef",
+      "max_error_fraction": 0.9483069530126391,
+      "passed": true
+    }
+  ],
+  "sdk_device_execution": false,
+  "performance_measurement": false,
+  "qwen_tps_result": false,
+  "scope": "FP32 MUL/ADD and four-partial arithmetic, using actual verified normalized/decay prefixes. mem4d traversal, compiler behavior, aliasing, complete timed work and device speed require SDK runs."
+}

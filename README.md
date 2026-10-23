@@ -150,3 +150,7 @@ local because the compiler/container is not redistributed. See
 The original `tools/kernel_research.py` and `tools/inference_benchmark.py`
 commands remain compatibility entry points. Hosted API telemetry follows its
 [separate protocol](docs/telemetry/api-protocol.md) and has no kernel score.
+
+The [current inference priority](docs/research/inference-priority.md) pins the
+DeepInfer and Model Zoo reference roles and the gates between simulator kernels,
+complete native operators and eventual model/runtime performance claims.

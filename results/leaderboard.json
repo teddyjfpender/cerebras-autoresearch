@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 424,
-  "ledger_head": "2fdc26e02066307db13fe7c7f8e6de6d2940248bd11f7a7c50461e94ac0c33f4",
+  "ledger_rows": 438,
+  "ledger_head": "17affbb4ef4c8f374166f36be8cadfc60e9d0762ced9050185e24221ae317ff6",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -901,6 +901,32 @@
       "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
       "receipt": "runs/v2/20261023T142715Z-recurrent-gdn-native.k128-v128-t8-c3bf1dbf/result.json",
       "decision": "baseline"
+    },
+    {
+      "event_id": "eb4f72874aff59533d95dddaf6921bd17801af0b507caf1ddb2925600cad1992",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "native_gdn.convert_once_vector_normalization",
+      "candidate": "native-gdn-vector-norm",
+      "variant": "candidate",
+      "primary_value": "168384.0",
+      "memory_bytes": "41728",
+      "source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T145128Z-recurrent-gdn-native.k128-v128-t8-3f258349/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "d74592392f20d927c8d3a8c2defeee00a3fb0a44c1611634a924df9f31297e41",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.convert_once_vector_normalization",
+      "candidate": "native-gdn-vector-norm",
+      "variant": "candidate",
+      "primary_value": "92660.0",
+      "memory_bytes": "39648",
+      "source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T153458Z-recurrent-gdn-native.k128-v128-t4-82b87f5b/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "measured_cycle_memory_front": [
@@ -2177,6 +2203,71 @@
       "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
       "receipt": "runs/v2/20261023T142715Z-recurrent-gdn-native.k128-v128-t8-c3bf1dbf/result.json",
       "decision": "baseline"
+    },
+    {
+      "event_id": "eb4f72874aff59533d95dddaf6921bd17801af0b507caf1ddb2925600cad1992",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "native_gdn.convert_once_vector_normalization",
+      "candidate": "native-gdn-vector-norm",
+      "variant": "candidate",
+      "primary_value": "168384.0",
+      "memory_bytes": "41728",
+      "source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T145128Z-recurrent-gdn-native.k128-v128-t8-3f258349/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "8201b1f9f99dc400f40102e15f8bbed5f049d00422cbc39d5c0a3718c5927aa5",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "recurrent_gdn_native.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "211278.0",
+      "memory_bytes": "41536",
+      "source_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T150431Z-recurrent-gdn-native.k128-v128-t8-2cfcaa56/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "633d076a421bc7302813ac6396e85940a491a848a92afe77c732d42231a09f4b",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "native_gdn.convert_once_vector_normalization",
+      "candidate": "native-gdn-vector-norm",
+      "variant": "candidate",
+      "primary_value": "168384.0",
+      "memory_bytes": "41728",
+      "source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T151907Z-recurrent-gdn-native.k128-v128-t8-e4f61a51/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "d74592392f20d927c8d3a8c2defeee00a3fb0a44c1611634a924df9f31297e41",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.convert_once_vector_normalization",
+      "candidate": "native-gdn-vector-norm",
+      "variant": "candidate",
+      "primary_value": "92660.0",
+      "memory_bytes": "39648",
+      "source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T153458Z-recurrent-gdn-native.k128-v128-t4-82b87f5b/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "1f7a2294d57ad3eb087256a460a4b85b8272d5664974c1ffbdeb735aed73cdc5",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "recurrent_gdn_native.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "115634.0",
+      "memory_bytes": "39472",
+      "source_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T153858Z-recurrent-gdn-native.k128-v128-t4-5f1d2c2d/result.json",
+      "decision": "baseline"
     }
   ],
   "confirmed_improvements": [
@@ -2608,6 +2699,19 @@
       "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
       "receipt": "runs/v2/20261023T140110Z-confirmation-cf4a3c05/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "9ff33f94bea9a98fa2b4864f4c15401a0023eb51c46364367f1809ab2538b168",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "native_gdn.convert_once_vector_normalization",
+      "candidate": "native-gdn-vector-norm",
+      "variant": "candidate",
+      "primary_value": "168384.0",
+      "memory_bytes": "41728",
+      "source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T153223Z-confirmation-b3ce6112/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -2952,6 +3056,25 @@
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
       "speedup": "7.5439056674802965",
       "memory_ratio": "1.0080321285140563"
+    },
+    {
+      "event_id": "9ff33f94bea9a98fa2b4864f4c15401a0023eb51c46364367f1809ab2538b168",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "native_gdn.convert_once_vector_normalization",
+      "candidate": "native-gdn-vector-norm",
+      "variant": "candidate",
+      "primary_value": "168384.0",
+      "memory_bytes": "41728",
+      "source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T153223Z-confirmation-b3ce6112/result.json",
+      "decision": "confirmed",
+      "profile_sha256": "b874b1d7237e81635c7c907c6568b88df41e342206e68791dc78e7fa1d0dda54",
+      "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "harness_sha256": "5a36598ee5cbd4d3b78fd47cb9a9b443e9f994540be69821d82c2db9d863ab52",
+      "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+      "speedup": "1.2547391676168758",
+      "memory_ratio": "1.00462249614792"
     }
   ],
   "confirmed_suite_events": [

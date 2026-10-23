@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "references": [
+    {
+      "name": "deepinfer",
+      "repository": "https://github.com/deepseek-ai/DeepInfer",
+      "commit": "9bd9cf243fc53ef9afbf8f04d391d989117d6ab9",
+      "role": "inference design and benchmark-method reference",
+      "executed_benchmark": false,
+      "files": {
+        "README.md": "b55624158ada4dc21b882d24ded06bf82f65350b44d170877b68395712cd670d",
+        "examples/sweep/run_sweep.sh": "bc15882ffef797e93b724233d71395f2b49973463572e797a2fff5148d50ca5c",
+        "examples/benchmark.py": "a4e0b114b4173b9d2124cdabfedc54d3dd5cd81d269d7054c48f9bac780eb9f2"
+      }
+    },
+    {
+      "name": "modelzoo",
+      "repository": "https://github.com/Cerebras/modelzoo",
+      "commit": "d76e028d6a5f784954b1329b3ae44721ca8da36a",
+      "role": "model/layer/training reference; no backend execution",
+      "executed_benchmark": false,
+      "files": {
+        "README.md": "3da50143914bdb1457f0aa24935f0acf97537d48dd80580456a3150501509bed",
+        "requirements.txt": "3ea007d44258b50edac0f768fdd5be1560902609f3a9b7d4efa47715ee431ab3",
+        "src/cerebras/modelzoo/layers/RMSNorm.py": "f04c6cfac0874fc13849ecbe2ff674ba1f529ee377b8a4f9d95f8ce70f9aa093",
+        "src/cerebras/modelzoo/layers/FeedForwardNetwork.py": "9370838506b8e796f1bae99d5e2d5c8b4ab688477c25b3d32e64b9f787248479",
+        "src/cerebras/modelzoo/layers/activations.py": "806ea3c44e14e5db3837abf1671c087c821bf41febd34025079588a89b535002"
+      }
+    }
+  ],
+  "priority": "full native Qwen recurrent operator",
+  "configuration_is_not_execution_proof": true
+}

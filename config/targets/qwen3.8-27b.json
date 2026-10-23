@@ -15,5 +15,8 @@
   "linear_num_value_heads": 48,
   "linear_key_head_dim": 128,
   "linear_value_head_dim": 128,
-  "mtp_num_hidden_layers": 1
+  "mtp_num_hidden_layers": 1,
+  "mamba_ssm_dtype": "float32",
+  "linear_conv_kernel_dim": 4,
+  "model_type": "qwen3_5"
 }
