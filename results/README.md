@@ -303,3 +303,20 @@ The [experiment index](../EXPERIMENTS.md) links the original research.
 For new attempts, use the [protocol](../docs/experiments/protocol.md), preserve raw
 artifacts, and export a new uniquely named report. Simulator results alone do
 not establish hardware TPS, energy, sustained service capacity, or model speed.
+
+## Resident GEMM first optimization pass (2026-10-23)
+
+On the separately qualified Rosetta SDK platform, contiguous row accumulation
+and a timed vector pack reduce FFN-up's complete four-frame sequence from
+95,611 to 75,962 cycles (1.25867x; 20.55% fewer cycles). Program-object memory
+increases from 29,792 to 30,848 bytes per PE (+3.54%). All six cases pass at
+seeds 20261027 and 20261028. The fixed canonical-input and complete per-frame
+weight-state checks pass. Independent replay corroborates all 24 paired cases,
+including every saved output/state/timestamp against the simulator cores.
+
+Tiny and FFN-down retain their reference implementations: none of the four
+first approaches passed the 1.05x cycle gate. This is a profile-specific gain.
+
+- [Campaign and rejected screens](reports/2026-10-23-resident-gemm-initial-campaign.json)
+- [24-case numerical replay](reports/2026-10-23-resident-gemm-initial-up-numerics.json)
+- [24-case core/state/timer replay](reports/2026-10-23-resident-gemm-initial-up-snapshots.json)

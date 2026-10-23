@@ -26,3 +26,8 @@ complete suite coverage and worst-cell guards. No model or hardware TPS follows.
 At the deadline, stop starting work, preserve any interrupted attempt, reconcile
 and verify the TSV, and export compact evidence for completed results. Historical
 receipts and raw evidence remain immutable.
+
+The first optimization campaign completed with one confirmed profile gain:
+FFN-up 95,611 -> 75,962 cycles, +3.54% program memory, all six cases at both
+seeds. Tiny and FFN-down rejected all four initial approaches for insufficient
+speed. Every terminal attempt/decision is journaled (216 events at this checkpoint).

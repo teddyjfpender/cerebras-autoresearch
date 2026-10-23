@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 199,
-  "ledger_head": "9dfb37a3b313ff074f132f3f5d028ca52e58ac08ba09c350d22083d15f1ff2be",
+  "ledger_rows": 216,
+  "ledger_head": "d1d7aeecc8f8c215e2d0c9a5d4b29f1116f409e3237c5f63db273a5aa0968e21",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -498,6 +498,19 @@
       "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
       "receipt": "runs/v2/20261023T081851Z-reusable-gemm.prefill-ffn-down-scaled-33fe8cf4/result.json",
       "decision": "baseline"
+    },
+    {
+      "event_id": "f7f14409e013e7b5918a6759ae1227763f7f43dd31cbfe8aa552831c2d07cc0b",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "resident-gemm.contiguous-columns-vector-pack",
+      "candidate": "resident-gemm-row-major-pack",
+      "variant": "candidate",
+      "primary_value": "75962.0",
+      "memory_bytes": "30848",
+      "source_sha256": "f6c3dd5bb4868961467c4eb860fbd7e9081cb74353eb6bdfe7beccbab4214cb0",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T083355Z-reusable-gemm.prefill-ffn-up-scaled-e967b426/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "measured_cycle_memory_front": [
@@ -1202,6 +1215,45 @@
       "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
       "receipt": "runs/v2/20261023T081851Z-reusable-gemm.prefill-ffn-down-scaled-33fe8cf4/result.json",
       "decision": "baseline"
+    },
+    {
+      "event_id": "f7f14409e013e7b5918a6759ae1227763f7f43dd31cbfe8aa552831c2d07cc0b",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "resident-gemm.contiguous-columns-vector-pack",
+      "candidate": "resident-gemm-row-major-pack",
+      "variant": "candidate",
+      "primary_value": "75962.0",
+      "memory_bytes": "30848",
+      "source_sha256": "f6c3dd5bb4868961467c4eb860fbd7e9081cb74353eb6bdfe7beccbab4214cb0",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T083355Z-reusable-gemm.prefill-ffn-up-scaled-e967b426/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "9936ffa11c564df83a36dd074d1ba8f4912eca6391ad9cd07a4b6566c3c822c5",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "reusable_gemm.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "95611.0",
+      "memory_bytes": "29792",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T083531Z-reusable-gemm.prefill-ffn-up-scaled-a80ce033/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "a17f0bbc9374449e2fbe9afbcdeef715da10c842acad2aee521bfca966569c90",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "resident-gemm.contiguous-columns-vector-pack",
+      "candidate": "resident-gemm-row-major-pack",
+      "variant": "candidate",
+      "primary_value": "75962.0",
+      "memory_bytes": "30848",
+      "source_sha256": "f6c3dd5bb4868961467c4eb860fbd7e9081cb74353eb6bdfe7beccbab4214cb0",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T083720Z-reusable-gemm.prefill-ffn-up-scaled-e1632a2d/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "confirmed_improvements": [
@@ -1373,6 +1425,19 @@
       "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
       "receipt": "runs/v2/20261023T054951Z-confirmation-3383ab97/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "3eb937b90daeb0fb17d831897760bb4b2925ae9ed92c898c3023c744e45ef725",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "resident-gemm.contiguous-columns-vector-pack",
+      "candidate": "resident-gemm-row-major-pack",
+      "variant": "candidate",
+      "primary_value": "75962.0",
+      "memory_bytes": "30848",
+      "source_sha256": "f6c3dd5bb4868961467c4eb860fbd7e9081cb74353eb6bdfe7beccbab4214cb0",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T083855Z-confirmation-90e5032d/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -1527,6 +1592,25 @@
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
       "speedup": "1.2738539153323096",
       "memory_ratio": "1.08994708994709"
+    },
+    {
+      "event_id": "3eb937b90daeb0fb17d831897760bb4b2925ae9ed92c898c3023c744e45ef725",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "resident-gemm.contiguous-columns-vector-pack",
+      "candidate": "resident-gemm-row-major-pack",
+      "variant": "candidate",
+      "primary_value": "75962.0",
+      "memory_bytes": "30848",
+      "source_sha256": "f6c3dd5bb4868961467c4eb860fbd7e9081cb74353eb6bdfe7beccbab4214cb0",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T083855Z-confirmation-90e5032d/result.json",
+      "decision": "confirmed",
+      "profile_sha256": "991ae58752d98b5f26106f26b40d4dc5c5fc47d900609d5c43b2cdd2da5aef70",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+      "speedup": "1.2586688080882547",
+      "memory_ratio": "1.0354457572502684"
     }
   ],
   "confirmed_suite_events": [
