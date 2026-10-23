@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "status": "upstream_raw_tensors_replayed_in_sdk_numpy",
+  "reference": {
+    "path": "runs/maintenance/recurrent-gdn-upstream-reference-v2.json",
+    "sha256": "7d74b8857c8e082051650d89efb5216ed0d81974856c0c5b5e1acb352be9a986"
+  },
+  "script_sha256": "03153248d73a71343d685fc0513d9174277ffc6f733fdb7773617f71446a1713",
+  "oracle_sha256": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+  "numpy_version": "1.25.0",
+  "records": [
+    {
+      "K": 16,
+      "V": 16,
+      "case": "positive",
+      "seed": 20261035,
+      "input_sha256": "fa4665cd07f770724f109be75e6e8a81b18482dc54a4b5044afe44474093e3f6",
+      "artifact_sha256": "846866421a8bfcc399bb1af524f47a132ddf12d82bfe1ae855eed3ab3a8a14a2",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.9773891819166876
+    },
+    {
+      "K": 16,
+      "V": 16,
+      "case": "signed",
+      "seed": 20261035,
+      "input_sha256": "693932ce70def84772398a266f91a35cd92e6dc30f4f02c0fbaa87f0d9df7a03",
+      "artifact_sha256": "2045837da54d3de812534ab8a24212fcc85d29df9e62a7a036ebc6ce3bc3efe3",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.9783894071362635
+    },
+    {
+      "K": 16,
+      "V": 16,
+      "case": "zero",
+      "seed": 20261035,
+      "input_sha256": "df5305340231c8bbb1d13bc6a9c40172c4849bfe3ec6c33e5f568c8a1da2d459",
+      "artifact_sha256": "9646fc8a50088aead35dfbf517d8afa6474b5189edfea727be8d002100c42f45",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.3315196637413266
+    },
+    {
+      "K": 16,
+      "V": 16,
+      "case": "cancellation",
+      "seed": 20261035,
+      "input_sha256": "4e49e8493ecfbb5d8e7694f02952b8ddb89c5725486881d11d7826260e1b8833",
+      "artifact_sha256": "e9fc73fc69baa1bf4406360ce8bf261463ce541f3d21357a7ff15adafc998f08",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.9171996527560674
+    },
+    {
+      "K": 16,
+      "V": 16,
+      "case": "one_hot",
+      "seed": 20261035,
+      "input_sha256": "4766b372a9f6b397f78717d53332e58ba4914465fb243231d3dd1362a04dccdc",
+      "artifact_sha256": "3a7922c4801695198898a8ff98ec3001b31f80f929e2e219c5b831c15621fc9b",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.9678755504802136
+    },
+    {
+      "K": 16,
+      "V": 16,
+      "case": "mixed_scale",
+      "seed": 20261035,
+      "input_sha256": "6f6915b3ff795b20acd1d0c4d95e0ee62b3267218f8eed8634bc650f6a27d2d7",
+      "artifact_sha256": "3db59b9bea6a904a31f522c3ba55f1bbef8df46bed56b2786cd6b01172d2bdff",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.966684335640402
+    },
+    {
+      "K": 32,
+      "V": 16,
+      "case": "positive",
+      "seed": 20261035,
+      "input_sha256": "81e21ecb02f835fc0bd6d1d20aa8860748572393734be9168b762d6bd840f47c",
+      "artifact_sha256": "9bcbd1aa2bfdff7d70780d6b85337ca91222fda482b358d99dee43a2cada11de",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.984568527170457
+    },
+    {
+      "K": 32,
+      "V": 16,
+      "case": "signed",
+      "seed": 20261035,
+      "input_sha256": "a2d4490296b3934a42d16e477152ed6cbfa641a3720e643ef3a327c1ed1fc317",
+      "artifact_sha256": "b470e3e1ff8937f617b14ec7f39876facdba1d3ac5c41439119161ba0d493f47",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.9715226309513094
+    },
+    {
+      "K": 32,
+      "V": 16,
+      "case": "zero",
+      "seed": 20261035,
+      "input_sha256": "abd88e80238afc24f4894ae4926429901313420b33c3ef39e33d1037e28760c7",
+      "artifact_sha256": "4b83f68cda7386d22d0d3dbc700b031fa9102cdfddae049637d09c10b86fadaf",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.3323025131149799
+    },
+    {
+      "K": 32,
+      "V": 16,
+      "case": "cancellation",
+      "seed": 20261035,
+      "input_sha256": "8b769d416f39b4935fd73c2f2e6a3ac70bccf00e59b46cf6d6fdccd2672d78c8",
+      "artifact_sha256": "2f3e7bd0a6aaac270aada294d7af959ad1c36eeb597927d7561b68e028cb88ee",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.9052216345712438
+    },
+    {
+      "K": 32,
+      "V": 16,
+      "case": "one_hot",
+      "seed": 20261035,
+      "input_sha256": "bbfec9d0532abe3d8907b52092bd92a23d464a0066ad6f6fc1810f9e5c7c1780",
+      "artifact_sha256": "d00652084d73d199b4f4e6140404b4289f259117fd818b930afcc76cb2e21fe6",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.9829534537085656
+    },
+    {
+      "K": 32,
+      "V": 16,
+      "case": "mixed_scale",
+      "seed": 20261035,
+      "input_sha256": "31b297fbfdf70861af7853bdddbd493da00af1973f4b7f1477d0b301570644f7",
+      "artifact_sha256": "c915b5c8c705d82865e23e74d2cdeab2622580f87f548059833a44a44bd3b509",
+      "input_bits_match": true,
+      "passed": true,
+      "max_error_fraction": 0.9710468686852244
+    }
+  ],
+  "fixture_count": 12,
+  "sdk_device_execution": false,
+  "performance_measurement": false,
+  "qwen_tps_result": false,
+  "raw_report": {
+    "path": "runs/maintenance/recurrent-gdn-upstream-sdk-replay-v2.json",
+    "sha256": "62c2b21ffd44eff5d464c25614d9aa50bc0e06d07e127f56e4d422006575a826"
+  }
+}

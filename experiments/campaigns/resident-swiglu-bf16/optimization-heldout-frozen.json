@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "name": "bf16-original-frozen-winner-on-predeclared-heldout-shapes",
+  "seed": 20261033,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "resident-swiglu-bf16.batch4-ffn",
+      "baseline_receipt": "runs/v2/20261023T121213Z-resident-swiglu-bf16.batch4-ffn-5d0f88ec/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-vector-scratch-tail4-runtime"
+        }
+      ]
+    },
+    {
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "baseline_receipt": "runs/v2/20261023T121717Z-resident-swiglu-bf16.batch32-h64-f192-534a0aa4/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-vector-scratch-tail4-runtime"
+        }
+      ]
+    }
+  ]
+}

@@ -62,16 +62,17 @@ vector candidates' memory overrun; the rejected comptime pointer cast and
 compiler interruption remain journaled.
 
 The [initial scalar composition](reports/2026-10-23/resident-swiglu-bf16/initial-suite-confirmed.json)
-remains confirmed at1.451350x conservative mean with less memory. Its
+remains confirmed at 1.451350x conservative mean with less memory. Its
 [paired stage audit](reports/2026-10-23/resident-swiglu-bf16/initial-paired-stage-differences.json)
-found every G/U word identical in all24 matched case pairs (233,472 values per
+found every G/U word identical in all 24 matched case pairs (233,472 values per
 stage). The bounded approximation changes some V/D/Y words; the original local
 and ideal full-chain bounds passed separately. The
 [baseline qualification](reports/2026-10-23/resident-swiglu-bf16/qualification.json)
 and all historical reports are unchanged. These are scaled FFN operator results.
 
-Two additional workloads are now configured with fresh baselines pending:
-M4/H80/F272 and M32/H64/F192, eachT4 on16 PEs. They form the distinct four-cell
+Two additional workloads now have full six-case baselines and independent
+numerical/core replay: M4/H80/F272 at 383,514 cycles (36,544 program bytes/PE),
+and M32/H64/F192 at 651,264 cycles (37,648 bytes/PE), each T4 on 16 PEs. They form the distinct four-cell
 `resident-swiglu-bf16-generalization` suite with the original profiles. Candidate
 source identities were frozen before any held-out device observations.
 
@@ -100,9 +101,8 @@ stores. Compare matched arms within one profile. The blocks are scaled FP32
 local programs; no Qwen/model/hardware TPS claim follows.
 
 Across historical evaluator tracks, the current 43-profile catalog has
-**20 full independent baselines, 14 reference checks and two diagnostics**:
-36 exercised profiles. Two new BF16 held-out workloads await qualification;
-five older independent shapes also remain unqualified:
+**22 full independent baselines, 14 reference checks and two diagnostics**:
+38 exercised profiles. Five older independent shapes remain unqualified:
 `meshgemm.cold-square32`, `meshgemm.cold-rectangular`, `meshgemv.ffn-down-scaled`,
 `meshgemv.square128`, and `pipeline.k64-n32`.
 
@@ -414,7 +414,7 @@ experiments failed compilation or simulation and were not retained.
 FFN-down's reference column map benefits from array-form output-descriptor
 base resets: 128,315 -> 120,701 cycles (1.06308x; 5.934% fewer cycles), with
 30,112 vs 30,160 program bytes/PE. All six cases pass both seeds20261029/20261030;
-all24 paired cases pass independent FP64 numerical replay and complete core
+all 24 paired cases pass independent FP64 numerical replay and complete core
 output/state/timestamp corroboration. Tiny's same-approach screen is only
 1.02527x and is not individually retained. The combined dispatcher is awaiting
 full complete-suite qualification.

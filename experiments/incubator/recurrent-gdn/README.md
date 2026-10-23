@@ -17,3 +17,30 @@ transport, raw 48-bit clock wrap, stale cores and shutdown failures.
 Live benchmark drivers/manifests are untouched while BF16 SwiGLU runs. Before any
 device bringup, register the complete numerical/timing/precision contract and
 replay tests on a distinct evaluator, then obtain new full six-case baselines.
+
+## Upstream function correspondence checked
+
+The [unscored CPU reference](../../../results/reports/2026-10-23/recurrent-gdn/upstream-reference.json)
+executes the pinned recurrent fallback math body unchanged, with dispatch
+wrappers removed. A read-only Python trace captures its actual normalization,
+exp, delta and every token state. All 12 fixtures (six families, both widths)
+passed the fixed independent local and full-chain bounds. Full raw tensors are
+hashed and retained. `verify_upstream_inputs.py` also
+[replayed those tensors in SDK NumPy](../../../results/reports/2026-10-23/recurrent-gdn/upstream-sdk-replay.json)
+and verified bit-identical fixture inputs across both environments. This is
+upstream operator correspondence, not a model run or device performance result.
+
+To reproduce on this macOS host, obtain the pinned file named in `reference.json`
+at `runs/references/qwen3_5/modeling_qwen3_5.py`, then run:
+
+```sh
+uv run --no-project --python 3.12 --with torch==2.8.0 --with numpy==2.2.6 \
+  experiments/incubator/recurrent-gdn/upstream_reference_probe.py \
+  --output runs/maintenance/my-upstream-reference.json
+tools/sdk-run cs_python experiments/incubator/recurrent-gdn/verify_upstream_inputs.py \
+  --reference runs/maintenance/my-upstream-reference.json \
+  --output runs/maintenance/my-upstream-sdk-replay.json
+```
+
+Each output and its raw directory must be new; the tools refuse overwrites.
+The reference uses CPU only and installs no Torch dependency into the SDK image.
