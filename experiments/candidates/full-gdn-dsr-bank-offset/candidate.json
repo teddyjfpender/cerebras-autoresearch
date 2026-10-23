@@ -1,0 +1,24 @@
+{
+  "adapter": "recurrent_gdn_full",
+  "initial_profile": "recurrent-gdn-full.k128-v128-h16-t2",
+  "source": {
+    "repository": "local",
+    "reference_repository": "https://github.com/huggingface/transformers",
+    "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+    "implementation": "independent FP32 vector reference, full native16 key/48 value heads, two tokens"
+  },
+  "baseline_tree_sha256": "1f9009faeb5c3e66e12cf10eccbc2988cef076e57cbb2fc0449801c15fb107ba",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "full_gdn.bank_offset_dsr_row_reuse",
+  "hypothesis": "Offset the aligned FP32 projection/readout accumulator by one word to separate SRAM banks from aligned state rows. Preload dedicated DSR bank2: persistent row addresses advance automatically, accumulator/delta addresses reset. Remove per-K descriptor reload/increment while preserving every ascending-K FMA.",
+  "falsification": "Reject any changed normalization/exp/FMA ordering, skipped K/V term/group/token/history, descriptor overrun or bank side effect, fixed numerical/state/precision/timing failure, shutdown failure, speedup below1.05x or memory above1.10x. Full six-case matched and fresh pairs required; PR1 GQA gains do not establish recurrent gains.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "parent_candidate": "full-gdn-vector-norm",
+  "parent_tree_sha256": "210c27f1a6ece8d19fd3dc543391bb8d53bf9823f3e20a7037b7f434cc326e16",
+  "reference_pr": "https://github.com/teddyjfpender/cerebras-autoresearch/pull/1",
+  "reference_commit": "5e818e10b7740daaa0d5e2962f7010100385e0e1",
+  "reference_source_sha256": "c147c923b11e1c2eb2c943417e745c8f764b1b715960f9aeaf4f2a13dc14039b"
+}

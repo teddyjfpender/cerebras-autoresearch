@@ -2,11 +2,12 @@
 
 The active target is the **full native Qwen recurrent operator**:16 key heads,
 48 value heads, K128/V128, BF16 Q/K/V/output and FP32 state, with every requested
-state update/readout validated. The proposed full-head workload is a fixed
+state update/readout validated. The registered full-head workload is a fixed
 two-token decode pair on768 PEs. Existing one-group T4/T8 profiles establish
 longer recurrence coverage. These are distinct contracts with new baselines.
 
-The priority is to finish native confirmations, freeze a transferable candidate,
+The native T4/T8 normalization-reuse suite is confirmed at1.251334× geometric
+mean, with all48 paired cases independently replayed. The priority is now to
 qualify the full-head reference and confirm a full-head improvement with fresh
 paired seeds and complete raw numerical/core/timer replay. All terminal V2
 attempts/decisions remain in the append-only TSV. Profile-specific simulator

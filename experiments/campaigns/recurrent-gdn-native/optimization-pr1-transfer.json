@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "name": "pr1-bank-and-dsr-transfer-native-t4",
+  "seed": 20261043,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-pr1-dsr-bank-offset"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-pr1-bank-offset"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-vector-norm"
+        }
+      ]
+    }
+  ]
+}
