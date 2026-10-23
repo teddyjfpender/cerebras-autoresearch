@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "resident-swiglu-bf16.small",
+      "adapter": "resident_swiglu_bf16",
+      "family": "distributed-resident-swiglu",
+      "dimensions": {
+        "M": 16,
+        "H": 16,
+        "F": 32,
+        "T": 4
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "bf16-fp32-accum",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 196608,
+      "work_unit": "projection_arithmetic_operations",
+      "description": "Four resident BF16 batches through three BF16-operand/FP32-accumulator projections, FP32 SiLU/product/residual, BF16 stage/output storage; complete stage and canonical/boundary state checks.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+      }
+    },
+    {
+      "id": "resident-swiglu-bf16.ffn-scaled",
+      "adapter": "resident_swiglu_bf16",
+      "family": "distributed-resident-swiglu",
+      "dimensions": {
+        "M": 16,
+        "H": 80,
+        "F": 272,
+        "T": 4
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "bf16-fp32-accum",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 8355840,
+      "work_unit": "projection_arithmetic_operations",
+      "description": "Four resident BF16 batches through three BF16-operand/FP32-accumulator projections, FP32 SiLU/product/residual, BF16 stage/output storage; complete stage and canonical/boundary state checks.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+      }
+    }
+  ]
+}

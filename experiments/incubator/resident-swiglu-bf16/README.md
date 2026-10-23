@@ -1,4 +1,4 @@
-# BF16 resident FFN direction — unregistered
+# BF16 resident FFN precision development
 
 Priority after the distributed FP16/FP32 chain qualifies: determine whether this
 installed SDK can execute native BF16 operands with FP32 accumulation, then
@@ -29,4 +29,8 @@ passed exact BF16 scalar/vector round-to-nearest-even conversions, round trips,
 normal/subnormal operands, canonical input bits and BF16-product/FP32-accumulator
 FMA. This is a16-value unscored capability fixture with no cycle measurement.
 It establishes a viable precision path, not a qualified FFN or model benchmark.
-The separate BF16 chain contract/oracle and fresh baselines remain to be built.
+The separate BF16 chain contract/oracle is now registered under
+`resident-swiglu-bf16.small` and `.ffn-scaled`; device qualification is pending.
+This folder preserves the original staging/probe sources. Active benchmark
+sources live under `kernels/composed/resident-swiglu-bf16/`; optimization uses
+`candidate-init` workspaces.

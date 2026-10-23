@@ -148,10 +148,16 @@ def execute(
                 "decoder": "resident.py",
                 "reusable_gemm": "reusable_gemm.py",
                 "resident_swiglu": "resident_swiglu.py",
+                "resident_swiglu_bf16": "resident_swiglu_bf16.py",
             }.get(kind, "dense.py")
             for case in CASES[:1] if screen else CASES:
                 args = ["cs_python", driver, "--name", "out", "--case", case, "--seed", str(seed)]
-                if kind not in ("pipeline", "reusable_gemm", "resident_swiglu"):
+                if kind not in (
+                    "pipeline",
+                    "reusable_gemm",
+                    "resident_swiglu",
+                    "resident_swiglu_bf16",
+                ):
                     args.extend(["--kind", kind])
                 log = step(args)
                 if "SUCCESS!" not in log:
@@ -178,7 +184,7 @@ def execute(
                 record["metrics"][
                     "cycles_per_frame" if kind == "gated_mlp" else "cycles_per_token"
                 ] = record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
-            if kind == "resident_swiglu":
+            if kind in ("resident_swiglu", "resident_swiglu_bf16"):
                 record["metrics"]["cycles_per_frame"] = (
                     record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
                 )

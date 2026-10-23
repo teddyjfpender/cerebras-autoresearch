@@ -34,3 +34,5 @@ sdk-test:
 	tools/sdk-run cs_python tests/integration/check_resident_swiglu_contracts.py
 	tools/sdk-run cs_python tests/integration/check_resident_swiglu_replay.py
 	tools/sdk-run cs_python tests/integration/check_snapshot_replay_contracts.py
+	tools/sdk-run cs_python tests/integration/check_resident_swiglu_bf16_contracts.py
+	tools/sdk-run cs_python tests/integration/check_bf16_chain_replay.py

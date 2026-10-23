@@ -64,6 +64,16 @@ def arrays_contract(profile):
             }
         )
         weight_count = ht * ft
+    elif profile["adapter"] == "resident_swiglu_bf16":
+        ht, ft = dims["H"] // p, dims["F"] // p
+        expected = dict(X_FRAMES=t * mt * ht, WG_CANON=ht * ft, WU_CANON=ht * ft, WD_CANON=ht * ft)
+        canonical = {name: "canonical_" + name for name in expected}
+        outputs = {
+            f"{k.upper()}_HISTORY": ("bits_" + k, ft if k in "guv" else ht, np.uint16, np.uint16)
+            for k in "guvdy"
+        }
+        expected.update({name: t * mt * n for name, (_, n, _, _) in outputs.items()})
+        weight_count = ht * ft
     else:
         raise ValueError("Unsupported full resident snapshot contract")
     expected.update({f"W_HISTORY_{i}": weight_count for i in range(t)})
@@ -95,6 +105,8 @@ def audit(manifest):
             if data["artifacts"].get(relative) != digest(core):
                 raise ValueError("Simulator core is missing or changed")
             captured = read_core_arrays(core, path.parent / "work/out/bin", p, expected)
+            if data["profile"]["adapter"] == "resident_swiglu_bf16":
+                captured = {name: value.view(np.uint16) for name, value in captured.items()}
             history = np.stack(
                 [captured[f"W_HISTORY_{i}"].reshape(p, p, wc) for i in range(t)], axis=2
             )

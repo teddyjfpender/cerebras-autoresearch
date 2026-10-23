@@ -5,6 +5,8 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 
 | Profile | Family | Precision | Validation | Primary |
 | --- | --- | --- | --- | --- |
+| `resident-swiglu-bf16.small` | distributed-resident-swiglu | bf16-fp32-accum | independent_six_case | max_local_cycles |
+| `resident-swiglu-bf16.ffn-scaled` | distributed-resident-swiglu | bf16-fp32-accum | independent_six_case | max_local_cycles |
 | `resident-swiglu.small` | distributed-resident-swiglu | fp16-fp32 | independent_six_case | max_local_cycles |
 | `resident-swiglu.ffn-scaled` | distributed-resident-swiglu | fp16-fp32 | independent_six_case | max_local_cycles |
 | `pipeline.k8-n8` | composed | fp32 | independent_six_case | max_local_cycles |
@@ -90,3 +92,7 @@ See [resident reusable GEMM](reusable-gemm.md) for its distinct sequence/state c
 The [distributed resident SwiGLU contract](resident-swiglu.md) defines two newly
 registered cells. Device qualification is outstanding until full receipts are
 linked in results. These are scaled FP16/FP32 FFNs with no RMSNorm or attention.
+
+The [BF16-storage/FP32-accumulator chain](resident-swiglu-bf16.md) is a distinct
+precision contract. Native format/FMA probes passed; complete-chain device
+qualification remains outstanding until actual receipts are linked.

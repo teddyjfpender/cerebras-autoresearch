@@ -12,6 +12,12 @@ def baseline_source(profile):
     kind = profile["adapter"]
     if kind == "pipeline":
         return ROOT / "kernels/composed/matvec-epilogue", {"repository": "local"}
+    if kind == "resident_swiglu_bf16":
+        return ROOT / "kernels/composed/resident-swiglu-bf16", {
+            "repository": "local",
+            "derived_from": "WaferLLM",
+            "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8",
+        }
     if kind == "resident_swiglu":
         return ROOT / "kernels/composed/resident-swiglu", {
             "repository": "local",
@@ -218,7 +224,7 @@ def prepare(profile, folder, variant, candidate=None):
             params = f"P:4,Mt:{dims['M'] // 4},Kt:{dims['K'] // 4},Nt:{dims['N'] // 4}"
             if kind == "reusable_gemm":
                 params += f",T:{dims['T']}"
-        elif kind == "resident_swiglu":
+        elif kind in ("resident_swiglu", "resident_swiglu_bf16"):
             params = (
                 f"P:4,Mt:{dims['M'] // 4},Ht:{dims['H'] // 4},Ft:{dims['F'] // 4},T:{dims['T']}"
             )
@@ -244,6 +250,8 @@ def prepare(profile, folder, variant, candidate=None):
             "--memcpy",
             "--channels=1",
         ]
+    if kind == "resident_swiglu_bf16":
+        compile_args.append("--fp16-format=bf16")
     for path in (ROOT / "benchmarks/drivers").glob("*.py"):
         destination = folder / (
             "benchmark_" + path.name if path.name == "pipeline.py" else path.name

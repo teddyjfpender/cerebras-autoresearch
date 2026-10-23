@@ -15,6 +15,7 @@ ADAPTERS = {
     "decoder",
     "reusable_gemm",
     "resident_swiglu",
+    "resident_swiglu_bf16",
     "sdk",
 }
 
@@ -77,6 +78,7 @@ def load_catalog():
                 "decoder": (0, 1),
                 "reusable_gemm": (0, 1),
                 "resident_swiglu": (0, 1),
+                "resident_swiglu_bf16": (0, 1),
             }[profile["adapter"]]
             timing = profile["timing_protocol"]
             if (timing["warmups"], timing["repeats"]) != expected_timing:
@@ -113,6 +115,23 @@ def load_catalog():
                 or profile["work_units"] != 6 * dims["T"] * dims["M"] * dims["H"] * dims["F"]
             ):
                 raise ValueError(f"Invalid resident SwiGLU sequence contract: {name}")
+        if profile["adapter"] == "resident_swiglu_bf16":
+            dims = profile["dimensions"]
+            if (
+                grid != [4, 4]
+                or set(dims) != {"M", "H", "F", "T"}
+                or dims.get("T") != 4
+                or any(dims[k] % 4 for k in ("M", "H", "F"))
+                or dims["F"] < dims["H"]
+                or (dims["M"] // 4) * (dims["F"] // 4) % 2
+                or (dims["H"] // 4) * (dims["F"] // 4) % 2
+                or profile["precision"] != "bf16-fp32-accum"
+                or profile.get("oracle_contract") != "resident_swiglu_sequence_bf16_fp32_v1"
+                or (dims["F"] + 4) * 2**-24 >= 1
+                or profile["work_unit"] != "projection_arithmetic_operations"
+                or profile["work_units"] != 6 * dims["T"] * dims["M"] * dims["H"] * dims["F"]
+            ):
+                raise ValueError(f"Invalid BF16 resident chain contract: {name}")
         if profile["adapter"] == "pipeline" and grid != [1, 1]:
             raise ValueError(f"Current pipeline adapter requires one PE: {name}")
         if profile["adapter"] in ("gated_mlp", "decoder"):

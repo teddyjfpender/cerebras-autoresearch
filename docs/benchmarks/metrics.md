@@ -92,3 +92,9 @@ The distributed [resident SwiGLU chain](resident-swiglu.md) declares
 instrumentation remain timed, but are excluded from that numerator.
 `amortized_cycles_per_batch_row` divides whole-sequence cycles by T*M; it is an
 instrumented workload average, not the latency of one row or a TPS measurement.
+
+Native BF16 resident FFN profiles have BF16 X/weights and G/U/V/D/Y storage,
+FP32 projection accumulators and nonlinear/residual computation, with explicit
+rounding at every stage boundary. They have a separate FP32-accumulator/BF16
+rounding oracle and their own baselines. Whole-chain timing includes every
+conversion. Do not combine their cycle scores with FP16 accumulation leagues.
