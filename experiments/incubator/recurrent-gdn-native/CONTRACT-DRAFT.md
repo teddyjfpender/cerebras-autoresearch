@@ -30,3 +30,11 @@ baseline and candidate within the same profile. Reconstruct complete logical
 128 x128 states from column shards for an independent FP64 check, then compare
 with the pinned upstream recurrent fallback. The native group is a model-shaped
 operator, not a full layer/model or a TPS result.
+
+
+Before any native device run, the staged baseline was strengthened to the FP32
+vector-state implementation used by the scaled candidate. Full native baselines
+and scaled fresh suite confirmation are required before optimization claims.
+The scalar source in this incubator remains an unscored mathematical prototype;
+it will not be used to inflate the primary native-width speedup. The staged
+source declares its parent file digest and R1/rectangular mapping adaptation.

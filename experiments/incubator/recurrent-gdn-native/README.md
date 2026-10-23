@@ -26,8 +26,15 @@ outputs and final FP32 state, without edits to the mathematical function body.
 input bit, and replays all saved tensors through the fixed native oracle. These
 are unscored correspondence checks; no model or device timing is measured.
 
-While the scaled evaluator remains staged, the scripts resolve shared driver
-helpers there. Once registered, change this dependency in a new source/report
-version before claiming a reproducible public contract. Raw reports are under
-`runs/maintenance/recurrent-gdn-native-upstream-*`; compact SHA-bound reports are
-under `results/reports/2026-10-23/recurrent-gdn-native/`.
+The probe scripts use the registered driver directory by default. Before native
+registration, pass `--drivers runs/staging/native-gdn-evaluator/benchmarks/drivers`
+to both scripts. Each new probe archives its actual script/oracle/error-model
+sources alongside the raw tensors. Historical reports stay immutable. Raw
+reports are under `runs/maintenance/recurrent-gdn-native-upstream-*`; compact
+SHA-bound reports are under `results/reports/2026-10-23/recurrent-gdn-native/`.
+
+The primary native baseline has been strengthened before any device run: it
+uses the scaled, freshly confirmed FP32 vector-state implementation. The scalar
+prototype here stays unscored. Native fixed-profile baselines and new paired
+qualification are still required; the scaled result does not qualify native
+widths or different PE budgets.

@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "status": "baseline_qualified",
+  "case_count": 12,
+  "records": [
+    {
+      "profile": {
+        "id": "recurrent-gdn.k16-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 16,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 350208,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "receipt": {
+        "path": "runs/v2/20261023T133631Z-recurrent-gdn.k16-v16-678410d7/result.json",
+        "sha256": "89927fdc884200c4771f20f1e849df86808622c66019b252e8fcc49a0d32a5ec"
+      },
+      "cycles": 316866.0,
+      "memory": 28480,
+      "numerics": {
+        "path": "results/reports/2026-10-23/recurrent-gdn/qualified-k16-numerics.json",
+        "sha256": "99ac4590b9bed2a576379dc9a3143fa698e2435bc55fea229f6849ae000e39d1"
+      },
+      "snapshots": {
+        "path": "results/reports/2026-10-23/recurrent-gdn/qualified-k16-snapshots.json",
+        "sha256": "bf081f024888f16598369616d02eaae241daa546ddd9ccdf74b101ad880e5576"
+      }
+    },
+    {
+      "profile": {
+        "id": "recurrent-gdn.k32-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 32,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 694272,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "receipt": {
+        "path": "runs/v2/20261023T134108Z-recurrent-gdn.k32-v16-06a7ba14/result.json",
+        "sha256": "879d389fd521a224d5ce5bdb1f7069948f2a5ed5e091db773702c8525f2d8c9e"
+      },
+      "cycles": 621215.0,
+      "memory": 47808,
+      "numerics": {
+        "path": "results/reports/2026-10-23/recurrent-gdn/qualified-k32-numerics.json",
+        "sha256": "784cf72c0396dc5914734f74747a92b7c09428306325f942391e3603ab6881f0"
+      },
+      "snapshots": {
+        "path": "results/reports/2026-10-23/recurrent-gdn/qualified-k32-snapshots.json",
+        "sha256": "b67b0c8347a6b4fb41cc73de96e3be1eaaa2825f7439e53d8701154b70190f66"
+      }
+    }
+  ],
+  "qwen_tps_result": false
+}

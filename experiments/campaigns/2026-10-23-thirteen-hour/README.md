@@ -46,3 +46,11 @@ BF16 Q/K/V/output. Full state/prefix histories, nonzero initial state and all
 physical immutable inputs are checked. Device baselines and optimization remain
 to be run. A native K128/V128 one-group follow-up is staged separately. The
 original deadline remains20:45:41 UTC; no model or hardware TPS is measured.
+
+
+At14:05 UTC, both recurrent-GDN widths have full scalar-reference baselines and
+one freshly confirmed FP32 vector candidate:7.350146x conservative suite mean,
+worst7.161137x, at most1.35% memory growth. All48 paired cases pass independent
+numerical and full core/state/timer replay.422 journal entries pass artifact and
+Git-prefix verification. The next native K128/V128 challenge starts from that
+vector implementation; the scalar reference gain is not a production comparison.

@@ -105,6 +105,33 @@ follow-up after held-out observations, not an unseen-shape claim.
 [96-case core/state/timer replay](reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-snapshots.json).
 These are simulator operator-chain results; Qwen TPS is unmeasured.
 
+## Resident recurrent gated-delta operator — confirmed vectorization
+
+One frozen `recurrent-gdn-vector-state` source passes both complete profiles and
+fresh paired seed: **7.350146x conservative geometric mean**, worst **7.161137x**.
+All **48 paired cases** pass independent numerical and complete core/state/timer
+replay, including every token's FP32 full state, normalized Q/K, decay, delta,
+BF16 output and all immutable canonical inputs. Memory growth is at most1.35%.
+
+| Profile | Initial reference → vector cycles | Fresh vector cycles | Program bytes/PE |
+| --- | ---: | ---: | ---: |
+| `recurrent-gdn.k16-v16` | 316,866 → 44,248 | 44,239 | 28,480 → 28,864 |
+| `recurrent-gdn.k32-v16` | 621,215 → 82,344 | 82,347 | 47,808 → 48,192 |
+
+The baseline is the repository's independent scalar CSL correctness reference,
+with fixed FP32 state and BF16 Q/K/V/output. It is not Cerebras's production
+runtime. This operator is after projections/convolution and precomputed g/beta,
+before gated output normalization/projection. No layer/model TPS is established.
+The initial native `math.exp` accuracy failure remains journaled; the reference
+was repaired before qualification without changing the fixed numerical bounds.
+
+[12-case baseline qualification](reports/2026-10-23/recurrent-gdn/qualification.json),
+[complete fresh suite](reports/2026-10-23/recurrent-gdn/vector-suite-confirmed.json),
+[48-case numerical replay](reports/2026-10-23/recurrent-gdn/vector-suite-numerics.json),
+[48-case core/state/timer replay](reports/2026-10-23/recurrent-gdn/vector-suite-snapshots.json).
+The native K128/V128 follow-up will use the vector implementation as its starting
+reference, with its own fixed PE budgets, full baselines and new qualification.
+
 ## Four inference tracks — qualified baselines
 
 All eight profiles passed six independent numerical families under one frozen
@@ -130,8 +157,8 @@ stores. Compare matched arms within one profile. The blocks are scaled FP32
 local programs; no Qwen/model/hardware TPS claim follows.
 
 Across historical evaluator tracks, the current 45-profile catalog has
-**22 full independent baselines, 14 reference checks and two diagnostics**:
-38 exercised profiles. Seven independent shapes remain unqualified: the two newly registered recurrent-GDN profiles and five older shapes:
+**24 full independent baselines, 14 reference checks and two diagnostics**:
+40 exercised profiles. Five older independent shapes remain unqualified:
 `meshgemm.cold-square32`, `meshgemm.cold-rectangular`, `meshgemv.ffn-down-scaled`,
 `meshgemv.square128`, and `pipeline.k64-n32`.
 

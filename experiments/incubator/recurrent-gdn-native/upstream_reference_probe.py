@@ -8,8 +8,10 @@ No SDK program, timer, promotion or full-model execution occurs here.
 import argparse
 import ast
 import hashlib
+import importlib
 import json
 import platform
+import shutil
 import sys
 from pathlib import Path
 
@@ -18,9 +20,7 @@ import torch
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
-sys.path.insert(0, str(ROOT / "runs/staging/recurrent-gdn-evaluator/benchmarks/drivers"))
 sys.path.insert(0, str(Path(__file__).parent))
-import oracle  # noqa: E402
 from common import CASES  # noqa: E402
 from resident_swiglu_bf16_oracle import decode, encode  # noqa: E402
 
@@ -151,14 +151,30 @@ def main():
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "runs/maintenance/recurrent-gdn-native-upstream-reference.json",
+        default=ROOT / "runs/maintenance/recurrent-gdn-native-upstream-reference-v5.json",
     )
+    parser.add_argument("--drivers", type=Path, default=ROOT / "benchmarks/drivers")
     args = parser.parse_args()
+    global oracle
+    sys.path.insert(0, str(args.drivers.resolve()))
+    oracle = importlib.import_module("recurrent_gdn_native_oracle")
     output = args.output.resolve()
     if output.exists():
         raise ValueError("Refuse to overwrite upstream reference fixture")
     raw_directory = output.with_suffix(".raw")
     raw_directory.mkdir(parents=True, exist_ok=False)
+    capsule = raw_directory / "source"
+    capsule.mkdir()
+    source_paths = [
+        Path(__file__),
+        Path(oracle.__file__),
+        Path(oracle.__file__).with_name("recurrent_gdn_oracle.py"),
+        ROOT / "experiments/incubator/recurrent-gdn/reference.json",
+        ROOT / "benchmarks/drivers/common.py",
+        ROOT / "benchmarks/drivers/resident_swiglu_bf16_oracle.py",
+    ]
+    for source in source_paths:
+        shutil.copy2(source, capsule / source.name)
     torch.set_num_threads(1)
     function, line, metadata = load_reference()
     records = [run_case(function, line, t, case, raw_directory) for t in (4, 8) for case in CASES]
@@ -168,15 +184,14 @@ def main():
         reference=metadata,
         script_sha256=sha(__file__),
         oracle_sha256=sha(oracle.__file__),
-        shared_error_model_sha256=sha(
-            ROOT / "runs/staging/recurrent-gdn-evaluator/benchmarks/drivers/recurrent_gdn_oracle.py"
-        ),
+        shared_error_model_sha256=sha(Path(oracle.__file__).with_name("recurrent_gdn_oracle.py")),
         torch_version=torch.__version__,
         numpy_version=np.__version__,
         platform=platform.platform(),
         math_body_modified=False,
         dispatch_decorators_removed=True,
         observation="Read-only Python line trace at the output assignment; captures actual normalized operands, decay, delta and every updated state.",
+        source_capsule={str(p.relative_to(ROOT)): sha(p) for p in capsule.iterdir()},
         records=records,
         fixture_count=len(records),
         sdk_execution=False,

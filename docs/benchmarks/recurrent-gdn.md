@@ -1,15 +1,16 @@
 # Resident recurrent gated delta rule — fixed contract v1
 
-Fixed before device bringup; staged for registration. No device measurement or
-model performance claim exists yet. The current BF16 SwiGLU evaluator remains
-frozen while its campaign executes.
+Registered, with both corrected six-case baselines device qualified and the
+complete vector-state suite freshly confirmed. The mathematical contract below
+was fixed before device bringup. These are scaled operator measurements, with no
+model or hardware TPS result. See [complete evidence](../../results/reports/2026-10-23/recurrent-gdn/vector-suite-confirmed.json).
 
 The target configuration uses the Qwen3_5 architecture, including 16 key heads
 and 48 value heads. The [pinned primary reference](https://github.com/huggingface/transformers/blob/129e8dc306932532e0b9e702d1fb4d5d7771c2a4/src/transformers/models/qwen3_5/modeling_qwen3_5.py#L424)
 is recorded in `kernels/attention/recurrent-gdn/reference.json`:
 Transformers `torch_recurrent_gated_delta_rule` and its caller explicitly convert
 to FP32, normalize Q/K, apply query scaling, decay the state, compute the delta,
-update the state and read the result. This benchmark will isolate that recurrent
+update the state and read the result. This benchmark isolates that recurrent
 operator after QKV/convolution and decay/beta projections; those preceding
 operators and the following gated normalization/output projection are outside
 its interface. A complete model or hybrid decoder needs them implemented too.
@@ -115,7 +116,7 @@ configuration alone or a host arithmetic fixture cannot qualify this contract.
 
 The independent oracle has a separate transition-matrix cross-check:
 `Snew = a*(I-beta*k*k^T)@S + beta*k*V^T`. This host check is algebraically
-independent of the staged scalar CSL traversal. It does not constitute an
+independent of the scalar CSL traversal. It does not constitute an
 execution of the upstream PyTorch model or a full model correspondence proof.
 
 ## Independent upstream correspondence fixture
@@ -127,8 +128,8 @@ this fixed local/full-chain oracle, and SDK NumPy regenerated bit-identical inpu
 and independently replayed the tensors. See the
 [reference evidence](../../results/reports/2026-10-23/recurrent-gdn/upstream-reference.json)
 and [SDK replay](../../results/reports/2026-10-23/recurrent-gdn/upstream-sdk-replay.json).
-These are upstream operator checks; device qualification and performance remain
-separate. No full model or surrounding projections/convolution were executed.
+These are upstream operator checks. Device qualification and performance are
+established separately by the SDK receipts linked below. No full model or surrounding projections/convolution were executed.
 
 
 ## Reference accuracy bringup
@@ -145,3 +146,10 @@ repair to an unqualified reference; it establishes no optimization speedup.
 The corrected source requires new full six-case baselines before retention.
 A1,004,650-point FP32 host emulation passed at max0.182451 of the original exp
 bound; device qualification is separate.
+
+
+Both corrected six-case baselines are now device qualified:316,866 cycles for
+K16 and621,215 for K32, with independent full numerical/core/timer replay. The
+vector-state candidate is freshly confirmed across the complete two-shape suite
+at7.350146x conservative geometric mean, with all48 paired cases replayed.
+[Complete evidence](../../results/reports/2026-10-23/recurrent-gdn/vector-suite-confirmed.json).

@@ -2,6 +2,7 @@
 
 import argparse
 import hashlib
+import importlib
 import json
 import sys
 from pathlib import Path
@@ -10,9 +11,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
-sys.path.insert(0, str(ROOT / "runs/staging/recurrent-gdn-evaluator/benchmarks/drivers"))
 sys.path.insert(0, str(Path(__file__).parent))
-import oracle  # noqa: E402
 
 
 def sha(path):
@@ -24,14 +23,17 @@ def main():
     parser.add_argument(
         "--reference",
         type=Path,
-        default=ROOT / "runs/maintenance/recurrent-gdn-native-upstream-reference-v3.json",
+        default=ROOT / "runs/maintenance/recurrent-gdn-native-upstream-reference-v5.json",
     )
     parser.add_argument(
         "--output",
         type=Path,
         default=ROOT / "runs/maintenance/recurrent-gdn-native-upstream-sdk-replay.json",
     )
+    parser.add_argument("--drivers", type=Path, default=ROOT / "benchmarks/drivers")
     args = parser.parse_args()
+    sys.path.insert(0, str(args.drivers.resolve()))
+    oracle = importlib.import_module("recurrent_gdn_native_oracle")
     args.reference = args.reference.resolve()
     args.output = args.output.resolve()
     if args.output.exists():
@@ -42,6 +44,9 @@ def main():
         or report["status"] != "upstream_cpu_reference_checked"
     ):
         raise ValueError("Oracle source or upstream fixture changed")
+    for path, digest in report.get("source_capsule", {}).items():
+        if sha(ROOT / path) != digest:
+            raise ValueError("Upstream source capsule changed")
     records = []
     for item in report["records"]:
         path = ROOT / item["artifact"]
