@@ -1,0 +1,22 @@
+{
+  "adapter": "recurrent_gdn_full",
+  "initial_profile": "recurrent-gdn-full.k128-v128-h16-t2",
+  "source": {
+    "repository": "local",
+    "reference_repository": "https://github.com/huggingface/transformers",
+    "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+    "implementation": "independent FP32 vector reference, full native16 key/48 value heads, two tokens"
+  },
+  "baseline_tree_sha256": "1f9009faeb5c3e66e12cf10eccbc2988cef076e57cbb2fc0449801c15fb107ba",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "full_gdn.constant_input_export_bringup",
+  "hypothesis": "Declare exported canonical-buffer pointers immutable while retaining writable BF16/FP32 arrays and exact initial inputs. This tests whether static address resolution improves the full-head setup path. The complete baseline arithmetic, every protected timer/store, PE budget and precision remain identical.",
+  "falsification": "Reject any canonical input-bit difference, lost token/head/term/state history, fixed numerical/precision/timing failure, raw timer/core mismatch or shutdown failure. A bounded positive screen supplies bringup evidence only; it cannot establish a retained speedup or full qualification without matched six-case and fresh paired controls.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "scope": "Full native16 key/48 value heads,K128/V128,T2,768 PEs; setup-only hypothesis, no model TPS.",
+  "precision_changed": false,
+  "timing_changed": false
+}

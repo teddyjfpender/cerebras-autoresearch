@@ -1,0 +1,30 @@
+param K: i16;
+param V: i16;
+param T: i16;
+const fp = @fp16();
+param W: i16;
+param H: i16;
+const memcpy = @import_module("<memcpy/get_params>", .{ .width = W, .height = H });
+layout {
+    @set_rectangle(W, H);
+    for (@range(i16, H)) |y| {
+        for (@range(i16, W)) |x| {
+            @set_tile_code(x, y, "pe.csl", .{ .memcpy_params = memcpy.get_params(x), .K = K, .V = V, .T = T });
+        }
+    }
+    @export_name("Q_CANON", [*]fp, false);
+    @export_name("K_CANON", [*]fp, false);
+    @export_name("V_CANON", [*]fp, false);
+    @export_name("G_CANON", [*]f32, false);
+    @export_name("BETA_CANON", [*]f32, false);
+    @export_name("S0", [*]f32, false);
+    @export_name("Q_HISTORY", [*]f32, false);
+    @export_name("K_HISTORY", [*]f32, false);
+    @export_name("A_HISTORY", [*]f32, false);
+    @export_name("DELTA_HISTORY", [*]f32, false);
+    @export_name("STATE_HISTORY", [*]f32, false);
+    @export_name("Y_HISTORY", [*]fp, false);
+    @export_name("STATE", [*]f32, false);
+    @export_name("times", [*]u16, false);
+    @export_name("sequence_host", fn()void);
+}
