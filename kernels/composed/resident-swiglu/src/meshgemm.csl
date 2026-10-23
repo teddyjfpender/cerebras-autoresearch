@@ -416,32 +416,33 @@ comptime {
     @export_symbol(meshgemm_entry);
     @export_symbol(meshgemm_host);
 }
+const ptr_X_FRAMES: [*]f16 = &X_FRAMES;
+const ptr_WG_CANON: [*]f16 = &WG_CANON;
+const ptr_WU_CANON: [*]f16 = &WU_CANON;
+const ptr_WD_CANON: [*]f16 = &WD_CANON;
+const ptr_G_HISTORY: [*]f16 = &G_HISTORY;
+const ptr_U_HISTORY: [*]f16 = &U_HISTORY;
+const ptr_V_HISTORY: [*]f16 = &V_HISTORY;
+const ptr_D_HISTORY: [*]f16 = &D_HISTORY;
+const ptr_Y_HISTORY: [*]f32 = &Y_HISTORY;
+const ptr_W_HISTORY_0: [*]f16 = &W_HISTORY_0;
+const ptr_W_HISTORY_1: [*]f16 = &W_HISTORY_1;
+const ptr_W_HISTORY_2: [*]f16 = &W_HISTORY_2;
+const ptr_W_HISTORY_3: [*]f16 = &W_HISTORY_3;
+
 comptime {
-    const ptr_X_FRAMES: [*]f16 = &X_FRAMES;
     @export_symbol(ptr_X_FRAMES, "X_FRAMES");
-    const ptr_WG_CANON: [*]f16 = &WG_CANON;
     @export_symbol(ptr_WG_CANON, "WG_CANON");
-    const ptr_WU_CANON: [*]f16 = &WU_CANON;
     @export_symbol(ptr_WU_CANON, "WU_CANON");
-    const ptr_WD_CANON: [*]f16 = &WD_CANON;
     @export_symbol(ptr_WD_CANON, "WD_CANON");
-    const ptr_G_HISTORY: [*]f16 = &G_HISTORY;
     @export_symbol(ptr_G_HISTORY, "G_HISTORY");
-    const ptr_U_HISTORY: [*]f16 = &U_HISTORY;
     @export_symbol(ptr_U_HISTORY, "U_HISTORY");
-    const ptr_V_HISTORY: [*]f16 = &V_HISTORY;
     @export_symbol(ptr_V_HISTORY, "V_HISTORY");
-    const ptr_D_HISTORY: [*]f16 = &D_HISTORY;
     @export_symbol(ptr_D_HISTORY, "D_HISTORY");
-    const ptr_Y_HISTORY: [*]f32 = &Y_HISTORY;
     @export_symbol(ptr_Y_HISTORY, "Y_HISTORY");
-    const ptr_W_HISTORY_0: [*]f16 = &W_HISTORY_0;
     @export_symbol(ptr_W_HISTORY_0, "W_HISTORY_0");
-    const ptr_W_HISTORY_1: [*]f16 = &W_HISTORY_1;
     @export_symbol(ptr_W_HISTORY_1, "W_HISTORY_1");
-    const ptr_W_HISTORY_2: [*]f16 = &W_HISTORY_2;
     @export_symbol(ptr_W_HISTORY_2, "W_HISTORY_2");
-    const ptr_W_HISTORY_3: [*]f16 = &W_HISTORY_3;
     @export_symbol(ptr_W_HISTORY_3, "W_HISTORY_3");
     @export_symbol(sequence_host);
 }
