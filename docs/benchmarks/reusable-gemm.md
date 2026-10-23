@@ -99,3 +99,12 @@ words. This is a conservative software bound, not a claimed hardware/API limit.
 Every PE word is reconstructed in its original order, and the entire state
 oracle is unchanged. Because the trusted driver changed, qualification requires
 new evaluator-bound baselines. The timed CSL program is unchanged.
+
+
+The subsequent transport refinement exports aliases for each existing saved
+weight-history frame. Each request reads one frame per PE, then reconstructs
+the complete PE/frame history in its original order. All computation and
+sequence function bodies remain byte-equivalent; the aliases reference the
+existing snapshot storage. SDK regression tests check every half-word and
+frame/PE ordering. Readback progress and durations are logged after the timed
+launch to distinguish computation from evidence collection.

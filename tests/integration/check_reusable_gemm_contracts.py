@@ -8,11 +8,36 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
-from reusable_gemm import read_symbol  # noqa: E402
+from reusable_gemm import read_symbol, read_weight_history  # noqa: E402
 from reusable_gemm_oracle import evidence, pack_inputs, unpack_outputs  # noqa: E402
 
 
 class SequencePackingTests(unittest.TestCase):
+    def test_frame_alias_readback_reconstructs_every_state_word_in_pe_frame_order(self):
+        p, t, count = 4, 4, 1360
+        calls = []
+
+        class FakeRuntime:
+            def get_id(self, symbol):
+                return symbol
+
+            def memcpy_d2h(self, destination, symbol, x, y, width, height, length, **options):
+                frame = int(symbol.rsplit("_", 1)[1])
+                calls.append((frame, width * height * length, length))
+                destination[:] = [
+                    (((row * p + column) * t + frame) * count + index) & 0xFFFF
+                    for row in range(y, y + height)
+                    for column in range(x, x + width)
+                    for index in range(length)
+                ]
+
+        result = read_weight_history(FakeRuntime(), p, t, count, {})
+        expected = np.arange(p * p * t * count, dtype=np.uint32).astype(np.uint16)
+        np.testing.assert_array_equal(result.view(np.uint16), expected)
+        self.assertEqual({frame for frame, _, _ in calls}, set(range(t)))
+        self.assertEqual(sum(size for _, size, _ in calls), expected.size)
+        self.assertTrue(all(size <= 32768 and length == count for _, size, length in calls))
+
     def check_readback(self, count):
         calls = []
 

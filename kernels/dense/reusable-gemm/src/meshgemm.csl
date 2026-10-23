@@ -175,6 +175,12 @@ var ptr_X_FRAMES: [*]f16 = &X_FRAMES;
 var ptr_W_CANON: [*]f16 = &W_CANON;
 const ptr_ALL_OUT: [*]f16 = &ALL_OUT;
 const ptr_W_HISTORY: [*]f16 = &W_HISTORY;
+// Frame aliases bound per-PE readback requests without changing saved state.
+comptime { @comptime_assert(T == 4); }
+const ptr_W_HISTORY_0: [*]f16 = &W_HISTORY;
+const ptr_W_HISTORY_1: [*]f16 = @ptrcast([*]f16, &W_HISTORY[Kt*Nt]);
+const ptr_W_HISTORY_2: [*]f16 = @ptrcast([*]f16, &W_HISTORY[2*Kt*Nt]);
+const ptr_W_HISTORY_3: [*]f16 = @ptrcast([*]f16, &W_HISTORY[3*Kt*Nt]);
 var frame: i16 = 0;
 var canonical_x_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Kt} -> X_FRAMES[i] });
 var canonical_w_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_CANON[i] });
@@ -368,5 +374,9 @@ comptime {
     @export_symbol(ptr_W_CANON, "W_CANON");
     @export_symbol(ptr_ALL_OUT, "ALL_OUT");
     @export_symbol(ptr_W_HISTORY, "W_HISTORY");
+    @export_symbol(ptr_W_HISTORY_0, "W_HISTORY_0");
+    @export_symbol(ptr_W_HISTORY_1, "W_HISTORY_1");
+    @export_symbol(ptr_W_HISTORY_2, "W_HISTORY_2");
+    @export_symbol(ptr_W_HISTORY_3, "W_HISTORY_3");
     @export_symbol(sequence_host);
 }

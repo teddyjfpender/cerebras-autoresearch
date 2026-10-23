@@ -3,6 +3,7 @@
 import argparse
 import json
 import os
+import time
 from pathlib import Path
 
 import numpy as np
@@ -12,7 +13,7 @@ from common import CASES, matrix_inputs, save_case
 from reusable_gemm_oracle import evidence, pack_inputs, unpack_outputs
 
 
-def read_symbol(runner, symbol, p, count, options):
+def read_symbol(runner, symbol, p, count, options, progress=False):
     """Read every word with bounded row groups after the device timer ends.
 
     A full-grid weight-history read stalled in the simulator. Keep each reply
@@ -28,9 +29,25 @@ def read_symbol(runner, symbol, p, count, options):
     for row in range(0, p, rows_per_read):
         rows = min(rows_per_read, p - row)
         block = np.zeros(rows * p * count, np.uint32)
+        started = time.monotonic()
+        if progress:
+            print(f"READBACK {symbol}: rows {row}:{row + rows}, elements/PE={count}", flush=True)
         runner.memcpy_d2h(block, identifier, 0, row, p, rows, count, **options)
+        if progress:
+            print(f"READBACK {symbol}: completed in {time.monotonic() - started:.3f}s", flush=True)
         raw[row : row + rows] = block.reshape(rows, p, count)
     return memcpy_view(raw.ravel(), np.dtype(np.float16)).copy()
+
+
+def read_weight_history(runner, p, t, per_frame, options, progress=False):
+    """Retrieve the same full history through aliases for each saved frame."""
+    frames = [
+        read_symbol(runner, f"W_HISTORY_{frame}", p, per_frame, options, progress).reshape(
+            p, p, per_frame
+        )
+        for frame in range(t)
+    ]
+    return np.stack(frames, axis=2).ravel()
 
 
 def main():
@@ -80,7 +97,10 @@ def main():
             ("X_FRAMES", t * mt * kt),
             ("W_CANON", kt * nt),
         ):
-            captured[symbol] = read_symbol(runner, symbol, p, count, options)
+            if symbol == "W_HISTORY":
+                captured[symbol] = read_weight_history(runner, p, t, kt * nt, options, True)
+            else:
+                captured[symbol] = read_symbol(runner, symbol, p, count, options, True)
         actual = unpack_outputs(p, mt, nt, t, captured["ALL_OUT"])
         timer = np.zeros(p * p * 3, np.uint32)
         timer_options = dict(options, data_type=MemcpyDataType.MEMCPY_32BIT)
