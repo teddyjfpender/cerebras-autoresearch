@@ -21,3 +21,12 @@ A fixed BF16 accumulator bound copied from the current FP16 benchmark is invalid
 at F=272: `(F+P)*2^-8 >= 1`. Use the distinct FP32-accumulator contract below.
 Any registration needs new baselines and precision/state/replay corruption tests.
 This remains a scaled FFN without RMSNorm or hybrid attention, not a Qwen decoder.
+
+## Installed SDK capability verified
+
+The [native probe](../../../results/reports/2026-10-23/bf16/native-vector-precision-probe.json)
+passed exact BF16 scalar/vector round-to-nearest-even conversions, round trips,
+normal/subnormal operands, canonical input bits and BF16-product/FP32-accumulator
+FMA. This is a16-value unscored capability fixture with no cycle measurement.
+It establishes a viable precision path, not a qualified FFN or model benchmark.
+The separate BF16 chain contract/oracle and fresh baselines remain to be built.

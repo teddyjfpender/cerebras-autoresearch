@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "kind": "unscored_native_precision_capability_probe",
+  "status": "precision_probe_passed",
+  "sdk": {
+    "sdk_release": "2.10.1",
+    "sdk_build": "sdk-202606181328-8faf87a26e",
+    "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+    "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+    "bundled_checksum_verification": "all files passed",
+    "local_sdk_directory": ".sdk/sdk-2.10.1",
+    "lima_instance": "cerebras-sdk-rosetta",
+    "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+    "guest_container_runtime": "singularity-ce version 4.1.1",
+    "host_lima_version": "2.2.1",
+    "example_source_release": "rel-sdk-2.10.0",
+    "execution_platform": {
+      "schema_version": 1,
+      "id": "lima-vz-rosetta-v1",
+      "lima_instance": "cerebras-sdk-rosetta",
+      "hostname": "lima-cerebras-sdk-rosetta",
+      "controller_machine": "aarch64",
+      "virtualization": "vz",
+      "translation": "Rosetta for Linux",
+      "container_runtime": "singularity-ce version 4.1.1",
+      "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+      "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+      "sdk_image_architecture": "x86_64",
+      "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+    },
+    "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+    "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+    "controller": {
+      "machine": "aarch64",
+      "hostname": "lima-cerebras-sdk-rosetta",
+      "kernel": "6.8.0-147-generic",
+      "python": "3.12.3"
+    },
+    "installation_evidence": {
+      "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+      "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+    }
+  },
+  "source_sha256": "7ea404ed5d3b6e9e9d7a7685c0906ea16df5090bf6edc7a9d602f72d6108af7f",
+  "driver_sha256": "68008d430bc973a3d901aa8e0fe42e338a91ed2196fbd67155d467ecaa48c312",
+  "timed_benchmark": false,
+  "timing_score_eligible": false,
+  "qwen_tps_result": false,
+  "steps": [
+    {
+      "command": [
+        "cslc",
+        "src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=8,3",
+        "--fabric-offsets=4,1",
+        "--fp16-format=bf16",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "wall_seconds": 7.314189792999969,
+      "log": "step-0.log",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "cs_python",
+        "probe.py"
+      ],
+      "wall_seconds": 1.3839668969994818,
+      "log": "step-1.log",
+      "exit_code": 0
+    }
+  ],
+  "precision_report": {
+    "schema_version": 1,
+    "status": "precision_probe_passed",
+    "checks": {
+      "canonical_input_bits_preserved": true,
+      "normal_fp32_accumulator_fma_exact": true,
+      "subnormal_fp32_accumulator_fma_exact": true,
+      "normal_conversion_nearest_even_exact": true,
+      "subnormal_conversion_nearest_even_exact": true
+    },
+    "mismatch_indices": {
+      "fma": [],
+      "bf": [],
+      "roundtrip": []
+    },
+    "timed_benchmark": false,
+    "timing_score_eligible": false,
+    "qwen_tps_result": false
+  },
+  "artifacts": {
+    "work/out/bin/out_0_0.elf": "3b5206fd6b6faae0ec94c0280e31af712a6bedfac2307a3febdfcc81b8ee3f32",
+    "work/out/bin/out_rpc.json": "f269956134dec9426fff5962bb686b98dddf72fb8c37c640509fdc42bce39bc6",
+    "work/out/east/bin/out_0_0.elf": "f3a6926e08cfc09b009267b1704734e9a4c9c69e7a3f1a2e84dfeb9ba683443a",
+    "work/out/east/bin/out_1_0.elf": "ceaec0d944a6aab27e238890a6ba939b432fba4788be63c70b1012d9ea37be24",
+    "work/out/east/out.json": "46ea180801c589023f5daf7351fb473475b50f302d72cf40f86e4ce5f7d320b7",
+    "work/out/generated/MEMCPY_XY_ROUTES.elf": "145cfdf2650e18ccdc7a3c92f7692e103dd9a03c2762a8f8e36727d7b9924b92",
+    "work/out/generated/coord.elf": "a8c0c8e70d82ceb0019009b65eb6883ffcbf91dc55b537bcc188343a08542a66",
+    "work/out/generated/default.elf": "1a4776e4e8ea2809c518b2e36632ed454f65a1b85b80172c13c8a616b46dafd1",
+    "work/out/out.core": "f4a8e2d9576a7ca85065bea508a7ceeb88155860d17ccb3c5fc0c9fa86fea262",
+    "work/out/out.json": "b67e94695ca5a56ae9ae1a4a78bc93d3cae5825997109038dd11891f3cab5bb1",
+    "work/out/precision-evidence.npz": "41e82454663cd3899231313ca06156aeecae2ad50714e1e49fe8673f87b3cea6",
+    "work/out/precision-result.json": "dcfc51dce8ffdcf829a74f5ed5c6d4df7eb062d3a7f0f1f9d2fafee75f60b489",
+    "work/out/sim.log": "cc9ac12d6de926229c82c5c20d5a3357bd46f320b95ae256ae05d299b473cd96",
+    "work/out/sim_stats.json": "b50a9004766709f31b3cffd10d89ae7139710d097cb526d6dbfc27118fb39b67",
+    "work/out/simconfig.json": "5a3b0f240b6019ab1895f2b58e817c55855b11ea66041ea7c977ad11cf085c31",
+    "work/out/west/bin/out_0_0.elf": "3a73914d0f4e7dff0a8cdd28dddc9477f5d9aba57296ebf254e1e8e432d33271",
+    "work/out/west/bin/out_1_0.elf": "f3e14e207bf62c669bdb5269208ffa2d9f342d433b7245c35bf3e194299f88cd",
+    "work/out/west/bin/out_2_0.elf": "603bac3d102d82db359a235d75d1432d914c2ebf234089bd6974cb6a5aa89d44",
+    "work/out/west/out.json": "248ecbf17b2090e46e426ee7b905c25f2b9770e8f6a382868cd2e07ab91e7a3a",
+    "work/probe.py": "68008d430bc973a3d901aa8e0fe42e338a91ed2196fbd67155d467ecaa48c312",
+    "work/src/layout.csl": "f102bfda26fcc1f45bc6b1cc02e31e5b52e7dc81e08b2cd0cae13d75a383c1e2",
+    "work/src/pe.csl": "b02b87bb18fbd275b22d7684ff8b14a31c505fa7f0149ff2cc20edffe8b66d97",
+    "work/step-0.log": "ac32027f38fcba91822fb6b7172e8c5c5d1462afb7b216d409e20e4b1bf4ab7c",
+    "work/step-1.log": "ebff6b90b3c339dc5429e106a2ffb883d82028ed333609858870687da566032f"
+  }
+}

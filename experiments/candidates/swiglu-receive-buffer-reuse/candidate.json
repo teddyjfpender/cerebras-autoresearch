@@ -1,0 +1,21 @@
+{
+  "adapter": "resident_swiglu",
+  "initial_profile": "resident-swiglu.ffn-scaled",
+  "source": {
+    "repository": "local",
+    "derived_from": "WaferLLM",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "b2222b5c6e64617041b914a0c4eda1b1704ef6023a059c6f99a187fe47d75397",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "resident_swiglu.receive-buffer-reuse",
+  "hypothesis": "Remove redundant X0/X1/W1 clearing: every logical X0 element is copied from the frame or computed V, and full even-sized receives overwrite X1/W1 before use. Padded words may retain prior values but never enter arithmetic. Canonical weight copies and complete state/output evidence remain fixed.",
+  "falsification": "Reject missing/reordered arithmetic, logical reads from stale padding, any six-case intermediate/output/state or shutdown failure, protected-control changes, speedup below1.05x or memory above1.10x. Full fresh paired seeds are mandatory. Cross-cell claims require complete suite and worst-cell guards; never relax the fixed bounds.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "qualification_receipt": "runs/v2/20261023T100030Z-resident-swiglu.ffn-scaled-76fcd3bf/result.json",
+  "qualification_receipt_sha256": "a3c9504a44e2a490a731bedeec734c80fb050c373c8aed34f5483f3a7f929809",
+  "primitive_math_probe_sha256": "a8dc1e760da85096d4b993943bd8f235a964d4d08bf9638fa2cec6e1a732d907"
+}

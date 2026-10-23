@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "name": "resident-swiglu-initial-layout-activation-and-reuse",
+  "seed": 20261031,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "resident-swiglu.small",
+      "baseline_receipt": "runs/v2/20261023T095750Z-resident-swiglu.small-e10bd3dd/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "swiglu-projection-dispatch"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "swiglu-receive-buffer-reuse"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "swiglu-silu-degree9"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "swiglu-projection-silu-reuse"
+        }
+      ]
+    },
+    {
+      "profile": "resident-swiglu.ffn-scaled",
+      "baseline_receipt": "runs/v2/20261023T100030Z-resident-swiglu.ffn-scaled-76fcd3bf/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "swiglu-projection-dispatch"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "swiglu-receive-buffer-reuse"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "swiglu-silu-degree9"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "swiglu-projection-silu-reuse"
+        }
+      ]
+    }
+  ]
+}

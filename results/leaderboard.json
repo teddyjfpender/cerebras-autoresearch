@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 286,
-  "ledger_head": "ae67dc512fe071e23d7d79fa381dcf050d14df7434163179309beaec6c564c94",
+  "ledger_rows": 289,
+  "ledger_head": "a968ee52825c262030f6220e0659b7edb927b72b6993452ac12fe016c5e9a57b",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -589,6 +589,32 @@
       "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
       "receipt": "runs/v2/20261023T093335Z-reusable-gemm.prefill-ffn-down-scaled-4d41679b/result.json",
       "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "8d6172a5ab44be3a20fe7c3f8ea48df56a3124d3fdde833ce7cf716fc1ba6dea",
+      "profile": "resident-swiglu.small",
+      "approach": "resident_swiglu.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "58502.0",
+      "memory_bytes": "10496",
+      "source_sha256": "b2222b5c6e64617041b914a0c4eda1b1704ef6023a059c6f99a187fe47d75397",
+      "evaluator_sha256": "91f1236a2df72a9ac422df7d6728a3fe723070338435e8ed51e96fa7016aedb8",
+      "receipt": "runs/v2/20261023T095750Z-resident-swiglu.small-e10bd3dd/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "9fba7201c579f6e0e50ab6fd9e409e3be4a89625d4ca4aa297b962bfa9ad4233",
+      "profile": "resident-swiglu.ffn-scaled",
+      "approach": "resident_swiglu.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "586834.0",
+      "memory_bytes": "43712",
+      "source_sha256": "b2222b5c6e64617041b914a0c4eda1b1704ef6023a059c6f99a187fe47d75397",
+      "evaluator_sha256": "91f1236a2df72a9ac422df7d6728a3fe723070338435e8ed51e96fa7016aedb8",
+      "receipt": "runs/v2/20261023T100030Z-resident-swiglu.ffn-scaled-76fcd3bf/result.json",
+      "decision": "baseline"
     }
   ],
   "measured_cycle_memory_front": [
@@ -1462,6 +1488,32 @@
       "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
       "receipt": "runs/v2/20261023T093813Z-reusable-gemm.prefill-ffn-down-scaled-1e530eed/result.json",
       "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "8d6172a5ab44be3a20fe7c3f8ea48df56a3124d3fdde833ce7cf716fc1ba6dea",
+      "profile": "resident-swiglu.small",
+      "approach": "resident_swiglu.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "58502.0",
+      "memory_bytes": "10496",
+      "source_sha256": "b2222b5c6e64617041b914a0c4eda1b1704ef6023a059c6f99a187fe47d75397",
+      "evaluator_sha256": "91f1236a2df72a9ac422df7d6728a3fe723070338435e8ed51e96fa7016aedb8",
+      "receipt": "runs/v2/20261023T095750Z-resident-swiglu.small-e10bd3dd/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "9fba7201c579f6e0e50ab6fd9e409e3be4a89625d4ca4aa297b962bfa9ad4233",
+      "profile": "resident-swiglu.ffn-scaled",
+      "approach": "resident_swiglu.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "586834.0",
+      "memory_bytes": "43712",
+      "source_sha256": "b2222b5c6e64617041b914a0c4eda1b1704ef6023a059c6f99a187fe47d75397",
+      "evaluator_sha256": "91f1236a2df72a9ac422df7d6728a3fe723070338435e8ed51e96fa7016aedb8",
+      "receipt": "runs/v2/20261023T100030Z-resident-swiglu.ffn-scaled-76fcd3bf/result.json",
+      "decision": "baseline"
     }
   ],
   "confirmed_improvements": [

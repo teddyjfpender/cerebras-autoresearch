@@ -3,7 +3,7 @@
 The staged contract, oracle, driver and baseline have been integrated under
 [kernels/composed/resident-swiglu](../../../kernels/composed/resident-swiglu/README.md),
 with the canonical [benchmark contract](../../../docs/benchmarks/resident-swiglu.md).
-Device qualification is outstanding. This directory preserves design staging
+Both initial cells now passed full numerical/core baseline qualification. This directory preserves design staging
 and independent primitive probes; it does not supply a qualified kernel score.
 
 `primitive_silu_probe.py` is a math-only FP32 polynomial screen across every

@@ -23,7 +23,7 @@ cases independently replayed. FFN-up is95,611 ->69,104 cycles and FFN-down
 [Complete evidence](reports/2026-10-23/resident-gemm/dispatch-suite-confirmed.json).
 
 The newly registered distributed resident SwiGLU chain has its own precision,
-intermediate/state and timing contract. Its device qualification is outstanding.
+intermediate/state and timing contract. Both cells now have full six-case baseline and numerical/core replay qualification.
 Existing results retain their original evaluator tracks; adding this evaluator
 requires new matched baselines for subsequent optimization.
 
@@ -52,11 +52,10 @@ stores. Compare matched arms within one profile. The blocks are scaled FP32
 local programs; no Qwen/model/hardware TPS claim follows.
 
 Across historical evaluator tracks, the current 39-profile catalog now has
-**16 full independent baselines, 14 reference checks and two diagnostics**:
-32 exercised profiles. Seven independent shapes remain unqualified:
+**18 full independent baselines, 14 reference checks and two diagnostics**:
+34 exercised profiles. Five independent shapes remain unqualified:
 `meshgemm.cold-square32`, `meshgemm.cold-rectangular`, `meshgemv.ffn-down-scaled`,
-`meshgemv.square128`, `pipeline.k64-n32`, and the newly registered
-`resident-swiglu.small` / `resident-swiglu.ffn-scaled`.
+`meshgemv.square128`, and `pipeline.k64-n32`.
 
 The [complete numerical replay](reports/2026-10-22-inference-blocks-numerics-qualified.json)
 independently recomputed all 48 cases from the eight qualified baselines,
@@ -393,3 +392,20 @@ recorded; tiny qualifies within the suite guard and remains below the individual
 [Confirmed suite and profile decisions](reports/2026-10-23/resident-gemm/dispatch-suite-confirmed.json),
 [72-case numerical replay](reports/2026-10-23/resident-gemm/dispatch-suite-numerics.json),
 [72-case core replay](reports/2026-10-23/resident-gemm/dispatch-suite-snapshots.json).
+
+## Complete distributed resident SwiGLU — qualified baselines
+
+Both profiles pass all six cases on16 compute PEs, with every G/U/V/D/Y
+intermediate/output, exact canonical inputs/weights, complete per-frame final
+working-weight state and timer corroborated in the12-case replay.
+
+| Profile | Whole4-frame cycles | Program bytes/PE | Max error fraction |
+| --- | ---: | ---: | ---: |
+| `resident-swiglu.small` | 58,502 | 10,496 | 0.410 |
+| `resident-swiglu.ffn-scaled` | 586,834 | 43,712 | 0.483 |
+
+[Qualified receipts and full identities](reports/2026-10-23/resident-swiglu/qualification.json),
+[12-case FP64 replay](reports/2026-10-23/resident-swiglu/qualified-full-numerics.json),
+[12-case complete core/state/timer replay](reports/2026-10-23/resident-swiglu/qualified-full-snapshots.json).
+These are new chain baselines, not retained optimization results. The three
+initial compile failures remain in the journal with separate bringup reports.

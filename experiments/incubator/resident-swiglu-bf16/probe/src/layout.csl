@@ -1,0 +1,14 @@
+const memcpy = @import_module("<memcpy/get_params>", .{ .width = 1, .height = 1 });
+layout {
+    @set_rectangle(1, 1);
+    @set_tile_code(0, 0, "pe.csl", .{ .memcpy_params = memcpy.get_params(0) });
+    @export_name("X", [*]@fp16(), true);
+    @export_name("BASE", [*]f32, true);
+    @export_name("TEST", [*]f32, true);
+    @export_name("OUT", [*]f32, false);
+    @export_name("BF", [*]@fp16(), false);
+    @export_name("ROUND", [*]f32, false);
+    @export_name("BFVEC", [*]@fp16(), false);
+    @export_name("ROUNDVEC", [*]f32, false);
+    @export_name("compute", fn()void);
+}

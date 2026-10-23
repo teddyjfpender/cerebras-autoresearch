@@ -1,6 +1,6 @@
 # Resident SwiGLU sequence contract v1
 
-Status: registered contract; device qualification remains outstanding. Configuration is not execution proof.
+Status: both initial cells passed full six-case baseline qualification and numerical/core replay. See the [qualification evidence](../../results/reports/2026-10-23/resident-swiglu/qualification.json).
 
 ## Objective and scope
 
@@ -14,7 +14,7 @@ This benchmark omits RMSNorm and attention. It uses scaled FP16 projections and
 hidden storage with FP32 nonlinear/residual computation. It does not implement
 Qwen's native BF16/hybrid decoder and cannot establish model or hardware TPS.
 
-Proposed initial cells: M=16, H=16, F=32, T=4 and M=16, H=80, F=272, T=4.
+Qualified initial cells: M=16, H=16, F=32, T=4 and M=16, H=80, F=272, T=4.
 Both use exactly 16 compute PEs. The larger cell preserves the FFN aspect ratio
 already used by the qualified GEMM profiles. All dimensions are divisible by P=4.
 
