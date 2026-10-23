@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "recurrent-gdn-full.k128-v128-h16-t2",
+      "adapter": "recurrent_gdn_full",
+      "family": "recurrent-gated-delta-full-heads",
+      "dimensions": {
+        "G": 16,
+        "R": 3,
+        "K": 128,
+        "V": 128,
+        "T": 2,
+        "VT": 8
+      },
+      "pe_grid": [
+        32,
+        24
+      ],
+      "precision": "bf16-fp32-state",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_recurrent_gdn_full_native_heads_v1",
+      "metric": "max_local_cycles",
+      "work_units": 11034624,
+      "work_unit": "state_arithmetic_operations",
+      "description": "Full native recurrent head configuration:16 key heads,48 value heads,K128/V128, two resident tokens and every FP32 state/prefix; BF16 Q/K/V/output,768 fixed PEs. Projected/conv inputs and precomputed g/beta; surrounding model operations excluded.",
+      "timeout_seconds": 3600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "Whole two-token full native recurrent operator: initial-state copy, all physical normalization/decay, every state update/read and all complete intermediate/output/state snapshots"
+      }
+    }
+  ]
+}

@@ -191,6 +191,51 @@ def recompute(profile, raw):
         )
         np.testing.assert_array_equal(pack_timer(raw["timer_core_u16"], grid), raw["timer_u32"])
         expected = arrays["expected"]
+    elif kind == "recurrent_gdn_full":
+        from recurrent_gdn_full import pack_timer
+        from recurrent_gdn_full_layout import profile as native_profile
+        from recurrent_gdn_full_oracle import evidence as native_evidence
+
+        if profile.get("oracle_contract") != "resident_recurrent_gdn_full_native_heads_v1":
+            raise ValueError("Unsupported native recurrent oracle")
+        grid = native_profile(dims["T"])
+        if profile["pe_grid"] != [grid.width, grid.height]:
+            raise ValueError("Native PE budget changed")
+        names = ("Q_CANON", "K_CANON", "V_CANON", "G_CANON", "BETA_CANON", "S0")
+        stages = (
+            "Q_HISTORY",
+            "K_HISTORY",
+            "A_HISTORY",
+            "DELTA_HISTORY",
+            "STATE_HISTORY",
+            "Y_HISTORY",
+            "FINAL_STATE",
+        )
+        inputs = {n: raw["input_" + n] for n in names}
+        captured = {n: raw["physical_" + n] for n in names}
+        captured.update({n: raw["physical_" + n] for n in ("Q_HISTORY", "K_HISTORY", "A_HISTORY")})
+        captured.update(
+            DELTA_HISTORY=grid.columns(raw["DELTA_HISTORY"]),
+            STATE_HISTORY=grid.columns(raw["STATE_HISTORY"], state=True),
+            Y_HISTORY=grid.columns(raw["Y_HISTORY"]),
+            STATE=grid.initial(raw["FINAL_STATE"]),
+        )
+        actual, canonical, _ = grid.evidence(inputs, captured)
+        for name in stages:
+            np.testing.assert_array_equal(actual[name], raw[name])
+        arrays, _, bound = native_evidence(
+            dims["T"], inputs, actual, {n: raw["canonical_" + n] for n in names}
+        )
+        for name in ("actual", "check_labels", "check_offsets"):
+            np.testing.assert_array_equal(raw[name], arrays[name])
+        for name in ("timer_memcpy_u16", "timer_core_u16"):
+            if raw[name].dtype != np.uint16 or raw[name].shape != (grid.height, grid.width, 6):
+                raise ValueError("Incomplete native timer words")
+        strict = bool(arrays["exact_state_match"]) and np.array_equal(
+            raw["timer_memcpy_u16"], raw["timer_core_u16"]
+        )
+        np.testing.assert_array_equal(pack_timer(raw["timer_core_u16"], grid), raw["timer_u32"])
+        expected = arrays["expected"]
     elif kind == "pipeline":
         x, w = raw["x"].astype(np.float64), raw["w"].astype(np.float64)
         if x.shape != (5, dims["K"]) or w.shape != (dims["K"], dims["N"]):
@@ -241,8 +286,12 @@ def check_case(profile, case, artifact):
     if digest(artifact) != case["artifact_sha256"]:
         raise ValueError("Raw artifact digest changed")
     with np.load(artifact, allow_pickle=False) as raw:
-        if profile["adapter"] in ("recurrent_gdn", "recurrent_gdn_native"):
-            if profile["adapter"] == "recurrent_gdn_native":
+        if profile["adapter"] in ("recurrent_gdn", "recurrent_gdn_native", "recurrent_gdn_full"):
+            if profile["adapter"] == "recurrent_gdn_full":
+                from recurrent_gdn_full_oracle import inputs as full_inputs
+
+                wanted = full_inputs(profile["dimensions"]["T"], case["seed"], case["case"])
+            elif profile["adapter"] == "recurrent_gdn_native":
                 from recurrent_gdn_native_oracle import inputs as native_inputs
 
                 wanted = native_inputs(profile["dimensions"]["T"], case["seed"], case["case"])
@@ -278,7 +327,7 @@ def check_case(profile, case, artifact):
         if metrics != case["metrics"]:
             raise ValueError("Recomputed timestamps disagree with the case receipt")
         by_check = {}
-        if profile["adapter"] in ("recurrent_gdn", "recurrent_gdn_native"):
+        if profile["adapter"] in ("recurrent_gdn", "recurrent_gdn_native", "recurrent_gdn_full"):
             offsets = raw["check_offsets"]
             for name, start, end in zip(raw["check_labels"], offsets[:-1], offsets[1:]):
                 section = slice(int(start), int(end))
@@ -317,6 +366,7 @@ def check_summary(data):
         "resident_swiglu_bf16": "cycles_per_frame",
         "recurrent_gdn": "cycles_per_token",
         "recurrent_gdn_native": "cycles_per_token",
+        "recurrent_gdn_full": "cycles_per_token",
     }.get(profile["adapter"])
     if unit:
         expected[unit] = primary / profile["dimensions"]["T"]

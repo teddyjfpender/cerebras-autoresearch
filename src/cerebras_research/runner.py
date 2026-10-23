@@ -151,6 +151,7 @@ def execute(
                 "resident_swiglu_bf16": "resident_swiglu_bf16.py",
                 "recurrent_gdn": "recurrent_gdn.py",
                 "recurrent_gdn_native": "recurrent_gdn_native.py",
+                "recurrent_gdn_full": "recurrent_gdn_full.py",
             }.get(kind, "dense.py")
             for case in CASES[:1] if screen else CASES:
                 args = ["cs_python", driver, "--name", "out", "--case", case, "--seed", str(seed)]
@@ -161,6 +162,7 @@ def execute(
                     "resident_swiglu_bf16",
                     "recurrent_gdn",
                     "recurrent_gdn_native",
+                    "recurrent_gdn_full",
                 ):
                     args.extend(["--kind", kind])
                 log = step(args)
@@ -195,7 +197,7 @@ def execute(
                 record["metrics"]["amortized_cycles_per_batch_row"] = record["metrics"][
                     "max_local_cycles"
                 ] / (profile["dimensions"]["T"] * profile["dimensions"]["M"])
-            if kind in ("recurrent_gdn", "recurrent_gdn_native"):
+            if kind in ("recurrent_gdn", "recurrent_gdn_native", "recurrent_gdn_full"):
                 record["metrics"]["cycles_per_token"] = (
                     record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
                 )

@@ -1,0 +1,23 @@
+{
+  "adapter": "recurrent_gdn_full",
+  "initial_profile": "recurrent-gdn-full.k128-v128-h16-t2",
+  "source": {
+    "repository": "local",
+    "reference_repository": "https://github.com/huggingface/transformers",
+    "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+    "implementation": "independent FP32 vector reference, full native16 key/48 value heads, two tokens"
+  },
+  "baseline_tree_sha256": "1f9009faeb5c3e66e12cf10eccbc2988cef076e57cbb2fc0449801c15fb107ba",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "full_gdn.normalization_reuse",
+  "hypothesis": "Transfer exact BF16-to-FP32 conversion reuse and vector normalization scaling to all16 key/48 value heads. Keep the original state-update/readout loops and ascending-K arithmetic.",
+  "falsification": "Reject any missing group, value head, K/V term, token, state/history store or immutable replica; changed precision, timer or fixed bounds; shutdown failure; speedup below1.05x or memory growth above1.10x. Require all six families and a fresh matched seed; prior one-group results do not qualify this workload.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "parent_candidate": "native-gdn-vector-norm",
+  "parent_tree_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+  "fused_source_sha256": "d4545669bef73cf7a739e79c1f3c67a1478ce84626ce6229e1e32b0647517cc9",
+  "transfer_scope": "Native operator only. No model TPS result."
+}

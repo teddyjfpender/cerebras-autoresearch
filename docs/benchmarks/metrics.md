@@ -26,6 +26,7 @@ V1 receipts for promotion.
 | Complete gated MLP / decoder layer | Full four-frame/token sequence and all output/state stores | 0 / 1 sequence |
 | Resident recurrent gated delta rule | Four resident tokens, S0 copy, normalization, decay/delta/state/read and all full snapshots | 0 / 1 sequence |
 | Native-width recurrent head group | Fixed T4/48PE or T8/96PE sequence; full state, all physical normalization/decay work and every snapshot | 0 / 1 sequence |
+| Full native recurrent heads | All16 key/48 value heads, native K/V128, two complete resident tokens, every full state snapshot | 0 / 1 sequence |
 | Timed SDK references | Audited upstream region | Profile-specific |
 | Untimed SDK references | Numerical assertions | No cycle score |
 | Host I/O diagnostics | Emulated transfer interval | No hardware bandwidth claim |

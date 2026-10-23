@@ -18,6 +18,7 @@ ADAPTERS = {
     "resident_swiglu_bf16",
     "recurrent_gdn",
     "recurrent_gdn_native",
+    "recurrent_gdn_full",
     "sdk",
 }
 
@@ -83,6 +84,7 @@ def load_catalog():
                 "resident_swiglu_bf16": (0, 1),
                 "recurrent_gdn": (0, 1),
                 "recurrent_gdn_native": (0, 1),
+                "recurrent_gdn_full": (0, 1),
             }[profile["adapter"]]
             timing = profile["timing_protocol"]
             if (timing["warmups"], timing["repeats"]) != expected_timing:
@@ -167,6 +169,17 @@ def load_catalog():
                 or profile["work_units"] != 3 * dims["T"] * (7 * 128 * 128 + 2 * 128)
             ):
                 raise ValueError(f"Invalid native-width recurrent contract: {name}")
+        if profile["adapter"] == "recurrent_gdn_full":
+            dims = profile["dimensions"]
+            if (
+                dims != {"G": 16, "R": 3, "K": 128, "V": 128, "T": 2, "VT": 8}
+                or grid != [32, 24]
+                or profile["precision"] != "bf16-fp32-state"
+                or profile.get("oracle_contract") != "resident_recurrent_gdn_full_native_heads_v1"
+                or profile["work_unit"] != "state_arithmetic_operations"
+                or profile["work_units"] != 16 * 3 * 2 * (7 * 128 * 128 + 2 * 128)
+            ):
+                raise ValueError(f"Invalid full native recurrent head contract: {name}")
         if profile["adapter"] == "pipeline" and grid != [1, 1]:
             raise ValueError(f"Current pipeline adapter requires one PE: {name}")
         if profile["adapter"] in ("gated_mlp", "decoder"):

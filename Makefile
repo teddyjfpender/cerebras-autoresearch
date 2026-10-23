@@ -49,5 +49,11 @@ sdk-test:
 	tools/sdk-run cs_python tests/integration/check_native_gdn_replay.py
 	tools/sdk-run cs_python tests/integration/check_native_gdn_snapshots.py
 
+	tools/sdk-run cs_python tests/integration/check_full_gdn_contracts.py
+	tools/sdk-run cs_python tests/integration/check_full_gdn_layout.py
+	tools/sdk-run cs_python tests/integration/check_full_gdn_driver.py
+	tools/sdk-run cs_python tests/integration/check_full_gdn_replay.py
+	tools/sdk-run cs_python tests/integration/check_full_gdn_snapshots.py
+
 docs:
 	$(PYTHON) tools/catalog_docs.py --write

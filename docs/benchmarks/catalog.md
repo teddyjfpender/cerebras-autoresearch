@@ -24,6 +24,7 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 | `pipeline.k16-n32` | composed | fp32 | independent_six_case | max_local_cycles |
 | `pipeline.k64-n32` | composed | fp32 | independent_six_case | max_local_cycles |
 | `pipeline.k8-n8` | composed | fp32 | independent_six_case | max_local_cycles |
+| `recurrent-gdn-full.k128-v128-h16-t2` | recurrent-gated-delta-full-heads | bf16-fp32-state | independent_six_case | max_local_cycles |
 | `recurrent-gdn-native.k128-v128-t4` | recurrent-gated-delta-native-head-group | bf16-fp32-state | independent_six_case | max_local_cycles |
 | `recurrent-gdn-native.k128-v128-t8` | recurrent-gated-delta-native-head-group | bf16-fp32-state | independent_six_case | max_local_cycles |
 | `recurrent-gdn.k16-v16` | recurrent-gated-delta-rule | bf16-fp32-state | independent_six_case | max_local_cycles |
@@ -60,7 +61,7 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 <!-- catalog:suites:start -->
 | Suite | Profiles | Purpose |
 | --- | ---: | --- |
-| `all` | 47 | Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion. |
+| `all` | 48 | Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion. |
 | `communication` | 4 | Broadcast and emulated host transfers |
 | `decode-ffn` | 2 | Medium FFN up/down GEMV projections |
 | `decoder` | 2 | Stateful causal decoder layer at two initial contexts |
@@ -72,6 +73,7 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 | `inference-blocks` | 8 | All four inference challenge tracks |
 | `prefill-ffn` | 2 | Larger cold FFN up/down GEMM projections |
 | `qualification` | 27 | Representative independent oracles and every SDK profile |
+| `recurrent-gdn-full` | 1 | One complete full-native-head two-token workload; exact profile scope, not cross-shape generality. |
 | `recurrent-gdn-native` | 2 | Complete native K128/V128 one-group recurrent operators, separate fixed T4/48PE and T8/96PE contracts. |
 | `recurrent-gdn` | 2 | Complete resident recurrent gated delta-rule state updates, two state widths. |
 | `regression` | 5 | Fixed dense/composed cross-shape guard set |

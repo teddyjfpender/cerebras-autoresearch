@@ -47,7 +47,8 @@
     "recurrent-gdn.k16-v16",
     "recurrent-gdn.k32-v16",
     "recurrent-gdn-native.k128-v128-t4",
-    "recurrent-gdn-native.k128-v128-t8"
+    "recurrent-gdn-native.k128-v128-t8",
+    "recurrent-gdn-full.k128-v128-h16-t2"
   ],
   "description": "Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion."
 }

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "parent_reference": "kernels/attention/recurrent-gdn-native",
+  "parent_csl_files": {
+    "layout.csl": "c7e74c6fb55a4015eee696cb62ee347edaa3bb39e492c00b97177ddf0a6ca82b",
+    "pe.csl": "47d657c6923d9b240929f6995f419ea5392ab79b67d2abcabbf62ee6482192de"
+  },
+  "adaptation": "Same complete per-PE vector arithmetic; explicit T2/V8/K128 constraint and32x24 full-head layout. New baselines required.",
+  "model_target": "config/targets/qwen3.8-27b.json",
+  "device_qualified": false,
+  "qwen_tps_result": false
+}
