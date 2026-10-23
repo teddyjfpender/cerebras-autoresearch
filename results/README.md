@@ -105,6 +105,22 @@ follow-up after held-out observations, not an unseen-shape claim.
 [96-case core/state/timer replay](reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-snapshots.json).
 These are simulator operator-chain results; Qwen TPS is unmeasured.
 
+## Native-width recurrent operator — confirmed normalization reuse
+
+Native K128/V128, three value heads, both T4/T8 profiles and two paired seeds
+confirm **1.251334× geometric mean**, worst **1.247939×**, against an already
+vectorized state baseline. All **48 paired cases** pass full numerical and
+core/state/timer replay. Every token and full FP32 state remains checked.
+
+| Tokens | Baseline → candidate cycles | Speedup | Program memory growth |
+| --- | ---: | ---: | ---: |
+| T4 | 115,634 → 92,660 | 1.2479× | 0.446% |
+| T8 | 211,278 → 168,384 | 1.2547× | 0.462% |
+
+[Complete evidence](reports/2026-10-23/recurrent-gdn-native/vector-suite-confirmed.json).
+This is one key-head group with native state width. The full 16-key/48-value-head
+operator is the next fixed-contract challenge; no model TPS is established.
+
 ## Resident recurrent gated-delta operator — confirmed vectorization
 
 One frozen `recurrent-gdn-vector-state` source passes both complete profiles and
@@ -157,8 +173,8 @@ stores. Compare matched arms within one profile. The blocks are scaled FP32
 local programs; no Qwen/model/hardware TPS claim follows.
 
 Across historical evaluator tracks, the current 47-profile catalog has
-**24 full independent baselines, 14 reference checks and two diagnostics**:
-40 exercised profiles. The two newly registered native-width profiles and five older independent shapes remain unqualified:
+**26 full independent baselines, 14 reference checks and two diagnostics**:
+42 exercised profiles. Five older independent shapes remain unqualified:
 `meshgemm.cold-square32`, `meshgemm.cold-rectangular`, `meshgemv.ffn-down-scaled`,
 `meshgemv.square128`, and `pipeline.k64-n32`.
 

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "status": "compile_failures_preserved",
+  "receipts": [
+    {
+      "path": "runs/v2/20261023T154730Z-recurrent-gdn-native.k128-v128-t4-d8d76b9a/result.json",
+      "sha256": "34b9494a6fab1ca15cfc413ee7096c40e60eb07de55026430f716a02c1eb1bc3"
+    },
+    {
+      "path": "runs/v2/20261023T155118Z-recurrent-gdn-native.k128-v128-t4-cba545f1/result.json",
+      "sha256": "f36972cc132ce5c4a962fe7b031b13171b6115077129857e5275ddae20595fcb"
+    },
+    {
+      "path": "runs/v2/20261023T160125Z-recurrent-gdn-native.k128-v128-t4-0235cd8e/result.json",
+      "sha256": "7201d1ddb8f7d74397c456c47f70db2bafeee6ff0af140574cb53d7997a8cce3"
+    }
+  ],
+  "findings": [
+    "Global mutable mem4d descriptors exceed16 scalar registers.",
+    "Global constant descriptors fail compiler dominance validation.",
+    "Local descriptors require explicit extended DSR load intrinsic; simple load_to_dsr rejected."
+  ],
+  "claim": "No executable bulk candidate or device performance result. Arithmetic emulation is supporting evidence only.",
+  "qwen_tps_result": false
+}

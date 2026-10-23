@@ -62,3 +62,8 @@ The registered oracle's exact source has12 passed upstream fixtures with archive
 script/oracle/error-model source capsules. [CPU trace and raw tensor identities](../../results/reports/2026-10-23/recurrent-gdn-native/upstream-reference-v6.json)
 and [SDK NumPy bit/numerical replay](../../results/reports/2026-10-23/recurrent-gdn-native/upstream-sdk-replay-v6.json)
 are unscored supporting evidence, separate from device baseline qualification.
+
+
+Both native-width profiles are now fully qualified. Normalization conversion/reuse
+confirms 1.251334× geometric mean against the vector baseline, with all48 paired
+cases independently replayed. [Evidence](../../results/reports/2026-10-23/recurrent-gdn-native/vector-suite-confirmed.json).

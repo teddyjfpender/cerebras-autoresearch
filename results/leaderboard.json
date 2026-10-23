@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 438,
-  "ledger_head": "17affbb4ef4c8f374166f36be8cadfc60e9d0762ced9050185e24221ae317ff6",
+  "ledger_rows": 448,
+  "ledger_head": "a62f89e7c7f2482b1eb9609da29a3991c533c1479e5da06f314bc45970c565f6",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -2268,6 +2268,19 @@
       "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
       "receipt": "runs/v2/20261023T153858Z-recurrent-gdn-native.k128-v128-t4-5f1d2c2d/result.json",
       "decision": "baseline"
+    },
+    {
+      "event_id": "9f9f87a6b9dff87519e883d87e7a93b6e900958842687ade56333880f640bc53",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.convert_once_vector_normalization",
+      "candidate": "native-gdn-vector-norm",
+      "variant": "candidate",
+      "primary_value": "92660.0",
+      "memory_bytes": "39648",
+      "source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T154327Z-recurrent-gdn-native.k128-v128-t4-b8e69fda/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "confirmed_improvements": [
@@ -2712,6 +2725,19 @@
       "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
       "receipt": "runs/v2/20261023T153223Z-confirmation-b3ce6112/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "49741291922ef3f2680f01573c7c54d8f7edff858d588c16a4f2928757eeb8c5",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.convert_once_vector_normalization",
+      "candidate": "native-gdn-vector-norm",
+      "variant": "candidate",
+      "primary_value": "92660.0",
+      "memory_bytes": "39648",
+      "source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T154727Z-confirmation-d6c853df/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -3075,6 +3101,25 @@
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
       "speedup": "1.2547391676168758",
       "memory_ratio": "1.00462249614792"
+    },
+    {
+      "event_id": "49741291922ef3f2680f01573c7c54d8f7edff858d588c16a4f2928757eeb8c5",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.convert_once_vector_normalization",
+      "candidate": "native-gdn-vector-norm",
+      "variant": "candidate",
+      "primary_value": "92660.0",
+      "memory_bytes": "39648",
+      "source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+      "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
+      "receipt": "runs/v2/20261023T154727Z-confirmation-d6c853df/result.json",
+      "decision": "confirmed",
+      "profile_sha256": "dbcec415119618001df13dbb6ebe803524d47be1df28ed2bbcd546a3223eef11",
+      "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "harness_sha256": "5a36598ee5cbd4d3b78fd47cb9a9b443e9f994540be69821d82c2db9d863ab52",
+      "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+      "speedup": "1.2479387006259444",
+      "memory_ratio": "1.0044588569112283"
     }
   ],
   "confirmed_suite_events": [
@@ -3086,7 +3131,8 @@
     "6df0a70fa5c22b214db970256bce817a94657eca97ea13cacc11893767df5874",
     "f5b2149318b70ba3392b6d543f1469f01a7b6084abbf228093209349af0c8b8c",
     "3752e4f17dc93a90d9f88959e6b04fd2f46c0a270a399ce505500d4a164cd0c4",
-    "2cadcb27f388e32fb7e93740b60f29faa987fabfe79452d43000fa60ad0afa5b"
+    "2cadcb27f388e32fb7e93740b60f29faa987fabfe79452d43000fa60ad0afa5b",
+    "1c4939e254a79d7645fd71a9dfaabfeb4ab272cd5ea2e6fabf889945fe87f65e"
   ],
   "qwen_tps_result": false
 }
