@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 458,
-  "ledger_head": "130b1536fbb5b1f3b7d3aeb50ac3dda37dea022f722a12fb32d0a652188cd438",
+  "ledger_rows": 467,
+  "ledger_head": "a3ac53e4fe5ea13646d7c6c6b4d4311837f50f3217a644d209900f4bc4f1414f",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -953,6 +953,32 @@
       "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
       "receipt": "runs/v2/20261023T173106Z-recurrent-gdn-native.k128-v128-t4-e3204d08/result.json",
       "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "7ce37423d35f7a17bf83ba6efc1d22174763a1044aec7ee59e55c82204eb2a30",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.pr1_dsr_bank_unroll8",
+      "candidate": "native-gdn-pr1-dsr-unroll8",
+      "variant": "candidate",
+      "primary_value": "47618.0",
+      "memory_bytes": "40224",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T175642Z-recurrent-gdn-native.k128-v128-t4-752647e5/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "43f84e0a4a05b4dbb3505778d432330e8642f2ed316f78da32f3343a3fafb0d5",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "recurrent_gdn_native.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "211278.0",
+      "memory_bytes": "41536",
+      "source_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T175941Z-recurrent-gdn-native.k128-v128-t8-9a25bf6a/result.json",
+      "decision": "baseline"
     }
   ],
   "measured_cycle_memory_front": [
@@ -2359,6 +2385,32 @@
       "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
       "receipt": "runs/v2/20261023T173852Z-recurrent-gdn-native.k128-v128-t4-8abeaf2d/result.json",
       "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "7ce37423d35f7a17bf83ba6efc1d22174763a1044aec7ee59e55c82204eb2a30",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.pr1_dsr_bank_unroll8",
+      "candidate": "native-gdn-pr1-dsr-unroll8",
+      "variant": "candidate",
+      "primary_value": "47618.0",
+      "memory_bytes": "40224",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T175642Z-recurrent-gdn-native.k128-v128-t4-752647e5/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "43f84e0a4a05b4dbb3505778d432330e8642f2ed316f78da32f3343a3fafb0d5",
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "approach": "recurrent_gdn_native.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "211278.0",
+      "memory_bytes": "41536",
+      "source_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T175941Z-recurrent-gdn-native.k128-v128-t8-9a25bf6a/result.json",
+      "decision": "baseline"
     }
   ],
   "confirmed_improvements": [
@@ -2829,6 +2881,19 @@
       "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
       "receipt": "runs/v2/20261023T174206Z-confirmation-8145f65c/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "104746cacd8db9af99d251234f946bb8c4565fe88d19377f501c468f31dc626c",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.pr1_dsr_bank_unroll8",
+      "candidate": "native-gdn-pr1-dsr-unroll8",
+      "variant": "candidate",
+      "primary_value": "47618.0",
+      "memory_bytes": "40224",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T175939Z-confirmation-5d3c7bda/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -3213,23 +3278,23 @@
       "memory_ratio": "1.0044588569112283"
     },
     {
-      "event_id": "f7f38d3d7f939695d59bc8b3afc1ce8b2bd514bace174d29b08d1e92765a2105",
+      "event_id": "104746cacd8db9af99d251234f946bb8c4565fe88d19377f501c468f31dc626c",
       "profile": "recurrent-gdn-native.k128-v128-t4",
-      "approach": "native_gdn.pr1_bank_offset_dsr_reuse",
-      "candidate": "native-gdn-pr1-dsr-bank-offset",
+      "approach": "native_gdn.pr1_dsr_bank_unroll8",
+      "candidate": "native-gdn-pr1-dsr-unroll8",
       "variant": "candidate",
-      "primary_value": "58060.0",
-      "memory_bytes": "39648",
-      "source_sha256": "2e6c33fe3427a15b90656d7b2054afa54a1cfb1c758c8d87ca397e2aa0c7a365",
+      "primary_value": "47618.0",
+      "memory_bytes": "40224",
+      "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
       "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
-      "receipt": "runs/v2/20261023T174206Z-confirmation-8145f65c/result.json",
+      "receipt": "runs/v2/20261023T175939Z-confirmation-5d3c7bda/result.json",
       "decision": "confirmed",
       "profile_sha256": "dbcec415119618001df13dbb6ebe803524d47be1df28ed2bbcd546a3223eef11",
       "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
       "harness_sha256": "00b43d3c96b33a23a293e829292599d0bbbca12b59c8bb866445d7dcb479433d",
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
-      "speedup": "1.9916293489493628",
-      "memory_ratio": "1.0044588569112283"
+      "speedup": "2.4283164283164282",
+      "memory_ratio": "1.0190514795297934"
     }
   ],
   "confirmed_suite_events": [
