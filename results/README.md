@@ -78,7 +78,32 @@ source identities were frozen before any held-out device observations. The
 frozen source is freshly confirmed on M4 at1.8139x conservative speedup. Its M32
 screen reached1.5755x but exceeded the fixed memory budget (+12.49%); it is
 rejected there. See the [held-out campaign](reports/2026-10-23/resident-swiglu-bf16/heldout-frozen-campaign.json).
-The follow-up two-buffer source needs its own full/fresh four-shape qualification.
+The follow-up two-buffer source is now separately qualified on all four shapes, as described below.
+
+## BF16 four-shape generalization — confirmed follow-up
+
+`bf16-swiglu-two-buffer-tail4` passes the complete four-profile suite with
+**1.589946x conservative geometric mean**, worst cell **1.499687x**. All **96
+paired cases** pass independent numerical, complete core/state and raw timer
+replay. Two live FP32 tiles replace the previous three-tile expansion/activation
+layout; timed transpose/copy-back and every projection/stage/frame remain.
+
+| Profile | Initial reference → candidate cycles | Fresh candidate cycles | Program bytes/PE |
+| --- | ---: | ---: | ---: |
+| `resident-swiglu-bf16.small` | 57,573 → 38,390 | 38,390 | 11,088 → 11,328 |
+| `resident-swiglu-bf16.ffn-scaled` | 585,178 → 376,762 | 379,531 | 43,600 → 46,064 |
+| `resident-swiglu-bf16.batch4-ffn` | 383,514 → 212,861 | 212,713 | 36,544 → 38,432 |
+| `resident-swiglu-bf16.batch32-h64-f192` | 651,264 → 424,872 | 424,870 | 37,648 → 40,784 |
+
+Memory growth is at most8.33%, including the batch32 boundary that rejected the
+previous source. The specialized earlier candidate is slightly faster on some
+cells; this shared source qualifies the entire fixed four-cell suite. It is a
+follow-up after held-out observations, not an unseen-shape claim.
+[Complete confirmation](reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-confirmed.json),
+[all campaign attempts](reports/2026-10-23/resident-swiglu-bf16/two-buffer-campaign.json),
+[96-case numerical replay](reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-numerics.json),
+[96-case core/state/timer replay](reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-snapshots.json).
+These are simulator operator-chain results; Qwen TPS is unmeasured.
 
 ## Four inference tracks — qualified baselines
 

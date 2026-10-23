@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 376,
-  "ledger_head": "20909f04368c7c6576c83bc139288199b2c7e89bf501d5a570b76ff82e7de5c0",
+  "ledger_rows": 402,
+  "ledger_head": "5fc52e5fdc1de92c83e52d69527a6f7b84981122e8e9acd8b20cbbc4306fabed",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -770,6 +770,58 @@
       "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T123734Z-resident-swiglu-bf16.batch4-ffn-8c6e6c59/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "09d20cf6778e05f3f37e62f54be4943664d9992e0f29bb44ae355bf6e8b2f868",
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "424870.0",
+      "memory_bytes": "40784",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T130106Z-resident-swiglu-bf16.batch32-h64-f192-d1d2a669/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "4783c9d857e42344ccea5d0c55c9df12ba06f2ec00c414a9347a35a8b2ef1b9a",
+      "profile": "resident-swiglu-bf16.batch4-ffn",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "212713.0",
+      "memory_bytes": "38432",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T131041Z-resident-swiglu-bf16.batch4-ffn-fae695ab/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "1b44777b6e1c9a968bc0593fefdc44378006509c692c4f38b3f765b6fa96f073",
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "376762.0",
+      "memory_bytes": "46064",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T131506Z-resident-swiglu-bf16.ffn-scaled-ed35bc64/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "6b8f8632c6650f1c64d1db0f2ef7d71680baf54ce04b4e7454467332e3014b81",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "38390.0",
+      "memory_bytes": "11328",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T132558Z-resident-swiglu-bf16.small-37377848/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -1917,6 +1969,58 @@
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T123734Z-resident-swiglu-bf16.batch4-ffn-8c6e6c59/result.json",
       "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "53ecbaaf8d1e2e53c5def3f6f6998c4b3eb74650280c068138f266b740e4b8f2",
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "approach": "resident_swiglu_bf16.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "651264.0",
+      "memory_bytes": "37648",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T125402Z-resident-swiglu-bf16.batch32-h64-f192-57395064/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "09d20cf6778e05f3f37e62f54be4943664d9992e0f29bb44ae355bf6e8b2f868",
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "424870.0",
+      "memory_bytes": "40784",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T130106Z-resident-swiglu-bf16.batch32-h64-f192-d1d2a669/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "4783c9d857e42344ccea5d0c55c9df12ba06f2ec00c414a9347a35a8b2ef1b9a",
+      "profile": "resident-swiglu-bf16.batch4-ffn",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "212713.0",
+      "memory_bytes": "38432",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T131041Z-resident-swiglu-bf16.batch4-ffn-fae695ab/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "1b44777b6e1c9a968bc0593fefdc44378006509c692c4f38b3f765b6fa96f073",
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "376762.0",
+      "memory_bytes": "46064",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T131506Z-resident-swiglu-bf16.ffn-scaled-ed35bc64/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "confirmed_improvements": [
@@ -2270,6 +2374,58 @@
       "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
       "receipt": "runs/v2/20261023T124057Z-confirmation-a0541ba3/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "74524df8cc26652cadc3c4bb3416eecca02e2893ac0863ba233933021b4323dc",
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "424870.0",
+      "memory_bytes": "40784",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T130632Z-confirmation-20bcdd71/result.json",
+      "decision": "confirmed"
+    },
+    {
+      "event_id": "3e110bbe1c3daf02bc49a51f813cf58a0042074412fc395c387f2ff0bc73a107",
+      "profile": "resident-swiglu-bf16.batch4-ffn",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "212713.0",
+      "memory_bytes": "38432",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T131403Z-confirmation-0f22ca98/result.json",
+      "decision": "confirmed"
+    },
+    {
+      "event_id": "665785dd878acf9eb4423ed75a4ce27a16314343bb363671764e210aec5074a7",
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "379531.0",
+      "memory_bytes": "46064",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T132539Z-confirmation-1204b6ae/result.json",
+      "decision": "confirmed"
+    },
+    {
+      "event_id": "2687f6c1cece0db3f3a212fb2cd2a39520571f97efe33ad83b5f01a568ad7406",
+      "profile": "resident-swiglu-bf16.small",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "38390.0",
+      "memory_bytes": "11328",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T132734Z-confirmation-1902a0f2/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -2557,6 +2713,25 @@
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
       "speedup": "1.8139053114505983",
       "memory_ratio": "1.063922942206655"
+    },
+    {
+      "event_id": "74524df8cc26652cadc3c4bb3416eecca02e2893ac0863ba233933021b4323dc",
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "approach": "resident_swiglu_bf16.two-live-fp32-tiles",
+      "candidate": "bf16-swiglu-two-buffer-tail4",
+      "variant": "candidate",
+      "primary_value": "424870.0",
+      "memory_bytes": "40784",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "receipt": "runs/v2/20261023T130632Z-confirmation-20bcdd71/result.json",
+      "decision": "confirmed",
+      "profile_sha256": "e7f97b9e08e97c22ff046c78b5c40aff6a1eab79d4f91e8a7940e758fb0d1079",
+      "baseline_tree_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+      "speedup": "1.5328475399649777",
+      "memory_ratio": "1.0832979175520612"
     }
   ],
   "confirmed_suite_events": [
@@ -2566,7 +2741,8 @@
     "917ea1f0a6e80ffb68d01b3eda14d4b60ef858072b807afe33dd65182f19c3ce",
     "1ee071865625cb02819e8903f54804a6a953ae5b84b20efce7d8494ddd2b5196",
     "6df0a70fa5c22b214db970256bce817a94657eca97ea13cacc11893767df5874",
-    "f5b2149318b70ba3392b6d543f1469f01a7b6084abbf228093209349af0c8b8c"
+    "f5b2149318b70ba3392b6d543f1469f01a7b6084abbf228093209349af0c8b8c",
+    "3752e4f17dc93a90d9f88959e6b04fd2f46c0a270a399ce505500d4a164cd0c4"
   ],
   "qwen_tps_result": false
 }

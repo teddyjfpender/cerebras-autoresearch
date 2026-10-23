@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_suite_improvement",
+  "created_utc": "2026-10-23T13:29:31.575479+00:00",
+  "decision": {
+    "status": "confirmed_suite_improvement",
+    "initial": {
+      "geometric_mean_speedup": 1.5925806420130135,
+      "worst_speedup": 1.4996874185985933,
+      "profiles": [
+        "resident-swiglu-bf16.small",
+        "resident-swiglu-bf16.ffn-scaled",
+        "resident-swiglu-bf16.batch4-ffn",
+        "resident-swiglu-bf16.batch32-h64-f192"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "resident-swiglu-bf16.small",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T105329Z-resident-swiglu-bf16.small-55f690a3/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T132558Z-resident-swiglu-bf16.small-37377848/result.json",
+          "speedup": 1.4996874185985933,
+          "memory_ratio": 1.0216450216450217,
+          "cycle_reduction_percent": 33.31943793097458,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu-bf16.ffn-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T105451Z-resident-swiglu-bf16.ffn-scaled-1a17f4c9/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T131506Z-resident-swiglu-bf16.ffn-scaled-ed35bc64/result.json",
+          "speedup": 1.5531768065781582,
+          "memory_ratio": 1.05651376146789,
+          "cycle_reduction_percent": 35.61582971335218,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu-bf16.batch4-ffn",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T121213Z-resident-swiglu-bf16.batch4-ffn-5d0f88ec/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T130719Z-resident-swiglu-bf16.batch4-ffn-4fd3ae35/result.json",
+          "speedup": 1.8017109757071517,
+          "memory_ratio": 1.0516637478108581,
+          "cycle_reduction_percent": 44.497202188186094,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu-bf16.batch32-h64-f192",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T121717Z-resident-swiglu-bf16.batch32-h64-f192-534a0aa4/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T124834Z-resident-swiglu-bf16.batch32-h64-f192-137be5b6/result.json",
+          "speedup": 1.5328475399649777,
+          "memory_ratio": 1.0832979175520612,
+          "cycle_reduction_percent": 34.761939858490564,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "confirmation": {
+      "geometric_mean_speedup": 1.5899461656135172,
+      "worst_speedup": 1.4996874185985933,
+      "profiles": [
+        "resident-swiglu-bf16.small",
+        "resident-swiglu-bf16.ffn-scaled",
+        "resident-swiglu-bf16.batch4-ffn",
+        "resident-swiglu-bf16.batch32-h64-f192"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "resident-swiglu-bf16.small",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T110535Z-resident-swiglu-bf16.small-3dfce701/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T132646Z-resident-swiglu-bf16.small-3ef5f8d4/result.json",
+          "speedup": 1.4996874185985933,
+          "memory_ratio": 1.0216450216450217,
+          "cycle_reduction_percent": 33.31943793097458,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu-bf16.ffn-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T112251Z-resident-swiglu-bf16.ffn-scaled-b3067a0c/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T132022Z-resident-swiglu-bf16.ffn-scaled-7c15a0eb/result.json",
+          "speedup": 1.5418450666743955,
+          "memory_ratio": 1.05651376146789,
+          "cycle_reduction_percent": 35.142640359001874,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu-bf16.batch4-ffn",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T123227Z-resident-swiglu-bf16.batch4-ffn-b76c237f/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T131041Z-resident-swiglu-bf16.batch4-ffn-fae695ab/result.json",
+          "speedup": 1.8029645578784559,
+          "memory_ratio": 1.0516637478108581,
+          "cycle_reduction_percent": 44.53579269596416,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu-bf16.batch32-h64-f192",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T125402Z-resident-swiglu-bf16.batch32-h64-f192-57395064/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T130106Z-resident-swiglu-bf16.batch32-h64-f192-d1d2a669/result.json",
+          "speedup": 1.5328547555722927,
+          "memory_ratio": 1.0832979175520612,
+          "cycle_reduction_percent": 34.76224695361635,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "cell_evidence": {
+      "resident-swiglu-bf16.small": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.4996874185985933,
+        "confirmation_speedup": 1.4996874185985933
+      },
+      "resident-swiglu-bf16.ffn-scaled": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.5531768065781582,
+        "confirmation_speedup": 1.5418450666743955
+      },
+      "resident-swiglu-bf16.batch4-ffn": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.8017109757071517,
+        "confirmation_speedup": 1.8029645578784559
+      },
+      "resident-swiglu-bf16.batch32-h64-f192": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.5328475399649777,
+        "confirmation_speedup": 1.5328547555722927
+      }
+    },
+    "scope": "exact complete suite coverage",
+    "qwen_tps_result": false,
+    "schema_version": 2,
+    "record_type": "suite_confirmation",
+    "inputs": {
+      "initial_baseline": "runs/v2/20261023T132743Z-suite-reuse-960bc1de/result.json",
+      "initial_candidate": "runs/v2/20261023T132744Z-suite-reuse-72a34184/result.json",
+      "fresh_baseline": "runs/v2/20261023T132744Z-suite-reuse-bb296b17/result.json",
+      "fresh_candidate": "runs/v2/20261023T132744Z-suite-reuse-9ec7eddd/result.json"
+    },
+    "budgets": {
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "regression_limit": 1.02
+    },
+    "receipt": "runs/v2/20261023T132747Z-suite_confirmation-dcaf6c7b/result.json"
+  },
+  "state": {
+    "path": "runs/campaigns/resident-swiglu-bf16/two-buffer-suite-state.json",
+    "sha256": "dc97f0f45b84a9434f908baa46812a5aaffbe0df700ae10418128ab17cbd6ba3"
+  },
+  "campaign": {
+    "path": "results/reports/2026-10-23/resident-swiglu-bf16/two-buffer-campaign.json",
+    "sha256": "5e1c3b85ed55451962fe6c6d011049c3b4dc5529e8d281744299ce9f58615d7b"
+  },
+  "arms": {
+    "initial_baseline": {
+      "path": "runs/v2/20261023T132743Z-suite-reuse-960bc1de/result.json",
+      "sha256": "f3f092731177825e7644b71886f71eb3ed38360a3296209cc2085398955e71f1"
+    },
+    "initial_candidate": {
+      "path": "runs/v2/20261023T132744Z-suite-reuse-72a34184/result.json",
+      "sha256": "192828c59cd947ffecb45a6fa2c1bcc81ccd420752a31c7b6b7cd75737eaaa43"
+    },
+    "fresh_baseline": {
+      "path": "runs/v2/20261023T132744Z-suite-reuse-bb296b17/result.json",
+      "sha256": "bf07addbc1c0df416e78c9444227f05472ef874a4fb7ee533f79067d21e77316"
+    },
+    "fresh_candidate": {
+      "path": "runs/v2/20261023T132744Z-suite-reuse-9ec7eddd/result.json",
+      "sha256": "856cc4a6c42363648ba4cf9981c1b8a55430eaafbb1e4696898dd0ea0e1ffcc2"
+    }
+  },
+  "numerics": {
+    "path": "results/reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-numerics.json",
+    "sha256": "39bb06dd85a4dd204e4cd29f581a9c984224f11888ce3d15098f269e821df4cb"
+  },
+  "snapshots": {
+    "path": "results/reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-snapshots.json",
+    "sha256": "1db9c4be340e3de88e0c687c5d32c7f2bd0a758a77a161493dde80b18608a6ee"
+  },
+  "case_count": 96,
+  "qwen_tps_result": false,
+  "scope": "One frozen two-buffer parameterized candidate across all four registered BF16 SwiGLU profiles, both paired seeds and unchanged precision, 16 PE, full-chain timing and memory gates. Follow-up optimization after held-out baseline observations; not a predeclared unseen-shape result."
+}
