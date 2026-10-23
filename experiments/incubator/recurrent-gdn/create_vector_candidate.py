@@ -87,6 +87,8 @@ def main():
         or qualified["provenance"]["evaluator_sha256"] != identity(evaluator_files(ROOT))
     ):
         raise ValueError("Need a current matched full baseline before candidate creation")
+    if "var VECTOR_SCRATCH" in (source / "src/pe.csl").read_text():
+        raise ValueError("Baseline already has vector state; use a refinement candidate")
     subprocess.run(
         [
             sys.executable,

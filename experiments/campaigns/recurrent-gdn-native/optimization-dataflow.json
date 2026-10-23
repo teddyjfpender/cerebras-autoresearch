@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "name": "native-vector-reference-dataflow-refinements",
+  "seed": 20261038,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "baseline_receipt": "runs/v2/20261023T142715Z-recurrent-gdn-native.k128-v128-t8-c3bf1dbf/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-fuse-readout"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-vector-norm"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-partial4"
+        }
+      ]
+    },
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "baseline_receipt": "runs/v2/20261023T142107Z-recurrent-gdn-native.k128-v128-t4-43a81f78/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-fuse-readout"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-vector-norm"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-partial4"
+        }
+      ]
+    }
+  ]
+}
