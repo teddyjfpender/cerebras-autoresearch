@@ -79,7 +79,8 @@ They are synthetic tensor problems, not full Qwen layers or decoder benchmarks.
 The [sharded GQA suite](decode-attention.md) adds five configured, host-checked
 profiles under `attention/gqa.json` and the `decode-attention` suite. Its
 `coordinator_cycles` primary contract differs from local-duration benchmarks.
-These profiles are not compiled or device-qualified yet.
+The 4-PE `d64-ctx128` profile has six-case, fresh-pair SDK qualification and a
+1.816x confirmed candidate. Other profiles remain configured pending execution.
 
 Add profile data in a nested family manifest, register it in `manifests/catalog.json`,
 and include appropriate suite members. Read the [architecture guide](../development/architecture.md).

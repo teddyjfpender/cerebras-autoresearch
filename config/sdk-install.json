@@ -5,12 +5,16 @@
   "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
   "bundled_checksum_verification": "all files passed",
   "local_sdk_directory": ".sdk/sdk-2.10.1",
-  "lima_instance": "cerebras-sdk",
-  "guest_os": "Ubuntu 22.04 x86_64",
-  "guest_container_runtime": "SingularityCE 4.0.2",
-  "host_lima_version": "2.2.1",
-  "host_qemu_version": "11.1.2",
   "example_source_release": "rel-sdk-2.10.0",
-  "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
-  "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+  "execution_route": "native_unpacked_sif",
+  "host_os": "Linux x86_64; host glibc 2.39",
+  "container_runtime": null,
+  "sdk_python_version": "3.11.8",
+  "sdk_numpy_version": "1.25.0",
+  "unpack_tool": "unsquashfs 4.6.1; SIF filesystem offset 40960",
+  "environment_source": ".singularity.d/env/10-docker2singularity.sh",
+  "entrypoints": "tools/sdk-unpacked; vendor binaries and SDK libraries unchanged",
+  "qualification": "Compiler help, runtime import, and d64-ctx128 positive-case screen passed; full qualification pending",
+  "initial_screen": "runs/v2/20261023T131356Z-decode-attention.d64-ctx128-19919aa4/result.json",
+  "initial_screen_note": "Exploratory screen predates this environment manifest and the wrapper source capsule; cannot establish a retained gain."
 }

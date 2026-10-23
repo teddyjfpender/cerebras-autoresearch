@@ -18,7 +18,7 @@ class DecodeAttentionTests(unittest.TestCase):
         suite = get_suite("decode-attention")
         self.assertEqual(len(suite), 5)
         self.assertEqual({p["dimensions"]["D"] for p in suite}, {64, 128})
-        self.assertIn(64, {p["dimensions"]["P"] for p in suite})
+        self.assertIn(128, {p["dimensions"]["P"] for p in suite})
         for profile in suite:
             self.assertEqual(profile["metric"], "coordinator_cycles")
             self.assertEqual(profile["pe_grid"], [profile["dimensions"]["P"], 1])
@@ -26,7 +26,13 @@ class DecodeAttentionTests(unittest.TestCase):
 
     def test_all_candidates_prepare_on_every_shape(self):
         for profile in get_suite("decode-attention"):
-            for name in (None, "attention-vector-exp", "attention-polynomial-exp"):
+            for name in (
+                None,
+                "attention-vector-exp",
+                "attention-polynomial-exp",
+                "attention-dsr",
+                "attention-dsr-normalize",
+            ):
                 with (
                     self.subTest(profile=profile["id"], candidate=name),
                     tempfile.TemporaryDirectory() as folder,
@@ -51,6 +57,7 @@ class DecodeAttentionTests(unittest.TestCase):
             ("V[dim*S+position%S] = NEW_V[step*D+dim];", ""),
             ("slot < valid", "slot < S"),
             ("mpi.reduce_fadds(ROOT", "mpi.reduce_fadds(0"),
+            ("store_output();", ""),
         ):
             # The local compute body can change; replace the last occurrence,
             # which belongs to immutable cache/control for the causal-mask case.

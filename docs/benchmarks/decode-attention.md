@@ -5,17 +5,27 @@ heads**, with its cache sharded across P on-wafer PEs. Inputs are supplied
 after positional encoding. Projections, RoPE, MLP, model sampling and
 inter-wafer transport are outside this operator's contract. Precision is FP32.
 
-**Configured and host-checked; CSL compilation and device performance remain
-unmeasured. The requested >5x improvement is not established.** See the
-[readiness report](../../results/reports/2026-10-23-attention-readiness.json).
+**SDK-qualified on `d64-ctx128`: 1.816x confirmed with six cases at both seeds.**
+The requested >5x improvement is not yet established. The
+[stage-one report](../../results/reports/2026-10-23-attention-sdk-stage1.json)
+and [24-case raw replay](../../results/reports/2026-10-23-attention-sdk-stage1-replay.json)
+record the evidence. The earlier
+[readiness report](../../results/reports/2026-10-23-attention-readiness.json)
+is an immutable record from before SDK installation.
 
 | Profile suffix | Compute PEs | Slots/PE | Head width | Queries/KV head | Initial/final context |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `d64-ctx128` | 4 | 32 | 64 | 4 | 124/128 |
 | `d64-boundary` | 4 | 32 | 64 | 4 | 30/34 |
-| `d64-ctx1024` | 16 | 64 | 64 | 4 | 1,020/1,024 |
-| `d64-ctx4096` | 64 | 64 | 64 | 4 | 4,092/4,096 |
-| `d128-ctx512` | 16 | 32 | 128 | 2 | 508/512 |
+| `d64-ctx1024` | 32 | 32 | 64 | 4 | 1,020/1,024 |
+| `d64-ctx4096` | 128 | 32 | 64 | 4 | 4,092/4,096 |
+| `d128-ctx512` | 32 | 16 | 128 | 2 | 508/512 |
+
+SDK compilation rejected the initial larger shards for insufficient PE memory.
+Those configurations now use twice as many PEs, at unchanged context and
+precision. New profile fingerprints and fresh baselines keep those budgets
+separate from the original failed attempt. Only the small profile is qualified
+in the stage-one report; the other rows remain configurations pending execution.
 
 All IDs start with `decode-attention.`. Four distinct supplied tokens execute
 in one resident sequence, without host traffic between tokens. The boundary
@@ -59,9 +69,12 @@ includes KV appends, local work and all reductions. Local PE intervals remain
 diagnostic. `cycles_per_token` divides the sequence by four; it is not model
 TPS. Compilation, initialization and host transfers are excluded.
 
-Candidates cannot change layout, data declarations, cache appends, causal
-maxima, collective control, stores or timing. Only the local-compute region is
-editable. Precision, PE budget, numerical bounds and <=1.10x program-object
+Candidates cannot change layout, fixed data declarations, cache appends, causal
+maxima, collective control, output dispatch or timing. Local arithmetic and
+normalization/stores inside the guarded compute region are editable. The
+normalization hook contains the original scalar reference unchanged; its new
+source/evaluator track has fresh paired baselines. Precision, PE budget,
+numerical bounds and <=1.10x program-object
 memory gate stay fixed. Actual compiled memory/footprint needs SDK inspection;
 source buffer estimates do not certify SRAM fit. Work units count QK/PV
 multiply/add arithmetic; nonlinear and communication work remains timed.
@@ -74,7 +87,20 @@ multiply/add arithmetic; nonlinear and communication work remains timed.
    times, on [-16,0], and an SDK-exp fallback outside that range. Host checks
    stress approximation boundaries and all profile/case/seed combinations.
 
-Both are **uncompiled proposals**, not retained improvements. The incremental
+Both compiled and passed a positive-case screen on the original source track,
+but gave no meaningful gain: 380,038 baseline cycles, 378,094 vector-exp cycles,
+and 381,154 polynomial-map cycles. Neither is retained.
+
+Phase instrumentation identified descriptor setup and repeated normalization
+divisions as larger costs. `attention-dsr` keeps accumulator descriptors in
+DSRs; `attention-dsr-normalize` adds one reciprocal per head and a vector output
+multiply. Against the fresh baseline, the latter improves the maximum of six
+cases from **380,121 to 209,313 sequence cycles**, or 95,030.25 to 52,328.25
+cycles per token. The same numbers hold at seed 20261024. Maximum program-object
+memory falls from **44,064 to 43,552 bytes per PE**. This confirmation applies
+to the 4-PE `d64-ctx128` profile only.
+
+The incremental
 campaign uses the ordinary 1.05x gate. A separate target campaign requires
 **5.01x versus the original vectorized reference**, at both fresh seeds and
 under the memory gate. Family-wide >5x requires every profile to pass; otherwise

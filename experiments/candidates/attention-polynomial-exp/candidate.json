@@ -4,7 +4,7 @@
   "source": {
     "repository": "local"
   },
-  "baseline_tree_sha256": "0473866b6b4442bb1ba4edcbbce6d0514373ea8e1c6dd4b13008e4647d8c052f",
+  "baseline_tree_sha256": "0bb933dc966cdee9422dfd9cbf8848d9870edf16a735356693edaf4fdcb36928",
   "starting_variant": "baseline",
   "shape_specific": false,
   "approach": "decode_attention.polynomial-exp",
@@ -13,5 +13,5 @@
   "author": "OpenAI Codex",
   "model": "unknown",
   "agent_harness": "ChatGPT Work",
-  "qualification_status": "host_checks_only_not_compiled"
+  "qualification_status": "Positive-case screen passed before the normalization hook; no meaningful gain; requalification required"
 }

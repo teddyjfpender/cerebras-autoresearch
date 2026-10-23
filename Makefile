@@ -10,7 +10,7 @@ lint:
 	$(PYTHON) research.py validate
 	$(PYTHON) research.py ledger verify
 	$(PYTHON) -m compileall -q src benchmarks/drivers tools research.py
-	bash -n tools/sdk-run
+	bash -n tools/sdk-run tools/sdk-unpacked tools/unpacked-sdk-bin/*
 
 test:
 	$(PYTHON) -m unittest discover -s tests -t .

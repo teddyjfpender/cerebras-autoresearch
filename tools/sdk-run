@@ -2,6 +2,10 @@
 set -euo pipefail
 task_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 task_sdk_dir=${CEREBRAS_SDK_DIR:-"$task_root/.sdk/sdk-2.10.1"}
+if [[ "$(uname -s)" == Linux && -n "${CEREBRAS_SDK_ROOTFS:-}" ]]; then
+  export PATH="$task_root/tools/unpacked-sdk-bin:$PATH"
+  exec "$@"
+fi
 test -x "$task_sdk_dir/cslc" || { echo "SDK cslc not found in $task_sdk_dir" >&2; exit 2; }
 if [[ "$(uname -s)" == Linux ]]; then
   export PATH="$task_sdk_dir:$PATH"

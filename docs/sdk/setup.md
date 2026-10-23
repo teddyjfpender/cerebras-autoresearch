@@ -1,9 +1,9 @@
 # SDK and execution environment
 
-The local installation uses SDK 2.10.1, WSE-3 compilation, Lima/QEMU x86_64,
-Ubuntu 22.04, and SingularityCE 4.0.2. Exact source revisions are in
-`config/sources.lock.json`; the SIF digest and original installation evidence
-are in `config/sdk-install.json`.
+The pinned installation uses SDK 2.10.1 and WSE-3 compilation. Exact source
+revisions are in `config/sources.lock.json`; the SIF digest and current
+execution route are in `config/sdk-install.json`. Historical receipts embed
+their own environment manifests, including the original Lima installation.
 
 The archive's bundled checksums were verified during installation. SDK binaries
 and its private download URL are excluded from Git. Obtain your own archive
@@ -54,3 +54,34 @@ The runner collects program-object observations automatically.
 `limactl stop cerebras-sdk` releases the VM's resources when idle. QEMU wall time
 describes experiment iteration cost; it is never the device performance score.
 Appliance-mode simulation needs cluster access and is a separate execution route.
+
+## Unpacked image on native Linux
+
+The October 23 measurements use the verified SDK image's compiler, Python,
+libraries and simulator directly on x86 Linux. This is a reproduction route
+for this workspace, not a statement of vendor support. It needs no container
+privileges, namespace changes, network service or SDK API key. The standard
+Singularity route remains available through the original SDK wrappers.
+
+Extract the licensed archive with `tar --no-same-owner`, then verify every
+entry in its bundled `sha256sum.txt`. Extract the SIF's SquashFS partition
+with `unsquashfs`; this exact image has its filesystem at byte 40960. Keep the
+image and extracted binaries unchanged. This installation used unsquashfs
+4.6.1. Allow about 11 GB for the extracted root plus the image and archive.
+
+The SDK contains absolute interpreter/toolchain paths. In an otherwise empty
+execution environment, `/cb`, `/cbcore` and `/python` must resolve to the
+corresponding directories in the extracted root. Do not replace existing
+system directories. The wrapper checks those paths and loads the image's
+own `.singularity.d/env/10-docker2singularity.sh`.
+
+```sh
+export CEREBRAS_SDK_DIR=/path/to/extracted-archive
+export CEREBRAS_SDK_ROOTFS=/path/to/unpacked-sif-root
+tools/sdk-run python3 research.py doctor --verify-sdk
+make sdk-test
+```
+
+`tools/sdk-run` selects the unpacked entrypoints only when
+`CEREBRAS_SDK_ROOTFS` is explicitly set on Linux. Their source is captured in
+each new evaluator capsule. SDK paths and licensed binaries stay outside Git.

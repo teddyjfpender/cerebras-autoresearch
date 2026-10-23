@@ -11,6 +11,9 @@ def capture(profile, variant, candidate=None):
     files = sorted((ROOT / "src/cerebras_research").glob("*.py")) + sorted(
         (ROOT / "benchmarks/drivers").glob("*.py")
     )
+    files += [ROOT / "tools/sdk-run", ROOT / "tools/sdk-unpacked"] + sorted(
+        (ROOT / "tools/unpacked-sdk-bin").iterdir()
+    )
     evaluator = {str(p.relative_to(ROOT)): digest(p) for p in files}
 
     def git(*args):

@@ -94,9 +94,18 @@ fn make_partial() void {
         }
     }
 }
+fn store_output() void {
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        var dim: i16 = 0;
+        while (dim < D) : (dim += 1) {
+            Y[(step*G+head)*D+dim] = merged[head*R+dim+1] / merged[head*R];
+        }
+    }
+}
 // END LOCAL COMPUTE
 
-// Trusted control: cache writes, causal maxima, collectives, output stores and timers.
+// Trusted control: cache writes, causal maxima, collectives, output dispatch and timers.
 fn compute() void {
     mpi.init();
     px = @as(i16, mpi.pe_id);
@@ -158,13 +167,7 @@ task after_broadcast() void {
 
 task after_reduce() void {
     if (px == P-1) {
-        var head: i16 = 0;
-        while (head < G) : (head += 1) {
-            var dim: i16 = 0;
-            while (dim < D) : (dim += 1) {
-                Y[(step*G+head)*D+dim] = merged[head*R+dim+1] / merged[head*R];
-            }
-        }
+        store_output();
     }
     step += 1;
     if (step < T) {

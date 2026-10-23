@@ -3,6 +3,7 @@
 import argparse
 import json
 import math
+import os
 import sys
 import time
 import uuid
@@ -358,7 +359,10 @@ def main(argv=None):
             info = legacy.preflight()
             if args.verify_sdk:
                 manifest = json.loads((ROOT / "config/sdk-install.json").read_text())
-                image = ROOT / manifest["local_sdk_directory"] / manifest["sif"]
+                image = (
+                    Path(os.environ.get("CEREBRAS_SDK_DIR", ROOT / manifest["local_sdk_directory"]))
+                    / manifest["sif"]
+                )
                 info["sdk_digest_verified"] = digest(image) == manifest["sif_sha256"]
                 if not info["sdk_digest_verified"]:
                     raise ValueError("SDK SIF digest mismatch")

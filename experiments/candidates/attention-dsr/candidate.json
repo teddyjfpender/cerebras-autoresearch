@@ -1,0 +1,17 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "0bb933dc966cdee9422dfd9cbf8848d9870edf16a735356693edaf4fdcb36928",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.dsr-reuse",
+  "hypothesis": "Keep QK accumulator descriptors in DSRs and advance the key descriptor automatically; reuse PV accumulator DSRs instead of reloading all descriptors per FMA. Expect less scalar issue and descriptor setup overhead at unchanged arithmetic and precision.",
+  "falsification": "Reject any numerical/state or PE-footprint failure, a fresh speedup below 1.05x, or program-object memory growth over 10%.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "ChatGPT Work",
+  "qualification_status": "uncompiled"
+}

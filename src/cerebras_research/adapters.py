@@ -123,7 +123,8 @@ def functions(text):
 def verify_timing_contract(original, edited, kind):
     if kind == "decode_attention":
         # Freeze layout and all data declarations, timers, causal masking, cache
-        # updates, collectives and output stores. Only local arithmetic may vary.
+        # updates, collectives and output dispatch. Local arithmetic, including
+        # normalization and output stores, may vary inside the guarded region.
         begin = "// BEGIN LOCAL COMPUTE: candidate edits are confined to this region."
         end = "// END LOCAL COMPUTE"
         if begin not in original:

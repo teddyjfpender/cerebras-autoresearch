@@ -1,0 +1,1088 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_profile_improvement",
+  "scope": "SDK fabric simulator; one fixed FP32 GQA group profile; not hardware or model inference TPS",
+  "target_speedup": 5.01,
+  "target_achieved": false,
+  "challenge_receipt": {
+    "path": "runs/v2/20261023T133016Z-challenge-de69ee5f/result.json",
+    "sha256": "881ecfa7d335af24d8ab9c25993ca02fd3ac22e6d166110abd5eec43a46d5cf5"
+  },
+  "challenge": {
+    "schema_version": 2,
+    "status": "confirmed_improvement",
+    "profile": "decode-attention.d64-ctx128",
+    "runs": [
+      "runs/v2/20261023T133016Z-decode-attention.d64-ctx128-6653f13b/result.json",
+      "runs/v2/20261023T133155Z-decode-attention.d64-ctx128-da21b2a0/result.json",
+      "runs/v2/20261023T133210Z-decode-attention.d64-ctx128-5db93952/result.json",
+      "runs/v2/20261023T133333Z-decode-attention.d64-ctx128-6224ee50/result.json",
+      "runs/v2/20261023T133515Z-decode-attention.d64-ctx128-a09a93e9/result.json"
+    ],
+    "qwen_tps_result": false,
+    "initial": {
+      "profile": "decode-attention.d64-ctx128",
+      "metric": "coordinator_cycles",
+      "baseline": "/tmp/cerebras-autoresearch/runs/v2/20261023T133016Z-decode-attention.d64-ctx128-6653f13b/result.json",
+      "candidate": "/tmp/cerebras-autoresearch/runs/v2/20261023T133210Z-decode-attention.d64-ctx128-5db93952/result.json",
+      "speedup": 1.8160410485731895,
+      "memory_ratio": 0.9883805374001452,
+      "cycle_reduction_percent": 44.93516538154956,
+      "eligible": true,
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "decision": "needs_fresh_confirmation",
+      "qwen_tps_result": false
+    },
+    "confirmation": {
+      "profile": "decode-attention.d64-ctx128",
+      "metric": "coordinator_cycles",
+      "baseline": "/tmp/cerebras-autoresearch/runs/v2/20261023T133333Z-decode-attention.d64-ctx128-6224ee50/result.json",
+      "candidate": "/tmp/cerebras-autoresearch/runs/v2/20261023T133515Z-decode-attention.d64-ctx128-a09a93e9/result.json",
+      "speedup": 1.8160410485731895,
+      "memory_ratio": 0.9883805374001452,
+      "cycle_reduction_percent": 44.93516538154956,
+      "eligible": true,
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "decision": "confirmation_passed",
+      "qwen_tps_result": false
+    },
+    "scope": "one fixed benchmark profile"
+  },
+  "validated_runs": [
+    {
+      "id": "20261023T133016Z-decode-attention.d64-ctx128-6653f13b",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 4,
+          "S": 32,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          4,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Resident GQA group; appended KV, stable distributed softmax and every output. Root-clock full sequence; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "profile_sha256": "d2b14e7413c906eaabb73f5383e6b95061cb63cf290896d72d5ad88ea6fad482",
+      "seed": 20261023,
+      "variant": "baseline",
+      "research": {
+        "approach": "decode_attention.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "ChatGPT Work"
+      },
+      "metrics": {
+        "max_local_cycles": 380121.0,
+        "mean_local_cycles": 355954.75,
+        "pe_cycle_spread": 32225.0,
+        "coordinator_cycles": 380121.0,
+        "cycles_per_token": 95030.25,
+        "max_error_fraction": 0.03253338297597881,
+        "max_program_object_bytes_per_pe": 44064,
+        "work_units_per_cycle": 1.363102801476372,
+        "pe_cycles": 1520484.0,
+        "experiment_wall_seconds": 99.51264852099848
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 1.8456733907878942e-07,
+          "max_fraction_of_error_bound": 0.0011793376926071974,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "939505ac71d20a1ee21d9a5f29abce13c30e805d9b1a9328c6a366c42b95d265",
+          "metrics": {
+            "max_local_cycles": 380038.0,
+            "mean_local_cycles": 355871.75,
+            "pe_cycle_spread": 32225.0,
+            "coordinator_cycles": 380038.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 6.166493112316762e-08,
+          "max_fraction_of_error_bound": 0.000607362356875061,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "31c24b32c4905f8b2d3358013d9bc15097d629a6be170fd52a3967c388d47ed0",
+          "metrics": {
+            "max_local_cycles": 380047.0,
+            "mean_local_cycles": 355880.75,
+            "pe_cycle_spread": 32225.0,
+            "coordinator_cycles": 380047.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 2.1785497655857355e-08,
+          "max_fraction_of_error_bound": 0.00018720369867488733,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "b2d600a621da332aa27514e037b6fc2dfdcac97b97f6fb976b363645f6917445",
+          "metrics": {
+            "max_local_cycles": 380121.0,
+            "mean_local_cycles": 355954.75,
+            "pe_cycle_spread": 32225.0,
+            "coordinator_cycles": 380121.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 2.3319730625692703e-09,
+          "max_fraction_of_error_bound": 2.294243047218513e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "20b9238a1636d69eeb9b0ee85265c1c6837ba22ad42991532cd1999f40ce01b2",
+          "metrics": {
+            "max_local_cycles": 380121.0,
+            "mean_local_cycles": 355954.75,
+            "pe_cycle_spread": 32225.0,
+            "coordinator_cycles": 380121.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 3.887182548067969e-08,
+          "max_fraction_of_error_bound": 0.0003423537319191515,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "7de194aa70099ea548dfc9f14f4ff27017a3afcf86f6b5d2babab67cde8035ed",
+          "metrics": {
+            "max_local_cycles": 380045.0,
+            "mean_local_cycles": 355878.75,
+            "pe_cycle_spread": 32225.0,
+            "coordinator_cycles": 380045.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 8.520483014251568e-06,
+          "max_fraction_of_error_bound": 0.03253338297597881,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "c5d20eba03a94df66d5f97103b73160d5acbfafb41dc5dcc9b4e9eb90a6e1fa7",
+          "metrics": {
+            "max_local_cycles": 379795.0,
+            "mean_local_cycles": 355628.75,
+            "pe_cycle_spread": 32225.0,
+            "coordinator_cycles": 379795.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "memory": {
+        "max_program_object_bytes_per_pe": 44064,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 44064
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 44064
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 44064
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 44064
+          }
+        ]
+      },
+      "provenance": {
+        "git_commit": "6c15222148a5ff9ba5f3d8254605ac20e079723e",
+        "git_dirty": true,
+        "evaluator_sha256": "20dab72f7f72cf48c2b8e80b4726d3197518cffecd59a4c27b9e29a8faa81c49",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "38a9d01e9f911c23ff07ff6a42e4971568204373a74a505bb2977f515488c98d",
+          "src/cerebras_research/catalog.py": "94ca9ad3f2c1fbafd1075a05558b1bdd1246d2379db690b114f62f32e5b88e55",
+          "src/cerebras_research/cli.py": "9d70db3a74bb4bc23c6931c03cb26329d9c8f5d9df2ce4779baa94a0ab9e5f58",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "b5494d87bf7d6cb41b9f4ec4f684060121c1a6c6fa2c9e2e15dcd6c4c4bab907",
+          "src/cerebras_research/runner.py": "b9b1f920ceca5d94adf3a161f4d67e92ff92474df839c954e081784b86d62e37",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "bfbae2049330059384c3a41ff21547b49f02e57149e184eb2cd8deb5e2b33ad7",
+          "tools/sdk-unpacked": "9089c4c66adea808c51aa2bf4bff4211ef2ae774a3dc381f4be5784826aca280",
+          "tools/unpacked-sdk-bin/cs_python": "6b53cc1e30e4c2bc3db9794dd78f40e82da6de1ae28bcee8867c0d1d87182b37",
+          "tools/unpacked-sdk-bin/cs_readelf": "be5eb46e22fb61ada8e7012b728f748444d7f533af0b06d3c1b85df278746b54",
+          "tools/unpacked-sdk-bin/cslc": "259427c9d01841e7faa0c91166a7a91f6586bf526664b3a4cc3c03a8a6e72b7a"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_route": "native_unpacked_sif",
+        "host_os": "Linux x86_64; host glibc 2.39",
+        "container_runtime": null,
+        "sdk_python_version": "3.11.8",
+        "sdk_numpy_version": "1.25.0",
+        "unpack_tool": "unsquashfs 4.6.1; SIF filesystem offset 40960",
+        "environment_source": ".singularity.d/env/10-docker2singularity.sh",
+        "entrypoints": "tools/sdk-unpacked; vendor binaries and SDK libraries unchanged",
+        "qualification": "Compiler help, runtime import, and d64-ctx128 positive-case screen passed; full qualification pending",
+        "initial_screen": "runs/v2/20261023T131356Z-decode-attention.d64-ctx128-19919aa4/result.json",
+        "initial_screen_note": "Exploratory screen predates this environment manifest and the wrapper source capsule; cannot establish a retained gain."
+      }
+    },
+    {
+      "id": "20261023T133210Z-decode-attention.d64-ctx128-5db93952",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 4,
+          "S": 32,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          4,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Resident GQA group; appended KV, stable distributed softmax and every output. Root-clock full sequence; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "profile_sha256": "d2b14e7413c906eaabb73f5383e6b95061cb63cf290896d72d5ad88ea6fad482",
+      "seed": 20261023,
+      "variant": "candidate",
+      "research": {
+        "approach": "decode_attention.dsr-reuse-vector-normalize",
+        "candidate": "attention-dsr-normalize",
+        "hypothesis": "Extend DSR reuse with one denominator reciprocal per head and a vector multiply over all output dimensions, replacing repeated divisions at the fixed FP32 output tolerance.",
+        "falsification": "Reject any six-case output or exact-cache mismatch, fresh speedup below the selected gate, memory growth over 10%, or changes to communication, work, precision, PE budget or timing.",
+        "manifest_sha256": "fb3191c22e0bafb7b1c74245883976fe9dc78be21ad6e13c4f06154ff0e4e689",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "ChatGPT Work"
+      },
+      "metrics": {
+        "max_local_cycles": 209313.0,
+        "mean_local_cycles": 208512.25,
+        "pe_cycle_spread": 1071.0,
+        "coordinator_cycles": 209313.0,
+        "cycles_per_token": 52328.25,
+        "max_error_fraction": 0.03253338297597881,
+        "max_program_object_bytes_per_pe": 43552,
+        "work_units_per_cycle": 2.4754506409062027,
+        "pe_cycles": 837252.0,
+        "experiment_wall_seconds": 83.21276406100151
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 1.8456733907878942e-07,
+          "max_fraction_of_error_bound": 0.0011793376926071974,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "60fa8b57755cc7135916dc8a20cf8504ae3718a6eac60297b3296d152fda2b38",
+          "metrics": {
+            "max_local_cycles": 209230.0,
+            "mean_local_cycles": 208429.25,
+            "pe_cycle_spread": 1071.0,
+            "coordinator_cycles": 209230.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 6.25962536977831e-08,
+          "max_fraction_of_error_bound": 0.0006165353221833267,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "5353da40130e3e8aed5fe8feea53b2c2a3ae8d57bbe7e9b0e3514ea36f86e0d7",
+          "metrics": {
+            "max_local_cycles": 209239.0,
+            "mean_local_cycles": 208438.25,
+            "pe_cycle_spread": 1071.0,
+            "coordinator_cycles": 209239.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 2.405916652015172e-08,
+          "max_fraction_of_error_bound": 0.0002117706598167241,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "13e5f1c09dd96aaec572b8cf5440c2555a813209ebd6073d7fa8afa785143523",
+          "metrics": {
+            "max_local_cycles": 209313.0,
+            "mean_local_cycles": 208512.25,
+            "pe_cycle_spread": 1071.0,
+            "coordinator_cycles": 209313.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 2.3319730625692703e-09,
+          "max_fraction_of_error_bound": 2.294243047218513e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "ece10fb4bfd84bb9911fd0e3e8589b59e0be327db9594f0a395b23cebe0c9d13",
+          "metrics": {
+            "max_local_cycles": 209313.0,
+            "mean_local_cycles": 208512.25,
+            "pe_cycle_spread": 1071.0,
+            "coordinator_cycles": 209313.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 3.887182548067969e-08,
+          "max_fraction_of_error_bound": 0.0003423537319191515,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "e27ea4c1553a0a2d29629ae55b4d2ac04f8986a58cf1d57adfc50e032401bc8b",
+          "metrics": {
+            "max_local_cycles": 209237.0,
+            "mean_local_cycles": 208436.25,
+            "pe_cycle_spread": 1071.0,
+            "coordinator_cycles": 209237.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261023,
+          "passed": true,
+          "max_abs_error": 8.520483014251568e-06,
+          "max_fraction_of_error_bound": 0.03253338297597881,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "d8c1b736e25d0e9fff6eeb3ddcbf6eb976109087a1e9d0446b40038b38601bf0",
+          "metrics": {
+            "max_local_cycles": 208995.0,
+            "mean_local_cycles": 208194.25,
+            "pe_cycle_spread": 1071.0,
+            "coordinator_cycles": 208995.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "memory": {
+        "max_program_object_bytes_per_pe": 43552,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 43552
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 43552
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 43552
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 43552
+          }
+        ]
+      },
+      "provenance": {
+        "git_commit": "6c15222148a5ff9ba5f3d8254605ac20e079723e",
+        "git_dirty": true,
+        "evaluator_sha256": "20dab72f7f72cf48c2b8e80b4726d3197518cffecd59a4c27b9e29a8faa81c49",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "38a9d01e9f911c23ff07ff6a42e4971568204373a74a505bb2977f515488c98d",
+          "src/cerebras_research/catalog.py": "94ca9ad3f2c1fbafd1075a05558b1bdd1246d2379db690b114f62f32e5b88e55",
+          "src/cerebras_research/cli.py": "9d70db3a74bb4bc23c6931c03cb26329d9c8f5d9df2ce4779baa94a0ab9e5f58",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "b5494d87bf7d6cb41b9f4ec4f684060121c1a6c6fa2c9e2e15dcd6c4c4bab907",
+          "src/cerebras_research/runner.py": "b9b1f920ceca5d94adf3a161f4d67e92ff92474df839c954e081784b86d62e37",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "bfbae2049330059384c3a41ff21547b49f02e57149e184eb2cd8deb5e2b33ad7",
+          "tools/sdk-unpacked": "9089c4c66adea808c51aa2bf4bff4211ef2ae774a3dc381f4be5784826aca280",
+          "tools/unpacked-sdk-bin/cs_python": "6b53cc1e30e4c2bc3db9794dd78f40e82da6de1ae28bcee8867c0d1d87182b37",
+          "tools/unpacked-sdk-bin/cs_readelf": "be5eb46e22fb61ada8e7012b728f748444d7f533af0b06d3c1b85df278746b54",
+          "tools/unpacked-sdk-bin/cslc": "259427c9d01841e7faa0c91166a7a91f6586bf526664b3a4cc3c03a8a6e72b7a"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_route": "native_unpacked_sif",
+        "host_os": "Linux x86_64; host glibc 2.39",
+        "container_runtime": null,
+        "sdk_python_version": "3.11.8",
+        "sdk_numpy_version": "1.25.0",
+        "unpack_tool": "unsquashfs 4.6.1; SIF filesystem offset 40960",
+        "environment_source": ".singularity.d/env/10-docker2singularity.sh",
+        "entrypoints": "tools/sdk-unpacked; vendor binaries and SDK libraries unchanged",
+        "qualification": "Compiler help, runtime import, and d64-ctx128 positive-case screen passed; full qualification pending",
+        "initial_screen": "runs/v2/20261023T131356Z-decode-attention.d64-ctx128-19919aa4/result.json",
+        "initial_screen_note": "Exploratory screen predates this environment manifest and the wrapper source capsule; cannot establish a retained gain."
+      }
+    },
+    {
+      "id": "20261023T133333Z-decode-attention.d64-ctx128-6224ee50",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 4,
+          "S": 32,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          4,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Resident GQA group; appended KV, stable distributed softmax and every output. Root-clock full sequence; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "profile_sha256": "d2b14e7413c906eaabb73f5383e6b95061cb63cf290896d72d5ad88ea6fad482",
+      "seed": 20261024,
+      "variant": "baseline",
+      "research": {
+        "approach": "decode_attention.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "ChatGPT Work"
+      },
+      "metrics": {
+        "max_local_cycles": 380121.0,
+        "mean_local_cycles": 355954.75,
+        "pe_cycle_spread": 32232.0,
+        "coordinator_cycles": 380121.0,
+        "cycles_per_token": 95030.25,
+        "max_error_fraction": 0.3032375892982156,
+        "max_program_object_bytes_per_pe": 44064,
+        "work_units_per_cycle": 1.363102801476372,
+        "pe_cycles": 1520484.0,
+        "experiment_wall_seconds": 101.63319382000554
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 1.303298907684436e-07,
+          "max_fraction_of_error_bound": 0.0008519004948544328,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "54ea13883004516899aa413c5effbdced33e2a8b6c3c2c1095a938c0e2043d9e",
+          "metrics": {
+            "max_local_cycles": 380073.0,
+            "mean_local_cycles": 355906.75,
+            "pe_cycle_spread": 32225.0,
+            "coordinator_cycles": 380073.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 5.3660575358160933e-08,
+          "max_fraction_of_error_bound": 0.0004816977988926337,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "20ad8bb6a04be9344e8dcf8d5c0b67fe478abc148f659cdc9b187f40f0f1d4c0",
+          "metrics": {
+            "max_local_cycles": 380057.0,
+            "mean_local_cycles": 355890.75,
+            "pe_cycle_spread": 32225.0,
+            "coordinator_cycles": 380057.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 1.6090780263766646e-08,
+          "max_fraction_of_error_bound": 0.00016069277315139006,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "ce806a04d30679c62ece9982fb80af04a01cdafe626f02f9c426b83e615907be",
+          "metrics": {
+            "max_local_cycles": 380121.0,
+            "mean_local_cycles": 355954.75,
+            "pe_cycle_spread": 32225.0,
+            "coordinator_cycles": 380121.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 1.5106492133598604e-09,
+          "max_fraction_of_error_bound": 1.4852577811016437e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "5d821cb74ab5771c16f0ba13488f5b45b09e6f7e45cdc381fd70ee9fbcad1018",
+          "metrics": {
+            "max_local_cycles": 380121.0,
+            "mean_local_cycles": 355954.75,
+            "pe_cycle_spread": 32225.0,
+            "coordinator_cycles": 380121.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 5.58194514360677e-08,
+          "max_fraction_of_error_bound": 0.0005176923211800864,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "088edc55e3c704b4d1366e9ccd7c22cc8dcee3078c4ce49db30b76f93bea9197",
+          "metrics": {
+            "max_local_cycles": 380063.0,
+            "mean_local_cycles": 355896.75,
+            "pe_cycle_spread": 32225.0,
+            "coordinator_cycles": 380063.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 6.552375880719552e-05,
+          "max_fraction_of_error_bound": 0.3032375892982156,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "549651120a6174e7216b339217b7718c85ad792980dc4f6bbaddc8c01e805714",
+          "metrics": {
+            "max_local_cycles": 379477.0,
+            "mean_local_cycles": 355306.75,
+            "pe_cycle_spread": 32232.0,
+            "coordinator_cycles": 379477.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "memory": {
+        "max_program_object_bytes_per_pe": 44064,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 44064
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 44064
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 44064
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 44064
+          }
+        ]
+      },
+      "provenance": {
+        "git_commit": "6c15222148a5ff9ba5f3d8254605ac20e079723e",
+        "git_dirty": true,
+        "evaluator_sha256": "20dab72f7f72cf48c2b8e80b4726d3197518cffecd59a4c27b9e29a8faa81c49",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "38a9d01e9f911c23ff07ff6a42e4971568204373a74a505bb2977f515488c98d",
+          "src/cerebras_research/catalog.py": "94ca9ad3f2c1fbafd1075a05558b1bdd1246d2379db690b114f62f32e5b88e55",
+          "src/cerebras_research/cli.py": "9d70db3a74bb4bc23c6931c03cb26329d9c8f5d9df2ce4779baa94a0ab9e5f58",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "b5494d87bf7d6cb41b9f4ec4f684060121c1a6c6fa2c9e2e15dcd6c4c4bab907",
+          "src/cerebras_research/runner.py": "b9b1f920ceca5d94adf3a161f4d67e92ff92474df839c954e081784b86d62e37",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "bfbae2049330059384c3a41ff21547b49f02e57149e184eb2cd8deb5e2b33ad7",
+          "tools/sdk-unpacked": "9089c4c66adea808c51aa2bf4bff4211ef2ae774a3dc381f4be5784826aca280",
+          "tools/unpacked-sdk-bin/cs_python": "6b53cc1e30e4c2bc3db9794dd78f40e82da6de1ae28bcee8867c0d1d87182b37",
+          "tools/unpacked-sdk-bin/cs_readelf": "be5eb46e22fb61ada8e7012b728f748444d7f533af0b06d3c1b85df278746b54",
+          "tools/unpacked-sdk-bin/cslc": "259427c9d01841e7faa0c91166a7a91f6586bf526664b3a4cc3c03a8a6e72b7a"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_route": "native_unpacked_sif",
+        "host_os": "Linux x86_64; host glibc 2.39",
+        "container_runtime": null,
+        "sdk_python_version": "3.11.8",
+        "sdk_numpy_version": "1.25.0",
+        "unpack_tool": "unsquashfs 4.6.1; SIF filesystem offset 40960",
+        "environment_source": ".singularity.d/env/10-docker2singularity.sh",
+        "entrypoints": "tools/sdk-unpacked; vendor binaries and SDK libraries unchanged",
+        "qualification": "Compiler help, runtime import, and d64-ctx128 positive-case screen passed; full qualification pending",
+        "initial_screen": "runs/v2/20261023T131356Z-decode-attention.d64-ctx128-19919aa4/result.json",
+        "initial_screen_note": "Exploratory screen predates this environment manifest and the wrapper source capsule; cannot establish a retained gain."
+      }
+    },
+    {
+      "id": "20261023T133515Z-decode-attention.d64-ctx128-a09a93e9",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 4,
+          "S": 32,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          4,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Resident GQA group; appended KV, stable distributed softmax and every output. Root-clock full sequence; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "profile_sha256": "d2b14e7413c906eaabb73f5383e6b95061cb63cf290896d72d5ad88ea6fad482",
+      "seed": 20261024,
+      "variant": "candidate",
+      "research": {
+        "approach": "decode_attention.dsr-reuse-vector-normalize",
+        "candidate": "attention-dsr-normalize",
+        "hypothesis": "Extend DSR reuse with one denominator reciprocal per head and a vector multiply over all output dimensions, replacing repeated divisions at the fixed FP32 output tolerance.",
+        "falsification": "Reject any six-case output or exact-cache mismatch, fresh speedup below the selected gate, memory growth over 10%, or changes to communication, work, precision, PE budget or timing.",
+        "manifest_sha256": "fb3191c22e0bafb7b1c74245883976fe9dc78be21ad6e13c4f06154ff0e4e689",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "ChatGPT Work"
+      },
+      "metrics": {
+        "max_local_cycles": 209313.0,
+        "mean_local_cycles": 208512.25,
+        "pe_cycle_spread": 1078.0,
+        "coordinator_cycles": 209313.0,
+        "cycles_per_token": 52328.25,
+        "max_error_fraction": 0.3032375892982156,
+        "max_program_object_bytes_per_pe": 43552,
+        "work_units_per_cycle": 2.4754506409062027,
+        "pe_cycles": 837252.0,
+        "experiment_wall_seconds": 83.59778917299991
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 1.4122717739706303e-07,
+          "max_fraction_of_error_bound": 0.0009491477155626477,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "a701a1a13cdeb081e92d35738f9a786325db7988fbdc196c1c32d0db4e330134",
+          "metrics": {
+            "max_local_cycles": 209265.0,
+            "mean_local_cycles": 208464.25,
+            "pe_cycle_spread": 1071.0,
+            "coordinator_cycles": 209265.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 5.3660575358160933e-08,
+          "max_fraction_of_error_bound": 0.0004816977988926337,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "355bcf5d851861f609cb550258f87018160ea08173185c753bb9238398344f3f",
+          "metrics": {
+            "max_local_cycles": 209249.0,
+            "mean_local_cycles": 208448.25,
+            "pe_cycle_spread": 1071.0,
+            "coordinator_cycles": 209249.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 1.801550387342532e-08,
+          "max_fraction_of_error_bound": 0.00017207422838552255,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "001cb6c3cf0ffcb6bff17e8dd8eeb3b616397dea71501e24825b7211d25a1323",
+          "metrics": {
+            "max_local_cycles": 209313.0,
+            "mean_local_cycles": 208512.25,
+            "pe_cycle_spread": 1071.0,
+            "coordinator_cycles": 209313.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 1.5522042921822798e-09,
+          "max_fraction_of_error_bound": 1.530226139378866e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "f963e9a2415f203fa0f7ec7b2865bbafedca325dd8cd5dbf5e9501eb2481834e",
+          "metrics": {
+            "max_local_cycles": 209313.0,
+            "mean_local_cycles": 208512.25,
+            "pe_cycle_spread": 1071.0,
+            "coordinator_cycles": 209313.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 5.58194514360677e-08,
+          "max_fraction_of_error_bound": 0.0005176923211800864,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "3ec8f8a7b0fe8136e81dcfd10aee9e7e797d1fd2e7c732b97549560dfbad6510",
+          "metrics": {
+            "max_local_cycles": 209255.0,
+            "mean_local_cycles": 208454.25,
+            "pe_cycle_spread": 1071.0,
+            "coordinator_cycles": 209255.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261024,
+          "passed": true,
+          "max_abs_error": 6.600059596539865e-05,
+          "max_fraction_of_error_bound": 0.3032375892982156,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "57f21b03037000632fb48194bea66e7cff06a9d9766eafec81441cce6b1decf2",
+          "metrics": {
+            "max_local_cycles": 208689.0,
+            "mean_local_cycles": 207884.25,
+            "pe_cycle_spread": 1078.0,
+            "coordinator_cycles": 208689.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "memory": {
+        "max_program_object_bytes_per_pe": 43552,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 43552
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 43552
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 43552
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 43552
+          }
+        ]
+      },
+      "provenance": {
+        "git_commit": "6c15222148a5ff9ba5f3d8254605ac20e079723e",
+        "git_dirty": true,
+        "evaluator_sha256": "20dab72f7f72cf48c2b8e80b4726d3197518cffecd59a4c27b9e29a8faa81c49",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "38a9d01e9f911c23ff07ff6a42e4971568204373a74a505bb2977f515488c98d",
+          "src/cerebras_research/catalog.py": "94ca9ad3f2c1fbafd1075a05558b1bdd1246d2379db690b114f62f32e5b88e55",
+          "src/cerebras_research/cli.py": "9d70db3a74bb4bc23c6931c03cb26329d9c8f5d9df2ce4779baa94a0ab9e5f58",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "b5494d87bf7d6cb41b9f4ec4f684060121c1a6c6fa2c9e2e15dcd6c4c4bab907",
+          "src/cerebras_research/runner.py": "b9b1f920ceca5d94adf3a161f4d67e92ff92474df839c954e081784b86d62e37",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "bfbae2049330059384c3a41ff21547b49f02e57149e184eb2cd8deb5e2b33ad7",
+          "tools/sdk-unpacked": "9089c4c66adea808c51aa2bf4bff4211ef2ae774a3dc381f4be5784826aca280",
+          "tools/unpacked-sdk-bin/cs_python": "6b53cc1e30e4c2bc3db9794dd78f40e82da6de1ae28bcee8867c0d1d87182b37",
+          "tools/unpacked-sdk-bin/cs_readelf": "be5eb46e22fb61ada8e7012b728f748444d7f533af0b06d3c1b85df278746b54",
+          "tools/unpacked-sdk-bin/cslc": "259427c9d01841e7faa0c91166a7a91f6586bf526664b3a4cc3c03a8a6e72b7a"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_route": "native_unpacked_sif",
+        "host_os": "Linux x86_64; host glibc 2.39",
+        "container_runtime": null,
+        "sdk_python_version": "3.11.8",
+        "sdk_numpy_version": "1.25.0",
+        "unpack_tool": "unsquashfs 4.6.1; SIF filesystem offset 40960",
+        "environment_source": ".singularity.d/env/10-docker2singularity.sh",
+        "entrypoints": "tools/sdk-unpacked; vendor binaries and SDK libraries unchanged",
+        "qualification": "Compiler help, runtime import, and d64-ctx128 positive-case screen passed; full qualification pending",
+        "initial_screen": "runs/v2/20261023T131356Z-decode-attention.d64-ctx128-19919aa4/result.json",
+        "initial_screen_note": "Exploratory screen predates this environment manifest and the wrapper source capsule; cannot establish a retained gain."
+      }
+    }
+  ],
+  "profile_migration": {
+    "reason": "Original S=64,D=64,P=16 profile failed to link because it ran out of PE memory. Unmeasured larger-cache configurations were split across twice as many PEs, retaining contexts and arithmetic. Every paired comparison uses the identical new profile fingerprint.",
+    "new_profiles": "d64-ctx1024: P32/S32; d64-ctx4096: P128/S32; d128-ctx512: P32/S16",
+    "normalization_hook": "Extracted unchanged scalar normalization into the candidate-editable region. Output dispatch, timers, cache appends, masks and collective control remain locked. New baseline source and evaluator identities require fresh pairs."
+  },
+  "artifact_audit": {
+    "initial_ledger_rows_preserved": 193,
+    "new_rows_checked": 15,
+    "receipt_paths": [
+      "runs/v2/20261023T131356Z-decode-attention.d64-ctx128-19919aa4/result.json",
+      "runs/v2/20261023T131611Z-decode-attention.d64-ctx128-beb18ce2/result.json",
+      "runs/v2/20261023T131854Z-decode-attention.d64-ctx128-dae5c81f/result.json",
+      "runs/v2/20261023T131943Z-decode-attention.d64-ctx128-58d77b93/result.json",
+      "runs/v2/20261023T132206Z-decode-attention.d64-ctx1024-f0ebfc4b/result.json",
+      "runs/v2/20261023T132523Z-decode-attention.d64-ctx128-b47dc678/result.json",
+      "runs/v2/20261023T132622Z-decode-attention.d64-ctx128-96a2a980/result.json",
+      "runs/v2/20261023T133016Z-decode-attention.d64-ctx128-6653f13b/result.json",
+      "runs/v2/20261023T133155Z-decode-attention.d64-ctx128-da21b2a0/result.json",
+      "runs/v2/20261023T133210Z-decode-attention.d64-ctx128-5db93952/result.json",
+      "runs/v2/20261023T133333Z-decode-attention.d64-ctx128-6224ee50/result.json",
+      "runs/v2/20261023T133515Z-decode-attention.d64-ctx128-a09a93e9/result.json",
+      "runs/v2/20261023T133016Z-challenge-de69ee5f/result.json",
+      "runs/v2/20261023T133723Z-decode-attention.d64-ctx128-f15ff016/result.json",
+      "runs/v2/20261023T133738Z-decode-attention.d64-ctx128-08349dc5/result.json"
+    ],
+    "all_history_artifact_audit": "Blocked by missing raw artifacts from prior machine, beginning runs/v2/20261022T104045Z-meshgemv.square64-7a098f29/result.json. Current-session receipts audited individually."
+  },
+  "earlier_screens": {
+    "baseline_coordinator_cycles": 380038,
+    "vector_exp_coordinator_cycles": 378094,
+    "polynomial_map_coordinator_cycles": 381154,
+    "qualification": "positive-case screens on the earlier source track; not retained gains"
+  },
+  "checks": {
+    "make_check": "101 unit tests passed; one PID namespace platform skip; Ruff/catalog/ledger/syntax passed",
+    "make_sdk_test": "All five numerical/timestamp/replay property modules passed in SDK Python 3.11.8 / NumPy 1.25.0",
+    "make_host_numerics": "8 properties passed, including 120 all-profile/case/seed/model checks"
+  },
+  "raw_manifest": "results/reports/2026-10-23-attention-sdk-stage1-manifest.json"
+}

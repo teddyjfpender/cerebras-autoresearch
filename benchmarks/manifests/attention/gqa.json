@@ -76,15 +76,15 @@
       "adapter": "decode_attention",
       "family": "sharded-gqa-decode",
       "dimensions": {
-        "P": 16,
-        "S": 64,
+        "P": 32,
+        "S": 32,
         "D": 64,
         "G": 4,
         "T": 4,
         "L": 1020
       },
       "pe_grid": [
-        16,
+        32,
         1
       ],
       "precision": "fp32",
@@ -111,15 +111,15 @@
       "adapter": "decode_attention",
       "family": "sharded-gqa-decode",
       "dimensions": {
-        "P": 64,
-        "S": 64,
+        "P": 128,
+        "S": 32,
         "D": 64,
         "G": 4,
         "T": 4,
         "L": 4092
       },
       "pe_grid": [
-        64,
+        128,
         1
       ],
       "precision": "fp32",
@@ -146,15 +146,15 @@
       "adapter": "decode_attention",
       "family": "sharded-gqa-decode",
       "dimensions": {
-        "P": 16,
-        "S": 32,
+        "P": 32,
+        "S": 16,
         "D": 128,
         "G": 2,
         "T": 4,
         "L": 508
       },
       "pe_grid": [
-        16,
+        32,
         1
       ],
       "precision": "fp32",

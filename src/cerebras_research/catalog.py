@@ -106,7 +106,7 @@ def load_catalog():
             if (
                 set(dims) != {"P", "S", "D", "G", "T", "L"}
                 or grid != [dims["P"], 1]
-                or not 2 <= dims["P"] <= 64
+                or not 2 <= dims["P"] <= 128
                 or dims["P"] & (dims["P"] - 1)
                 or dims["D"] not in (64, 128)
                 or dims["G"] not in (2, 4)
