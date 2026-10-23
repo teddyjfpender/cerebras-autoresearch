@@ -149,6 +149,7 @@ def execute(
                 "reusable_gemm": "reusable_gemm.py",
                 "resident_swiglu": "resident_swiglu.py",
                 "resident_swiglu_bf16": "resident_swiglu_bf16.py",
+                "recurrent_gdn": "recurrent_gdn.py",
             }.get(kind, "dense.py")
             for case in CASES[:1] if screen else CASES:
                 args = ["cs_python", driver, "--name", "out", "--case", case, "--seed", str(seed)]
@@ -157,6 +158,7 @@ def execute(
                     "reusable_gemm",
                     "resident_swiglu",
                     "resident_swiglu_bf16",
+                    "recurrent_gdn",
                 ):
                     args.extend(["--kind", kind])
                 log = step(args)
@@ -191,6 +193,10 @@ def execute(
                 record["metrics"]["amortized_cycles_per_batch_row"] = record["metrics"][
                     "max_local_cycles"
                 ] / (profile["dimensions"]["T"] * profile["dimensions"]["M"])
+            if kind == "recurrent_gdn":
+                record["metrics"]["cycles_per_token"] = (
+                    record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
+                )
             if kind == "reusable_gemm":
                 record["metrics"]["cycles_per_gemm"] = (
                     record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]

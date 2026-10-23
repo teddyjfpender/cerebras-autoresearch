@@ -24,6 +24,7 @@ V1 receipts for promotion.
 | Resident reusable GEMM | Four frames, timed resets/communication, every output and working-weight snapshot | 0 / 1 sequence |
 | Resident chain | Matvec, bias, ReLU, residual, full output stores | 1 distinct frame / 4 distinct frames |
 | Complete gated MLP / decoder layer | Full four-frame/token sequence and all output/state stores | 0 / 1 sequence |
+| Resident recurrent gated delta rule | Four resident tokens, S0 copy, normalization, decay/delta/state/read and all full snapshots | 0 / 1 sequence |
 | Timed SDK references | Audited upstream region | Profile-specific |
 | Untimed SDK references | Numerical assertions | No cycle score |
 | Host I/O diagnostics | Emulated transfer interval | No hardware bandwidth claim |
@@ -98,3 +99,16 @@ FP32 projection accumulators and nonlinear/residual computation, with explicit
 rounding at every stage boundary. They have a separate FP32-accumulator/BF16
 rounding oracle and their own baselines. Whole-chain timing includes every
 conversion. Do not combine their cycle scores with FP16 accumulation leagues.
+
+For `recurrent_gdn`, max local cycles cover the complete four-token operator,
+including S0 copy, normalization, exp, state arithmetic and all full snapshots.
+`cycles_per_token` is the total divided by four. `state_arithmetic_operations`
+counts `16*T*R*(7*K*V+2*V)` scalar arithmetic operations for state decay, memory
+read, delta, update and output read; normalization/exp and stores remain inside
+the cycle denominator but are excluded from that numerator. This is an operator
+metric, not a model token-throughput measurement. Program-object memory, PE
+spread and error fractions use the same definitions as the existing tracks.
+
+Recurrent-GDN numerical replay also exports named per-check error fractions for
+normalized Q/K, exp, and every token's local/full-chain delta/state/output checks.
+The raw named offsets are checked against the frozen oracle before reporting.

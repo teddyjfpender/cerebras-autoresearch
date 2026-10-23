@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
 
 import numpy as np
 from snapshot import read_core_arrays
+from snapshot_grid import read_core_grid_arrays
 
 from cerebras_research.paths import contained, digest, write_json
 from cerebras_research.scoring import load_validated
@@ -81,6 +82,40 @@ def arrays_contract(profile):
     return p, t, mt, weight_count, expected, canonical, outputs
 
 
+def audit_recurrent_case(data, path, case):
+    from recurrent_gdn import capture_contract, decode_capture, output_shapes, pack_timer
+
+    dims = data["profile"]["dimensions"]
+    k, v = dims["K"], dims["V"]
+    core = path.parent / f"work/out/case-{case['case']}.core"
+    if data["artifacts"].get(str(core.relative_to(path.parent))) != digest(core):
+        raise ValueError("Simulator core is missing or changed")
+    artifact = path.parent / "work/out" / case["artifact"]
+    if digest(artifact) != case["artifact_sha256"]:
+        raise ValueError("Saved recurrent artifact changed")
+    with np.load(artifact, allow_pickle=False) as raw:
+        names = ("Q_CANON", "K_CANON", "V_CANON", "G_CANON", "BETA_CANON", "S0")
+        inputs = {name: raw["input_" + name] for name in names}
+        shapes, expected = capture_contract(k, v, inputs)
+        captured = decode_capture(
+            read_core_grid_arrays(core, path.parent / "work/out/bin", 4, 4, expected), shapes
+        )
+        for name in names:
+            equal_bits(captured[name], raw["canonical_" + name])
+            equal_bits(captured[name], inputs[name])
+        for name in output_shapes(k, v):
+            equal_bits(captured[name], raw["FINAL_STATE" if name == "STATE" else name])
+        equal_bits(captured["times"], raw["timer_core_u16"])
+        equal_bits(captured["times"], raw["timer_memcpy_u16"])
+        equal_bits(pack_timer(captured["times"]), raw["timer_u32"])
+    return dict(
+        case=case["case"],
+        complete_output_state_and_timer_match=True,
+        core_sha256=digest(core),
+        half_words_checked=16 * sum(expected.values()),
+    )
+
+
 def audit(manifest):
     pointers = manifest.get("receipts", [])
     if manifest.get("schema_version") != 1 or not pointers:
@@ -97,6 +132,23 @@ def audit(manifest):
             ROOT / "benchmarks/drivers/snapshot.py"
         ):
             raise ValueError("Snapshot helper differs from the run's captured source")
+        if data["profile"]["adapter"] == "recurrent_gdn":
+            if data["harness_files"].get("snapshot_grid.py") != digest(
+                ROOT / "benchmarks/drivers/snapshot_grid.py"
+            ):
+                raise ValueError("Grid snapshot helper differs from the captured source")
+            cases = [audit_recurrent_case(data, path, case) for case in data["cases"]]
+            records.append(
+                dict(
+                    receipt=pointer,
+                    profile=data["profile"]["id"],
+                    source_sha256=data["source_sha256"],
+                    harness_sha256=data["harness_sha256"],
+                    evaluator_sha256=data["provenance"]["evaluator_sha256"],
+                    cases=cases,
+                )
+            )
+            continue
         p, t, mt, wc, expected, canonical, outputs = arrays_contract(data["profile"])
         cases = []
         for case in data["cases"]:

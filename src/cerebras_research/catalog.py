@@ -16,6 +16,7 @@ ADAPTERS = {
     "reusable_gemm",
     "resident_swiglu",
     "resident_swiglu_bf16",
+    "recurrent_gdn",
     "sdk",
 }
 
@@ -79,6 +80,7 @@ def load_catalog():
                 "reusable_gemm": (0, 1),
                 "resident_swiglu": (0, 1),
                 "resident_swiglu_bf16": (0, 1),
+                "recurrent_gdn": (0, 1),
             }[profile["adapter"]]
             timing = profile["timing_protocol"]
             if (timing["warmups"], timing["repeats"]) != expected_timing:
@@ -132,6 +134,22 @@ def load_catalog():
                 or profile["work_units"] != 6 * dims["T"] * dims["M"] * dims["H"] * dims["F"]
             ):
                 raise ValueError(f"Invalid BF16 resident chain contract: {name}")
+        if profile["adapter"] == "recurrent_gdn":
+            dims = profile["dimensions"]
+            if (
+                grid != [4, 4]
+                or set(dims) != {"K", "V", "T", "R"}
+                or dims.get("K") not in (16, 32)
+                or dims.get("V") != 16
+                or dims.get("T") != 4
+                or dims.get("R") != 3
+                or profile["precision"] != "bf16-fp32-state"
+                or profile.get("oracle_contract") != "resident_recurrent_gdn_bf16_fp32_v1"
+                or profile["work_unit"] != "state_arithmetic_operations"
+                or profile["work_units"]
+                != 16 * dims["T"] * dims["R"] * (7 * dims["K"] * dims["V"] + 2 * dims["V"])
+            ):
+                raise ValueError(f"Invalid recurrent gated delta contract: {name}")
         if profile["adapter"] == "pipeline" and grid != [1, 1]:
             raise ValueError(f"Current pipeline adapter requires one PE: {name}")
         if profile["adapter"] in ("gated_mlp", "decoder"):

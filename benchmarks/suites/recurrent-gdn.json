@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "id": "recurrent-gdn",
+  "description": "Complete resident recurrent gated delta-rule state updates, two state widths.",
+  "profiles": [
+    "recurrent-gdn.k16-v16",
+    "recurrent-gdn.k32-v16"
+  ]
+}

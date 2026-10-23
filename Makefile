@@ -37,6 +37,11 @@ sdk-test:
 	tools/sdk-run cs_python tests/integration/check_snapshot_replay_contracts.py
 	tools/sdk-run cs_python tests/integration/check_resident_swiglu_bf16_contracts.py
 	tools/sdk-run cs_python tests/integration/check_bf16_chain_replay.py
+	tools/sdk-run cs_python tests/integration/check_recurrent_gdn_contracts.py
+	tools/sdk-run cs_python tests/integration/check_recurrent_gdn_driver.py
+	tools/sdk-run cs_python tests/integration/check_recurrent_gdn_replay.py
+	tools/sdk-run cs_python tests/integration/check_recurrent_gdn_snapshots.py
+	tools/sdk-run cs_python tests/integration/check_snapshot_grid_contracts.py
 
 docs:
 	$(PYTHON) tools/catalog_docs.py --write

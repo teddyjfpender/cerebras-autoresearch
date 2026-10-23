@@ -43,7 +43,9 @@
     "resident-swiglu-bf16.small",
     "resident-swiglu-bf16.ffn-scaled",
     "resident-swiglu-bf16.batch4-ffn",
-    "resident-swiglu-bf16.batch32-h64-f192"
+    "resident-swiglu-bf16.batch32-h64-f192",
+    "recurrent-gdn.k16-v16",
+    "recurrent-gdn.k32-v16"
   ],
   "description": "Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion."
 }

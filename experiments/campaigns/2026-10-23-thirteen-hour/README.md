@@ -31,3 +31,18 @@ The first optimization campaign completed with one confirmed profile gain:
 FFN-up 95,611 -> 75,962 cycles, +3.54% program memory, all six cases at both
 seeds. Tiny and FFN-down rejected all four initial approaches for insufficient
 speed. Every terminal attempt/decision is journaled (216 events at this checkpoint).
+
+
+At the 13:30 UTC checkpoint, Resident GEMM's full three-shape suite is confirmed
+at1.146754x conservative geometric mean, FP16 resident SwiGLU's two shapes at
+1.415571x, and BF16 resident SwiGLU's separate four-shape suite at1.589946x.
+Their72/48/96 paired cases passed complete numerical/core/timer replay. Every
+terminal attempt and decision is journaled;402 events passed artifact and Git
+prefix verification. These simulator tracks have distinct contracts/evaluators.
+
+The next registered challenge is resident recurrent gated-delta attention:
+scaled K16/K32, V16, three value heads per key head, four tokens, FP32 state and
+BF16 Q/K/V/output. Full state/prefix histories, nonzero initial state and all
+physical immutable inputs are checked. Device baselines and optimization remain
+to be run. A native K128/V128 one-group follow-up is staged separately. The
+original deadline remains20:45:41 UTC; no model or hardware TPS is measured.

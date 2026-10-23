@@ -68,7 +68,7 @@ python3 research.py ledger sync               # Recover unjournaled terminal rec
 
 ## Benchmark coverage
 
-**43 configured profiles, 14 families, 19 suites.** The
+**45 configured profiles, 15 families, 20 suites.** The
 [catalog](docs/benchmarks/catalog.md) describes coverage; [results](results/README.md)
 separate measured profiles from configured ones.
 
@@ -76,13 +76,14 @@ separate measured profiles from configured ones.
 | --- | --- |
 | Dense inference | Six GEMV shapes; five cold GEMM shapes; three resident GEMM sequences; scaled FFN up/down projections |
 | Distributed resident FFN | Four distinct batches through gate/up GEMMs, SiLU/product, down GEMM and residual on 16 PEs; separate FP16 and BF16/FP32-accumulator contracts, every intermediate/state checked |
+| Recurrent attention operator | Four resident tokens through gated delta-rule updates; BF16 Q/K/V/output, FP32 normalized operands and complete recurrent state; three value heads per key head on 16 PEs |
 | Complete inference blocks | RMSNorm/SwiGLU MLP at two widths; causal RoPE attention with KV state and MLP at two contexts |
 | Composed programs | Three FP32 matvec → bias → ReLU → residual chains with staged/fused variants; SDK residual norm |
 | Communication/I/O | Row/column broadcast; H2D/D2H diagnostics |
 | Numerical/scientific | Sparse 7-point stencil; 1D/2D/3D FFT; local matvec bandwidth |
 | Exact/spatial | 256-bit multiplication; Game of Life |
 
-Twenty-seven profiles have independent six-case oracles. Fourteen use pinned
+Twenty-nine profiles have independent six-case oracles. Fourteen use pinned
 upstream reference checks; two are diagnostics. Only the independent-oracle
 tier can pass automatic promotion. Untimed examples receive no cycle score.
 

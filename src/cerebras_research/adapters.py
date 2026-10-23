@@ -12,6 +12,13 @@ def baseline_source(profile):
     kind = profile["adapter"]
     if kind == "pipeline":
         return ROOT / "kernels/composed/matvec-epilogue", {"repository": "local"}
+    if kind == "recurrent_gdn":
+        return ROOT / "kernels/attention/recurrent-gdn", {
+            "repository": "local",
+            "reference_repository": "https://github.com/huggingface/transformers",
+            "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+            "implementation": "independent scalar mathematical reference",
+        }
     if kind == "resident_swiglu_bf16":
         return ROOT / "kernels/composed/resident-swiglu-bf16", {
             "repository": "local",
@@ -228,6 +235,8 @@ def prepare(profile, folder, variant, candidate=None):
             params = (
                 f"P:4,Mt:{dims['M'] // 4},Ht:{dims['H'] // 4},Ft:{dims['F'] // 4},T:{dims['T']}"
             )
+        elif kind == "recurrent_gdn":
+            params = ",".join(f"{key}:{dims[key]}" for key in ("K", "V", "T"))
         elif kind in ("gated_mlp", "decoder"):
             params = ",".join(f"{key}:{value}" for key, value in dims.items())
         else:
@@ -250,7 +259,7 @@ def prepare(profile, folder, variant, candidate=None):
             "--memcpy",
             "--channels=1",
         ]
-    if kind == "resident_swiglu_bf16":
+    if kind in ("resident_swiglu_bf16", "recurrent_gdn"):
         compile_args.append("--fp16-format=bf16")
     for path in (ROOT / "benchmarks/drivers").glob("*.py"):
         destination = folder / (

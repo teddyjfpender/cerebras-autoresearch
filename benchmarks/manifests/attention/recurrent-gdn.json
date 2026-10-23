@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "recurrent-gdn.k16-v16",
+      "adapter": "recurrent_gdn",
+      "family": "recurrent-gated-delta-rule",
+      "dimensions": {
+        "K": 16,
+        "V": 16,
+        "T": 4,
+        "R": 3
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "bf16-fp32-state",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 350208,
+      "work_unit": "state_arithmetic_operations",
+      "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+      }
+    },
+    {
+      "id": "recurrent-gdn.k32-v16",
+      "adapter": "recurrent_gdn",
+      "family": "recurrent-gated-delta-rule",
+      "dimensions": {
+        "K": 32,
+        "V": 16,
+        "T": 4,
+        "R": 3
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "bf16-fp32-state",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 694272,
+      "work_unit": "state_arithmetic_operations",
+      "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+      }
+    }
+  ]
+}

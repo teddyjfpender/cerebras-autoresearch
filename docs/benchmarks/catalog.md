@@ -24,6 +24,8 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 | `pipeline.k16-n32` | composed | fp32 | independent_six_case | max_local_cycles |
 | `pipeline.k64-n32` | composed | fp32 | independent_six_case | max_local_cycles |
 | `pipeline.k8-n8` | composed | fp32 | independent_six_case | max_local_cycles |
+| `recurrent-gdn.k16-v16` | recurrent-gated-delta-rule | bf16-fp32-state | independent_six_case | max_local_cycles |
+| `recurrent-gdn.k32-v16` | recurrent-gated-delta-rule | bf16-fp32-state | independent_six_case | max_local_cycles |
 | `resident-swiglu-bf16.batch32-h64-f192` | distributed-resident-swiglu | bf16-fp32-accum | independent_six_case | max_local_cycles |
 | `resident-swiglu-bf16.batch4-ffn` | distributed-resident-swiglu | bf16-fp32-accum | independent_six_case | max_local_cycles |
 | `resident-swiglu-bf16.ffn-scaled` | distributed-resident-swiglu | bf16-fp32-accum | independent_six_case | max_local_cycles |
@@ -56,7 +58,7 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 <!-- catalog:suites:start -->
 | Suite | Profiles | Purpose |
 | --- | ---: | --- |
-| `all` | 43 | Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion. |
+| `all` | 45 | Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion. |
 | `communication` | 4 | Broadcast and emulated host transfers |
 | `decode-ffn` | 2 | Medium FFN up/down GEMV projections |
 | `decoder` | 2 | Stateful causal decoder layer at two initial contexts |
@@ -68,6 +70,7 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 | `inference-blocks` | 8 | All four inference challenge tracks |
 | `prefill-ffn` | 2 | Larger cold FFN up/down GEMM projections |
 | `qualification` | 27 | Representative independent oracles and every SDK profile |
+| `recurrent-gdn` | 2 | Complete resident recurrent gated delta-rule state updates, two state widths. |
 | `regression` | 5 | Fixed dense/composed cross-shape guard set |
 | `resident-swiglu-bf16-generalization` | 4 | Fixed original two-cell suite plus predeclared smaller-batch and different-aspect-ratio workloads; independent full/fresh coverage and per-cell memory/worst-speed guards. |
 | `resident-swiglu-bf16` | 2 | Distinct complete BF16-storage/FP32-accumulator resident FFN contracts. |
@@ -109,4 +112,14 @@ qualification remains outstanding until actual receipts are linked.
 Two additional BF16 SwiGLU workloads are registered but not yet device-qualified:
 `resident-swiglu-bf16.batch4-ffn` and `.batch32-h64-f192`. They share the fixed
 BF16/FP32 contract and add a distinct four-cell generalization suite. Current
-configuration is43 profiles,14 families,19 suites;27 independent-oracle profiles.
+configuration including recurrent GDN is 45 profiles, 15 families, 20 suites; 29 independent-oracle profiles.
+
+## Resident recurrent gated delta rule
+
+Two new profiles (`recurrent-gdn.k16-v16`, `.k32-v16`) add four resident tokens
+with 16 key heads and 48 value heads on 16 PEs, BF16 Q/K/V/output and FP32 state.
+Both are independently-oracled configurations; device qualification is pending.
+The [contract](recurrent-gdn.md) covers all normalized operands, decay, delta,
+full token-state histories, immutable inputs and final live-state bits. Current
+configuration is 45 profiles, 15 families, 20 suites; 29 independent-oracle
+profiles. Historical execution counts remain separate.

@@ -1,0 +1,127 @@
+"""Mixed-precision resident recurrent operator SDK driver with complete core readback."""
+
+import argparse
+import json
+import os
+from pathlib import Path
+
+import numpy as np
+from cerebras.sdk.runtime.sdkruntimepybind import (
+    MemcpyDataType,
+    MemcpyOrder,
+    SdkRuntime,
+    SimfabConfig,
+    get_platform,
+)
+from cerebras.sdk.sdk_utils import input_array_to_u32
+from common import CASES, save_case
+from recurrent_gdn_oracle import P, R, T, evidence, inputs
+from snapshot_grid import read_core_grid_arrays
+
+
+def output_shapes(k, v):
+    return dict(
+        Q_HISTORY=((T, k), np.float32),
+        K_HISTORY=((T, k), np.float32),
+        A_HISTORY=((T, R), np.float32),
+        DELTA_HISTORY=((T, R, v), np.float32),
+        STATE_HISTORY=((T, R, k, v), np.float32),
+        Y_HISTORY=((T, R, v), np.uint16),
+        STATE=((R, k, v), np.float32),
+    )
+
+
+def capture_contract(k, v, data):
+    shapes = {name: (value.shape[2:], value.dtype) for name, value in data.items()}
+    shapes.update(output_shapes(k, v))
+    shapes["times"] = ((6,), np.uint16)
+    expected = {
+        name: int(np.prod(shape)) * np.dtype(dtype).itemsize // 2
+        for name, (shape, dtype) in shapes.items()
+    }
+    return shapes, expected
+
+
+def decode_capture(captured, shapes):
+    return {
+        name: captured[name].view(np.uint16).view(dtype).reshape(P, P, *shape).copy()
+        for name, (shape, dtype) in shapes.items()
+    }
+
+
+def pack_timer(words):
+    words = np.asarray(words, np.uint32).reshape(P * P, 6)
+    if (words > 65535).any():
+        raise ValueError("Timer transport must contain zero-extended 16-bit words")
+    return np.stack([words[:, i] | (words[:, i + 1] << 16) for i in (0, 2, 4)], axis=-1).ravel()
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--name", required=True)
+    parser.add_argument("--case", choices=CASES, required=True)
+    parser.add_argument("--seed", type=int, required=True)
+    args = parser.parse_args()
+    out = Path(args.name).resolve()
+    dims = {k: int(v) for k, v in json.loads((out / "out.json").read_text())["params"].items()}
+    if set(dims) != {"K", "V", "T"} or dims["T"] != T:
+        raise ValueError("Wrong recurrent operator dimensions")
+    k, v = dims["K"], dims["V"]
+    data = inputs(k, v, args.seed, args.case)
+    shapes, expected = capture_contract(k, v, data)
+    os.chdir(out)
+    if (out / "out.core").exists():
+        raise RuntimeError("Unexpected stale core")
+    platform = get_platform(config=SimfabConfig(num_threads=1, suppress_trace=True, dump_core=True))
+    runner = SdkRuntime(str(out), platform)
+    runner.load()
+    runner.run()
+    options = dict(streaming=False, order=MemcpyOrder.ROW_MAJOR, nonblock=False)
+    try:
+        for name, value in data.items():
+            half = value.dtype == np.uint16
+            payload = input_array_to_u32(value.ravel(), 1, 1) if half else value.ravel()
+            runner.memcpy_h2d(
+                runner.get_id(name),
+                payload,
+                0,
+                0,
+                P,
+                P,
+                value.size // (P * P),
+                **options,
+                data_type=MemcpyDataType.MEMCPY_16BIT if half else MemcpyDataType.MEMCPY_32BIT,
+            )
+        runner.launch("sequence_host", nonblock=False)
+        timer = np.zeros(P * P * 6, np.uint32)
+        runner.memcpy_d2h(
+            timer,
+            runner.get_id("times"),
+            0,
+            0,
+            P,
+            P,
+            6,
+            **options,
+            data_type=MemcpyDataType.MEMCPY_16BIT,
+        )
+    finally:
+        runner.stop()
+    core = out / f"case-{args.case}.core"
+    if core.exists():
+        raise RuntimeError("Refuse to overwrite saved simulator evidence")
+    (out / "out.core").rename(core)
+    captured = decode_capture(read_core_grid_arrays(core, out / "bin", P, P, expected), shapes)
+    canonical = {name: captured[name] for name in data}
+    actual = {name: captured[name] for name in output_shapes(k, v)}
+    actual["FINAL_STATE"] = actual.pop("STATE")
+    arrays, error, bound = evidence(k, v, data, actual, canonical)
+    arrays["timer_memcpy_u16"] = timer.astype(np.uint16).reshape(P, P, 6)
+    arrays["timer_core_u16"] = captured["times"]
+    arrays["exact_state_match"] &= np.array_equal(arrays["timer_memcpy_u16"], captured["times"])
+    save_case(out, args.case, arrays, error, bound, pack_timer(timer), 1, args.seed)
+    print("SUCCESS!", flush=True)
+
+
+if __name__ == "__main__":
+    main()

@@ -18,6 +18,9 @@ sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
 
 import numpy as np
 from common import timing
+from recurrent_gdn import pack_timer as recurrent_pack_timer
+from recurrent_gdn_oracle import evidence as recurrent_evidence
+from recurrent_gdn_oracle import inputs as recurrent_inputs
 from resident_oracle import evidence as resident_evidence
 from resident_swiglu_bf16_oracle import evidence as bf16_evidence
 from resident_swiglu_oracle import evidence as swiglu_evidence
@@ -112,6 +115,37 @@ def recompute(profile, raw):
         )
         expected = arrays["expected"]
         strict = bool(arrays["exact_state_match"])
+    elif kind == "recurrent_gdn":
+        if profile.get("oracle_contract") != "resident_recurrent_gdn_bf16_fp32_v1":
+            raise ValueError("Unsupported recurrent gated delta oracle")
+        names = ("Q_CANON", "K_CANON", "V_CANON", "G_CANON", "BETA_CANON", "S0")
+        stages = (
+            "Q_HISTORY",
+            "K_HISTORY",
+            "A_HISTORY",
+            "DELTA_HISTORY",
+            "STATE_HISTORY",
+            "Y_HISTORY",
+            "FINAL_STATE",
+        )
+        arrays, _, bound = recurrent_evidence(
+            dims["K"],
+            dims["V"],
+            {n: raw["input_" + n] for n in names},
+            {n: raw[n] for n in stages},
+            {n: raw["canonical_" + n] for n in names},
+        )
+        np.testing.assert_array_equal(raw["actual"], arrays["actual"])
+        for name in ("check_labels", "check_offsets"):
+            np.testing.assert_array_equal(raw[name], arrays[name])
+        for name in ("timer_memcpy_u16", "timer_core_u16"):
+            if raw[name].dtype != np.uint16 or raw[name].shape != (4, 4, 6):
+                raise ValueError("Incomplete recurrent timer words")
+        strict = bool(arrays["exact_state_match"]) and np.array_equal(
+            raw["timer_memcpy_u16"], raw["timer_core_u16"]
+        )
+        np.testing.assert_array_equal(recurrent_pack_timer(raw["timer_core_u16"]), raw["timer_u32"])
+        expected = arrays["expected"]
     elif kind == "pipeline":
         x, w = raw["x"].astype(np.float64), raw["w"].astype(np.float64)
         if x.shape != (5, dims["K"]) or w.shape != (dims["K"], dims["N"]):
@@ -162,6 +196,18 @@ def check_case(profile, case, artifact):
     if digest(artifact) != case["artifact_sha256"]:
         raise ValueError("Raw artifact digest changed")
     with np.load(artifact, allow_pickle=False) as raw:
+        if profile["adapter"] == "recurrent_gdn":
+            wanted = recurrent_inputs(
+                profile["dimensions"]["K"], profile["dimensions"]["V"], case["seed"], case["case"]
+            )
+            for name, value in wanted.items():
+                saved = raw["input_" + name]
+                if (
+                    saved.shape != value.shape
+                    or saved.dtype != value.dtype
+                    or saved.tobytes() != value.tobytes()
+                ):
+                    raise ValueError("Recurrent input differs from its declared seed/family")
         expected, bound, strict = recompute(profile, raw)
         np.testing.assert_allclose(raw["expected"], expected, rtol=2e-12, atol=2e-12)
         np.testing.assert_allclose(raw["error_bound"], bound, rtol=2e-12, atol=0)
@@ -178,7 +224,18 @@ def check_case(profile, case, artifact):
         metrics = timing(raw["timer_u32"], profile["timing_protocol"]["repeats"])
         if metrics != case["metrics"]:
             raise ValueError("Recomputed timestamps disagree with the case receipt")
+        by_check = {}
+        if profile["adapter"] == "recurrent_gdn":
+            offsets = raw["check_offsets"]
+            for name, start, end in zip(raw["check_labels"], offsets[:-1], offsets[1:]):
+                section = slice(int(start), int(end))
+                by_check[str(name)] = dict(
+                    max_abs_error=float(error[section].max()),
+                    max_error_fraction=float((error[section] / bound[section]).max()),
+                    max_absolute_output=float(np.abs(raw["actual"][section]).max()),
+                )
         return {
+            **({"numerical_checks": by_check} if by_check else {}),
             "case": case["case"],
             "max_error_fraction_recomputed": float((error / bound).max()),
             "max_abs_error_recomputed": float(error.max()),
@@ -205,6 +262,7 @@ def check_summary(data):
         "reusable_gemm": "cycles_per_gemm",
         "resident_swiglu": "cycles_per_frame",
         "resident_swiglu_bf16": "cycles_per_frame",
+        "recurrent_gdn": "cycles_per_token",
     }.get(profile["adapter"])
     if unit:
         expected[unit] = primary / profile["dimensions"]["T"]
@@ -261,6 +319,7 @@ def audit(manifest):
                 ROOT / "benchmarks/drivers/reusable_gemm_oracle.py",
                 ROOT / "benchmarks/drivers/resident_swiglu_oracle.py",
                 ROOT / "benchmarks/drivers/resident_swiglu_bf16_oracle.py",
+                ROOT / "benchmarks/drivers/recurrent_gdn_oracle.py",
             )
         },
         "records": records,
