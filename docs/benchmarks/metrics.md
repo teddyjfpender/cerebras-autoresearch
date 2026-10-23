@@ -35,6 +35,11 @@ original cold profiles and numerical bounds remain separate.
 
 ## Additional metrics
 
+The `decode_attention` adapter instead scores **`coordinator_cycles`**: both
+timestamps on PE `(P-1,0)`, before dispatch through the final output store.
+Local intervals remain diagnostic. See the [attention contract](decode-attention.md).
+Do not substitute the largest local interval or compare across timing contracts.
+
 | Metric | Meaning | Use |
 | --- | --- | --- |
 | `mean_local_cycles` | Mean across PEs; maximum across cases | Compare with worst PE |

@@ -1,5 +1,14 @@
 # Results and qualification
 
+## Distributed attention — host readiness only
+
+The [GQA challenge](../docs/benchmarks/decode-attention.md) has five configured
+profiles and two staged candidate workspaces. The
+[readiness report](reports/2026-10-23-attention-readiness.json) records host
+checks and the failed device preflight. CSL compilation, device cycles,
+hardware TPS and >5x improvement remain unmeasured. These proposals do not
+enter the measured or confirmed leaderboard.
+
 ## Canonical research journal
 
 [`results.tsv`](results.tsv) automatically records terminal V2 attempts and

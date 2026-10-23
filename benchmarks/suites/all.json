@@ -37,6 +37,11 @@
     "decoder.h16-f32-ctx12",
     "reusable-gemm.tiny-sequence",
     "reusable-gemm.prefill-ffn-up-scaled",
-    "reusable-gemm.prefill-ffn-down-scaled"
+    "reusable-gemm.prefill-ffn-down-scaled",
+    "decode-attention.d64-ctx128",
+    "decode-attention.d64-boundary",
+    "decode-attention.d64-ctx1024",
+    "decode-attention.d64-ctx4096",
+    "decode-attention.d128-ctx512"
   ]
 }

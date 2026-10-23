@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "decode-attention.d64-ctx128",
+      "adapter": "decode_attention",
+      "family": "sharded-gqa-decode",
+      "dimensions": {
+        "P": 4,
+        "S": 32,
+        "D": 64,
+        "G": 4,
+        "T": 4,
+        "L": 124
+      },
+      "pe_grid": [
+        4,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "coordinator_cycles",
+      "oracle_contract": "sharded_gqa_decode_fp32_v1",
+      "work_units": 518144,
+      "work_unit": "projection_free_attention_arithmetic",
+      "description": "Resident GQA group; appended KV, stable distributed softmax and every output. Root-clock full sequence; not model TPS.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+      }
+    },
+    {
+      "id": "decode-attention.d64-boundary",
+      "adapter": "decode_attention",
+      "family": "sharded-gqa-decode",
+      "dimensions": {
+        "P": 4,
+        "S": 32,
+        "D": 64,
+        "G": 4,
+        "T": 4,
+        "L": 30
+      },
+      "pe_grid": [
+        4,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "coordinator_cycles",
+      "oracle_contract": "sharded_gqa_decode_fp32_v1",
+      "work_units": 133120,
+      "work_unit": "projection_free_attention_arithmetic",
+      "description": "Resident GQA group; appended KV, stable distributed softmax and every output. Root-clock full sequence; not model TPS.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+      }
+    },
+    {
+      "id": "decode-attention.d64-ctx1024",
+      "adapter": "decode_attention",
+      "family": "sharded-gqa-decode",
+      "dimensions": {
+        "P": 16,
+        "S": 64,
+        "D": 64,
+        "G": 4,
+        "T": 4,
+        "L": 1020
+      },
+      "pe_grid": [
+        16,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "coordinator_cycles",
+      "oracle_contract": "sharded_gqa_decode_fp32_v1",
+      "work_units": 4188160,
+      "work_unit": "projection_free_attention_arithmetic",
+      "description": "Resident GQA group; appended KV, stable distributed softmax and every output. Root-clock full sequence; not model TPS.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+      }
+    },
+    {
+      "id": "decode-attention.d64-ctx4096",
+      "adapter": "decode_attention",
+      "family": "sharded-gqa-decode",
+      "dimensions": {
+        "P": 64,
+        "S": 64,
+        "D": 64,
+        "G": 4,
+        "T": 4,
+        "L": 4092
+      },
+      "pe_grid": [
+        64,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "coordinator_cycles",
+      "oracle_contract": "sharded_gqa_decode_fp32_v1",
+      "work_units": 16771072,
+      "work_unit": "projection_free_attention_arithmetic",
+      "description": "Resident GQA group; appended KV, stable distributed softmax and every output. Root-clock full sequence; not model TPS.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+      }
+    },
+    {
+      "id": "decode-attention.d128-ctx512",
+      "adapter": "decode_attention",
+      "family": "sharded-gqa-decode",
+      "dimensions": {
+        "P": 16,
+        "S": 32,
+        "D": 128,
+        "G": 2,
+        "T": 4,
+        "L": 508
+      },
+      "pe_grid": [
+        16,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "coordinator_cycles",
+      "oracle_contract": "sharded_gqa_decode_fp32_v1",
+      "work_units": 2091008,
+      "work_unit": "projection_free_attention_arithmetic",
+      "description": "Resident GQA group; appended KV, stable distributed softmax and every output. Root-clock full sequence; not model TPS.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+      }
+    }
+  ]
+}

@@ -29,21 +29,26 @@ def matrix_inputs(m, k, n, seed, case, dtype):
     return x.astype(dtype), w.astype(dtype)
 
 
-def timing(raw, repeats):
+def timing(raw, repeats, coordinator=None):
     words = np.asarray(raw).view(np.uint32).reshape(-1, 3).astype(np.uint64)
     start = words[:, 0] | ((words[:, 1] & 65535) << np.uint64(32))
     end = (words[:, 1] >> np.uint64(16)) | (words[:, 2] << np.uint64(16))
     elapsed = ((end - start) & np.uint64((1 << 48) - 1)).astype(np.float64) / repeats
     if not np.isfinite(elapsed).all() or elapsed.min() <= 0:
         raise AssertionError("Invalid local timestamp interval")
-    return {
+    metrics = {
         "max_local_cycles": float(elapsed.max()),
         "mean_local_cycles": float(elapsed.mean()),
         "pe_cycle_spread": float(elapsed.max() - elapsed.min()),
     }
+    if coordinator is not None:
+        if type(coordinator) is not int or not 0 <= coordinator < elapsed.size:
+            raise ValueError("Invalid fixed coordinator index")
+        metrics["coordinator_cycles"] = float(elapsed[coordinator])
+    return metrics
 
 
-def save_case(out, case, arrays, error, bound, raw_timer, repeats, seed):
+def save_case(out, case, arrays, error, bound, raw_timer, repeats, seed, coordinator=None):
     """Always preserve evidence, including output from a failing numerical case."""
     artifact = Path(out) / f"case-{case}.npz"
     np.savez_compressed(
@@ -61,7 +66,7 @@ def save_case(out, case, arrays, error, bound, raw_timer, repeats, seed):
         "max_fraction_of_error_bound": float((error / bound).max()),
         "artifact": artifact.name,
         "artifact_sha256": hashlib.sha256(artifact.read_bytes()).hexdigest(),
-        "metrics": timing(raw_timer, repeats),
+        "metrics": timing(raw_timer, repeats, coordinator),
     }
     if "exact_state_match" in arrays:
         report["exact_state_match"] = exact_state_match

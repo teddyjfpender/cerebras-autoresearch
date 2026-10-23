@@ -3,6 +3,11 @@ set -euo pipefail
 task_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 task_sdk_dir=${CEREBRAS_SDK_DIR:-"$task_root/.sdk/sdk-2.10.1"}
 test -x "$task_sdk_dir/cslc" || { echo "SDK cslc not found in $task_sdk_dir" >&2; exit 2; }
+if [[ "$(uname -s)" == Linux ]]; then
+  export PATH="$task_sdk_dir:$PATH"
+  export SINGULARITYENV_CSL_SUPPRESS_SIMFAB_TRACE=${SINGULARITYENV_CSL_SUPPRESS_SIMFAB_TRACE:-1}
+  exec "$@"
+fi
 exec limactl shell --workdir="$task_root" cerebras-sdk bash -c '
   export PATH="$1:$PATH"
   export SINGULARITYENV_CSL_SUPPRESS_SIMFAB_TRACE=${SINGULARITYENV_CSL_SUPPRESS_SIMFAB_TRACE:-1}

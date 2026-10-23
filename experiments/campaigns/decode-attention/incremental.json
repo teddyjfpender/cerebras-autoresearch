@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "name": "decode-attention-incremental",
+  "seed": 20261023,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "decode-attention.d64-ctx128",
+      "candidates": [
+        {
+          "candidate": "attention-vector-exp"
+        },
+        {
+          "candidate": "attention-polynomial-exp"
+        }
+      ]
+    },
+    {
+      "profile": "decode-attention.d64-boundary",
+      "candidates": [
+        {
+          "candidate": "attention-vector-exp"
+        },
+        {
+          "candidate": "attention-polynomial-exp"
+        }
+      ]
+    },
+    {
+      "profile": "decode-attention.d64-ctx1024",
+      "candidates": [
+        {
+          "candidate": "attention-vector-exp"
+        },
+        {
+          "candidate": "attention-polynomial-exp"
+        }
+      ]
+    },
+    {
+      "profile": "decode-attention.d64-ctx4096",
+      "candidates": [
+        {
+          "candidate": "attention-vector-exp"
+        },
+        {
+          "candidate": "attention-polynomial-exp"
+        }
+      ]
+    },
+    {
+      "profile": "decode-attention.d128-ctx512",
+      "candidates": [
+        {
+          "candidate": "attention-vector-exp"
+        },
+        {
+          "candidate": "attention-polynomial-exp"
+        }
+      ]
+    }
+  ]
+}

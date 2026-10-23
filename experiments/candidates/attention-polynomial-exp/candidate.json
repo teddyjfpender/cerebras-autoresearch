@@ -1,0 +1,17 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "0473866b6b4442bb1ba4edcbbce6d0514373ea8e1c6dd4b13008e4647d8c052f",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.polynomial-exp",
+  "hypothesis": "Extend vector-exp with a bounded degree-ten exp polynomial on [-16,0] and exact SDK-exp fallback elsewhere. Expect lower softmax cost at the fixed FP32 end-to-end tolerance.",
+  "falsification": "Reject if interval-boundary/extreme-logit checks or any device case fails, if the fresh coordinator gain is below the selected gate, or memory grows by over 10%. A 5x claim requires the separate >5x paired gate.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "ChatGPT Work",
+  "qualification_status": "host_checks_only_not_compiled"
+}

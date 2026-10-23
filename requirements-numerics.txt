@@ -1,0 +1,2 @@
+# Optional mathematical checks; the host CLI remains stdlib-only.
+numpy==2.3.5

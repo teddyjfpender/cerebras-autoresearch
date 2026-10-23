@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "decode-attention.d64-ctx128",
+    "decode-attention.d64-boundary",
+    "decode-attention.d64-ctx1024",
+    "decode-attention.d64-ctx4096",
+    "decode-attention.d128-ctx512"
+  ]
+}

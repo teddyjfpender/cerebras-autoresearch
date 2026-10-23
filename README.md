@@ -68,7 +68,7 @@ python3 research.py ledger sync               # Recover unjournaled terminal rec
 
 ## Benchmark coverage
 
-**37 configured profiles, 13 families, 16 suites.** The
+**42 configured profiles, 14 families, 17 suites.** The
 [catalog](docs/benchmarks/catalog.md) describes coverage; [results](results/README.md)
 separate measured profiles from configured ones.
 
@@ -76,18 +76,24 @@ separate measured profiles from configured ones.
 | --- | --- |
 | Dense inference | Six GEMV shapes; five cold GEMM shapes; three resident GEMM sequences; scaled FFN up/down projections |
 | Complete inference blocks | RMSNorm/SwiGLU MLP at two widths; causal RoPE attention with KV state and MLP at two contexts |
+| Distributed decode attention | Five GQA profiles: 4–64 PEs, 64/128-wide heads, contexts to 4,096; configured, not device-qualified |
 | Composed programs | Three FP32 matvec → bias → ReLU → residual chains with staged/fused variants; SDK residual norm |
 | Communication/I/O | Row/column broadcast; H2D/D2H diagnostics |
 | Numerical/scientific | Sparse 7-point stencil; 1D/2D/3D FFT; local matvec bandwidth |
 | Exact/spatial | 256-bit multiplication; Game of Life |
 
-Twenty-one profiles have independent six-case oracles. Fourteen use pinned
+Twenty-six profiles have independent six-case oracles. Fourteen use pinned
 upstream reference checks; two are diagnostics. Only the independent-oracle
 tier can pass automatic promotion. Untimed examples receive no cycle score.
 
 The [four-track inference challenge](docs/benchmarks/inference-blocks.md) groups
 the larger FFN GEMM/GEMV pairs and complete gated MLP/decoder-layer workloads.
 Execution qualification is recorded separately from configuration.
+
+The [distributed GQA challenge](docs/benchmarks/decode-attention.md) adds a
+coordinator-clock score and staged softmax candidates. Host checks pass; CSL
+compilation and device performance remain unmeasured. The >5x campaign is a
+target, not an achieved result.
 
 ## What to optimize
 

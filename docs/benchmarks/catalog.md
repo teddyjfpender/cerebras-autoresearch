@@ -76,6 +76,11 @@ They are synthetic tensor problems, not full Qwen layers or decoder benchmarks.
 
 ## Adding coverage
 
+The [sharded GQA suite](decode-attention.md) adds five configured, host-checked
+profiles under `attention/gqa.json` and the `decode-attention` suite. Its
+`coordinator_cycles` primary contract differs from local-duration benchmarks.
+These profiles are not compiled or device-qualified yet.
+
 Add profile data in a nested family manifest, register it in `manifests/catalog.json`,
 and include appropriate suite members. Read the [architecture guide](../development/architecture.md).
 Use `python3 research.py list --suite NAME --json` to inspect exact resolved commands,
