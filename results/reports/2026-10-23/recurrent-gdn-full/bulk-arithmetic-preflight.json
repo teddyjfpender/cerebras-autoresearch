@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "status": "full_native_bulk_arithmetic_preflight_passed",
+  "script_sha256": "5863595e42d95d84b13d0a61d141d0787013c37e8b7dc7c417bfd7f5818743da",
+  "records": [
+    {
+      "case": "positive",
+      "seed": 20261041,
+      "max_error_fraction": 0.9810426396673017,
+      "passed": true,
+      "artifact_sha256": "faa4620962896908d939c358de12716dbf5cf00b3d68020897f0bc6482cb9034"
+    },
+    {
+      "case": "signed",
+      "seed": 20261041,
+      "max_error_fraction": 0.9644810683498106,
+      "passed": true,
+      "artifact_sha256": "cccb6506faa5136cc1adcc606ab10c9c94bd00ea30e20c86b55c34c5dffcf12d"
+    },
+    {
+      "case": "zero",
+      "seed": 20261041,
+      "max_error_fraction": 0.3329619436703934,
+      "passed": true,
+      "artifact_sha256": "5dba8477c82438584c1b944205ebaf142d152c7e8146e52bc7ed935b4c20b36e"
+    },
+    {
+      "case": "cancellation",
+      "seed": 20261041,
+      "max_error_fraction": 0.9400722863472076,
+      "passed": true,
+      "artifact_sha256": "4d79f0096466a07056e7b3f0d169d9d7d06c6adae10beec846ad076228ea1ddc"
+    },
+    {
+      "case": "one_hot",
+      "seed": 20261041,
+      "max_error_fraction": 0.9775030631498342,
+      "passed": true,
+      "artifact_sha256": "1c18739741149b25d109b1daf3e6053a6d34bf5c6f67b345f4122cfe550b56cf"
+    },
+    {
+      "case": "mixed_scale",
+      "seed": 20261041,
+      "max_error_fraction": 0.9618856387731061,
+      "passed": true,
+      "artifact_sha256": "0699a3629a84529728a9fee60ba8481d4a6d122c8273757275f3171e3e20f8d5"
+    }
+  ],
+  "sdk_device_execution": false,
+  "performance_measurement": false,
+  "qwen_tps_result": false,
+  "scope": "All16 key groups,48 value heads,K/V128,T2 FP32 MUL/ADD and four-partial arithmetic under fixed bounds. Actual upstream normalized/decay prefixes. Descriptor traversal, aliasing, compiler execution and timed speed remain unverified."
+}

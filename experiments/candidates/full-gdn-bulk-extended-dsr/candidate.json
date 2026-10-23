@@ -1,0 +1,22 @@
+{
+  "adapter": "recurrent_gdn_full",
+  "initial_profile": "recurrent-gdn-full.k128-v128-h16-t2",
+  "source": {
+    "repository": "local",
+    "reference_repository": "https://github.com/huggingface/transformers",
+    "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+    "implementation": "independent FP32 vector reference, full native16 key/48 value heads, two tokens"
+  },
+  "baseline_tree_sha256": "1f9009faeb5c3e66e12cf10eccbc2988cef076e57cbb2fc0449801c15fb107ba",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "full_gdn.bulk_extended_dsr",
+  "hypothesis": "Replace all three K-row state loops with bulk FP32 vector products, repeat-DSD four-partial reductions and pointwise outer update. Reuse only the dead current-frame STATE_HISTORY slot as product scratch; protected save_frame still writes every final state. Execute every product with FP32 MUL/ADD under the original gamma2K/gamma2 bounds; original BF16 output conversion, exact canonical/replica checks and all frames remain. Local mem4d descriptors loaded sequentially into DSR bank zero avoid global descriptor register pressure and constant lowering defects.",
+  "falsification": "Reject incorrect mem4d flattening/reduction, any omitted K*V term/frame/state store, reuse of a past history or live/canonical buffer, scratch extent outside the current frame, changed precision or timing, fixed local/full-chain error failure, shutdown/core/timer failure, speedup below1.05x or memory above1.10x. Require full six-case fresh pairs and exact suite coverage for widening claims.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "parent_candidate": "native-gdn-bulk-local-dsr",
+  "transfer": "Full native16 key/48 value heads,T2 fixed contract. Extended descriptors explicitly loaded into distinct XDSR and SR banks, reloaded each operation.",
+  "sdk_pattern": "Bundled csl-libs/kernels/fft/fft3d.csl uses load_to_dsr_xdsr_sr with get_xdsr and get_sr."
+}

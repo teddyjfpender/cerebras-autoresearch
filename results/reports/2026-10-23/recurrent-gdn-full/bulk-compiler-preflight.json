@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "status": "compiled_full_native_layout",
+  "attempts": [
+    {
+      "source": "runs/maintenance/full-bulk-extended-compile/src/pe.csl",
+      "source_sha256": "e4ebab517d4812bc8eb70b9e585f5c69b8d987b58f1b5dda75ba9be32c401458",
+      "log": "runs/maintenance/full-bulk-extended-compile.log",
+      "log_sha256": "a596638b8419dc1996d7a9097740a00aed3546263d611cdc346d7a30b0e49294",
+      "compiled": false
+    },
+    {
+      "source": "runs/maintenance/full-bulk-extended-compile-v2/src/pe.csl",
+      "source_sha256": "7096b83adfbfccbca70969f42739db7637b55aa6aea0f5ae0ee92ae3fd4bb1e7",
+      "log": "runs/maintenance/full-bulk-extended-compile-v2.log",
+      "log_sha256": "310e36eb439a4f4f18cd6c38676fe3bded2abc716bc9a7641e42d409121ea3a4",
+      "compiled": false
+    },
+    {
+      "source": "runs/maintenance/full-bulk-extended-compile-v3/src/pe.csl",
+      "source_sha256": "f66fb49b41170df69ea35a3fcf01f353c4f9f3619ce1e2471d953e349cfa0ac8",
+      "log": "runs/maintenance/full-bulk-extended-compile-v3.log",
+      "log_sha256": "4458a2dd1e488414cd8887939aa73780cf138bd740676e2da7644f0fc65e2943",
+      "compiled": false
+    },
+    {
+      "source": "runs/maintenance/full-bulk-extended-compile-v4/src/pe.csl",
+      "source_sha256": "2fbb7ee0194fefd40d0c73bb51cc903776158838088edf56d8d818c5fc27643b",
+      "log": "runs/maintenance/full-bulk-extended-compile-v4.log",
+      "log_sha256": "ac32027f38fcba91822fb6b7172e8c5c5d1462afb7b216d409e20e4b1bf4ab7c",
+      "compiled": true
+    }
+  ],
+  "scope": "Compile-only diagnostic. Not a timed V2 run, numerical device validation or retained improvement.",
+  "qwen_tps_result": false
+}
