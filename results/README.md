@@ -41,21 +41,26 @@ bounded FP32 SiLU evaluation and invariant-backed receive-buffer reuse. This
 track retains its original FP16 accumulation/storage and FP32 residual contract;
 BF16/FP32-accumulation work requires separate profiles and new baselines.
 
-## Native BF16 resident SwiGLU — qualified baselines
+## Native BF16 resident SwiGLU — confirmed complete chain
 
-Both BF16-storage/FP32-accumulator cells passed all six numerical families,
-complete stage/state validation, and independent raw numerical/core/timer replay
-(**12 device cases**). These are fresh baselines on the distinct BF16 track.
+`bf16-swiglu-projection-silu6-reuse` passed both six-case cells and fresh paired
+confirmation. All **48 paired cases** passed independent numerical and complete
+saved-core/state/timer replay. The conservative suite geometric mean is
+**1.451350x**, with worst cell **1.404278x**.
 
-| Profile | Four-frame cycles | Program bytes/PE |
-| --- | ---: | ---: |
-| `resident-swiglu-bf16.small` | 57,573 | 11,088 |
-| `resident-swiglu-bf16.ffn-scaled` | 585,178 | 43,600 |
+| Profile | Initial reference → candidate cycles | Fresh reference → candidate cycles | Program bytes/PE |
+| --- | ---: | ---: | ---: |
+| `resident-swiglu-bf16.small` | 57,573 → 38,382 | 57,573 → 38,382 | 11,088 → 11,328 |
+| `resident-swiglu-bf16.ffn-scaled` | 585,178 → 414,050 | 585,178 → 416,711 | 43,600 → 45,504 |
 
-[Qualification evidence](reports/2026-10-23/resident-swiglu-bf16/qualification.json)
-preserves exact identities and all raw artifacts. The precision contract rounds
-G/U/V/D/Y to BF16 and keeps projection accumulation, activation and residual
-arithmetic in FP32. It remains a scaled FFN operator chain.
+[Complete suite evidence](reports/2026-10-23/resident-swiglu-bf16/initial-suite-confirmed.json)
+preserves source/evaluator/SDK identities and both seed arms. The original
+[baseline qualification](reports/2026-10-23/resident-swiglu-bf16/qualification.json)
+remains separate. The candidate preserves BF16 G/U/V/D/Y boundaries and FP32
+projection accumulation, activation and residual arithmetic under the fixed
+contract. The faster vector screens exceeded the memory gate and remain rejected;
+the [compiler interruption](reports/2026-10-23/resident-swiglu-bf16/compiler-stall-diagnostic.json)
+is preserved in the journal. This is a scaled FFN operator-chain result.
 
 ## Four inference tracks — qualified baselines
 

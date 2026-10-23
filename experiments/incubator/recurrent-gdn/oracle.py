@@ -1,4 +1,4 @@
-"""Independent FP64 stateful gated-delta oracle; staging only, no device score."""
+"""Independent FP64 stateful gated-delta oracle with local and full-chain checks."""
 
 import numpy as np
 from common import CASES

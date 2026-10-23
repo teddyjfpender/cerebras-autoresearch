@@ -1,4 +1,4 @@
-"""Staged mixed-precision recurrent operator SDK driver; no registered score."""
+"""Mixed-precision resident recurrent operator SDK driver with complete core readback."""
 
 import argparse
 import json
