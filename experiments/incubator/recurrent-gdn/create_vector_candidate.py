@@ -6,6 +6,7 @@ input, bound, timing function or state/history store is changed.
 """
 
 import argparse
+import hashlib
 import json
 import subprocess
 import sys
@@ -63,13 +64,35 @@ VECTOR = """    var head: i16 = 0;
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--name", default=NAME)
+    parser.add_argument("--profile", default="recurrent-gdn.k16-v16")
+    parser.add_argument("--baseline", type=Path, required=True)
     args = parser.parse_args()
+    sys.path.insert(0, str(ROOT / "src"))
+    from cerebras_research.adapters import baseline_source
+    from cerebras_research.catalog import get_profile
+    from cerebras_research.paths import identity, tree_digest
+    from cerebras_research.provenance import evaluator_files
+    from cerebras_research.scoring import load_validated
+
+    baseline = args.baseline.resolve()
+    relative = str(baseline.relative_to(ROOT))
+    qualified = load_validated(baseline)
+    profile = get_profile(args.profile)
+    source, _ = baseline_source(profile)
+    if (
+        profile["adapter"] not in ("recurrent_gdn", "recurrent_gdn_native")
+        or qualified["profile"]["id"] != args.profile
+        or qualified["variant"] != "baseline"
+        or qualified["source_sha256"] != tree_digest(source)
+        or qualified["provenance"]["evaluator_sha256"] != identity(evaluator_files(ROOT))
+    ):
+        raise ValueError("Need a current matched full baseline before candidate creation")
     subprocess.run(
         [
             sys.executable,
             str(ROOT / "research.py"),
             "candidate-init",
-            "recurrent-gdn.k16-v16",
+            args.profile,
             args.name,
         ],
         cwd=ROOT,
@@ -98,6 +121,8 @@ var v_input_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{V} -> V_CANON[i] }
         model="unknown",
         agent_harness="Codex",
         shape_specific=False,
+        qualification_receipt=relative,
+        qualification_receipt_sha256=hashlib.sha256(baseline.read_bytes()).hexdigest(),
     )
     metadata.write_text(json.dumps(data, indent=2) + "\n")
     (folder / "README.md").write_text("""# FP32 vector recurrent state candidate

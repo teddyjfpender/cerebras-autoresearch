@@ -1,0 +1,21 @@
+{
+  "adapter": "recurrent_gdn",
+  "initial_profile": "recurrent-gdn.k16-v16",
+  "source": {
+    "repository": "local",
+    "reference_repository": "https://github.com/huggingface/transformers",
+    "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+    "implementation": "independent scalar mathematical reference"
+  },
+  "baseline_tree_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "recurrent_gdn.fp32_vector_state_row_walk",
+  "hypothesis": "Contiguous V-lane FP32 vector decay, memory projection, outer update and readout remove scalar address/loop overhead; one V-element scratch vector fits the fixed memory gate. Every ascending K term and all protected normalization/exp/state-history/timing work remain.",
+  "falsification": "Reject if any of the six initial/fresh families fails the unchanged local/full-chain FP32/BF16 bounds or immutable/core/timer checks, if any projection term/state store is absent, if memory grows over 10 percent, or if matched full-case speedup is below 1.05x. A suite claim also requires both shapes and worst-cell guards.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "qualification_receipt": "runs/v2/20261023T133631Z-recurrent-gdn.k16-v16-678410d7/result.json",
+  "qualification_receipt_sha256": "89927fdc884200c4771f20f1e849df86808622c66019b252e8fcc49a0d32a5ec"
+}

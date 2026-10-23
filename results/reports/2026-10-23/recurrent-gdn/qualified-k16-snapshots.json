@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "status": "core_output_state_and_timer_replayed",
+  "case_count": 6,
+  "auditor_sha256": "d86177ae78ac49ae3cc690b53da74df73b7e4105c3b7bc1183011017a3390f2c",
+  "helper_sha256": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+  "records": [
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T133631Z-recurrent-gdn.k16-v16-678410d7/result.json",
+        "sha256": "89927fdc884200c4771f20f1e849df86808622c66019b252e8fcc49a0d32a5ec"
+      },
+      "profile": "recurrent-gdn.k16-v16",
+      "source_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "harness_sha256": "1c685c840f27d605b6d013b686a95a6969e75b4ec060b287280ce390b0ca842e",
+      "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "ba2c4fee02e0208e04536de2baef469396f27c35ab6467e2ce65717496ab2383",
+          "half_words_checked": 167136
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "671a55c6e328146edfbf123ab38729f1f4914c8af7bf0e785d57c90823cb0f3e",
+          "half_words_checked": 167136
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "a9a0ba0f661221fea7ae91b0e134f0e91a2cc8ee33e402844477427667560a34",
+          "half_words_checked": 167136
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "d7884b465ece091142262ed38f1d9b514f30485ac97122ac5d50867ace37ba43",
+          "half_words_checked": 167136
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "607d1329a8b9a3775bc0e34a3a245bf4195ecd981643b7329d96640da7437f38",
+          "half_words_checked": 167136
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "33e63fefd0bd095d99521ca1a93ee124a73c9caa270db3bbcf8426ee563c5c0e",
+          "half_words_checked": 167136
+        }
+      ]
+    }
+  ],
+  "qwen_tps_result": false,
+  "manifest_sha256": "476b6298641a855e25cf4cc4dd8eb5500cc00279276b1bc28e5dbfa22a095fac"
+}
