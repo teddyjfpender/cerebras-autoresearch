@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 169,
-  "ledger_head": "404b1b38cd853cf3033562897e63da32368248b0d2bf8f8cd35e9681ab60b802",
+  "ledger_rows": 185,
+  "ledger_head": "03f6e8d894a1221c68e2debde236c31fe0ee6cee52c44d9ae8d6cb5e4cc1f976",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -363,6 +363,30 @@
       "source_sha256": "449d9b5006ee75eb746c18673929063e019e6d463d5ab986c5ec6b79e070316a",
       "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
       "receipt": "runs/v2/20261022T225709Z-gated-mlp.h32-f64-e79bb61c/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "8fd1b06892ab174b2b289758c5a079f1bb81de1a7cec33ae6d01ef2c8b422a48",
+      "profile": "decoder.h16-f32-ctx4",
+      "approach": "decoder.fp32-silu-polynomial",
+      "variant": "candidate",
+      "primary_value": "127134.0",
+      "memory_bytes": "28144",
+      "source_sha256": "ecff7223a29d158ba30ff458da57a04582b3c66d02ddc10780b7ef58d79ec963",
+      "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+      "receipt": "runs/v2/20261023T051008Z-decoder.h16-f32-ctx4-b4264cac/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "83b304b4ea5d49a257d179a1c763afc780087b58fe41bed911bc6a0a3ee3cd1b",
+      "profile": "decoder.h16-f32-ctx12",
+      "approach": "decoder.fp32-silu-polynomial",
+      "variant": "candidate",
+      "primary_value": "200280.0",
+      "memory_bytes": "33312",
+      "source_sha256": "ecff7223a29d158ba30ff458da57a04582b3c66d02ddc10780b7ef58d79ec963",
+      "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+      "receipt": "runs/v2/20261023T052747Z-decoder.h16-f32-ctx12-637ebfc5/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -894,6 +918,54 @@
       "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
       "receipt": "runs/v2/20261022T230139Z-gated-mlp.h32-f64-ae323dff/result.json",
       "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "8fd1b06892ab174b2b289758c5a079f1bb81de1a7cec33ae6d01ef2c8b422a48",
+      "profile": "decoder.h16-f32-ctx4",
+      "approach": "decoder.fp32-silu-polynomial",
+      "variant": "candidate",
+      "primary_value": "127134.0",
+      "memory_bytes": "28144",
+      "source_sha256": "ecff7223a29d158ba30ff458da57a04582b3c66d02ddc10780b7ef58d79ec963",
+      "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+      "receipt": "runs/v2/20261023T051008Z-decoder.h16-f32-ctx4-b4264cac/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "c9834418283d0602a0cea8c7778ae1043333e69ba47e4b8b354117b4c7f1cd9c",
+      "profile": "decoder.h16-f32-ctx4",
+      "approach": "decoder.fp32-silu-polynomial",
+      "variant": "candidate",
+      "primary_value": "127134.0",
+      "memory_bytes": "28144",
+      "source_sha256": "ecff7223a29d158ba30ff458da57a04582b3c66d02ddc10780b7ef58d79ec963",
+      "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+      "receipt": "runs/v2/20261023T051632Z-decoder.h16-f32-ctx4-1db9fb87/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "83b304b4ea5d49a257d179a1c763afc780087b58fe41bed911bc6a0a3ee3cd1b",
+      "profile": "decoder.h16-f32-ctx12",
+      "approach": "decoder.fp32-silu-polynomial",
+      "variant": "candidate",
+      "primary_value": "200280.0",
+      "memory_bytes": "33312",
+      "source_sha256": "ecff7223a29d158ba30ff458da57a04582b3c66d02ddc10780b7ef58d79ec963",
+      "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+      "receipt": "runs/v2/20261023T052747Z-decoder.h16-f32-ctx12-637ebfc5/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "064178d5e887a9ecefbe04eafc6de7afa662facd055af4258d33ed11d997ce4c",
+      "profile": "decoder.h16-f32-ctx12",
+      "approach": "decoder.fp32-silu-polynomial",
+      "variant": "candidate",
+      "primary_value": "200280.0",
+      "memory_bytes": "33312",
+      "source_sha256": "ecff7223a29d158ba30ff458da57a04582b3c66d02ddc10780b7ef58d79ec963",
+      "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+      "receipt": "runs/v2/20261023T054041Z-decoder.h16-f32-ctx12-def4c10a/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "confirmed_improvements": [
@@ -1028,11 +1100,36 @@
       "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
       "receipt": "runs/v2/20261022T230641Z-confirmation-b1946980/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "b630df4f7839a3cd168c0cd2f6a2cb052edec57b67dbcba47869c1cb7ba74e47",
+      "profile": "decoder.h16-f32-ctx4",
+      "approach": "decoder.fp32-silu-polynomial",
+      "variant": "candidate",
+      "primary_value": "127134.0",
+      "memory_bytes": "28144",
+      "source_sha256": "ecff7223a29d158ba30ff458da57a04582b3c66d02ddc10780b7ef58d79ec963",
+      "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+      "receipt": "runs/v2/20261023T052254Z-confirmation-0f949f14/result.json",
+      "decision": "confirmed"
+    },
+    {
+      "event_id": "06f7700af183b3a8e1f9461a34b32373bd6212d5f346227bb73ddb92ded6e6c8",
+      "profile": "decoder.h16-f32-ctx12",
+      "approach": "decoder.fp32-silu-polynomial",
+      "variant": "candidate",
+      "primary_value": "200280.0",
+      "memory_bytes": "33312",
+      "source_sha256": "ecff7223a29d158ba30ff458da57a04582b3c66d02ddc10780b7ef58d79ec963",
+      "evaluator_sha256": "2c885ac648dd5bc1d63c2b522de9f71a9e5619f027e84501762a2b8ef20b9082",
+      "receipt": "runs/v2/20261023T054951Z-confirmation-3383ab97/result.json",
+      "decision": "confirmed"
     }
   ],
   "confirmed_suite_events": [
     "000dbb2822b1a7b0e79550f023c9e88eda95722323b3ee7888093cb0a5c1dbfd",
-    "7d9d2e6ea41a155ed6b37f1323ac0e3f676b14dfeafd5004797e23946d7d80b9"
+    "7d9d2e6ea41a155ed6b37f1323ac0e3f676b14dfeafd5004797e23946d7d80b9",
+    "af191a8526202513236d966e7db0c23a7d5b7a5bd345ba3f67889ee92d4ea8a6"
   ],
   "qwen_tps_result": false
 }

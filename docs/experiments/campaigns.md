@@ -222,3 +222,21 @@ applies the geometric-mean, per-cell regression, memory and fresh-source gates.
 The aggregate describes the exact recorded implementations across separate
 profile runs. Keep model throughput and a combined kernel launch as separate
 measurement contracts.
+
+## Durable consoles across agent restarts
+
+A long SDK campaign needs a console file owned by the execution environment.
+A server restart during decoder dogfooding closed an attached output pipe;
+the next progress print raised `BrokenPipeError` and correctly preserved a
+failed partial receipt. Numerical success in its first case did not qualify it.
+
+For unattended runs, launch the campaign inside the SDK VM with stdin redirected
+from `/dev/null`, stdout/stderr redirected to a persistent `console.log`, and a
+new process session. Save its PID and use the campaign's boot/start-time identity
+when checking liveness. This keeps execution independent of the host tool's
+output handle. Inspect the actual worker before retrying after any disconnect.
+
+Retain the interrupted checkpoint and receipts. A focused continuation may reuse
+hash-bound completed arms with unchanged profile, source, harness and evaluator;
+the unsuccessful fresh arm must run again in full. Record that continuation
+separately, then run artifact verification and independent numerical replay.

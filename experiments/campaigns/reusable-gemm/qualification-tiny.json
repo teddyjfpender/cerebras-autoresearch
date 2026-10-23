@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "name": "reusable-gemm-tiny-qualification",
+  "seed": 20261027,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "reusable-gemm.tiny-sequence",
+      "candidates": []
+    }
+  ]
+}

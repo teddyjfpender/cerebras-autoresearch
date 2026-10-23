@@ -6,7 +6,7 @@
   "qualification_state": "runs/campaigns/inference-blocks-qualification/result.json",
   "optimization_state": "runs/campaigns/inference-blocks-optimization/result.json",
   "next_benchmark": "resident reusable GEMM with distinct frames and full output/state oracle",
-  "status": "ready_to_resume",
+  "status": "resumed",
   "qwen_tps_result": false,
   "last_verified_milestone": "Storage blocker cleared by stale compiler/download/upgrade cache cleanup. All 169 terminal receipts artifact/prefix verified and SDK disk lease passed. No device program launched by cleanup. Frozen F1 checkpoint is ready to resume; reusable GEMM device qualification remains outstanding.",
   "second_iteration_state": "runs/campaigns/inference-blocks-second-iteration/result.json",
@@ -19,7 +19,7 @@
     "runs/v2/20261022T225349Z-confirmation-5195d91f/result.json",
     "runs/v2/20261022T230641Z-confirmation-b1946980/result.json"
   ],
-  "sdk_worker_status": "stopped_ready_to_resume",
+  "sdk_worker_status": "running_ctx12_confirmation_durable",
   "resource_incident": "runs/maintenance/low-disk-cancellation.json",
   "suite_report": "results/reports/2026-10-22-inference-blocks-confirmed-suites.json",
   "resource_checkpoint": "results/reports/2026-10-22-inference-blocks-resource-checkpoint.json",
@@ -32,5 +32,9 @@
     "sdk_disk_reserve": "passed",
     "ledger_artifact_replay": "169 rows passed"
   },
-  "historical_blocked_reason": "Host disk remains below the 1 GiB SDK reserve across three consecutive goal turns; no SDK worker is active. Additional disk capacity is required for remaining device qualification and optimization."
+  "historical_blocked_reason": "Host disk remains below the 1 GiB SDK reserve across three consecutive goal turns; no SDK worker is active. Additional disk capacity is required for remaining device qualification and optimization.",
+  "resumed_utc": "2026-10-23T05:11:22.779701+00:00",
+  "resumed_scope": "User requested finish decoder confirmation, then qualify reusable GEMM; continue to completion beyond the earlier interrupted time window if required.",
+  "resumed_state": "runs/campaigns/inference-blocks-second-iteration-resumed/result.json",
+  "active_continuation": "runs/campaigns/decoder-ctx12-durable-confirmation/result.json"
 }

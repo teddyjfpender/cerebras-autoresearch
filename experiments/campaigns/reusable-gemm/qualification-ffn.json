@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "name": "reusable-gemm-ffn-qualification",
+  "seed": 20261027,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "candidates": []
+    },
+    {
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "candidates": []
+    }
+  ]
+}

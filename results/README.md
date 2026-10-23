@@ -61,8 +61,8 @@ to their original 30-profile tree.
 | --- | ---: | ---: | ---: | ---: |
 | `gated-mlp.h16-f32` | 158,849 | 39,911 | 3.9801x | 14,096 → 14,224 |
 | `gated-mlp.h32-f64` | 559,178 | 96,303 | 5.8064x | 33,168 → 33,360 |
-| `decoder.h16-f32-ctx4` | 366,243 | 146,366 | 2.5022x | 27,968 → 27,024 |
-| `decoder.h16-f32-ctx12` | 494,929 | 229,482 | 2.1567x | 33,120 → 32,192 |
+| `decoder.h16-f32-ctx4` | 366,243 | 127,134 | 2.8808x | 27,968 → 28,144 |
+| `decoder.h16-f32-ctx12` | 494,929 | 200,280 | 2.4712x | 33,120 → 33,312 |
 
 In the first iteration, `mlp-vector-projections` passed all six cases at both seeds, with **69.09% and
 79.46% fewer cycles**, respectively. The four-arm numerical replays for
@@ -71,7 +71,7 @@ In the first iteration, `mlp-vector-projections` passed all six cases at both se
 24 baseline/candidate cases and their raw clocks. Retention decisions are
 journaled at `runs/v2/20261022T201404Z-confirmation-0d5d512d/result.json` and
 `runs/v2/20261022T203652Z-confirmation-03cf791e/result.json`.
-The ctx4 decoder's `decoder-vector-rope-softmax` passed both six-case arms and
+The first-iteration ctx4 decoder's `decoder-vector-rope-softmax` passed both six-case arms and
 fresh confirmation, with **60.04% fewer cycles** and **3.38% less program memory**.
 Its [24-case raw replay](reports/2026-10-22-decoder-ctx4-confirmed-numerics.json)
 checks every token output and cache snapshot; retention is recorded at
@@ -88,7 +88,7 @@ four-arm replays each passed all 24 cases. Decisions:
 `runs/v2/20261022T225349Z-confirmation-5195d91f/result.json` and
 `runs/v2/20261022T230641Z-confirmation-b1946980/result.json`.
 
-The ctx12 decoder also passed six cases at both seeds: **53.63% fewer cycles**
+The first-iteration ctx12 decoder also passed six cases at both seeds: **53.63% fewer cycles**
 and **2.80% less program memory**. Its
 [24-case raw replay](reports/2026-10-22-decoder-ctx12-confirmed-numerics.json)
 checks outputs, cache state and timing summaries; retention is recorded at
@@ -98,11 +98,11 @@ The [completed first-iteration report](reports/2026-10-22-inference-blocks-first
 artifact-audits 44 run/decision receipts. Its dense GEMM/GEMV candidates did not
 clear the retention gates; those unsuccessful screens remain in the journal.
 These confirmed results cover the complete four-frame/token FP32 workloads on
-one PE under the frozen inference-block evaluator. The twelve-hour session remains active. The second iteration was safely
+one PE under the frozen inference-block evaluator. The original twelve-hour session was interrupted. The second iteration was safely
 cancelled by the low-disk guard during decoder validation; see the interrupted
 checkpoint below. Historical results below retain their original tracks.
 
-### Complete suite confirmations
+### Suite confirmations before decoder refinement
 
 The [source-bound suite report](reports/2026-10-22-inference-blocks-confirmed-suites.json)
 records standard core confirmations for both complete families:
@@ -116,6 +116,26 @@ All four arms per suite import existing six-case measurements with exact receipt
 hashes and unchanged evaluator/SDK identities. Each assembled receipt explicitly
 records **zero new SDK attempts**. The means summarize separate profile launches;
 they do not measure a combined kernel or model throughput.
+
+### Decoder refinement completed — 2026-10-23
+
+`decoder-silu-polynomial` passed both six-case seed arms in both contexts:
+**127,134 / 200,280 sequence cycles**, or **2.8808x / 2.4712x** versus the fixed
+scalar references. This saves another **13.14% / 12.73%** cycles over the prior
+retained decoder. Program memory is +0.63% / +0.58% versus the references, within
+the unchanged gate. The original numerical tolerances and complete token/cache
+work remain fixed.
+
+The [complete suite confirmation](reports/2026-10-23-decoder-refinement-confirmed-suite.json)
+records **2.6681x geometric mean**, worst cell **2.4712x**, at both seeds.
+Independent raw replays passed 24 cases each for
+[ctx4](reports/2026-10-23-decoder-ctx4-refinement-confirmed-numerics.json) and
+[ctx12](reports/2026-10-23-decoder-ctx12-refinement-confirmed-numerics.json).
+The [resumed interruption report](reports/2026-10-23-inference-blocks-resumed-interrupted.json)
+preserves a server-restart broken pipe and its partial fresh run. The
+[durable continuation](reports/2026-10-23-decoder-ctx12-durable-confirmation.json)
+reused the accepted initial arm and retried the failed fresh arm in full.
+The original cancelled checkpoint and all historical records remain unchanged.
 
 ### Second iteration: first dense gain
 
@@ -146,8 +166,9 @@ missing/live receipts. The subsequent
 [resource checkpoint](reports/2026-10-22-inference-blocks-resource-checkpoint.json)
 verifies **169 / 169 terminal receipts** after the two suite confirmations,
 with full artifact replay, accepted Git prefix, and no live or missing receipts.
-The remaining decoder refinements and new reusable-GEMM device qualification
-are still outstanding; the original eight baseline profiles remain qualified.
+At that checkpoint, decoder refinements and reusable-GEMM device qualification
+were outstanding. Decoder refinement is now complete as recorded above; the
+original eight baseline profiles remain qualified.
 
 ## Kernel dogfood campaign — 2026-10-22
 
