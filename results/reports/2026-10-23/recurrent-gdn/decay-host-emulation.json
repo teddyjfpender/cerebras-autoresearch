@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "status": "fixed_exp_envelope_passed_in_fp32_host_emulation",
+  "points": 1004650,
+  "domain": [
+    -2,
+    0
+  ],
+  "degree": 9,
+  "range_reduction": "binary scaling; residual in [-ln2,0]",
+  "max_error_fraction": 0.18245038740672587,
+  "script_sha256": "847315bdf378978cee7b741b47f2dee7b6410ce8aa5fe4a2679f30edc8ce5777",
+  "sdk_device_execution": false,
+  "qwen_tps_result": false,
+  "performance_measurement": false
+}

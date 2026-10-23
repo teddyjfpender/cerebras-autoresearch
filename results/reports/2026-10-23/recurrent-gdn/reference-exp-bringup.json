@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "status": "rejected_reference_numerical_bringup",
+  "receipt": "runs/v2/20261023T133105Z-recurrent-gdn.k16-v16-5a49e651/result.json",
+  "receipt_sha256": "9e308b2c480add6d9ac482a6d96d4e1c3d90885aa7315c27aee87c497c93237f",
+  "failed_check": "decay_exp",
+  "max_error_fraction": 1.1092773929808741,
+  "unchanged_bound": "16*2^-24*abs(exp64(g))+16*2^-149",
+  "canonical_inputs_state_timer_exact": true,
+  "other_segments_passed": true,
+  "repair_source": "experiments/candidates/recurrent-gdn-reference-exp-range-reduced/src/pe.csl",
+  "repair_source_sha256": "093b8738bc5fb816b07e091d929fe3eda42d5b959b8a01b4ee4b199becaf4f2f",
+  "oracle_changed": false,
+  "precision_workload_timing_changed": false,
+  "retained_improvement": false,
+  "qwen_tps_result": false
+}

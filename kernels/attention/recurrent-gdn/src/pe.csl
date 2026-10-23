@@ -59,6 +59,32 @@ var delta_history_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R*V} -> DELT
 var state_history_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R*K*V} -> STATE_HISTORY[i] });
 var y_history_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R*V} -> Y_HISTORY[i] });
 
+// Fixed-domain FP32 exp for the declared immutable g in [-2,0].
+// Reduce to [-ln(2),0], use degree-nine Taylor Horner, then an exact binary scale.
+// This is a reference accuracy correction; the original 16*u32 bound is fixed.
+fn decay_exp(g: f32) f32 {
+    var r: f32 = g;
+    var scale: f32 = 1.0;
+    if (g < -1.3862943611198906) {
+        r = g + 1.3862943611198906;
+        scale = 0.25;
+    } else if (g < -0.6931471805599453) {
+        r = g + 0.6931471805599453;
+        scale = 0.5;
+    }
+    var p: f32 = 0.0000027557319223985893;
+    p = p*r + 0.0000248015873015873;
+    p = p*r + 0.0001984126984126984;
+    p = p*r + 0.001388888888888889;
+    p = p*r + 0.008333333333333333;
+    p = p*r + 0.041666666666666664;
+    p = p*r + 0.16666666666666666;
+    p = p*r + 0.5;
+    p = p*r + 1.0;
+    p = p*r + 1.0;
+    return p*scale;
+}
+
 fn one_frame(frame: i16) void {
     var qs: f32 = 0.0;
     var ks: f32 = 0.0;
@@ -79,7 +105,7 @@ fn one_frame(frame: i16) void {
     }
     var head: i16 = 0;
     while (head < R) : (head += 1) {
-        const decay: f32 = math.exp(G_CANON[frame*R+head]);
+        const decay: f32 = decay_exp(G_CANON[frame*R+head]);
         A_WORK[head] = decay;
         i = 0;
         while (i < K*V) : (i += 1) { STATE[head*K*V+i] *= decay; }

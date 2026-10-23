@@ -16,7 +16,7 @@ NAME = "recurrent-gdn-vector-state"
 
 VECTOR = """    var head: i16 = 0;
     while (head < R) : (head += 1) {
-        const decay: f32 = math.exp(G_CANON[frame*R+head]);
+        const decay: f32 = decay_exp(G_CANON[frame*R+head]);
         A_WORK[head] = decay;
         var head_state = @set_dsd_length(state_dsd, K*V);
         head_state = @increment_dsd_offset(head_state, head*K*V, f32);

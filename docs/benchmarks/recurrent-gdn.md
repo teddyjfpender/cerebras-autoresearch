@@ -129,3 +129,19 @@ and independently replayed the tensors. See the
 and [SDK replay](../../results/reports/2026-10-23/recurrent-gdn/upstream-sdk-replay.json).
 These are upstream operator checks; device qualification and performance remain
 separate. No full model or surrounding projections/convolution were executed.
+
+
+## Reference accuracy bringup
+
+The first positive-family device attempt rejected one installed `math.exp`
+result at1.109277x the already fixed16*u32 decay bound; all input/state/timer
+checks and the remaining numerical segments passed. The failed run is retained
+in the journal (`20261023T133105Z-recurrent-gdn.k16-v16-5a49e651`). The reference
+was corrected in `recurrent-gdn-reference-exp-range-reduced`: reduce g to
+[-ln2,0], evaluate degree-nine FP32 Taylor Horner, and multiply by an exact binary
+scale. The declared input domain is still[-2,0], the oracle and error bounds are
+unchanged, and all recurrent work/timed histories remain. This is a correctness
+repair to an unqualified reference; it establishes no optimization speedup.
+The corrected source requires new full six-case baselines before retention.
+A1,004,650-point FP32 host emulation passed at max0.182451 of the original exp
+bound; device qualification is separate.
