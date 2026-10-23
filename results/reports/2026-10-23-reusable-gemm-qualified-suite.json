@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "scope": "Complete three-profile resident GEMM baseline suite; no optimized candidate retention",
+  "receipt": {
+    "path": "runs/v2/20261023T082504Z-suite-reuse-3f4142d2/result.json",
+    "sha256": "3bad350151608bb80936b3e810af3bed747a5fac6c6ca7b7e962d429a8fc80e5"
+  },
+  "executed_attempts_for_assembly": 0,
+  "underlying_sdk_case_count": 18,
+  "suite": {
+    "schema_version": 2,
+    "status": "completed",
+    "suite": "reusable-gemm",
+    "profiles": [
+      "reusable-gemm.tiny-sequence",
+      "reusable-gemm.prefill-ffn-up-scaled",
+      "reusable-gemm.prefill-ffn-down-scaled"
+    ],
+    "suite_contract_sha256": "710afe583643c3090a77f22b143fbf47737ff34b10cfeaef61cb44d21b59a3d9",
+    "seed": 20261027,
+    "variant": "baseline",
+    "architecture": "wse3",
+    "simulator_threads": 1,
+    "sdk": {
+      "sdk_release": "2.10.1",
+      "sdk_build": "sdk-202606181328-8faf87a26e",
+      "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+      "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+      "bundled_checksum_verification": "all files passed",
+      "local_sdk_directory": ".sdk/sdk-2.10.1",
+      "lima_instance": "cerebras-sdk-rosetta",
+      "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+      "guest_container_runtime": "singularity-ce version 4.1.1",
+      "host_lima_version": "2.2.1",
+      "example_source_release": "rel-sdk-2.10.0",
+      "execution_platform": {
+        "schema_version": 1,
+        "id": "lima-vz-rosetta-v1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "hostname": "lima-cerebras-sdk-rosetta",
+        "controller_machine": "aarch64",
+        "virtualization": "vz",
+        "translation": "Rosetta for Linux",
+        "container_runtime": "singularity-ce version 4.1.1",
+        "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+        "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+        "sdk_image_architecture": "x86_64",
+        "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+      },
+      "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+      "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+      "controller": {
+        "machine": "aarch64",
+        "hostname": "lima-cerebras-sdk-rosetta",
+        "kernel": "6.8.0-147-generic",
+        "python": "3.12.3"
+      },
+      "installation_evidence": {
+        "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+        "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+      }
+    },
+    "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+    "screen_only": false,
+    "runs": {
+      "reusable-gemm.tiny-sequence": "runs/v2/20261023T081632Z-reusable-gemm.tiny-sequence-dcd630ef/result.json",
+      "reusable-gemm.prefill-ffn-up-scaled": "runs/v2/20261023T081702Z-reusable-gemm.prefill-ffn-up-scaled-9d0afdaf/result.json",
+      "reusable-gemm.prefill-ffn-down-scaled": "runs/v2/20261023T081851Z-reusable-gemm.prefill-ffn-down-scaled-33fe8cf4/result.json"
+    },
+    "failures": {},
+    "run_imports": {
+      "reusable-gemm.tiny-sequence": {
+        "path": "runs/v2/20261023T081632Z-reusable-gemm.tiny-sequence-dcd630ef/result.json",
+        "sha256": "33a0a34b79279c160f98ccf070579d7d102fccc27282c58cde16728a09944db8"
+      },
+      "reusable-gemm.prefill-ffn-up-scaled": {
+        "path": "runs/v2/20261023T081702Z-reusable-gemm.prefill-ffn-up-scaled-9d0afdaf/result.json",
+        "sha256": "77f244f84ed61ca47381c58c544298d271e6ddeb20d6446077d0d10c864e2cfd"
+      },
+      "reusable-gemm.prefill-ffn-down-scaled": {
+        "path": "runs/v2/20261023T081851Z-reusable-gemm.prefill-ffn-down-scaled-33fe8cf4/result.json",
+        "sha256": "f1f36e5c5d47c5ea4ca58956b02a75261cce1fb8537b3259ce6f2de6a7912273"
+      }
+    },
+    "implementations": {
+      "reusable-gemm.tiny-sequence": {
+        "candidate": "",
+        "variant": "baseline",
+        "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+        "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+        "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633"
+      },
+      "reusable-gemm.prefill-ffn-up-scaled": {
+        "candidate": "",
+        "variant": "baseline",
+        "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+        "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+        "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633"
+      },
+      "reusable-gemm.prefill-ffn-down-scaled": {
+        "candidate": "",
+        "variant": "baseline",
+        "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+        "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+        "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633"
+      }
+    },
+    "executed_attempt_count": 0,
+    "imported_run_count": 3,
+    "execution_mode": "assembled_existing_full_runs",
+    "assembly_tool_sha256": "705a4e386adcc66572722f60283c74323df497989d704d9c8a5b39235253f339",
+    "manifest": {
+      "path": "runs/campaigns/reusable-gemm-rosetta-qualification/full-baseline-manifest.json",
+      "sha256": "df862fee3604fd759690065e9dac34c0e12e3153214ca58dd3c7af884e1171ae"
+    },
+    "scope": "exact suite coverage from separate profile runs; not a combined kernel launch",
+    "qwen_tps_result": false
+  },
+  "qwen_tps_result": false
+}

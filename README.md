@@ -11,7 +11,7 @@ No hosted inference API key is required.
 python3 research.py list
 python3 research.py validate
 python3 research.py fetch
-limactl start --tty=false cerebras-sdk
+limactl start --tty=false cerebras-sdk-rosetta
 tools/sdk-run python3 research.py doctor
 make smoke
 ```

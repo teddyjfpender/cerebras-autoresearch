@@ -38,9 +38,9 @@ scores cover the complete four-frame/token sequence, including output/state
 stores. Compare matched arms within one profile. The blocks are scaled FP32
 local programs; no Qwen/model/hardware TPS claim follows.
 
-Across historical evaluator tracks, the current 34-profile catalog now has
-**13 full independent baselines, 14 reference checks and two diagnostics**:
-29 exercised profiles. Five independent shapes remain unqualified:
+Across historical evaluator tracks, the current 37-profile catalog now has
+**16 full independent baselines, 14 reference checks and two diagnostics**:
+32 exercised profiles. Five independent shapes remain unqualified:
 `meshgemm.cold-square32`, `meshgemm.cold-rectangular`, `meshgemv.ffn-down-scaled`,
 `meshgemv.square128`, and `pipeline.k64-n32`.
 
@@ -54,6 +54,38 @@ preserves earlier screens and compile failures. The
 [active session](../experiments/campaigns/2026-10-22-twelve-hour/README.md)
 describe the optimization and further investigation. Earlier counts below refer
 to their original 30-profile tree.
+
+## Resident reusable GEMM — qualified baselines
+
+All three profiles passed the six independent families under the selected
+`lima-vz-rosetta-v1` execution profile: **18 successful SDK case runs**. Each
+sequence computes four distinct resident inputs against shared weights. These
+are baselines; no optimized resident GEMM is retained by this qualification.
+
+| Profile | Four-frame cycles | Average cycles/GEMM | Program bytes/PE |
+| --- | ---: | ---: | ---: |
+| `reusable-gemm.tiny-sequence` | 6,653 | 1,663.25 | 7,584 |
+| `reusable-gemm.prefill-ffn-up-scaled` | 95,611 | 23,902.75 | 29,792 |
+| `reusable-gemm.prefill-ffn-down-scaled` | 128,315 | 32,078.75 | 30,160 |
+
+The [qualification report](reports/2026-10-23-reusable-gemm-qualification.json)
+binds the source/profile/evaluator/SDK identities, all 48 compiled compute ELFs,
+commands, errors, memory and case receipts. The
+[independent numerical replay](reports/2026-10-23-reusable-gemm-qualified-numerics.json)
+recomputed all 18 cases. The
+[snapshot replay](reports/2026-10-23-reusable-gemm-qualified-snapshots.json)
+also matched every output, canonical input, working-weight history and raw timer
+word against its saved SDK core. All 18 cores are artifact-hashed and preserved.
+Maximum error-bound fractions were 0.164, 0.122 and 0.0485 respectively; every
+canonical/working-state bit check passed. The
+[suite receipt](reports/2026-10-23-reusable-gemm-qualified-suite.json) imports these
+three measurements and executes no additional SDK attempts.
+
+The [host-route diagnostic](reports/2026-10-23-sdk-rosetta-platform-screen.json)
+and [SDK setup](../docs/sdk/setup.md) explain the faster execution route and its
+distinct evaluator track. Earlier QEMU measurements and failed/interrupted
+readback attempts remain immutable history. Compare optimized candidates with
+matched baselines on this track; these scores do not establish hardware or model TPS.
 
 ## Inference-block optimization — confirmed results
 

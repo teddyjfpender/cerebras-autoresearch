@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "name": "resident-gemm-initial-approaches-fresh",
+  "seed": 20261027,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "reusable-gemm.tiny-sequence",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-vector-columns"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row-major-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row4-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-resident-state"
+        }
+      ]
+    },
+    {
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-vector-columns"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row-major-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row4-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-resident-state"
+        }
+      ]
+    },
+    {
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-vector-columns"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row-major-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row4-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-resident-state"
+        }
+      ]
+    }
+  ]
+}

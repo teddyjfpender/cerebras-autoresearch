@@ -1,0 +1,310 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-23T08:11:59Z",
+  "campaign_status": "cancelled",
+  "plan": {
+    "path": "experiments/campaigns/reusable-gemm/qualification-ffn.json",
+    "sha256": "1be18eb71c80a43357a2f6bb9ba6abad68e2d9f544c51e7e56191344877ccd50",
+    "identity": "c157c80aea693d7364de503a0f99181633d0d39b6afe88fc174929d568e4491e"
+  },
+  "checkpoint": {
+    "path": "runs/campaigns/reusable-gemm-snapshot-qualification/ffn-result.json",
+    "sha256": "c2abe3dd14185e0b43ac85f3654e8a919a8faf43f176ce22aaea287af87df326"
+  },
+  "evaluator_sha256": "31bab1b49523331a9149ee14f5287538eb55c05c3b6a62b0051b2556fe3a8051",
+  "audit_tool_sha256": "d0afff8452b814db032899c7d26c94d27bd0bacf6180033a5ed75e60c124f1a6",
+  "audit_evaluator_sha256": "174526ae9d4bc2c9a080284a32a0a978a4acec796218c9680e24795a770d1757",
+  "candidate_identities": {},
+  "imports": {
+    "initial_baselines": {},
+    "fresh_baselines": {}
+  },
+  "executed_attempt_count": 1,
+  "requested_profiles": [
+    "reusable-gemm.prefill-ffn-up-scaled",
+    "reusable-gemm.prefill-ffn-down-scaled"
+  ],
+  "cells": {},
+  "records": [
+    {
+      "receipt": "runs/v2/20261023T074716Z-reusable-gemm.prefill-ffn-up-scaled-2b9c8aa9/result.json",
+      "receipt_sha256": "3529520053d504fabdfb12fd5b3e596977fdbabe0f736dadf867c0f1166d276f",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "cancelled",
+      "profile": {
+        "id": "reusable-gemm.prefill-ffn-up-scaled",
+        "adapter": "reusable_gemm",
+        "family": "resident-gemm-sequence",
+        "dimensions": {
+          "M": 16,
+          "K": 80,
+          "N": 272,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_gemm_sequence_fp16_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261027,
+      "screen_only": false,
+      "metrics": {
+        "experiment_wall_seconds": 1041.618462236991
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261027,
+          "passed": true,
+          "max_abs_error": 0.10785364732146263,
+          "max_fraction_of_error_bound": 0.12222293627955669,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "c0cabc716631f9cd7d97282de9c1b813451786bdb8b812cfce056a8b7a45a2ad",
+          "metrics": {
+            "max_local_cycles": 95611.0,
+            "mean_local_cycles": 95602.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261027,
+          "passed": true,
+          "max_abs_error": 0.03622005973011255,
+          "max_fraction_of_error_bound": 0.0422277583928128,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "168ec610a26da5181e16617b94ff04d0a4df1e608a6e7cca0df33886a5051069",
+          "metrics": {
+            "max_local_cycles": 95611.0,
+            "mean_local_cycles": 95602.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261027,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "62c2a8b11c88417a7270e0a517a904d9d1699e132580eeacbe24e80cbd81e326",
+          "metrics": {
+            "max_local_cycles": 95611.0,
+            "mean_local_cycles": 95602.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261027,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "762cd6665ed7715cbdf42ca1e7ac44c894e240ca7cbc502fe1b4a83c5021ce10",
+          "metrics": {
+            "max_local_cycles": 95611.0,
+            "mean_local_cycles": 95602.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "reusable_gemm.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "386128a7565f22867ec366f633d5192fdb8f632d",
+        "git_dirty": true,
+        "evaluator_sha256": "31bab1b49523331a9149ee14f5287538eb55c05c3b6a62b0051b2556fe3a8051",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "5dfb3973b72dc8a2fa12006eb9462e9d006ffbb188258b406ca2a39913dd8a47",
+          "src/cerebras_research/catalog.py": "7f6332822fd5c5ef84b562b3979a103a87ed8f79747da4a91e9aa4465c1eae1c",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "960a11a88c4fbbf87374265fe02a3a89b229c5dee985638aff7af3874a18ba16",
+          "src/cerebras_research/runner.py": "4d4c749b6dfd9d2d44779a3a347e294d01d43e443bea651751aa980d29dabf35",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk",
+        "guest_os": "Ubuntu 22.04 x86_64",
+        "guest_container_runtime": "SingularityCE 4.0.2",
+        "host_lima_version": "2.2.1",
+        "host_qemu_version": "11.1.2",
+        "example_source_release": "rel-sdk-2.10.0",
+        "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+        "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+      },
+      "profile_sha256": "991ae58752d98b5f26106f26b40d4dc5c5fc47d900609d5c43b2cdd2da5aef70",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Kt:20,Nt:68,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:4,Kt:20,Nt:68,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 48.94868313000188,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261027"
+          ],
+          "wall_seconds": 222.80016025000077,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261027"
+          ],
+          "wall_seconds": 221.76180133900198,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261027"
+          ],
+          "wall_seconds": 210.28039170699776,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261027"
+          ],
+          "wall_seconds": 212.71088089699333,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261027"
+          ],
+          "wall_seconds": 125.11654491399531,
+          "log": "step-5.log",
+          "status": "cancelled",
+          "error": ""
+        }
+      ],
+      "error": ""
+    }
+  ],
+  "record_count": 1,
+  "validated_case_count": 0,
+  "artifact_integrity_replayed": true,
+  "numerical_arrays_recomputed": false,
+  "qwen_tps_result": false
+}

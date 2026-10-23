@@ -39,7 +39,6 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 | `gated-mlp.h32-f64` | resident-gated-mlp | fp32 | independent_six_case | max_local_cycles |
 | `decoder.h16-f32-ctx4` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
 | `decoder.h16-f32-ctx12` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
-
 | `reusable-gemm.tiny-sequence` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |
 | `reusable-gemm.prefill-ffn-up-scaled` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |
 | `reusable-gemm.prefill-ffn-down-scaled` | resident-gemm-sequence | fp16 | independent_six_case | max_local_cycles |

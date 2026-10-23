@@ -21,15 +21,13 @@ from cerebras_research.catalog import get_profile, profile_identity
 from cerebras_research.cli import save_decision
 from cerebras_research.paths import contained, digest, identity, tree_digest, write_json
 from cerebras_research.process import simulator_lease
+from cerebras_research.provenance import evaluator_files
 from cerebras_research.runner import execute
 from cerebras_research.scoring import compare, confirm, load_validated
 
 
 def evaluator_identity():
-    paths = sorted((ROOT / "src/cerebras_research").glob("*.py")) + sorted(
-        (ROOT / "benchmarks/drivers").glob("*.py")
-    )
-    return identity({str(path.relative_to(ROOT)): digest(path) for path in paths})
+    return identity(evaluator_files(ROOT))
 
 
 def worker_identity(pid=None, proc_root=Path("/proc")):

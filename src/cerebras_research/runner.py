@@ -12,6 +12,7 @@ from .catalog import profile_identity
 from .paths import ROOT, contained, digest, identity, tree_digest, write_json
 from .process import run_logged
 from .provenance import capture
+from .sdk import execution_sdk
 
 CASES = ("positive", "signed", "zero", "cancellation", "one_hot", "mixed_scale")
 
@@ -25,6 +26,7 @@ def execute(
         raise ValueError("--variant candidate requires --candidate NAME")
     if candidate and variant != "candidate":
         raise ValueError("Use --variant candidate with a candidate workspace")
+    sdk = execution_sdk(ROOT)
     run_id = (
         time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
         + "-"
@@ -46,7 +48,7 @@ def execute(
         "screen_only": screen,
         "simulator_threads": 1,
         "architecture": "wse3",
-        "sdk": json.loads((ROOT / "config/sdk-install.json").read_text()),
+        "sdk": sdk,
         "steps": [],
         "cases": [],
         "metrics": {},

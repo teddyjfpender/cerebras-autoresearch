@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 193,
-  "ledger_head": "5da3c01bac229ae8d48a49711454559516c7af9a79a52a3de09e39093870a8a6",
+  "ledger_rows": 199,
+  "ledger_head": "9dfb37a3b313ff074f132f3f5d028ca52e58ac08ba09c350d22083d15f1ff2be",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -445,6 +445,58 @@
       "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
       "evaluator_sha256": "e35730712569c7eec3ca0cfb7a06ef13464dd4ca46c9b8b297cddcf5c72203ec",
       "receipt": "runs/v2/20261023T071146Z-reusable-gemm.tiny-sequence-c7cb0f0d/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "75090b0b1e95a7a3d186ad42702a9c65873689903e23680e81d8c055bcc27766",
+      "profile": "reusable-gemm.tiny-sequence",
+      "approach": "reusable_gemm.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "6653.0",
+      "memory_bytes": "7584",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "evaluator_sha256": "31bab1b49523331a9149ee14f5287538eb55c05c3b6a62b0051b2556fe3a8051",
+      "receipt": "runs/v2/20261023T074218Z-reusable-gemm.tiny-sequence-2b4c4770/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "7408b722df4b865b73e8e012ac715628bd777338d66fe2e2a5c44c3a66787c5a",
+      "profile": "reusable-gemm.tiny-sequence",
+      "approach": "reusable_gemm.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "6653.0",
+      "memory_bytes": "7584",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T081632Z-reusable-gemm.tiny-sequence-dcd630ef/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "62904eb77c747686322fe688ee1b8f0af06c03dbcdcc699e4f27591a513ad055",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "reusable_gemm.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "95611.0",
+      "memory_bytes": "29792",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T081702Z-reusable-gemm.prefill-ffn-up-scaled-9d0afdaf/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "d0b0bf3a725a04da0f70225e010120b97ad49953a6ec1ccf21f829a07c301a30",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "approach": "reusable_gemm.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "128315.0",
+      "memory_bytes": "30160",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T081851Z-reusable-gemm.prefill-ffn-down-scaled-33fe8cf4/result.json",
       "decision": "baseline"
     }
   ],
@@ -1097,6 +1149,58 @@
       "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
       "evaluator_sha256": "e35730712569c7eec3ca0cfb7a06ef13464dd4ca46c9b8b297cddcf5c72203ec",
       "receipt": "runs/v2/20261023T071146Z-reusable-gemm.tiny-sequence-c7cb0f0d/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "75090b0b1e95a7a3d186ad42702a9c65873689903e23680e81d8c055bcc27766",
+      "profile": "reusable-gemm.tiny-sequence",
+      "approach": "reusable_gemm.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "6653.0",
+      "memory_bytes": "7584",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "evaluator_sha256": "31bab1b49523331a9149ee14f5287538eb55c05c3b6a62b0051b2556fe3a8051",
+      "receipt": "runs/v2/20261023T074218Z-reusable-gemm.tiny-sequence-2b4c4770/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "7408b722df4b865b73e8e012ac715628bd777338d66fe2e2a5c44c3a66787c5a",
+      "profile": "reusable-gemm.tiny-sequence",
+      "approach": "reusable_gemm.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "6653.0",
+      "memory_bytes": "7584",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T081632Z-reusable-gemm.tiny-sequence-dcd630ef/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "62904eb77c747686322fe688ee1b8f0af06c03dbcdcc699e4f27591a513ad055",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "reusable_gemm.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "95611.0",
+      "memory_bytes": "29792",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T081702Z-reusable-gemm.prefill-ffn-up-scaled-9d0afdaf/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "d0b0bf3a725a04da0f70225e010120b97ad49953a6ec1ccf21f829a07c301a30",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "approach": "reusable_gemm.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "128315.0",
+      "memory_bytes": "30160",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T081851Z-reusable-gemm.prefill-ffn-down-scaled-33fe8cf4/result.json",
       "decision": "baseline"
     }
   ],

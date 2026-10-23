@@ -1,8 +1,11 @@
 # Resident reusable GEMM
 
-The adapter is registered under its own evaluator track. Device compilation and
-six-case qualification are in progress. Configuration and Python packing tests
-are not execution proof.
+All three profiles passed full six-case SDK qualification under the selected
+execution profile. The [qualification report](../../results/reports/2026-10-23-reusable-gemm-qualification.json),
+[18-case numerical replay](../../results/reports/2026-10-23-reusable-gemm-qualified-numerics.json)
+and [core/timestamp replay](../../results/reports/2026-10-23-reusable-gemm-qualified-snapshots.json)
+preserve execution evidence. These are baselines; candidate improvements need
+their own matched full validation and fresh paired confirmation.
 
 ## Workload
 
