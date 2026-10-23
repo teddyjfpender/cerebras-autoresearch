@@ -15,6 +15,10 @@
         },
         {
           "variant": "candidate",
+          "candidate": "full-gdn-bulk-vector-norm"
+        },
+        {
+          "variant": "candidate",
           "candidate": "full-gdn-vector-norm"
         },
         {

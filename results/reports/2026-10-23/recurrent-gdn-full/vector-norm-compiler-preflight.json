@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "status": "compiled_full_native_layout",
+  "source": {
+    "path": "runs/maintenance/full-bulk-vector-norm16-compile/src/pe.csl",
+    "sha256": "e3a2a6b14f62fe5fdbbf4bceb072f338e3d75de0c1cd6521a4d3e5374dd45ad5"
+  },
+  "log": {
+    "path": "runs/maintenance/full-bulk-vector-norm16-compile.log",
+    "sha256": "ac32027f38fcba91822fb6b7172e8c5c5d1462afb7b216d409e20e4b1bf4ab7c"
+  },
+  "scope": "Compile-only diagnostic, no device execution or performance result.",
+  "qwen_tps_result": false
+}
