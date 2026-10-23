@@ -88,6 +88,27 @@ raw output/state/timestamps and verify artifacts before widening a claim.
 
 ## Readback transport
 
+The current simulator driver uses a blocking fabric read of all PE timestamps
+as a completion fence, stops the simulator cleanly, and reads every output,
+canonical input and weight-history array from the SDK's ELF core. It uses
+Cerebras's `ELFMemory` reader with exact-sized symbols from the actual compiled
+ELFs. The complete PE footprint, SRAM bounds, array sizes and core extent must
+match. A stale transient core or shutdown failure rejects the case. Each case
+retains its own core, raw numerical arrays and timestamps; core files and compiled
+ELFs are included in the artifact digests.
+
+A separate 4x4-PE fixture checks all 87,040 half-words against distinct PE/frame/
+index patterns, including signed zero, infinity and NaN encodings. Fabric sentinel
+reads independently check each PE and frame before the snapshot. Full extraction
+took about 2.1 seconds on this host; this is an iteration-cost observation, not a
+kernel speedup. Six SDK tests cover missing/truncated storage, coordinate and
+alignment errors, exact symbol sizes and conflicting addresses. Shutdown-failure
+and stale-core tests guard the case lifecycle. The oracle, precision, timed work,
+PE budget, timer boundaries and repetition count are unchanged by this transport
+change. All three profiles require new evaluator-bound baselines.
+
+### Bringup history
+
 After the timer ends, the driver retrieves all outputs, working-weight history
 and canonical inputs. A full-grid history read of 87,040 half values stalled in
 the simulator during scaled-profile bringup and hit the existing 1,200-second
@@ -98,13 +119,19 @@ The readback driver now groups rows into replies of at most 32,768 transport
 words. This is a conservative software bound, not a claimed hardware/API limit.
 Every PE word is reconstructed in its original order, and the entire state
 oracle is unchanged. Because the trusted driver changed, qualification requires
-new evaluator-bound baselines. The timed CSL program is unchanged.
+new evaluator-bound baselines. That driver-only change did not alter timed work.
 
+The current kernel stores the four working-weight snapshots in four separate
+rank-one arrays. Each request reads one frame per PE, then reconstructs the
+complete PE/frame history in its original order. Aggregate snapshot storage and
+the full state oracle are unchanged. `save_frame` selects the destination array
+inside the timer and copies every weight word; this selector cost belongs to the
+new baseline. Computation, timer boundaries and sequence control are unchanged.
+All three profiles require fresh baselines for this source.
 
-The subsequent transport refinement exports aliases for each existing saved
-weight-history frame. Each request reads one frame per PE, then reconstructs
-the complete PE/frame history in its original order. All computation and
-sequence function bodies remain byte-equivalent; the aliases reference the
-existing snapshot storage. SDK regression tests check every half-word and
-frame/PE ordering. Readback progress and durations are logged after the timed
-launch to distinguish computation from evidence collection.
+Earlier attempts to export frame aliases failed compilation; a separate scalar-
+pointer diagnostic compiled but failed in the simulator and was rejected. These
+attempts establish no performance result. SDK regression tests check every
+half-word and frame/PE ordering in the driver. Readback progress and durations
+are logged after the timed launch to distinguish computation from evidence
+collection.

@@ -213,6 +213,7 @@ def execute(
                     ".csl",
                     ".txt",
                     ".elf",
+                    ".core",
                 ):
                     record["artifacts"][str(path.relative_to(folder))] = digest(path)
         write_json(receipt, record)

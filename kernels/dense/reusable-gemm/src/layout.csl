@@ -122,7 +122,6 @@ layout {
     @export_name("X_FRAMES", [*]f16, true);
     @export_name("W_CANON", [*]f16, true);
     @export_name("ALL_OUT", [*]f16, false);
-    @export_name("W_HISTORY", [*]f16, false);
     @export_name("W_HISTORY_0", [*]f16, false);
     @export_name("W_HISTORY_1", [*]f16, false);
     @export_name("W_HISTORY_2", [*]f16, false);

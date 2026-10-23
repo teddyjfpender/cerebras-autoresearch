@@ -1,18 +1,64 @@
 """Pure packing checks in SDK NumPy; no simulator launch or qualification claim."""
 
+import json
+import os
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
+import reusable_gemm as driver  # noqa: E402
 from reusable_gemm import read_symbol, read_weight_history  # noqa: E402
 from reusable_gemm_oracle import evidence, pack_inputs, unpack_outputs  # noqa: E402
 
 
 class SequencePackingTests(unittest.TestCase):
+    def run_main(self, folder):
+        path = Path(folder)
+        (path / "out.json").write_text(
+            json.dumps({"params": {"P": 4, "Mt": 4, "Kt": 4, "Nt": 4, "T": 4}})
+        )
+        before = Path.cwd()
+        try:
+            with patch.object(
+                sys,
+                "argv",
+                ["reusable_gemm.py", "--name", str(path), "--case", "positive", "--seed", "7"],
+            ):
+                driver.main()
+        finally:
+            os.chdir(before)
+
+    def test_shutdown_failure_cannot_save_a_case_or_read_a_snapshot(self):
+        with (
+            tempfile.TemporaryDirectory() as folder,
+            patch.object(driver, "get_platform"),
+            patch.object(driver, "SdkRuntime") as runtime,
+            patch.object(driver, "read_core_arrays") as capture,
+            patch.object(driver, "save_case") as save,
+        ):
+            runtime.return_value.stop.side_effect = RuntimeError("shutdown fault")
+            with self.assertRaisesRegex(RuntimeError, "shutdown fault"):
+                self.run_main(folder)
+            fence = runtime.return_value.memcpy_d2h.call_args
+            self.assertIsNotNone(fence)
+            self.assertEqual(fence.args[4:7], (4, 4, 3))
+            self.assertFalse(fence.kwargs["nonblock"])
+            capture.assert_not_called()
+            save.assert_not_called()
+
+    def test_stale_transient_core_is_rejected_before_device_execution(self):
+        with tempfile.TemporaryDirectory() as folder, patch.object(driver, "SdkRuntime") as runtime:
+            (Path(folder) / "out.core").touch()
+            with self.assertRaisesRegex(RuntimeError, "stale simulator core"):
+                self.run_main(folder)
+            runtime.assert_not_called()
+
     def test_frame_alias_readback_reconstructs_every_state_word_in_pe_frame_order(self):
         p, t, count = 4, 4, 1360
         calls = []

@@ -7,10 +7,17 @@ import time
 from pathlib import Path
 
 import numpy as np
-from cerebras.sdk.runtime.sdkruntimepybind import MemcpyDataType, MemcpyOrder, SdkRuntime
+from cerebras.sdk.runtime.sdkruntimepybind import (
+    MemcpyDataType,
+    MemcpyOrder,
+    SdkRuntime,
+    SimfabConfig,
+    get_platform,
+)
 from cerebras.sdk.sdk_utils import input_array_to_u32, memcpy_view
 from common import CASES, matrix_inputs, save_case
 from reusable_gemm_oracle import evidence, pack_inputs, unpack_outputs
+from snapshot import read_core_arrays
 
 
 def read_symbol(runner, symbol, p, count, options, progress=False):
@@ -64,7 +71,10 @@ def main():
     frames = x.reshape(t, m, k)
     packed_x, packed_w = pack_inputs(p, mt, kt, nt, frames, w)
     os.chdir(out)
-    runner = SdkRuntime(str(out), simfab_numthreads=1, suppress_simfab_trace=True)
+    if (out / "out.core").exists():
+        raise RuntimeError("Unexpected stale simulator core before a fresh case")
+    platform = get_platform(config=SimfabConfig(num_threads=1, suppress_trace=True, dump_core=True))
+    runner = SdkRuntime(str(out), platform)
     runner.load()
     runner.run()
     options = dict(
@@ -90,39 +100,49 @@ def main():
             )
         runner.launch("init_task", nonblock=False)
         runner.launch("sequence_host", nonblock=False)
-        captured = {}
-        for symbol, count in (
-            ("ALL_OUT", t * mt * nt),
-            ("W_HISTORY", t * kt * nt),
-            ("X_FRAMES", t * mt * kt),
-            ("W_CANON", kt * nt),
-        ):
-            if symbol == "W_HISTORY":
-                captured[symbol] = read_weight_history(runner, p, t, kt * nt, options, True)
-            else:
-                captured[symbol] = read_symbol(runner, symbol, p, count, options, True)
-        actual = unpack_outputs(p, mt, nt, t, captured["ALL_OUT"])
+        # A blocking fabric read fences completion on every PE. The timestamp
+        # values were fixed at the end of the same whole-sequence timer.
         timer = np.zeros(p * p * 3, np.uint32)
         timer_options = dict(options, data_type=MemcpyDataType.MEMCPY_32BIT)
         runner.memcpy_d2h(timer, runner.get_id("time_memcpy"), 0, 0, p, p, 3, **timer_options)
-        save_case(
-            out,
-            args.case,
-            *evidence(
-                p,
-                frames,
-                w,
-                actual,
-                captured["W_HISTORY"].reshape(p, p, t, kt * nt),
-                captured["X_FRAMES"],
-                captured["W_CANON"],
-            ),
-            timer,
-            1,
-            args.seed,
-        )
     finally:
+        # Failure here rejects the case before any PASS or numerical receipt.
         runner.stop()
+    core = out / f"case-{args.case}.core"
+    if core.exists():
+        raise RuntimeError("Refusing to overwrite a saved simulator snapshot")
+    (out / "out.core").rename(core)
+    expected = {
+        "ALL_OUT": t * mt * nt,
+        "X_FRAMES": t * mt * kt,
+        "W_CANON": kt * nt,
+        **{f"W_HISTORY_{frame}": kt * nt for frame in range(t)},
+    }
+    started = time.monotonic()
+    captured = read_core_arrays(core, out / "bin", p, expected)
+    history = np.stack(
+        [captured[f"W_HISTORY_{frame}"].reshape(p, p, kt * nt) for frame in range(t)], axis=2
+    )
+    print(
+        f"SNAPSHOT: complete output/state extraction in {time.monotonic() - started:.3f}s",
+        flush=True,
+    )
+    save_case(
+        out,
+        args.case,
+        *evidence(
+            p,
+            frames,
+            w,
+            unpack_outputs(p, mt, nt, t, captured["ALL_OUT"]),
+            history,
+            captured["X_FRAMES"],
+            captured["W_CANON"],
+        ),
+        timer,
+        1,
+        args.seed,
+    )
     print("SUCCESS!", flush=True)
 
 

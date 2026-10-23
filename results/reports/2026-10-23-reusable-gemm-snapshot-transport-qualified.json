@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-23T07:41:12Z",
+  "scope": "SDK simulator snapshot transport diagnostic, not a kernel performance qualification",
+  "verification": {
+    "status": "passed",
+    "diagnostic_only": true,
+    "validated_half_words": 87040,
+    "all_compute_pes": 16,
+    "frames": 4,
+    "readback_seconds": 2.073362402996281,
+    "core_sha256": "7cbd803f18907e6f6af12ca8a6cd3d955e68866335615ccb3f4832f3051b12bf",
+    "helper_sha256": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a"
+  },
+  "execution": {
+    "schema_version": 1,
+    "diagnostic_only": true,
+    "steps": [
+      {
+        "command": [
+          "cs_python",
+          "read-v3.py"
+        ],
+        "wall_seconds": 71.6437851380033,
+        "log": "runtime-v3.log",
+        "exit_code": 0
+      }
+    ],
+    "status": "passed",
+    "source_digests": {
+      "layout.csl": "51d82f9a1b99513e1f6799cd7e25b1bd0d2da364fd8623ca400f53b9543450de",
+      "pe_program.csl": "67e7f4405f431f9e957945a56e15b1834a0135c191ea9a5fc2590e02c4463f04",
+      "read-v3.py": "b8e4f51e45446bcb1a97391d9f1a48cf128ab1485fc631f989b8fdc360edb669",
+      "snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a"
+    }
+  },
+  "artifacts": {
+    "runs/maintenance/full-grid-snapshot-probe/layout.csl": "51d82f9a1b99513e1f6799cd7e25b1bd0d2da364fd8623ca400f53b9543450de",
+    "runs/maintenance/full-grid-snapshot-probe/pe_program.csl": "67e7f4405f431f9e957945a56e15b1834a0135c191ea9a5fc2590e02c4463f04",
+    "runs/maintenance/full-grid-snapshot-probe/read-v3.py": "b8e4f51e45446bcb1a97391d9f1a48cf128ab1485fc631f989b8fdc360edb669",
+    "runs/maintenance/full-grid-snapshot-probe/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+    "runs/maintenance/full-grid-snapshot-probe/out.core": "7cbd803f18907e6f6af12ca8a6cd3d955e68866335615ccb3f4832f3051b12bf",
+    "runs/maintenance/full-grid-snapshot-probe/runtime-v3.log": "789448d70d36ceeb9d55a02758d238709e3e76233635c86a0fc461263cbe148d",
+    "runs/maintenance/full-grid-snapshot-probe/result-v3.json": "7ad3bb0279e72b357959ed243e1a812d5368912ff25790ce78a63bf929339c68",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_0_0.elf": "54f97edea5521a6460b046fa977cc7af5cacfcd8c735edc3e7e7ff11f523a3df",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_10_0.elf": "e6f3d71c01b4005e887ae28873e744ad50a98efc72a6bb687044460d7bdbea10",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_11_0.elf": "36b688b77f675a63fe85bbd855c902f2943f4d2563cc56683246d295f3727b7c",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_12_0.elf": "f4f813d2dff0fa4dc6fd89f0f3ec1c340e8e04dc4fad9c2366db76830e56563b",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_13_0.elf": "52603519dd3f97a320a743b5ffe0c27d409fe13b79cd78d4e131a7a62ea67b7d",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_14_0.elf": "b1f372fb26908c0be2a19b2fe7b85969478c026189367234d45eb38da78b350d",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_15_0.elf": "bc82e9e3795539e2b27cfef1ae0d40e330ab8c3f6b0e9a5e54d896d0aa855ca2",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_1_0.elf": "bcd2d89422341445de25b64721736dc40e3a3cc3bbe2386e87190a67bbbbfa6c",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_2_0.elf": "bf6cece233da175148029f834f0db9fe4c7f133dae38a76f859d437e76d70484",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_3_0.elf": "3425ac3b56697808ff9515d617ed63f64d474dcd637f4221492982651b6de8fa",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_4_0.elf": "b77fe76e26eea466c6f215cdb3bf54c20709c0335b11388aeb404c0bbcf12cd3",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_5_0.elf": "1bd93fdca5474baaac03e95b5d0332036795326e1ec7ff2c37d2850f2657de00",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_6_0.elf": "3f9c5d5abfa679afd3d463b6e96c81c82f89484797858f9931c5b742e00d01e4",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_7_0.elf": "8ab30bd90be2899b4a3fcffcb7096a99e6e9b486c4084e1337fe873f443214da",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_8_0.elf": "a2979ed426e5e2d2f793759f210f019e6c34c807b367fc7297af027c4cd3f504",
+    "runs/maintenance/full-grid-snapshot-probe/out/bin/out_9_0.elf": "0f0710edd6493be17760ef9c5dbaf7883c1dd42539ca766b453009d414b18a5d"
+  },
+  "simulator_threads": 1,
+  "complete_output_state_checks_preserved": true,
+  "qwen_tps_result": false
+}

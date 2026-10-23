@@ -170,17 +170,19 @@ fn mm_compute() void {
 var X_FRAMES: [T*Mt*Kt]f16;
 var W_CANON: [Kt*Nt]f16;
 var ALL_OUT: [T*Mt*Nt]f16;
-var W_HISTORY: [T*Kt*Nt]f16;
+var W_HISTORY_0: [Kt*Nt]f16;
+var W_HISTORY_1: [Kt*Nt]f16;
+var W_HISTORY_2: [Kt*Nt]f16;
+var W_HISTORY_3: [Kt*Nt]f16;
 var ptr_X_FRAMES: [*]f16 = &X_FRAMES;
 var ptr_W_CANON: [*]f16 = &W_CANON;
 const ptr_ALL_OUT: [*]f16 = &ALL_OUT;
-const ptr_W_HISTORY: [*]f16 = &W_HISTORY;
-// Frame aliases bound per-PE readback requests without changing saved state.
+// Four independent array pointers keep each state reply bounded.
 comptime { @comptime_assert(T == 4); }
-const ptr_W_HISTORY_0: [*]f16 = &W_HISTORY;
-const ptr_W_HISTORY_1: [*]f16 = @ptrcast([*]f16, &W_HISTORY[Kt*Nt]);
-const ptr_W_HISTORY_2: [*]f16 = @ptrcast([*]f16, &W_HISTORY[2*Kt*Nt]);
-const ptr_W_HISTORY_3: [*]f16 = @ptrcast([*]f16, &W_HISTORY[3*Kt*Nt]);
+const ptr_W_HISTORY_0: [*]f16 = &W_HISTORY_0;
+const ptr_W_HISTORY_1: [*]f16 = &W_HISTORY_1;
+const ptr_W_HISTORY_2: [*]f16 = &W_HISTORY_2;
+const ptr_W_HISTORY_3: [*]f16 = &W_HISTORY_3;
 var frame: i16 = 0;
 var canonical_x_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Kt} -> X_FRAMES[i] });
 var canonical_w_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_CANON[i] });
@@ -216,11 +218,17 @@ fn sequence_host() void {
 }
 
 var saved_output_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Nt} -> ALL_OUT[i] });
-var saved_weight_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_HISTORY[i] });
+var saved_weight_0_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_HISTORY_0[i] });
+var saved_weight_1_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_HISTORY_1[i] });
+var saved_weight_2_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_HISTORY_2[i] });
+var saved_weight_3_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_HISTORY_3[i] });
 
 fn save_frame() void {
     var output = @increment_dsd_offset(saved_output_dsd, frame*Mt*Nt, f16);
-    var weights = @increment_dsd_offset(saved_weight_dsd, frame*Kt*Nt, f16);
+    var weights = saved_weight_0_dsd;
+    if (frame == 1) { weights = saved_weight_1_dsd; }
+    else if (frame == 2) { weights = saved_weight_2_dsd; }
+    else if (frame == 3) { weights = saved_weight_3_dsd; }
     @fmovh(output, res_dsd);
     @fmovh(weights, working_w0_dsd);
 }
@@ -373,7 +381,6 @@ comptime {
     @export_symbol(ptr_X_FRAMES, "X_FRAMES");
     @export_symbol(ptr_W_CANON, "W_CANON");
     @export_symbol(ptr_ALL_OUT, "ALL_OUT");
-    @export_symbol(ptr_W_HISTORY, "W_HISTORY");
     @export_symbol(ptr_W_HISTORY_0, "W_HISTORY_0");
     @export_symbol(ptr_W_HISTORY_1, "W_HISTORY_1");
     @export_symbol(ptr_W_HISTORY_2, "W_HISTORY_2");
