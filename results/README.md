@@ -360,3 +360,22 @@ full complete-suite qualification.
 - [Array-base campaign](reports/2026-10-23-resident-gemm-iteration5-campaign.json)
 - [FFN-down 24-case numerical replay](reports/2026-10-23-resident-gemm-iteration5-down-numerics.json)
 - [FFN-down 24-case full-core replay](reports/2026-10-23-resident-gemm-iteration5-down-snapshots.json)
+
+## Resident GEMM complete-suite confirmation (2026-10-23)
+
+One parameterized dispatcher passes the complete three-profile suite at both
+seeds20261029/20261030: geometric mean1.146754x, worst cell1.025274x. All72
+paired cases pass independent FP64 replay and complete simulator-core
+output/state/timer corroboration. Individual FFN-up/down confirmations are also
+recorded; tiny qualifies within the suite guard and remains below the individual
+1.05x retention threshold. Seven new SDK runs reuse five matched baselines.
+
+| Profile | Reference cycles | Dispatcher cycles | Program bytes/PE reference -> dispatcher |
+| --- | ---: | ---: | ---: |
+| Tiny four-frame sequence | 6,653 | 6,489 | 7,584 -> 7,520 |
+| Scaled resident FFN-up | 95,611 | 69,104 | 29,792 -> 30,640 |
+| Scaled resident FFN-down | 128,315 | 120,701 | 30,160 -> 30,112 |
+
+[Confirmed suite and profile decisions](reports/2026-10-23/resident-gemm/dispatch-suite-confirmed.json),
+[72-case numerical replay](reports/2026-10-23/resident-gemm/dispatch-suite-numerics.json),
+[72-case core replay](reports/2026-10-23/resident-gemm/dispatch-suite-snapshots.json).

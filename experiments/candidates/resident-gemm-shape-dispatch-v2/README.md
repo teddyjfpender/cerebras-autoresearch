@@ -18,6 +18,13 @@ tools/sdk-run python3 research.py confirm-suite INITIAL_BASE INITIAL_CAND FRESH_
 
 Use each arm's emitted result.json path in the final command. Existing matched
 baseline receipts can instead be imported with tools/assemble_suite.py; imports
-are metadata receipts and do not count as new SDK executions. This candidate
-is awaiting complete-suite qualification; individual component evidence does
-not establish all-shape retention.
+are metadata receipts and do not count as new SDK executions. The complete original three-cell suite now has fresh paired confirmation;
+see the evidence below. New shapes need their own full paired qualification.
+
+## Qualified scope
+
+[The exact three-cell suite](../../../results/reports/2026-10-23/resident-gemm/dispatch-suite-confirmed.json)
+passes at1.146754x geometric mean speedup and1.025274x worst-cell speedup.
+All72 paired cases pass numerical/core replay. Tiny is included through the
+suite guard; FFN-up/down also satisfy individual1.05x gates. This remains
+scaled FP16 simulated evidence on the versioned Rosetta platform.

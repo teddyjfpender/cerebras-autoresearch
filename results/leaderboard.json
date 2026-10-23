@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 269,
-  "ledger_head": "05afe2b90788cebc5cd435018d349e90368c0323e810ed68b2342e7981d61f75",
+  "ledger_rows": 283,
+  "ledger_head": "77c0038009c3d13db22feff463b69e54bf31d0bfdbd10f18c16bc7314809b28f",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -549,6 +549,45 @@
       "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
       "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
       "receipt": "runs/v2/20261023T091854Z-reusable-gemm.prefill-ffn-down-scaled-91047251/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "2cddaaedbc8e200930a7432dfd43bda1e0af7801f3cb60ef42c07c56c438e470",
+      "profile": "reusable-gemm.tiny-sequence",
+      "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+      "candidate": "resident-gemm-shape-dispatch-v2",
+      "variant": "candidate",
+      "primary_value": "6489.0",
+      "memory_bytes": "7520",
+      "source_sha256": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T093137Z-reusable-gemm.tiny-sequence-21c157e5/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "90c17d2f7e8b151a8f65bebb593c3e4547923192dc8db150b99aea2721b0912a",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+      "candidate": "resident-gemm-shape-dispatch-v2",
+      "variant": "candidate",
+      "primary_value": "69104.0",
+      "memory_bytes": "30640",
+      "source_sha256": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T093204Z-reusable-gemm.prefill-ffn-up-scaled-6b84c775/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "9b57cd2f7e42992e4607a64194347f3de077c25427520fa171da67938a381543",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+      "candidate": "resident-gemm-shape-dispatch-v2",
+      "variant": "candidate",
+      "primary_value": "120701.0",
+      "memory_bytes": "30112",
+      "source_sha256": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T093335Z-reusable-gemm.prefill-ffn-down-scaled-4d41679b/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -1217,19 +1256,6 @@
       "decision": "baseline"
     },
     {
-      "event_id": "7408b722df4b865b73e8e012ac715628bd777338d66fe2e2a5c44c3a66787c5a",
-      "profile": "reusable-gemm.tiny-sequence",
-      "approach": "reusable_gemm.baseline",
-      "candidate": "",
-      "variant": "baseline",
-      "primary_value": "6653.0",
-      "memory_bytes": "7584",
-      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
-      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
-      "receipt": "runs/v2/20261023T081632Z-reusable-gemm.tiny-sequence-dcd630ef/result.json",
-      "decision": "baseline"
-    },
-    {
       "event_id": "62904eb77c747686322fe688ee1b8f0af06c03dbcdcc699e4f27591a513ad055",
       "profile": "reusable-gemm.prefill-ffn-up-scaled",
       "approach": "reusable_gemm.baseline",
@@ -1253,19 +1279,6 @@
       "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
       "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
       "receipt": "runs/v2/20261023T083531Z-reusable-gemm.prefill-ffn-up-scaled-a80ce033/result.json",
-      "decision": "baseline"
-    },
-    {
-      "event_id": "9b00b58c01bf8132d28c50f549b8e92fc98f9ea1636ce3002a8c891f52dc2b6a",
-      "profile": "reusable-gemm.tiny-sequence",
-      "approach": "reusable_gemm.baseline",
-      "candidate": "",
-      "variant": "baseline",
-      "primary_value": "6653.0",
-      "memory_bytes": "7584",
-      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
-      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
-      "receipt": "runs/v2/20261023T085001Z-reusable-gemm.tiny-sequence-638f9e60/result.json",
       "decision": "baseline"
     },
     {
@@ -1370,6 +1383,84 @@
       "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
       "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
       "receipt": "runs/v2/20261023T092322Z-reusable-gemm.prefill-ffn-down-scaled-d8bb8d6f/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "2cddaaedbc8e200930a7432dfd43bda1e0af7801f3cb60ef42c07c56c438e470",
+      "profile": "reusable-gemm.tiny-sequence",
+      "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+      "candidate": "resident-gemm-shape-dispatch-v2",
+      "variant": "candidate",
+      "primary_value": "6489.0",
+      "memory_bytes": "7520",
+      "source_sha256": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T093137Z-reusable-gemm.tiny-sequence-21c157e5/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "90c17d2f7e8b151a8f65bebb593c3e4547923192dc8db150b99aea2721b0912a",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+      "candidate": "resident-gemm-shape-dispatch-v2",
+      "variant": "candidate",
+      "primary_value": "69104.0",
+      "memory_bytes": "30640",
+      "source_sha256": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T093204Z-reusable-gemm.prefill-ffn-up-scaled-6b84c775/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "9b57cd2f7e42992e4607a64194347f3de077c25427520fa171da67938a381543",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+      "candidate": "resident-gemm-shape-dispatch-v2",
+      "variant": "candidate",
+      "primary_value": "120701.0",
+      "memory_bytes": "30112",
+      "source_sha256": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T093335Z-reusable-gemm.prefill-ffn-down-scaled-4d41679b/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "c8aa3b03fd2a89a1fab77d43f94fd7bb0ef531d6b8fbaa2c95926316d21a1bf2",
+      "profile": "reusable-gemm.tiny-sequence",
+      "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+      "candidate": "resident-gemm-shape-dispatch-v2",
+      "variant": "candidate",
+      "primary_value": "6489.0",
+      "memory_bytes": "7520",
+      "source_sha256": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T093615Z-reusable-gemm.tiny-sequence-d61df932/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "a3d88a23c5485bf7568a2d62fa484a8f8c2c9e0b750d1c6d333e7fe4065dcfd5",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+      "candidate": "resident-gemm-shape-dispatch-v2",
+      "variant": "candidate",
+      "primary_value": "69104.0",
+      "memory_bytes": "30640",
+      "source_sha256": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T093642Z-reusable-gemm.prefill-ffn-up-scaled-beb65810/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "c281eb1e50ed1a7e0dd29e1e440e370815e952a423e8383560d76e551b01ce5d",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+      "candidate": "resident-gemm-shape-dispatch-v2",
+      "variant": "candidate",
+      "primary_value": "120701.0",
+      "memory_bytes": "30112",
+      "source_sha256": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T093813Z-reusable-gemm.prefill-ffn-down-scaled-1e530eed/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -1594,6 +1685,32 @@
       "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
       "receipt": "runs/v2/20261023T092533Z-confirmation-ce9bba6a/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "ded2e95da19bb2efc582b4139b2789c75313671748f3a9068ccd99b2a0f48ce1",
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+      "candidate": "resident-gemm-shape-dispatch-v2",
+      "variant": "candidate",
+      "primary_value": "69104.0",
+      "memory_bytes": "30640",
+      "source_sha256": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T094641Z-confirmation-550a134c/result.json",
+      "decision": "confirmed"
+    },
+    {
+      "event_id": "45deeac063cab7552f4c4ef2859cf6001cd21dc79edb6c4bd991add657b01e46",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "approach": "resident-gemm.aspect-ratio-dispatch-array-base-reset",
+      "candidate": "resident-gemm-shape-dispatch-v2",
+      "variant": "candidate",
+      "primary_value": "120701.0",
+      "memory_bytes": "30112",
+      "source_sha256": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+      "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+      "receipt": "runs/v2/20261023T094642Z-confirmation-26f7a812/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -1791,7 +1908,8 @@
   "confirmed_suite_events": [
     "000dbb2822b1a7b0e79550f023c9e88eda95722323b3ee7888093cb0a5c1dbfd",
     "7d9d2e6ea41a155ed6b37f1323ac0e3f676b14dfeafd5004797e23946d7d80b9",
-    "af191a8526202513236d966e7db0c23a7d5b7a5bd345ba3f67889ee92d4ea8a6"
+    "af191a8526202513236d966e7db0c23a7d5b7a5bd345ba3f67889ee92d4ea8a6",
+    "917ea1f0a6e80ffb68d01b3eda14d4b60ef858072b807afe33dd65182f19c3ce"
   ],
   "qwen_tps_result": false
 }
