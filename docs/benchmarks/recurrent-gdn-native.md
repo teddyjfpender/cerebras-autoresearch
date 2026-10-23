@@ -67,3 +67,9 @@ are unscored supporting evidence, separate from device baseline qualification.
 Both native-width profiles are now fully qualified. Normalization conversion/reuse
 confirms 1.251334× geometric mean against the vector baseline, with all48 paired
 cases independently replayed. [Evidence](../../results/reports/2026-10-23/recurrent-gdn-native/vector-suite-confirmed.json).
+
+
+PR1-derived persistent DSR row reuse and bank-offset accumulation freshly confirm
+1.991629× on T4 only:115,634→58,060 cycles,24 fully replayed case executions,
+all compared output/state bits identical. T8 and full-head claims require new
+complete qualification. [Evidence](../../results/reports/2026-10-23/recurrent-gdn-native/pr1-t4-confirmed.json).

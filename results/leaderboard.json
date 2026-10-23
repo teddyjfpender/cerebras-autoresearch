@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 449,
-  "ledger_head": "7b3f53835b95b9df081ae970f7d170e13c935d0b1188c9ab7dfd6938c7b10eae",
+  "ledger_rows": 458,
+  "ledger_head": "130b1536fbb5b1f3b7d3aeb50ac3dda37dea022f722a12fb32d0a652188cd438",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -926,6 +926,32 @@
       "source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
       "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
       "receipt": "runs/v2/20261023T153458Z-recurrent-gdn-native.k128-v128-t4-82b87f5b/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "90de1eadd8311feeb6edb459e911ef2214f72f83c6c74683f054bee2aae204ea",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "recurrent_gdn_native.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "115634.0",
+      "memory_bytes": "39472",
+      "source_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T172358Z-recurrent-gdn-native.k128-v128-t4-f3666d22/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "ca3b7f3c2c86cc5f089876d05ef436a13294e07ba7890b19c7ff75c2e2105581",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.pr1_bank_offset_dsr_reuse",
+      "candidate": "native-gdn-pr1-dsr-bank-offset",
+      "variant": "candidate",
+      "primary_value": "58060.0",
+      "memory_bytes": "39648",
+      "source_sha256": "2e6c33fe3427a15b90656d7b2054afa54a1cfb1c758c8d87ca397e2aa0c7a365",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T173106Z-recurrent-gdn-native.k128-v128-t4-e3204d08/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -2281,6 +2307,58 @@
       "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
       "receipt": "runs/v2/20261023T154327Z-recurrent-gdn-native.k128-v128-t4-b8e69fda/result.json",
       "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "90de1eadd8311feeb6edb459e911ef2214f72f83c6c74683f054bee2aae204ea",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "recurrent_gdn_native.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "115634.0",
+      "memory_bytes": "39472",
+      "source_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T172358Z-recurrent-gdn-native.k128-v128-t4-f3666d22/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "ca3b7f3c2c86cc5f089876d05ef436a13294e07ba7890b19c7ff75c2e2105581",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.pr1_bank_offset_dsr_reuse",
+      "candidate": "native-gdn-pr1-dsr-bank-offset",
+      "variant": "candidate",
+      "primary_value": "58060.0",
+      "memory_bytes": "39648",
+      "source_sha256": "2e6c33fe3427a15b90656d7b2054afa54a1cfb1c758c8d87ca397e2aa0c7a365",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T173106Z-recurrent-gdn-native.k128-v128-t4-e3204d08/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "543994062a76042ef69064799bee131de68d677f7597f4163081a0c2919cec9a",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "recurrent_gdn_native.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "115634.0",
+      "memory_bytes": "39472",
+      "source_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T173415Z-recurrent-gdn-native.k128-v128-t4-118886b3/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "4648f5305136ba77dac68d0d870c75bd524ef7405109ed08c7a4a5c6d46253a4",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.pr1_bank_offset_dsr_reuse",
+      "candidate": "native-gdn-pr1-dsr-bank-offset",
+      "variant": "candidate",
+      "primary_value": "58060.0",
+      "memory_bytes": "39648",
+      "source_sha256": "2e6c33fe3427a15b90656d7b2054afa54a1cfb1c758c8d87ca397e2aa0c7a365",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T173852Z-recurrent-gdn-native.k128-v128-t4-8abeaf2d/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "confirmed_improvements": [
@@ -2738,6 +2816,19 @@
       "evaluator_sha256": "c1494ef6f1a0e07a13403c54532f181ec7d8cce2d3dc6418f4f5b99555426a78",
       "receipt": "runs/v2/20261023T154727Z-confirmation-d6c853df/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "f7f38d3d7f939695d59bc8b3afc1ce8b2bd514bace174d29b08d1e92765a2105",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.pr1_bank_offset_dsr_reuse",
+      "candidate": "native-gdn-pr1-dsr-bank-offset",
+      "variant": "candidate",
+      "primary_value": "58060.0",
+      "memory_bytes": "39648",
+      "source_sha256": "2e6c33fe3427a15b90656d7b2054afa54a1cfb1c758c8d87ca397e2aa0c7a365",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T174206Z-confirmation-8145f65c/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -3119,6 +3210,25 @@
       "harness_sha256": "5a36598ee5cbd4d3b78fd47cb9a9b443e9f994540be69821d82c2db9d863ab52",
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
       "speedup": "1.2479387006259444",
+      "memory_ratio": "1.0044588569112283"
+    },
+    {
+      "event_id": "f7f38d3d7f939695d59bc8b3afc1ce8b2bd514bace174d29b08d1e92765a2105",
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "approach": "native_gdn.pr1_bank_offset_dsr_reuse",
+      "candidate": "native-gdn-pr1-dsr-bank-offset",
+      "variant": "candidate",
+      "primary_value": "58060.0",
+      "memory_bytes": "39648",
+      "source_sha256": "2e6c33fe3427a15b90656d7b2054afa54a1cfb1c758c8d87ca397e2aa0c7a365",
+      "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
+      "receipt": "runs/v2/20261023T174206Z-confirmation-8145f65c/result.json",
+      "decision": "confirmed",
+      "profile_sha256": "dbcec415119618001df13dbb6ebe803524d47be1df28ed2bbcd546a3223eef11",
+      "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+      "harness_sha256": "00b43d3c96b33a23a293e829292599d0bbbca12b59c8bb866445d7dcb479433d",
+      "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+      "speedup": "1.9916293489493628",
       "memory_ratio": "1.0044588569112283"
     }
   ],

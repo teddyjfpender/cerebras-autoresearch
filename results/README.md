@@ -105,6 +105,24 @@ follow-up after held-out observations, not an unseen-shape claim.
 [96-case core/state/timer replay](reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-snapshots.json).
 These are simulator operator-chain results; Qwen TPS is unmeasured.
 
+## Native T4 recurrent operator — PR1 descriptor reuse confirmed
+
+`native-gdn-pr1-dsr-bank-offset` confirms **1.991629×** on the fixed K128/V128,
+three-value-head T4,48-PE workload. Both paired seeds give **115,634 →58,060
+cycles**; program-object memory is **39,472 →39,648 bytes/PE (+0.446%)**.
+The reference already uses FP32 vector state arithmetic.
+
+All **24 baseline/candidate case executions** pass independent numerical and
+complete core/state/timer replay. Across12 case pairs, normalized Q/K, decay,
+delta, every full state, BF16 output and final state are **bit identical**.
+The candidate reuses DSR row addresses and offsets the accumulator bank; every
+ascending-K FP32 FMA and all protected snapshots remain.
+
+[Complete evidence](reports/2026-10-23/recurrent-gdn-native/pr1-t4-confirmed.json).
+This is a T4-only confirmation under a new matched evaluator capsule. The earlier
+T4/T8 normalization-reuse suite below is separate. Full-head transport remains
+under investigation; no full-head or model TPS result is established.
+
 ## Native-width recurrent operator — confirmed normalization reuse
 
 Native K128/V128, three value heads, both T4/T8 profiles and two paired seeds
