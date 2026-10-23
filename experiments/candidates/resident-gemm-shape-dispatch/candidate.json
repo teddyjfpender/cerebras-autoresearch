@@ -1,0 +1,18 @@
+{
+  "adapter": "reusable_gemm",
+  "initial_profile": "reusable-gemm.prefill-ffn-up-scaled",
+  "source": {
+    "repository": "local",
+    "derived_from": "WaferLLM",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "resident-gemm.aspect-ratio-vector-dispatch",
+  "hypothesis": "Use contiguous Nt-wide row accumulation with hoisted weight DSR only for expansion tiles with Nt>=32 and Nt>Kt; use the original Mt-wide column map for shorter or contraction tiles. Freeze the threshold before additional shapes. Combine both with frame residency justified by complete weight restoration, while preserving exact FP16 term order, outputs, all snapshots and fixed controls.",
+  "falsification": "Reject any output/state/shutdown failure or missing arithmetic term. Each cell needs full six-case and fresh paired seeds. Profile retention requires1.05x speedup and1.10x memory; suite retention additionally requires complete coverage, geometric mean1.05x and fixed worst-cell regression guards. Do not claim every cell individually retained if only the suite passes.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

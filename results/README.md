@@ -320,3 +320,19 @@ first approaches passed the 1.05x cycle gate. This is a profile-specific gain.
 - [Campaign and rejected screens](reports/2026-10-23-resident-gemm-initial-campaign.json)
 - [24-case numerical replay](reports/2026-10-23-resident-gemm-initial-up-numerics.json)
 - [24-case core/state/timer replay](reports/2026-10-23-resident-gemm-initial-up-snapshots.json)
+
+## Resident GEMM descriptor refinement (2026-10-23)
+
+FFN-up's separately confirmed fixed-contract sequence improves further to
+69,104 cycles from the matched 95,611 reference (1.38358x; 27.724% fewer cycles).
+Program-object memory is 30,640 vs 29,792 bytes/PE (+2.846%). Hoisting the weight
+descriptor and eliminating invariant-proven redundant resets preserves every
+FP16 K term, complete output packing and boundary-state snapshot. Both seeds
+20261029/20261030 pass all six cases. The 24 paired cases independently replay
+numerically and match complete simulator core outputs/state/timestamp words.
+Tiny and FFN-down retain the original layout; grouped-map simulator failures
+remain failures in the journal. Further candidate work is unmeasured until run.
+
+- [Second campaign including all failures](reports/2026-10-23-resident-gemm-iteration2-campaign.json)
+- [24-case numerical replay](reports/2026-10-23-resident-gemm-iteration2-up-numerics.json)
+- [24-case simulator-core replay](reports/2026-10-23-resident-gemm-iteration2-up-snapshots.json)

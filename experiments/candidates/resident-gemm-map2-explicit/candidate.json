@@ -1,0 +1,18 @@
+{
+  "adapter": "reusable_gemm",
+  "initial_profile": "reusable-gemm.prefill-ffn-down-scaled",
+  "source": {
+    "repository": "local",
+    "derived_from": "WaferLLM",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "resident-gemm.column-map-k2-explicit-descriptors",
+  "hypothesis": "The prior two-input map stalled; test explicit single-step weight DSRs 5/6 to prevent implicit map allocation from aliasing X source descriptors 1/4. Preserve K-order and all in-flight two-hop communication descriptors2/3. Group consecutive K terms to reduce map overhead with invariant-backed residency.",
+  "falsification": "Reject simulator stalls or shutdown faults, any missing FP16 term or changed timer/control, six-case output/state failure, speedup below1.05x or program memory above1.10x. Require full initial and fresh paired seeds before retention.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

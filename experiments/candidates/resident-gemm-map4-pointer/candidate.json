@@ -1,0 +1,18 @@
+{
+  "adapter": "reusable_gemm",
+  "initial_profile": "reusable-gemm.prefill-ffn-down-scaled",
+  "source": {
+    "repository": "local",
+    "derived_from": "WaferLLM",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "resident-gemm.column-map-k4-pointer-weights",
+  "hypothesis": "Group four consecutive FP16 K terms per column. Keep only one implicit map input and load the other three scalar weights through the current group pointer, avoiding multi-input map DSR interference. Four independently advancing output descriptors preserve K order; source DSRs1/4/5/6 are free after the shift, concurrent two-hop transfers use2/3. Residency resets retain full per-frame invariant checks.",
+  "falsification": "Reject missing/reordered terms, changed fixed timer/precision/PE controls, any six-case output/state/shutdown failure, or memory above1.10x. Retain only full fresh paired evidence at1.05x or better.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}
