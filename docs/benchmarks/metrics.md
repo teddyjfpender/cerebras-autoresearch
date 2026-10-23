@@ -25,6 +25,7 @@ V1 receipts for promotion.
 | Resident chain | Matvec, bias, ReLU, residual, full output stores | 1 distinct frame / 4 distinct frames |
 | Complete gated MLP / decoder layer | Full four-frame/token sequence and all output/state stores | 0 / 1 sequence |
 | Resident recurrent gated delta rule | Four resident tokens, S0 copy, normalization, decay/delta/state/read and all full snapshots | 0 / 1 sequence |
+| Native-width recurrent head group | Fixed T4/48PE or T8/96PE sequence; full state, all physical normalization/decay work and every snapshot | 0 / 1 sequence |
 | Timed SDK references | Audited upstream region | Profile-specific |
 | Untimed SDK references | Numerical assertions | No cycle score |
 | Host I/O diagnostics | Emulated transfer interval | No hardware bandwidth claim |
@@ -45,7 +46,7 @@ original cold profiles and numerical bounds remain separate.
 | `max_program_object_bytes_per_pe` | Maximum `cs_readelf --msize` observation over `out/bin/*.elf` | Default ≤1.10× baseline |
 | `work_units_per_cycle` | Declared algorithmic work / primary interval | Within-profile comparison |
 | `max_error_fraction` | Error / fixed numerical bound | Must be finite and ≤1 |
-| `cycles_per_frame` / `cycles_per_token` | Whole-sequence cycles divided by four for resident blocks | Fixed sequence average, not steady-state TPS |
+| `cycles_per_frame` / `cycles_per_token` | Whole-sequence cycles divided by the profile's declared frame/token count | Fixed sequence average, not steady-state TPS |
 | `cycles_per_gemm` | Whole resident GEMM sequence cycles divided by four | Instrumented sequence average for that profile |
 | `experiment_wall_seconds` | Sum of measured compiler, case-run, and memory-inspection subprocess durations | SDK step cost; not WSE speed |
 

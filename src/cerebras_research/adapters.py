@@ -12,6 +12,13 @@ def baseline_source(profile):
     kind = profile["adapter"]
     if kind == "pipeline":
         return ROOT / "kernels/composed/matvec-epilogue", {"repository": "local"}
+    if kind == "recurrent_gdn_native":
+        return ROOT / "kernels/attention/recurrent-gdn-native", {
+            "repository": "local",
+            "reference_repository": "https://github.com/huggingface/transformers",
+            "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+            "implementation": "independent native-width FP32 vector reference, one key-head group",
+        }
     if kind == "recurrent_gdn":
         return ROOT / "kernels/attention/recurrent-gdn", {
             "repository": "local",
@@ -235,6 +242,9 @@ def prepare(profile, folder, variant, candidate=None):
             params = (
                 f"P:4,Mt:{dims['M'] // 4},Ht:{dims['H'] // 4},Ft:{dims['F'] // 4},T:{dims['T']}"
             )
+        elif kind == "recurrent_gdn_native":
+            width, height = profile["pe_grid"]
+            params = f"K:128,V:{dims['VT']},T:{dims['T']},W:{width},H:{height}"
         elif kind == "recurrent_gdn":
             params = ",".join(f"{key}:{dims[key]}" for key in ("K", "V", "T"))
         elif kind in ("gated_mlp", "decoder"):
@@ -259,7 +269,7 @@ def prepare(profile, folder, variant, candidate=None):
             "--memcpy",
             "--channels=1",
         ]
-    if kind in ("resident_swiglu_bf16", "recurrent_gdn"):
+    if kind in ("resident_swiglu_bf16", "recurrent_gdn", "recurrent_gdn_native"):
         compile_args.append("--fp16-format=bf16")
     for path in (ROOT / "benchmarks/drivers").glob("*.py"):
         destination = folder / (

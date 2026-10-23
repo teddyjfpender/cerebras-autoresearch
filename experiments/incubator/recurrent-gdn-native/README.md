@@ -1,6 +1,7 @@
-# Native-width recurrent head-group staging
+# Native-width recurrent head-group staging archive
 
-This is an unregistered follow-up to the scaled recurrent-GDN operator. It has
+The canonical contract is now registered in docs/benchmarks/recurrent-gdn-native.md,
+with trusted code in benchmarks/drivers/recurrent_gdn_native*.py and kernels/attention/recurrent-gdn-native/. This archive has
 **no SDK device qualification or performance result**. The two proposed fixed
 profiles preserve native K128/V128 dimensions for one key-head group with three
 value heads, for four or eight resident tokens. See [the proposed contract](CONTRACT-DRAFT.md).

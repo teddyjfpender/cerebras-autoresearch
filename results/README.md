@@ -156,9 +156,9 @@ scores cover the complete four-frame/token sequence, including output/state
 stores. Compare matched arms within one profile. The blocks are scaled FP32
 local programs; no Qwen/model/hardware TPS claim follows.
 
-Across historical evaluator tracks, the current 45-profile catalog has
+Across historical evaluator tracks, the current 47-profile catalog has
 **24 full independent baselines, 14 reference checks and two diagnostics**:
-40 exercised profiles. Five older independent shapes remain unqualified:
+40 exercised profiles. The two newly registered native-width profiles and five older independent shapes remain unqualified:
 `meshgemm.cold-square32`, `meshgemm.cold-rectangular`, `meshgemv.ffn-down-scaled`,
 `meshgemv.square128`, and `pipeline.k64-n32`.
 

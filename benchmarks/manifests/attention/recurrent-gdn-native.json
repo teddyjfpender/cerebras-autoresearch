@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "recurrent-gdn-native.k128-v128-t4",
+      "adapter": "recurrent_gdn_native",
+      "family": "recurrent-gated-delta-native-head-group",
+      "dimensions": {
+        "K": 128,
+        "V": 128,
+        "T": 4,
+        "R": 3,
+        "VT": 8
+      },
+      "pe_grid": [
+        8,
+        6
+      ],
+      "precision": "bf16-fp32-state",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_recurrent_gdn_native_head_group_v1",
+      "metric": "max_local_cycles",
+      "work_units": 1379328,
+      "work_unit": "state_arithmetic_operations",
+      "description": "One native K128 key-head group, three V128 value heads, 4 resident tokens; full FP32 state and BF16 output, complete V-column sharding on 48 PEs, all physical immutable/normalized replicas and full logical histories checked.",
+      "timeout_seconds": 3600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "Whole 4-token native-width recurrent head group, initial-state copy, all replicated normalization/exp, every state operation and all intermediate/output/full-state stores"
+      }
+    },
+    {
+      "id": "recurrent-gdn-native.k128-v128-t8",
+      "adapter": "recurrent_gdn_native",
+      "family": "recurrent-gated-delta-native-head-group",
+      "dimensions": {
+        "K": 128,
+        "V": 128,
+        "T": 8,
+        "R": 3,
+        "VT": 4
+      },
+      "pe_grid": [
+        12,
+        8
+      ],
+      "precision": "bf16-fp32-state",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_recurrent_gdn_native_head_group_v1",
+      "metric": "max_local_cycles",
+      "work_units": 2758656,
+      "work_unit": "state_arithmetic_operations",
+      "description": "One native K128 key-head group, three V128 value heads, 8 resident tokens; full FP32 state and BF16 output, complete V-column sharding on 96 PEs, all physical immutable/normalized replicas and full logical histories checked.",
+      "timeout_seconds": 3600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "Whole 8-token native-width recurrent head group, initial-state copy, all replicated normalization/exp, every state operation and all intermediate/output/full-state stores"
+      }
+    }
+  ]
+}

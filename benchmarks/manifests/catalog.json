@@ -20,6 +20,7 @@
     "composed/resident-swiglu.json",
     "composed/resident-swiglu-bf16.json",
     "composed/resident-swiglu-bf16-heldout.json",
-    "attention/recurrent-gdn.json"
+    "attention/recurrent-gdn.json",
+    "attention/recurrent-gdn-native.json"
   ]
 }
