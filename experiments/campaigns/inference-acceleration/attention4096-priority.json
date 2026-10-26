@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "name": "attention4096-priority",
+  "kind": "ordered_full_fresh_profile",
+  "profile": "decode-attention.d64-ctx4096",
+  "candidate": "attention-newton",
+  "seed": 20261061,
+  "scope": "Only the 4096-context FP32 resident GQA operator on its fixed 128-PE budget; full six-case paired validation and fresh confirmation. No relative-memory screening.",
+  "arms": [
+    {
+      "name": "initial_baseline",
+      "variant": "baseline",
+      "seed": 20261061
+    },
+    {
+      "name": "initial_candidate",
+      "variant": "candidate",
+      "seed": 20261061
+    },
+    {
+      "name": "fresh_baseline",
+      "variant": "baseline",
+      "seed": 20261062
+    },
+    {
+      "name": "fresh_candidate",
+      "variant": "candidate",
+      "seed": 20261062
+    }
+  ]
+}

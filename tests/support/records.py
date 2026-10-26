@@ -6,7 +6,14 @@ from cerebras_research.runner import CASES
 
 
 def make_record(
-    root, name, variant="baseline", seed=7, cycles=100, memory=100, profile_id="meshgemv.square64"
+    root,
+    name,
+    variant="baseline",
+    seed=7,
+    cycles=100,
+    memory=100,
+    profile_id="meshgemv.square64",
+    local_cycles=None,
 ):
     folder = root / name
     work = folder / "work"
@@ -18,6 +25,10 @@ def make_record(
     (capsule / "evaluator.py").write_text("# synthetic evaluator fixture")
     evaluator = {"evaluator.py": digest(capsule / "evaluator.py")}
     profile = get_profile(profile_id)
+    metrics = {
+        "max_local_cycles": cycles if local_cycles is None else local_cycles,
+        profile["metric"]: cycles,
+    }
     cases = []
     for case in CASES:
         raw = work / "out" / (case + ".npz")
@@ -29,7 +40,7 @@ def make_record(
             "max_fraction_of_error_bound": 0.1,
             "artifact": raw.name,
             "artifact_sha256": digest(raw),
-            "metrics": {"max_local_cycles": cycles},
+            "metrics": dict(metrics),
         }
         write_json(work / "out" / f"case-{case}.json", data)
         cases.append(data)
@@ -57,7 +68,7 @@ def make_record(
         "validation": {"contract": "fixed"},
         "cases": cases,
         "memory": mem,
-        "metrics": {"max_local_cycles": cycles, "max_program_object_bytes_per_pe": memory},
+        "metrics": {**metrics, "max_program_object_bytes_per_pe": memory},
         "artifacts": {
             str(p.relative_to(folder)): digest(p) for p in work.rglob("*") if p.is_file()
         },

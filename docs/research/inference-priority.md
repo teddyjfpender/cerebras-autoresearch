@@ -1,6 +1,26 @@
-# Research closeout and prospective priorities
+# Inference acceleration priorities
 
-The session is stopped at the user's request. No further benchmark is queued.
+The active 2026-10-26 goal is to optimize distributed decode attention, complete
+decoder layers and prefill GEMM, and add important inference coverage. The
+[campaign plans](../../experiments/campaigns/inference-acceleration/README.md)
+add seven GQA profiles, a full 28-to32 context decoder case and two 64-row prefill
+projections. These are configuration until SDK execution qualifies each cell.
+The existing resident BF16 FFN and native recurrent tracks remain relevant.
+
+The completed first-wave suites confirm 2.647648× across the three decoder
+contexts and 2.370248× across the original 16-row prefill pair. The 64-row
+controls qualify but currently lack a retained improvement under the memory
+gate. Two [vocabulary projection](../benchmarks/vocab-projection.md) cells add
+a separate scaled inference role; their device qualification remains pending.
+
+Prioritize matched full/fresh gains in the three requested tracks, then complete
+shape guards and raw numerical/timestamp replay. Candidate hypotheses include
+PR #1 descriptor/vector/bank transfers, one-reciprocal vector softmax inside the
+complete decoder, and resident-GEMM descriptor strategies inside cold prefill.
+The attention full-sequence coordinator clock is a separate metric from maximum
+local cycles in the other tracks. Hardware/model TPS remains unmeasured.
+
+The 2026-10-23 session was stopped at the user's request; its evidence below is preserved.
 One frozen native recurrent implementation is freshly confirmed across both
 K128/V128 profiles: **2.428316× on T4/48 PEs**, **2.719851× on T8/96 PEs**,
 **2.569953× conservative suite geometric mean**. All 48 baseline/candidate case
@@ -55,6 +75,7 @@ gradient and loss validation plus the actual training backend for speed claims.
    actual model/step throughput under fixed quality, batch and workload conditions.
 
 The later items are deferred directions, not configured or executed benchmarks.
-No follow-up is scheduled; resuming research requires a new user instruction.
+The user resumed inference acceleration on 2026-10-26. Current plans follow the
+fixed-contract protocol and require fresh matching controls.
 Hardware handoff should contain optimized CSL, fixed profile contracts, reference
 sources, complete correctness/state evidence, memory/PE costs and matched results.

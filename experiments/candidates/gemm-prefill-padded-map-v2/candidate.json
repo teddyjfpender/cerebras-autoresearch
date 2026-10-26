@@ -1,0 +1,19 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-batch64",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "meshgemm.padded-abi-map-k-wide-size-check",
+  "hypothesis": "Keep map-K descriptor streaming without a second Mt*Nt accumulator tile. Accumulate N-wide vectors directly in the output ABI array with physical column strideMt+1 to distribute SRAM banks. After all four communication phases, compact columns in place through a single Mt-halfword temporary inside the original timer. Extra storage is only Nt+Mt halfwords, targeting the64-row memory gate while preserving all FP16 FMA terms/order and final ABI.",
+  "falsification": "Reject any stale/uninitialized physical output, skipped multiply/add/communication/clear/pack work, changed output ABI/FP16/timing/PE contract, overlapping-column corruption, oracle or shutdown failure, memory above1.10x baseline, speedup below1.05x or failed fresh six-case confirmation. Compare with the best full-tile map-K and column candidates; reject layout savings that lose cycle performance.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "parent_candidate": "gemm-prefill-padded-map",
+  "source_revision_note": "The first candidate failed CSL compilation because32768 cannot be coerced to i16. Widen the static size expression before comparison. Its failed receipts and frozen source remain unchanged. No runtime arithmetic, memory layout, precision or timing is changed by this correction."
+}

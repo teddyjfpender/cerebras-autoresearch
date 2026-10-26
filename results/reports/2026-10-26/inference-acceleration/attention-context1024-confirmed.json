@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_improvement",
+  "profile": "decode-attention.d64-ctx1024",
+  "conservative_speedup": 2.2251314268139177,
+  "confirmation": {
+    "path": "runs/v2/20261026T073230Z-confirmation-9df2c134/result.json",
+    "sha256": "7afbee96fe6b39c731fc71d70283bfaaeaa402acdacd8663e4f531c147af6a41"
+  },
+  "decision": {
+    "status": "confirmed_improvement",
+    "initial": {
+      "profile": "decode-attention.d64-ctx1024",
+      "metric": "coordinator_cycles",
+      "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T064953Z-decode-attention.d64-ctx1024-1ff50f47/result.json",
+      "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T070334Z-decode-attention.d64-ctx1024-6518b756/result.json",
+      "speedup": 2.2251314268139177,
+      "memory_ratio": 1.0499820208558073,
+      "cycle_reduction_percent": 55.05883437043255,
+      "eligible": true,
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "decision": "needs_fresh_confirmation",
+      "qwen_tps_result": false
+    },
+    "confirmation": {
+      "profile": "decode-attention.d64-ctx1024",
+      "metric": "coordinator_cycles",
+      "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T071235Z-decode-attention.d64-ctx1024-6168b944/result.json",
+      "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T072307Z-decode-attention.d64-ctx1024-fdcb4181/result.json",
+      "speedup": 2.2251314268139177,
+      "memory_ratio": 1.0499820208558073,
+      "cycle_reduction_percent": 55.05883437043255,
+      "eligible": true,
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "decision": "confirmation_passed",
+      "qwen_tps_result": false
+    },
+    "scope": "one fixed benchmark profile",
+    "qwen_tps_result": false,
+    "schema_version": 2,
+    "record_type": "confirmation",
+    "inputs": {
+      "initial_baseline": "runs/v2/20261026T064953Z-decode-attention.d64-ctx1024-1ff50f47/result.json",
+      "initial_candidate": "runs/v2/20261026T070334Z-decode-attention.d64-ctx1024-6518b756/result.json",
+      "fresh_baseline": "runs/v2/20261026T071235Z-decode-attention.d64-ctx1024-6168b944/result.json",
+      "fresh_candidate": "runs/v2/20261026T072307Z-decode-attention.d64-ctx1024-fdcb4181/result.json"
+    },
+    "budgets": {
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1
+    }
+  },
+  "scope": "Matched six-case initial/fresh simulation qualification. Independent raw-array replay will be recorded with the completed attention coverage campaign. Not hardware or model TPS.",
+  "qwen_tps_result": false
+}

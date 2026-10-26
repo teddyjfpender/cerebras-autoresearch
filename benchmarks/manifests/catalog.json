@@ -22,6 +22,7 @@
     "composed/resident-swiglu-bf16-heldout.json",
     "attention/recurrent-gdn.json",
     "attention/recurrent-gdn-native.json",
-    "attention/recurrent-gdn-full.json"
+    "attention/recurrent-gdn-full.json",
+    "attention/gqa.json"
   ]
 }

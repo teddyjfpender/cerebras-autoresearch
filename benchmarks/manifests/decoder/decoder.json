@@ -70,6 +70,41 @@
         "repeats": 1,
         "scope": "complete four-frame sequence including all output and state stores"
       }
+    },
+    {
+      "id": "decoder.h16-f32-ctx28",
+      "adapter": "decoder",
+      "family": "resident-decoder",
+      "dimensions": {
+        "H": 16,
+        "F": 32,
+        "T": 4,
+        "C": 32,
+        "L": 28,
+        "A": 2
+      },
+      "pe_grid": [
+        1,
+        1
+      ],
+      "precision": "fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_transformer_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 28288,
+      "work_unit": "projection_and_attention_arithmetic_operations",
+      "description": "Four complete decoder tokens extending context28 to32; every output and full cache history. Scaled FP32 one-PE workload, not Qwen or model TPS.",
+      "timeout_seconds": 1200,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "complete four-frame sequence including all output and state stores"
+      }
     }
   ]
 }

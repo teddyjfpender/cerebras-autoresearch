@@ -1,0 +1,3478 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-26T06:20:21Z",
+  "campaign_status": "completed",
+  "plan": {
+    "path": "experiments/campaigns/inference-acceleration/attention-math-followup.json",
+    "sha256": "54111848e3478c2cf0cd1e7f92382bf41ff1402e17dcda150b86c6df0551b720",
+    "identity": "6607c0d9f46b3ae844217b94f0f647ac453fe3ca6c16019706b5d2e7a6e26475"
+  },
+  "checkpoint": {
+    "path": "runs/campaigns/inference-acceleration/attention-math-followup-state.json",
+    "sha256": "eb54ea75f2610e69014270b9b92fd5503bce22dc43a155aaf9ee9449b5eb7917"
+  },
+  "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+  "audit_tool_sha256": "d0afff8452b814db032899c7d26c94d27bd0bacf6180033a5ed75e60c124f1a6",
+  "audit_evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+  "candidate_identities": {
+    "attention-newton": {
+      "source": "addb72920f98c8be374c1ff6a981fcd214fa9faca94da96dc0943f76ef7c17f6",
+      "manifest": "da54279f2b085852f58bb84c0d789dfe3bffbbb7c1f28caa12ab36c3be8f82a9"
+    },
+    "attention-newton-polynomial": {
+      "source": "e12a3603b9d3a8e16f258b217b21c9dbcd6b58737dbc8797fa5797554490c012",
+      "manifest": "67199b556b4cb0ed6f4c120fe805474eeb463d464ee51b99361792c975282367"
+    }
+  },
+  "imports": {
+    "initial_baselines": {
+      "decode-attention.d64-ctx128-latency32": "runs/v2/20261026T050922Z-decode-attention.d64-ctx128-latency32-abeac030/result.json"
+    },
+    "fresh_baselines": {
+      "decode-attention.d64-ctx128-latency32/baseline/20261062/full": {
+        "path": "runs/v2/20261026T051637Z-decode-attention.d64-ctx128-latency32-eaff0c5b/result.json",
+        "sha256": "615ee13ea4b9b548f290390a68c2e889586046be99c9594b838da3a945b49ea8"
+      }
+    }
+  },
+  "executed_attempt_count": 4,
+  "requested_profiles": [
+    "decode-attention.d64-ctx128-latency32"
+  ],
+  "cells": {
+    "decode-attention.d64-ctx128-latency32": {
+      "status": "confirmed_improvement",
+      "baseline": "runs/v2/20261026T050922Z-decode-attention.d64-ctx128-latency32-abeac030/result.json",
+      "screens": [
+        {
+          "candidate": {
+            "candidate": "attention-newton"
+          },
+          "receipt": "runs/v2/20261026T061455Z-decode-attention.d64-ctx128-latency32-e2fc4ccc/result.json",
+          "outcome": "screen_passed",
+          "speedup": 5.104938700781014,
+          "memory_ratio": 1.0432639649507118,
+          "eligible": true
+        },
+        {
+          "candidate": {
+            "candidate": "attention-newton-polynomial"
+          },
+          "receipt": "runs/v2/20261026T061524Z-decode-attention.d64-ctx128-latency32-b508dd19/result.json",
+          "outcome": "screen_passed",
+          "speedup": 5.1191754398196565,
+          "memory_ratio": 1.0175246440306682,
+          "eligible": true
+        }
+      ],
+      "selected": {
+        "candidate": "attention-newton-polynomial"
+      },
+      "confirmation": "runs/v2/20261026T062019Z-confirmation-b438e627/result.json"
+    }
+  },
+  "records": [
+    {
+      "receipt": "runs/v2/20261026T050922Z-decode-attention.d64-ctx128-latency32-abeac030/result.json",
+      "receipt_sha256": "1a0e259f2bdcaffbc9cedd5d1ac278cc3c3d764cdfc8d3cb538ea4c824088af4",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128-latency32",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 32,
+          "S": 4,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          32,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261061,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 220273.0,
+        "mean_local_cycles": 188951.8125,
+        "pe_cycle_spread": 32438.0,
+        "coordinator_cycles": 220273.0,
+        "cycles_per_token": 55068.25,
+        "max_error_fraction": 0.15158064322366377,
+        "max_program_object_bytes_per_pe": 29216,
+        "work_units_per_cycle": 2.352281033081676,
+        "pe_cycles": 7048736.0,
+        "experiment_wall_seconds": 205.74064336400002
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 29216,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 16,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 17,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 18,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 19,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 20,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 21,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 22,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 23,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 24,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 25,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 26,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 27,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 28,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 29,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 30,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 31,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 32,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 33,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 34,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 35,
+            "y": 1,
+            "bytes": 29216
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "sharded_gqa_decode_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 2.3427505579931562e-07,
+          "max_fraction_of_error_bound": 0.0015408256460992564,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "00ce156238d9ba75c638746ff5448ea70d1617b0404437bab8155b21c05b18d1",
+          "metrics": {
+            "max_local_cycles": 220204.0,
+            "mean_local_cycles": 188882.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220204.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 7.04480298610588e-08,
+          "max_fraction_of_error_bound": 0.0006756123424507391,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "3f4cc01c8106988720bfe37c45256048fd09c1a7bb8dc0f19e890337329de46d",
+          "metrics": {
+            "max_local_cycles": 220211.0,
+            "mean_local_cycles": 188889.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220211.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 2.3590473574586213e-08,
+          "max_fraction_of_error_bound": 0.00020175918485293402,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "2edd07643c4ff46e828783776bb4171f4b2b9dd4fc06f7fd023a90cfb1bef302",
+          "metrics": {
+            "max_local_cycles": 220273.0,
+            "mean_local_cycles": 188951.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220273.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 1.1733197781416127e-09,
+          "max_fraction_of_error_bound": 1.1545952684025192e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "f8bcffa56adff9dce27d960158acd1c9715c94eb3dd4218283fd19339d5fa90c",
+          "metrics": {
+            "max_local_cycles": 220273.0,
+            "mean_local_cycles": 188951.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220273.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 4.811374013091729e-08,
+          "max_fraction_of_error_bound": 0.0004129826264864655,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "40af78269746701746af79381cd191f3876c33563e01842d88320789897d33a3",
+          "metrics": {
+            "max_local_cycles": 220207.0,
+            "mean_local_cycles": 188885.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220207.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 3.581812218556024e-05,
+          "max_fraction_of_error_bound": 0.15158064322366377,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "2b9f2281369afa4bb68d00b0a27c9e5c3e4f8851f90c10e6da67e18bfce0af7f",
+          "metrics": {
+            "max_local_cycles": 220211.0,
+            "mean_local_cycles": 188889.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220211.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "decode_attention.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "498122c16267c0da567b3111d159e2d36ad95260",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "706daa89dd8caac1a0d4e75e71085f4f433b11e615c56ebe1b72cbf6522e79ef",
+      "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "source_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "harness_sha256": "b0c3c74957fe54566ad1aee160afb50bbcb4114021c958dcbdab35d7f1d23ad8",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=39,3",
+        "--fabric-offsets=4,1",
+        "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=39,3",
+            "--fabric-offsets=4,1",
+            "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 8.178009645999992,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 32.28485189600002,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 32.60041698500004,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 32.28661910400001,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 33.527101039,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 33.59328228300001,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 32.84553558799996,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.4248268229999894,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T051637Z-decode-attention.d64-ctx128-latency32-eaff0c5b/result.json",
+      "receipt_sha256": "615ee13ea4b9b548f290390a68c2e889586046be99c9594b838da3a945b49ea8",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128-latency32",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 32,
+          "S": 4,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          32,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261062,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 220273.0,
+        "mean_local_cycles": 188951.8125,
+        "pe_cycle_spread": 32438.0,
+        "coordinator_cycles": 220273.0,
+        "cycles_per_token": 55068.25,
+        "max_error_fraction": 0.04265962439452138,
+        "max_program_object_bytes_per_pe": 29216,
+        "work_units_per_cycle": 2.352281033081676,
+        "pe_cycles": 7048736.0,
+        "experiment_wall_seconds": 206.76672676500016
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 29216,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 16,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 17,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 18,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 19,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 20,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 21,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 22,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 23,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 24,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 25,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 26,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 27,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 28,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 29,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 30,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 31,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 32,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 33,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 34,
+            "y": 1,
+            "bytes": 29216
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 35,
+            "y": 1,
+            "bytes": 29216
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "sharded_gqa_decode_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 2.5597376263064575e-07,
+          "max_fraction_of_error_bound": 0.001680779655892859,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "fb26e04d2a38c36a3d565a848258dc253930c89e0d6a2fb52c7bad7fd6c53a55",
+          "metrics": {
+            "max_local_cycles": 220200.0,
+            "mean_local_cycles": 188878.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220200.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 5.8274786315926086e-08,
+          "max_fraction_of_error_bound": 0.0005218871304006025,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "0d200cfa8332e6f9fc507e38c52fa2084bada174c7e799fbb15fda7b4791c27f",
+          "metrics": {
+            "max_local_cycles": 220215.0,
+            "mean_local_cycles": 188893.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220215.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 1.5898483016196785e-08,
+          "max_fraction_of_error_bound": 0.00014856544010173915,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "6a828b83d6e5347815ec0b068796cb6e444f190d19e8d8cc3939af6e1decbbf4",
+          "metrics": {
+            "max_local_cycles": 220273.0,
+            "mean_local_cycles": 188951.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220273.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 1.0477378964424133e-09,
+          "max_fraction_of_error_bound": 1.0320034877947635e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "eac24130f1c90958f126b384e045f695c44225dfb3f19fba2c61425d9b631d19",
+          "metrics": {
+            "max_local_cycles": 220273.0,
+            "mean_local_cycles": 188951.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220273.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 3.698057635115326e-08,
+          "max_fraction_of_error_bound": 0.00032895169962104595,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "d576638d9eb99e9c847e798075aab6716509b143056e1d2c33e595f4199fdfe0",
+          "metrics": {
+            "max_local_cycles": 220215.0,
+            "mean_local_cycles": 188893.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220215.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 1.558153768677073e-05,
+          "max_fraction_of_error_bound": 0.04265962439452138,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "62fa27f841913da36d5427133c34c8f2605e48a4e6bc883ed25db5dbb021d4d2",
+          "metrics": {
+            "max_local_cycles": 220215.0,
+            "mean_local_cycles": 188893.8125,
+            "pe_cycle_spread": 32438.0,
+            "coordinator_cycles": 220215.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "decode_attention.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "498122c16267c0da567b3111d159e2d36ad95260",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "706daa89dd8caac1a0d4e75e71085f4f433b11e615c56ebe1b72cbf6522e79ef",
+      "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "source_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "harness_sha256": "b0c3c74957fe54566ad1aee160afb50bbcb4114021c958dcbdab35d7f1d23ad8",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=39,3",
+        "--fabric-offsets=4,1",
+        "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=39,3",
+            "--fabric-offsets=4,1",
+            "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 8.279927960999999,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 33.252919853000094,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 33.40694725200001,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 32.80816798800004,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 33.265824114,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 32.830345695999995,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 32.445539553,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.4770543480000242,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T061455Z-decode-attention.d64-ctx128-latency32-e2fc4ccc/result.json",
+      "receipt_sha256": "a9f40ab193df339d2c972059b239e0104baeb60e26333cf6c883e3cfd4e2e7a3",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "screen_passed",
+      "profile": {
+        "id": "decode-attention.d64-ctx128-latency32",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 32,
+          "S": 4,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          32,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261061,
+      "screen_only": true,
+      "metrics": {
+        "max_local_cycles": 43149.0,
+        "mean_local_cycles": 42303.71875,
+        "pe_cycle_spread": 979.0,
+        "coordinator_cycles": 43149.0,
+        "cycles_per_token": 10787.25,
+        "max_error_fraction": 0.001285683284554806,
+        "max_program_object_bytes_per_pe": 30480,
+        "work_units_per_cycle": 12.008250480891794,
+        "pe_cycles": 1380768.0,
+        "experiment_wall_seconds": 29.036806882000747
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 30480,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 16,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 17,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 18,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 19,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 20,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 21,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 22,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 23,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 24,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 25,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 26,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 27,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 28,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 29,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 30,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 31,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 32,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 33,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 34,
+            "y": 1,
+            "bytes": 30480
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 35,
+            "y": 1,
+            "bytes": 30480
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "sharded_gqa_decode_fp32_v1",
+        "cases": [
+          "positive"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 1.9304195753022668e-07,
+          "max_fraction_of_error_bound": 0.001285683284554806,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "71bbb415795edc2ce89d76039619fd633225d9a0104f357f7c93c43d10fa6c94",
+          "metrics": {
+            "max_local_cycles": 43149.0,
+            "mean_local_cycles": 42303.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43149.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "decode_attention.bank-dsr-vector-max-newton",
+        "candidate": "attention-newton",
+        "hypothesis": "Extend descriptor reuse, bank offset, bounded unrolling and vector max/normalization with a bit-linear reciprocal seed and four FP32 Newton iterations for finite stable-softmax sums in [1,8192], a range guaranteed by the operator. Expect less normalization overhead without changing FP32 precision or the fixed output tolerance.",
+        "falsification": "Require exhaustive host mantissa/range checks plus every device output/cache check at both paired seeds, at least 5.01x coordinator gain against the matched original reference, and no more than 10% program-object memory growth. Reject any changed PE count, work, state, precision, communication or timing.",
+        "manifest_sha256": "da54279f2b085852f58bb84c0d789dfe3bffbbb7c1f28caa12ab36c3be8f82a9",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "ChatGPT Work"
+      },
+      "provenance": {
+        "git_commit": "4137b5197541f740366a2395f81b31ea3979babf",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "706daa89dd8caac1a0d4e75e71085f4f433b11e615c56ebe1b72cbf6522e79ef",
+      "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "source_sha256": "addb72920f98c8be374c1ff6a981fcd214fa9faca94da96dc0943f76ef7c17f6",
+      "harness_sha256": "b0c3c74957fe54566ad1aee160afb50bbcb4114021c958dcbdab35d7f1d23ad8",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=39,3",
+        "--fabric-offsets=4,1",
+        "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=39,3",
+            "--fabric-offsets=4,1",
+            "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 7.881509573000585,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.727729645999716,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.42756766300044546,
+          "log": "step-2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T061524Z-decode-attention.d64-ctx128-latency32-b508dd19/result.json",
+      "receipt_sha256": "b01cc1a3b26e3395b1ac3a61680f52c8140c472f2801d16a0ad2cc960373aaa9",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "screen_passed",
+      "profile": {
+        "id": "decode-attention.d64-ctx128-latency32",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 32,
+          "S": 4,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          32,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261061,
+      "screen_only": true,
+      "metrics": {
+        "max_local_cycles": 43029.0,
+        "mean_local_cycles": 42183.71875,
+        "pe_cycle_spread": 979.0,
+        "coordinator_cycles": 43029.0,
+        "cycles_per_token": 10757.25,
+        "max_error_fraction": 0.0015645314472149052,
+        "max_program_object_bytes_per_pe": 29728,
+        "work_units_per_cycle": 12.041739292105325,
+        "pe_cycles": 1376928.0,
+        "experiment_wall_seconds": 29.056421058000524
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 29728,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 16,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 17,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 18,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 19,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 20,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 21,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 22,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 23,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 24,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 25,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 26,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 27,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 28,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 29,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 30,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 31,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 32,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 33,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 34,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 35,
+            "y": 1,
+            "bytes": 29728
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "sharded_gqa_decode_fp32_v1",
+        "cases": [
+          "positive"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 2.384401300847827e-07,
+          "max_fraction_of_error_bound": 0.0015645314472149052,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "719526e6e5bfb06ea171d7b7aa4285fb3d16d1615fc0efeecaf551f95a8b389f",
+          "metrics": {
+            "max_local_cycles": 43029.0,
+            "mean_local_cycles": 42183.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43029.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "decode_attention.dsr-newton-bounded-exp",
+        "candidate": "attention-newton-polynomial",
+        "hypothesis": "Revisit bounded exponential evaluation after the descriptor/bank/vector/Newton bottlenecks have been removed. Retain the parent's QK/PV and exact ascending-term work; use the existing degree-ten exp(x/16) with four squarings only on[-16,0], and unchanged SDK exp elsewhere. This tests whether scalar exponentials now dominate the faster complete attention path.",
+        "falsification": "Reject any original1e-4 output/cache-bound failure, combined exp/reciprocal property failure, changed FP32 precision/PE/bounds/timers/causal work, shutdown failure, more than1.10x memory or failed fresh six-case paired confirmation. Do not retain over a faster incumbent; no positive screen alone is confirmation.",
+        "manifest_sha256": "67199b556b4cb0ed6f4c120fe805474eeb463d464ee51b99361792c975282367",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "4137b5197541f740366a2395f81b31ea3979babf",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "706daa89dd8caac1a0d4e75e71085f4f433b11e615c56ebe1b72cbf6522e79ef",
+      "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "source_sha256": "e12a3603b9d3a8e16f258b217b21c9dbcd6b58737dbc8797fa5797554490c012",
+      "harness_sha256": "b0c3c74957fe54566ad1aee160afb50bbcb4114021c958dcbdab35d7f1d23ad8",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=39,3",
+        "--fabric-offsets=4,1",
+        "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=39,3",
+            "--fabric-offsets=4,1",
+            "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 8.034047338999699,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.643347421000726,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.3790262980000989,
+          "log": "step-2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T061553Z-decode-attention.d64-ctx128-latency32-b6546287/result.json",
+      "receipt_sha256": "2ee02321c13a191f0c1e319766244aad0f95d955ebc5b2cf51b6c9823b4e3eab",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128-latency32",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 32,
+          "S": 4,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          32,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261061,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 43478.0,
+        "mean_local_cycles": 42634.5,
+        "pe_cycle_spread": 979.0,
+        "coordinator_cycles": 43478.0,
+        "cycles_per_token": 10869.5,
+        "max_error_fraction": 0.16277665771288805,
+        "max_program_object_bytes_per_pe": 29728,
+        "work_units_per_cycle": 11.917383504301025,
+        "pe_cycles": 1391296.0,
+        "experiment_wall_seconds": 132.84137801500037
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 29728,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 16,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 17,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 18,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 19,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 20,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 21,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 22,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 23,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 24,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 25,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 26,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 27,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 28,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 29,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 30,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 31,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 32,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 33,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 34,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 35,
+            "y": 1,
+            "bytes": 29728
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "sharded_gqa_decode_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 2.384401300847827e-07,
+          "max_fraction_of_error_bound": 0.0015645314472149052,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "719526e6e5bfb06ea171d7b7aa4285fb3d16d1615fc0efeecaf551f95a8b389f",
+          "metrics": {
+            "max_local_cycles": 43029.0,
+            "mean_local_cycles": 42183.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43029.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 7.118145253781627e-08,
+          "max_fraction_of_error_bound": 0.0006900522226476702,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "228e2310ac2f1b3e10d00a9632c9ec40532d38c1f445a19c0bcaeb7a6d2f3926",
+          "metrics": {
+            "max_local_cycles": 43038.0,
+            "mean_local_cycles": 42192.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43038.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 2.3590473574586213e-08,
+          "max_fraction_of_error_bound": 0.00020988201141523564,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "cb878ca5843ceba07c89bc7b3bc03d10bd0ff4d3b1c42e0b58e7428ea6dde0ca",
+          "metrics": {
+            "max_local_cycles": 43045.0,
+            "mean_local_cycles": 42199.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43045.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 1.4782897996001854e-09,
+          "max_fraction_of_error_bound": 1.461955436605858e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "7def19c00b9ab9ec8c48c38b49766a8bdb28c7350b6161df669877f7bc2f39f3",
+          "metrics": {
+            "max_local_cycles": 43045.0,
+            "mean_local_cycles": 42199.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43045.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 6.562044903724723e-08,
+          "max_fraction_of_error_bound": 0.0006551482815062719,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "2ee611979a481be0e2f64c58163ea4b0da8e30381c3d37ead66b23dd5cd6c1a6",
+          "metrics": {
+            "max_local_cycles": 43036.0,
+            "mean_local_cycles": 42190.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43036.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 3.772547081837274e-05,
+          "max_fraction_of_error_bound": 0.16277665771288805,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "6dd15446ce62f42540c766336d9e4cb14ba00ec658f51c7de0df1bee14883ac2",
+          "metrics": {
+            "max_local_cycles": 43478.0,
+            "mean_local_cycles": 42634.5,
+            "pe_cycle_spread": 970.0,
+            "coordinator_cycles": 43478.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "decode_attention.dsr-newton-bounded-exp",
+        "candidate": "attention-newton-polynomial",
+        "hypothesis": "Revisit bounded exponential evaluation after the descriptor/bank/vector/Newton bottlenecks have been removed. Retain the parent's QK/PV and exact ascending-term work; use the existing degree-ten exp(x/16) with four squarings only on[-16,0], and unchanged SDK exp elsewhere. This tests whether scalar exponentials now dominate the faster complete attention path.",
+        "falsification": "Reject any original1e-4 output/cache-bound failure, combined exp/reciprocal property failure, changed FP32 precision/PE/bounds/timers/causal work, shutdown failure, more than1.10x memory or failed fresh six-case paired confirmation. Do not retain over a faster incumbent; no positive screen alone is confirmation.",
+        "manifest_sha256": "67199b556b4cb0ed6f4c120fe805474eeb463d464ee51b99361792c975282367",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "4137b5197541f740366a2395f81b31ea3979babf",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "706daa89dd8caac1a0d4e75e71085f4f433b11e615c56ebe1b72cbf6522e79ef",
+      "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "source_sha256": "e12a3603b9d3a8e16f258b217b21c9dbcd6b58737dbc8797fa5797554490c012",
+      "harness_sha256": "b0c3c74957fe54566ad1aee160afb50bbcb4114021c958dcbdab35d7f1d23ad8",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=39,3",
+        "--fabric-offsets=4,1",
+        "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=39,3",
+            "--fabric-offsets=4,1",
+            "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 7.710523906000162,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.729338439999992,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.86521789299968,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.72399392800071,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.70317689300009,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.78399238200018,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261061",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.902254023999376,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.42288054900018324,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T061805Z-comparison-63ff1320/result.json",
+      "receipt_sha256": "faa10a1e0f1aabc14f4aeac5990f4295722608b99a984fc3f7af910546adb306",
+      "kind": "comparison",
+      "evidence_audit": "verified",
+      "status": "needs_fresh_confirmation",
+      "decision": "needs_fresh_confirmation",
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "inputs": {
+        "baseline": "runs/v2/20261026T050922Z-decode-attention.d64-ctx128-latency32-abeac030/result.json",
+        "candidate": "runs/v2/20261026T061553Z-decode-attention.d64-ctx128-latency32-b6546287/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "eligible": true,
+      "speedup": 5.066309397856387,
+      "memory_ratio": 1.0175246440306682,
+      "metric": "coordinator_cycles",
+      "cycle_reduction_percent": 80.26176608118108
+    },
+    {
+      "receipt": "runs/v2/20261026T061806Z-decode-attention.d64-ctx128-latency32-32b4657c/result.json",
+      "receipt_sha256": "c156c87739a104aa275f98a5aa181871b9637a4c49be56fb013eff6c5b4d3ba2",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "decode-attention.d64-ctx128-latency32",
+        "adapter": "decode_attention",
+        "family": "sharded-gqa-decode",
+        "dimensions": {
+          "P": 32,
+          "S": 4,
+          "D": 64,
+          "G": 4,
+          "T": 4,
+          "L": 124
+        },
+        "pe_grid": [
+          32,
+          1
+        ],
+        "precision": "fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "coordinator_cycles",
+        "oracle_contract": "sharded_gqa_decode_fp32_v1",
+        "work_units": 518144,
+        "work_unit": "projection_free_attention_arithmetic",
+        "description": "Latency-focused finer sharding of the identical context-128 GQA group. Same work and quantized input sequence; paired baseline/candidate use identical PE count. Record PE/memory cost separately; not model TPS.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "coordinator clock: dispatch, four causal attention tokens, distributed reductions, cache and output stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261062,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 43457.0,
+        "mean_local_cycles": 42611.71875,
+        "pe_cycle_spread": 979.0,
+        "coordinator_cycles": 43457.0,
+        "cycles_per_token": 10864.25,
+        "max_error_fraction": 0.043745439140001514,
+        "max_program_object_bytes_per_pe": 29728,
+        "work_units_per_cycle": 11.923142416641738,
+        "pe_cycles": 1390624.0,
+        "experiment_wall_seconds": 134.26889742799813
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 29728,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 8,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 9,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 10,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 11,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 12,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 13,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 14,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 15,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 16,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 17,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 18,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 19,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 20,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 21,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 22,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 23,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 24,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 25,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 26,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 27,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 28,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 29,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 30,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 31,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 32,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 33,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 34,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 35,
+            "y": 1,
+            "bytes": 29728
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "sharded_gqa_decode_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 2.833937814417098e-07,
+          "max_fraction_of_error_bound": 0.0018518284575036942,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "31cbd31e937a6b2e32e9f29d1484b864b2436fb569dee23747224a809682fa36",
+          "metrics": {
+            "max_local_cycles": 43043.0,
+            "mean_local_cycles": 42197.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43043.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 7.019406170205578e-08,
+          "max_fraction_of_error_bound": 0.0006195039722253453,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "4ae7288b8a29df56f7a3edea6d43882e4929680264eff82460cae1635fb2b2ca",
+          "metrics": {
+            "max_local_cycles": 43035.0,
+            "mean_local_cycles": 42189.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43035.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 2.3186206801750764e-08,
+          "max_fraction_of_error_bound": 0.0002139854182876874,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "4414dc531e7c5a2e6f66c8ebb7209655eed8ded9ba1dd51ed87ae6e888b1e28d",
+          "metrics": {
+            "max_local_cycles": 43045.0,
+            "mean_local_cycles": 42199.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43045.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 1.419158207616178e-09,
+          "max_fraction_of_error_bound": 1.3983689766403669e-05,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "7d0b5cba1fdd1f1414fde154f0effe772799cc0dd6872d42fdfdace22c41f88b",
+          "metrics": {
+            "max_local_cycles": 43045.0,
+            "mean_local_cycles": 42199.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43045.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 5.515029405378513e-08,
+          "max_fraction_of_error_bound": 0.0004886254157173255,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "ed24b4a56ee928eb1597d897dbfe9a96562cc7e3b554a2fb374190d4ce27d9a8",
+          "metrics": {
+            "max_local_cycles": 43033.0,
+            "mean_local_cycles": 42187.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43033.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 1.462786337036448e-05,
+          "max_fraction_of_error_bound": 0.043745439140001514,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "6063915295f609d7aae3368ab8b13e7d81d43401a17a3f9ec149a9fe95ba057a",
+          "metrics": {
+            "max_local_cycles": 43457.0,
+            "mean_local_cycles": 42611.71875,
+            "pe_cycle_spread": 979.0,
+            "coordinator_cycles": 43457.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "decode_attention.dsr-newton-bounded-exp",
+        "candidate": "attention-newton-polynomial",
+        "hypothesis": "Revisit bounded exponential evaluation after the descriptor/bank/vector/Newton bottlenecks have been removed. Retain the parent's QK/PV and exact ascending-term work; use the existing degree-ten exp(x/16) with four squarings only on[-16,0], and unchanged SDK exp elsewhere. This tests whether scalar exponentials now dominate the faster complete attention path.",
+        "falsification": "Reject any original1e-4 output/cache-bound failure, combined exp/reciprocal property failure, changed FP32 precision/PE/bounds/timers/causal work, shutdown failure, more than1.10x memory or failed fresh six-case paired confirmation. Do not retain over a faster incumbent; no positive screen alone is confirmation.",
+        "manifest_sha256": "67199b556b4cb0ed6f4c120fe805474eeb463d464ee51b99361792c975282367",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "4137b5197541f740366a2395f81b31ea3979babf",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "706daa89dd8caac1a0d4e75e71085f4f433b11e615c56ebe1b72cbf6522e79ef",
+      "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "source_sha256": "e12a3603b9d3a8e16f258b217b21c9dbcd6b58737dbc8797fa5797554490c012",
+      "harness_sha256": "b0c3c74957fe54566ad1aee160afb50bbcb4114021c958dcbdab35d7f1d23ad8",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=39,3",
+        "--fabric-offsets=4,1",
+        "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=39,3",
+            "--fabric-offsets=4,1",
+            "--params=P:32,S:4,D:64,G:4,T:4,L:124",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 7.859569455999917,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.689159990999542,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 21.472005041999182,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 21.245748738999282,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.9368462679995,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.703316554000594,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "decode_attention.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261062",
+            "--kind",
+            "decode_attention"
+          ],
+          "wall_seconds": 20.93500078099987,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.4272505970002385,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T062019Z-confirmation-b438e627/result.json",
+      "receipt_sha256": "1cc7f9197843ea538b65ba0ddc25a45ec054cac7d69383904484330ba56125d5",
+      "kind": "confirmation",
+      "evidence_audit": "verified",
+      "status": "confirmed_improvement",
+      "inputs": {
+        "initial_baseline": "runs/v2/20261026T050922Z-decode-attention.d64-ctx128-latency32-abeac030/result.json",
+        "initial_candidate": "runs/v2/20261026T061553Z-decode-attention.d64-ctx128-latency32-b6546287/result.json",
+        "fresh_baseline": "runs/v2/20261026T051637Z-decode-attention.d64-ctx128-latency32-eaff0c5b/result.json",
+        "fresh_candidate": "runs/v2/20261026T061806Z-decode-attention.d64-ctx128-latency32-32b4657c/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "initial": {
+        "profile": "decode-attention.d64-ctx128-latency32",
+        "metric": "coordinator_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T050922Z-decode-attention.d64-ctx128-latency32-abeac030/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T061553Z-decode-attention.d64-ctx128-latency32-b6546287/result.json",
+        "speedup": 5.066309397856387,
+        "memory_ratio": 1.0175246440306682,
+        "cycle_reduction_percent": 80.26176608118108,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "needs_fresh_confirmation",
+        "qwen_tps_result": false
+      },
+      "confirmation": {
+        "profile": "decode-attention.d64-ctx128-latency32",
+        "metric": "coordinator_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T051637Z-decode-attention.d64-ctx128-latency32-eaff0c5b/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T061806Z-decode-attention.d64-ctx128-latency32-32b4657c/result.json",
+        "speedup": 5.068757622477391,
+        "memory_ratio": 1.0175246440306682,
+        "cycle_reduction_percent": 80.27129970536562,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "confirmation_passed",
+        "qwen_tps_result": false
+      }
+    }
+  ],
+  "record_count": 8,
+  "validated_case_count": 24,
+  "artifact_integrity_replayed": true,
+  "numerical_arrays_recomputed": false,
+  "qwen_tps_result": false
+}

@@ -306,7 +306,7 @@ def board(rows):
         if r["kind"] == "run"
         and r["outcome"] == "validated"
         and r["case_count"] == "6"
-        and r["primary_metric"] == "max_local_cycles"
+        and r["primary_metric"] in ("max_local_cycles", "coordinator_cycles")
     ]
     best = {}
     for row in measured:
@@ -331,7 +331,7 @@ def board(rows):
     for row in rows:
         if (
             row["decision"] == "confirmed"
-            and row["primary_metric"] == "max_local_cycles"
+            and row["primary_metric"] in ("max_local_cycles", "coordinator_cycles")
             and row["evidence_audit"] == "verified"
             and row["primary_value"]
             and row["memory_bytes"]
@@ -361,7 +361,10 @@ def board(rows):
     )
 
     def compact(row):
-        return {k: row[k] for k in keys}
+        result = {k: row[k] for k in keys}
+        if row["primary_metric"] == "coordinator_cycles":
+            result["primary_metric"] = row["primary_metric"]
+        return result
 
     return {
         "schema_version": 1,

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "name": "scaled-vocabulary-projections",
+  "seed": 20261061,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "meshgemv.vocab-k80-n512",
+      "candidates": [
+        {
+          "variant": "unroll"
+        },
+        {
+          "variant": "bank-alignment"
+        },
+        {
+          "candidate": "vocab-unroll-align"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemv.vocab-k80-n1024",
+      "candidates": [
+        {
+          "variant": "unroll"
+        },
+        {
+          "variant": "bank-alignment"
+        },
+        {
+          "candidate": "vocab-unroll-align"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+// Resident GQA decode: vector reference, one dispatch plus three collectives/token.
+// Same SDK collectives API as the Apache-2.0 example cited in layout.csl.
+param memcpy_params;
+param c2d_params;
+param P: i16;
+param S: i16;
+param D: i16;
+param G: i16;
+param T: i16;
+param L: i16;
+const sys = @import_module("<memcpy/memcpy>", memcpy_params);
+const mpi = @import_module("<collectives_2d/pe>", .{ .dim_params = c2d_params.x });
+const clock = @import_module("<time>");
+const math = @import_module("<math>");
+const BEGIN: local_task_id = @get_local_task_id(9);
+const MAXIMA: local_task_id = @get_local_task_id(10);
+const PARTIAL: local_task_id = @get_local_task_id(11);
+const OUTPUT: local_task_id = @get_local_task_id(12);
+const ROOT: u16 = @as(u16, P-1);
+const R: i16 = D+1;
+var Q: [T*G*D]f32;
+var NEW_K: [T*D]f32;
+var NEW_V: [T*D]f32;
+// Dimension-major cache permits vector operations over the local context.
+var K: [D*S]f32;
+var V: [D*S]f32;
+var Y: [T*G*D]f32;
+var ptr_Q: [*]f32 = &Q;
+var ptr_NEW_K: [*]f32 = &NEW_K;
+var ptr_NEW_V: [*]f32 = &NEW_V;
+var ptr_K: [*]f32 = &K;
+var ptr_V: [*]f32 = &V;
+const ptr_Y: [*]f32 = &Y;
+var scores: [G*S]f32;
+var weights: [G*S]f32;
+var local_max: [G]f32;
+var all_max: [P*G]f32;
+var global_max: [G]f32;
+var partial: [G*R]f32;
+var merged: [G*R]f32;
+var flag = @zeros([1]u32);
+var step: i16 = 0;
+var valid: i16 = 0;
+var px: i16 = 0;
+var begin = @zeros([3]u16);
+var end = @zeros([3]u16);
+var times = @zeros([6]u16);
+const ptr_times: [*]u16 = &times;
+var score_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{S} -> scores[i] });
+var weight_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{S} -> weights[i] });
+var key_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{S} -> K[i] });
+var value_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> V[i*S] });
+var num_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> partial[i] });
+
+// BEGIN LOCAL COMPUTE: candidate edits are confined to this region.
+// Range reduction keeps |r| <= 1. Taylor remainder is checked independently.
+// The SDK fallback preserves behavior for more negative inputs and rounding tails.
+fn attention_exp(x: f32) f32 {
+    if ((x < -16.0) or (x > 0.0)) { return math.exp(x); }
+    const r: f32 = x * 0.0625;
+    var v: f32 = 0.0000002755731922398589;
+    v = v*r + 0.0000027557319223985893;
+    v = v*r + 0.0000248015873015873;
+    v = v*r + 0.0001984126984126984;
+    v = v*r + 0.001388888888888889;
+    v = v*r + 0.008333333333333333;
+    v = v*r + 0.041666666666666664;
+    v = v*r + 0.16666666666666666;
+    v = v*r + 0.5;
+    v = v*r + 1.0;
+    v = v*r + 1.0;
+    v = v*v;
+    v = v*v;
+    v = v*v;
+    return v*v;
+}
+
+fn make_logits() void {
+    const inv_scale: f32 = 1.0 / math.sqrt(@as(f32, D));
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        var logits = @increment_dsd_offset(score_dsd, head*S, f32);
+        var keys = @set_dsd_base_addr(key_dsd, &K);
+        @fmovs(logits, 0.0);
+        var dim: i16 = 0;
+        while (dim < D) : (dim += 1) {
+            const q: f32 = Q[(step*G+head)*D+dim] * inv_scale;
+            @fmacs(logits, logits, keys, q);
+            keys = @increment_dsd_offset(keys, S, f32);
+        }
+    }
+}
+
+fn make_partial() void {
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        var denominator: f32 = 0.0;
+        var local_weights = @increment_dsd_offset(weight_dsd, head*S, f32);
+        var logits = @increment_dsd_offset(score_dsd, head*S, f32);
+        @fadds(local_weights, logits, -global_max[head]);
+        var mask_slot: i16 = valid;
+        while (mask_slot < S) : (mask_slot += 1) { weights[head*S+mask_slot] = -1000.0; }
+        @map(attention_exp, local_weights, local_weights);
+        var slot: i16 = 0;
+        while (slot < S) : (slot += 1) {
+            if (slot >= valid) { weights[head*S+slot] = 0.0; }
+            denominator += weights[head*S+slot];
+        }
+        partial[head*R] = denominator;
+        var numerator = @increment_dsd_offset(num_dsd, head*R+1, f32);
+        var values = @set_dsd_base_addr(value_dsd, &V);
+        @fmovs(numerator, 0.0);
+        slot = 0;
+        while (slot < valid) : (slot += 1) {
+            @fmacs(numerator, numerator, values, weights[head*S+slot]);
+            values = @increment_dsd_offset(values, 1, f32);
+        }
+    }
+}
+fn store_output() void {
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        var dim: i16 = 0;
+        while (dim < D) : (dim += 1) {
+            Y[(step*G+head)*D+dim] = merged[head*R+dim+1] / merged[head*R];
+        }
+    }
+}
+fn merge_maxima() void {
+        var head: i16 = 0;
+        while (head < G) : (head += 1) {
+            global_max[head] = -3.4e38;
+            var shard: i16 = 0;
+            while (shard < P) : (shard += 1) {
+                if (all_max[shard*G+head] > global_max[head]) {
+                    global_max[head] = all_max[shard*G+head];
+                }
+            }
+        }
+}
+// END LOCAL COMPUTE
+
+// Trusted control: cache writes, causal maxima, collectives, output dispatch and timers.
+fn compute() void {
+    mpi.init();
+    px = @as(i16, mpi.pe_id);
+    step = 0;
+    clock.enable_tsc();
+    clock.get_timestamp(&begin);
+    // The coordinator's own interval encloses dispatch and complete outputs.
+    mpi.broadcast(ROOT, @ptrcast([*]u32, &flag), 1, BEGIN);
+}
+
+task begin_token() void {
+    const position: i16 = L+step;
+    if (position/S == px) {
+        var dim: i16 = 0;
+        while (dim < D) : (dim += 1) {
+            K[dim*S+position%S] = NEW_K[step*D+dim];
+            V[dim*S+position%S] = NEW_V[step*D+dim];
+        }
+    }
+    valid = position-px*S+1;
+    if (valid < 0) { valid = 0; }
+    if (valid > S) { valid = S; }
+    make_logits();
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        local_max[head] = -3.4e38;
+        var slot: i16 = 0;
+        while (slot < valid) : (slot += 1) {
+            if (scores[head*S+slot] > local_max[head]) {
+                local_max[head] = scores[head*S+slot];
+            }
+        }
+    }
+    mpi.gather(ROOT, @ptrcast([*]u32, &local_max), @ptrcast([*]u32, &all_max),
+               @as(u16, G), MAXIMA);
+}
+
+task after_maxima() void {
+    if (px == P-1) {
+        merge_maxima();
+    }
+    mpi.broadcast(ROOT, @ptrcast([*]u32, &global_max), @as(u16, G), PARTIAL);
+}
+
+task after_broadcast() void {
+    make_partial();
+    mpi.reduce_fadds(ROOT, @ptrcast([*]f32, &partial), @ptrcast([*]f32, &merged),
+                     @as(u16, G*R), OUTPUT);
+}
+
+task after_reduce() void {
+    if (px == P-1) {
+        store_output();
+    }
+    step += 1;
+    if (step < T) {
+        @activate(BEGIN);
+    } else {
+        clock.get_timestamp(&end);
+        clock.disable_tsc();
+        for (@range(i16, 3)) |i| { times[i] = begin[i]; times[i+3] = end[i]; }
+        sys.unblock_cmd_stream();
+    }
+}
+
+comptime {
+    @bind_local_task(begin_token, BEGIN);
+    @bind_local_task(after_maxima, MAXIMA);
+    @bind_local_task(after_broadcast, PARTIAL);
+    @bind_local_task(after_reduce, OUTPUT);
+    @export_symbol(ptr_Q, "Q");
+    @export_symbol(ptr_NEW_K, "NEW_K");
+    @export_symbol(ptr_NEW_V, "NEW_V");
+    @export_symbol(ptr_K, "K");
+    @export_symbol(ptr_V, "V");
+    @export_symbol(ptr_Y, "Y");
+    @export_symbol(ptr_times, "times");
+    @export_symbol(compute);
+}

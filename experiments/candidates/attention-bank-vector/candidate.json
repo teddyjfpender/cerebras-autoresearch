@@ -1,0 +1,19 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.bank-offset-vector-softmax",
+  "hypothesis": "Extend vector softmax/normalization and DSR reuse with an aligned scratch QK accumulator whose bank offset differs from K. Copy each completed score vector to the fixed scores buffer; expect lower SRAM bank conflicts despite one vector copy per head.",
+  "falsification": "Reject any full six-case or fresh-pair failure, no gain versus the previous stage, memory growth over 10% versus the original baseline, or changed PE budget, precision, state, work or timing.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "ChatGPT Work",
+  "qualification_at_creation": "unmeasured in current evaluator/SDK route",
+  "ported_from_commit": "5e818e10b7740daaa0d5e2962f7010100385e0e1",
+  "ported_from_pr": "https://github.com/teddyjfpender/cerebras-autoresearch/pull/1"
+}

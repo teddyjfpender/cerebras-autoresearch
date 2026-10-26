@@ -10,6 +10,8 @@ from .paths import ROOT, contained, tree_digest, write_json
 
 def baseline_source(profile):
     kind = profile["adapter"]
+    if kind == "decode_attention":
+        return ROOT / "kernels/attention/sharded-gqa", {"repository": "local"}
     if kind == "pipeline":
         return ROOT / "kernels/composed/matvec-epilogue", {"repository": "local"}
     if kind == "recurrent_gdn_full":
@@ -152,6 +154,26 @@ def functions(text):
 
 
 def verify_timing_contract(original, edited, kind):
+    if kind == "decode_attention":
+        # Freeze layout and all data declarations, timers, causal masking, cache
+        # updates, collectives and output dispatch. Local arithmetic, including
+        # normalization and output stores, may vary inside the guarded region.
+        begin = "// BEGIN LOCAL COMPUTE: candidate edits are confined to this region."
+        end = "// END LOCAL COMPUTE"
+        if begin not in original:
+            if edited != original:
+                raise ValueError("Candidate changed protected attention layout")
+            return
+        for text in (original, edited):
+            if text.count(begin) != 1 or text.count(end) != 1:
+                raise ValueError("Candidate changed protected attention markers")
+        before, after = original.split(begin)
+        _, tail = after.split(end)
+        candidate_before, candidate_after = edited.split(begin)
+        _, candidate_tail = candidate_after.split(end)
+        if before != candidate_before or tail != candidate_tail:
+            raise ValueError("Candidate changed protected attention control")
+        return
     names = (
         {"compute", "snapshot"}
         if kind in ("pipeline", "gated_mlp", "decoder")
@@ -192,6 +214,8 @@ def overlay(folder, candidate, profile, baseline_hash):
     existing = {str(p.relative_to(folder)) for p in folder.rglob("*.csl")}
     for path in candidate.rglob("*.csl"):
         relative = str(path.relative_to(candidate))
+        if profile["adapter"] == "decode_attention" and relative not in existing:
+            raise ValueError("Attention candidates cannot add unreviewed CSL modules")
         target = contained(folder, relative)
         if relative in existing and profile["adapter"] != "sdk":
             verify_timing_contract(target.read_text(), path.read_text(), profile["adapter"])
@@ -254,7 +278,7 @@ def prepare(profile, folder, variant, candidate=None):
             params = f"K:128,V:{dims['VT']},T:{dims['T']},W:{width},H:{height}"
         elif kind == "recurrent_gdn":
             params = ",".join(f"{key}:{dims[key]}" for key in ("K", "V", "T"))
-        elif kind in ("gated_mlp", "decoder"):
+        elif kind in ("gated_mlp", "decoder", "decode_attention"):
             params = ",".join(f"{key}:{value}" for key, value in dims.items())
         else:
             mode = (

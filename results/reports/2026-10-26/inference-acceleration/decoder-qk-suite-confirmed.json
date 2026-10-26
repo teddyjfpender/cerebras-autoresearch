@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_suite_improvement",
+  "created_utc": "2026-10-26T06:14:55.070728+00:00",
+  "suite": "decoder-context-stress",
+  "profiles": [
+    "decoder.h16-f32-ctx4",
+    "decoder.h16-f32-ctx12",
+    "decoder.h16-f32-ctx28"
+  ],
+  "conservative_geometric_mean_speedup": 3.0666660354690936,
+  "worst_confirmed_speedup": 2.9972993100964884,
+  "decision": {
+    "status": "confirmed_suite_improvement",
+    "initial": {
+      "geometric_mean_speedup": 3.0666660354690936,
+      "worst_speedup": 2.9972993100964884,
+      "profiles": [
+        "decoder.h16-f32-ctx4",
+        "decoder.h16-f32-ctx12",
+        "decoder.h16-f32-ctx28"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "decoder.h16-f32-ctx4",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T052225Z-decoder.h16-f32-ctx4-22da17e2/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T060913Z-decoder.h16-f32-ctx4-f015af9c/result.json",
+          "speedup": 2.9972993100964884,
+          "memory_ratio": 1.0091533180778032,
+          "cycle_reduction_percent": 66.63663196293172,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "decoder.h16-f32-ctx12",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T052629Z-decoder.h16-f32-ctx12-c17f498e/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T061046Z-decoder.h16-f32-ctx12-8cf5ca75/result.json",
+          "speedup": 3.1756957054584887,
+          "memory_ratio": 0.996135265700483,
+          "cycle_reduction_percent": 68.51083690792012,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "decoder.h16-f32-ctx28",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T053053Z-decoder.h16-f32-ctx28-256f82ee/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T061244Z-decoder.h16-f32-ctx28-2ee24032/result.json",
+          "speedup": 3.0299150634507033,
+          "memory_ratio": 0.9970523212969786,
+          "cycle_reduction_percent": 66.99577449999137,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "confirmation": {
+      "geometric_mean_speedup": 3.0666660354690936,
+      "worst_speedup": 2.9972993100964884,
+      "profiles": [
+        "decoder.h16-f32-ctx4",
+        "decoder.h16-f32-ctx12",
+        "decoder.h16-f32-ctx28"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "decoder.h16-f32-ctx4",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T052415Z-decoder.h16-f32-ctx4-50a29619/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T060945Z-decoder.h16-f32-ctx4-52bbde16/result.json",
+          "speedup": 2.9972993100964884,
+          "memory_ratio": 1.0091533180778032,
+          "cycle_reduction_percent": 66.63663196293172,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "decoder.h16-f32-ctx12",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T052848Z-decoder.h16-f32-ctx12-8fa4a4be/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T061128Z-decoder.h16-f32-ctx12-9b33128d/result.json",
+          "speedup": 3.1756957054584887,
+          "memory_ratio": 0.996135265700483,
+          "cycle_reduction_percent": 68.51083690792012,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "decoder.h16-f32-ctx28",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T053412Z-decoder.h16-f32-ctx28-10570109/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T061345Z-decoder.h16-f32-ctx28-d57304a1/result.json",
+          "speedup": 3.0299150634507033,
+          "memory_ratio": 0.9970523212969786,
+          "cycle_reduction_percent": 66.99577449999137,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "cell_evidence": {
+      "decoder.h16-f32-ctx4": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 2.9972993100964884,
+        "confirmation_speedup": 2.9972993100964884
+      },
+      "decoder.h16-f32-ctx12": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 3.1756957054584887,
+        "confirmation_speedup": 3.1756957054584887
+      },
+      "decoder.h16-f32-ctx28": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 3.0299150634507033,
+        "confirmation_speedup": 3.0299150634507033
+      }
+    },
+    "scope": "exact complete suite coverage",
+    "qwen_tps_result": false,
+    "schema_version": 2,
+    "record_type": "suite_confirmation",
+    "inputs": {
+      "initial_baseline": "runs/v2/20261026T061451Z-suite-reuse-5a79636b/result.json",
+      "initial_candidate": "runs/v2/20261026T061451Z-suite-reuse-e6b9b2ad/result.json",
+      "fresh_baseline": "runs/v2/20261026T061451Z-suite-reuse-7176cb12/result.json",
+      "fresh_candidate": "runs/v2/20261026T061452Z-suite-reuse-f514d826/result.json"
+    },
+    "budgets": {
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "regression_limit": 1.02
+    },
+    "receipt": "runs/v2/20261026T061453Z-suite_confirmation-6fb5baf3/result.json"
+  },
+  "state": {
+    "path": "runs/campaigns/inference-acceleration/decoder-qk-suite-state.json",
+    "sha256": "7b3998de1198c5211997c3fa241fffda5d03bf6ffb209a0fdd6856888655a0e9"
+  },
+  "arms": {
+    "initial_baseline": {
+      "path": "runs/v2/20261026T061451Z-suite-reuse-5a79636b/result.json",
+      "sha256": "e184615ec5d862a50803b281a21eef4c68b3cbe6cc3a2c4feac01f134c8cbfcc"
+    },
+    "initial_candidate": {
+      "path": "runs/v2/20261026T061451Z-suite-reuse-e6b9b2ad/result.json",
+      "sha256": "afee005cd3e41c1d71e98a9222b4b87729f7194d7b1a34c4d4cdd076dc82ea4a"
+    },
+    "fresh_baseline": {
+      "path": "runs/v2/20261026T061451Z-suite-reuse-7176cb12/result.json",
+      "sha256": "6673eacbf7b7f3f93aeb03b65086f55762d045144599566e9ea9331802053882"
+    },
+    "fresh_candidate": {
+      "path": "runs/v2/20261026T061452Z-suite-reuse-f514d826/result.json",
+      "sha256": "33e80f96ae5eb41ac009eeded2e1cbbf9bac25753806476da327e1283d68fbdb"
+    }
+  },
+  "scope": "Exact named-suite coverage from separate matched full/fresh profile runs. Implementations are explicit per profile; not a combined kernel/model or hardware TPS.",
+  "qwen_tps_result": false
+}

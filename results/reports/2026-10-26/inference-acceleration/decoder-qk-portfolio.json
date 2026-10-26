@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_decoder_portfolio",
+  "created_utc": "2026-10-26T06:42:01.902752+00:00",
+  "records": [
+    {
+      "profile": "decoder.h16-f32-ctx4",
+      "candidate": "decoder-vector-softmax-reciprocal",
+      "confirmation": {
+        "path": "runs/v2/20261026T061017Z-confirmation-d192533c/result.json",
+        "sha256": "651cce5bb4b73ccec5cb27975e6239639200a5256c9e8ada15ce2b98c3e25b41"
+      },
+      "conservative_speedup": 2.9972993100964884,
+      "matched_full_incumbent_speedup": 1.0,
+      "arms": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T052225Z-decoder.h16-f32-ctx4-22da17e2/result.json",
+          "sha256": "eb552671e2dc00be9fe31201460fcf016175b11e219229385062c55538b3453d"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T060913Z-decoder.h16-f32-ctx4-f015af9c/result.json",
+          "sha256": "72ed842570513a70b497458b0d9b22af7d185d7b40ce921dfb011a128a5105e8"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T052415Z-decoder.h16-f32-ctx4-50a29619/result.json",
+          "sha256": "80686ea869b6d7a48edcb50217078e77ca9848a0f3b888d4f475f3389141d279"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T060945Z-decoder.h16-f32-ctx4-52bbde16/result.json",
+          "sha256": "7c15167c5d726cd55549b7fdd61902a65d090c2a30e656b47054ff66b1affb05"
+        }
+      },
+      "metrics": {
+        "initial_baseline": {
+          "max_local_cycles": 366243.0,
+          "mean_local_cycles": 366243.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.0039008380317932523,
+          "cycles_per_token": 91560.75,
+          "max_program_object_bytes_per_pe": 27968,
+          "work_units_per_cycle": 0.060462589046070506,
+          "pe_cycles": 366243.0,
+          "experiment_wall_seconds": 50.95531888100015
+        },
+        "initial_candidate": {
+          "max_local_cycles": 122191.0,
+          "mean_local_cycles": 122191.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.007279346982371036,
+          "cycles_per_token": 30547.75,
+          "max_program_object_bytes_per_pe": 28224,
+          "work_units_per_cycle": 0.18122447643443462,
+          "pe_cycles": 122191.0,
+          "experiment_wall_seconds": 31.70546152900124
+        },
+        "fresh_baseline": {
+          "max_local_cycles": 366243.0,
+          "mean_local_cycles": 366243.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.0062114368038414525,
+          "cycles_per_token": 91560.75,
+          "max_program_object_bytes_per_pe": 27968,
+          "work_units_per_cycle": 0.060462589046070506,
+          "pe_cycles": 366243.0,
+          "experiment_wall_seconds": 48.77982534399962
+        },
+        "fresh_candidate": {
+          "max_local_cycles": 122191.0,
+          "mean_local_cycles": 122191.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.00965997457781083,
+          "cycles_per_token": 30547.75,
+          "max_program_object_bytes_per_pe": 28224,
+          "work_units_per_cycle": 0.18122447643443462,
+          "pe_cycles": 122191.0,
+          "experiment_wall_seconds": 31.841703485999915
+        }
+      }
+    },
+    {
+      "profile": "decoder.h16-f32-ctx12",
+      "candidate": "decoder-vector-qk",
+      "confirmation": {
+        "path": "runs/v2/20261026T061209Z-confirmation-c842b93c/result.json",
+        "sha256": "0642e3ee9f85c0bfaaa28ff5b1cef7c29a3d8c3a31d81fbec4bdef629b8c9f5e"
+      },
+      "conservative_speedup": 3.1756957054584887,
+      "matched_full_incumbent_speedup": 1.2066102445315658,
+      "arms": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T052629Z-decoder.h16-f32-ctx12-c17f498e/result.json",
+          "sha256": "15bf4f26a3975c29b9907ecf60a2b714a4a3c7a1e4c36d9d4a5053528c5f659f"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T061046Z-decoder.h16-f32-ctx12-8cf5ca75/result.json",
+          "sha256": "b7d1d48f6847fbdc26fd53d1d61d051a86de59b7536ae706f4538407ae71f11c"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T052848Z-decoder.h16-f32-ctx12-8fa4a4be/result.json",
+          "sha256": "536899d025c56f28c868339c62878b40af4fae7506e077ce52ef985b0badeb8d"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T061128Z-decoder.h16-f32-ctx12-9b33128d/result.json",
+          "sha256": "7c14a1bc6d444b241f37c96c88f830564f1b8dd37725e50536db2aa81fc7d216"
+        }
+      },
+      "metrics": {
+        "initial_baseline": {
+          "max_local_cycles": 494929.0,
+          "mean_local_cycles": 494929.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.005623264885469702,
+          "cycles_per_token": 123732.25,
+          "max_program_object_bytes_per_pe": 33120,
+          "work_units_per_cycle": 0.048879738305898424,
+          "pe_cycles": 494929.0,
+          "experiment_wall_seconds": 64.38053248599977
+        },
+        "initial_candidate": {
+          "max_local_cycles": 155849.0,
+          "mean_local_cycles": 155849.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.008880674896866723,
+          "cycles_per_token": 38962.25,
+          "max_program_object_bytes_per_pe": 32992,
+          "work_units_per_cycle": 0.1552271750219764,
+          "pe_cycles": 155849.0,
+          "experiment_wall_seconds": 41.56308699900001
+        },
+        "fresh_baseline": {
+          "max_local_cycles": 494929.0,
+          "mean_local_cycles": 494929.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.007085367359238633,
+          "cycles_per_token": 123732.25,
+          "max_program_object_bytes_per_pe": 33120,
+          "work_units_per_cycle": 0.048879738305898424,
+          "pe_cycles": 494929.0,
+          "experiment_wall_seconds": 75.00543556499974
+        },
+        "fresh_candidate": {
+          "max_local_cycles": 155849.0,
+          "mean_local_cycles": 155849.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.007062263152491935,
+          "cycles_per_token": 38962.25,
+          "max_program_object_bytes_per_pe": 32992,
+          "work_units_per_cycle": 0.1552271750219764,
+          "pe_cycles": 155849.0,
+          "experiment_wall_seconds": 40.95496670800003
+        }
+      }
+    },
+    {
+      "profile": "decoder.h16-f32-ctx28",
+      "candidate": "decoder-vector-qk",
+      "confirmation": {
+        "path": "runs/v2/20261026T061447Z-confirmation-0c64dc3c/result.json",
+        "sha256": "50758c5e0c9b58cdcff8f4d78696d2e3a6e39fbc223eb518f2a7efa1a8c49dd1"
+      },
+      "conservative_speedup": 3.0299150634507033,
+      "matched_full_incumbent_speedup": 1.287809651917214,
+      "arms": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T053053Z-decoder.h16-f32-ctx28-256f82ee/result.json",
+          "sha256": "84c899156c21ec61d89f1ff7780c6d196c664e323a56fb03dd8e5e938561b0c8"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T061244Z-decoder.h16-f32-ctx28-2ee24032/result.json",
+          "sha256": "4671c266b57c9210bd2198b92af72c5a68f6a10ff42c26f740e3385794d204d1"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T053412Z-decoder.h16-f32-ctx28-10570109/result.json",
+          "sha256": "db57f4fd045b79695463bf171b686cb2563038b6c1acd8a33eae67591710a166"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T061345Z-decoder.h16-f32-ctx28-d57304a1/result.json",
+          "sha256": "942afc3454454ec31b0efafa8ef11d022e4cc35e239a747a962bfee033303be3"
+        }
+      },
+      "metrics": {
+        "initial_baseline": {
+          "max_local_cycles": 752337.0,
+          "mean_local_cycles": 752337.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.0057231350666339074,
+          "cycles_per_token": 188084.25,
+          "max_program_object_bytes_per_pe": 43424,
+          "work_units_per_cycle": 0.03760017119987452,
+          "pe_cycles": 752337.0,
+          "experiment_wall_seconds": 97.16788618700002
+        },
+        "initial_candidate": {
+          "max_local_cycles": 248303.0,
+          "mean_local_cycles": 248303.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.007422467305720439,
+          "cycles_per_token": 62075.75,
+          "max_program_object_bytes_per_pe": 43296,
+          "work_units_per_cycle": 0.11392532510682513,
+          "pe_cycles": 248303.0,
+          "experiment_wall_seconds": 61.11119209700064
+        },
+        "fresh_baseline": {
+          "max_local_cycles": 752337.0,
+          "mean_local_cycles": 752337.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.004872315048562881,
+          "cycles_per_token": 188084.25,
+          "max_program_object_bytes_per_pe": 43424,
+          "work_units_per_cycle": 0.03760017119987452,
+          "pe_cycles": 752337.0,
+          "experiment_wall_seconds": 94.85483107500022
+        },
+        "fresh_candidate": {
+          "max_local_cycles": 248303.0,
+          "mean_local_cycles": 248303.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.007808221872153843,
+          "cycles_per_token": 62075.75,
+          "max_program_object_bytes_per_pe": 43296,
+          "work_units_per_cycle": 0.11392532510682513,
+          "pe_cycles": 248303.0,
+          "experiment_wall_seconds": 60.71235154999795
+        }
+      }
+    }
+  ],
+  "suite": {
+    "path": "results/reports/2026-10-26/inference-acceleration/decoder-qk-suite-confirmed.json",
+    "sha256": "c91d971baf82c30db2c97e5066e623c9175d8c8a543c4886ab3136b7fb26c808"
+  },
+  "numerics": {
+    "path": "results/reports/2026-10-26/inference-acceleration/decoder-qk-followup-numerics.json",
+    "sha256": "39f7696dbe9d1d75dd033c7b08267e728bd122633ce1fc1c22340f8253178a72"
+  },
+  "replayed_case_executions": 54,
+  "scope": "Fixed three-context FP32 one-PE complete decoder portfolio. Short context retains reciprocal-softmax; longer contexts use vector QK. Incremental ratios use full six-case and fresh candidates against the exact same baseline receipts, seeds and evaluator. This does not qualify the QK source on short context, where it only tied in a positive screen. No model/hardware TPS.",
+  "qwen_tps_result": false,
+  "decoder_case_executions": 72,
+  "numerical_replay_scope": "The attached84-case follow-up replay includes72 decoder cases and12 imported64-row prefill baseline cases. Portfolio records and suite confirmation describe only the three decoder profiles."
+}

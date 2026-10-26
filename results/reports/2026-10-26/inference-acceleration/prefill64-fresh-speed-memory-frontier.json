@@ -1,0 +1,736 @@
+{
+  "schema_version": 1,
+  "status": "fresh_paired_frontier_report",
+  "scope": "Fixed-contract simulator cycles and program-object bytes per PE; no hardware/model TPS.",
+  "qualification": "Full six-case runs at both paired seeds, artifact/source checks and matched evaluator. Independent raw-array replay is a separate report.",
+  "dominance": "Within the same track: no worse on both conservative cycles and memory, strictly better on at least one. No scalar weighting or memory-growth eligibility cutoff.",
+  "points": [
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+      "track_sha256": "80319cf0955f28ba1b9d2eca4fd7537d82b6fad9958c82176804737d0aaaee40",
+      "track": {
+        "profile_sha256": "a26d9c71cddc4de24a299adbea4f33492b9acf2dc8ebaa48a3d1af7096586e54",
+        "baseline_source_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+        "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+        "harness_sha256": "dd4a5baa691659f9668f4e863cabad21bffad50f0dd11877b6e28170381a542f",
+        "sdk": {
+          "sdk_release": "2.10.1",
+          "sdk_build": "sdk-202606181328-8faf87a26e",
+          "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+          "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+          "bundled_checksum_verification": "all files passed",
+          "local_sdk_directory": ".sdk/sdk-2.10.1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+          "guest_container_runtime": "singularity-ce version 4.1.1",
+          "host_lima_version": "2.2.1",
+          "example_source_release": "rel-sdk-2.10.0",
+          "execution_platform": {
+            "schema_version": 1,
+            "id": "lima-vz-rosetta-v1",
+            "lima_instance": "cerebras-sdk-rosetta",
+            "hostname": "lima-cerebras-sdk-rosetta",
+            "controller_machine": "aarch64",
+            "virtualization": "vz",
+            "translation": "Rosetta for Linux",
+            "container_runtime": "singularity-ce version 4.1.1",
+            "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+            "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+            "sdk_image_architecture": "x86_64",
+            "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+          },
+          "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+          "controller": {
+            "machine": "aarch64",
+            "hostname": "lima-cerebras-sdk-rosetta",
+            "kernel": "6.8.0-147-generic",
+            "python": "3.12.3"
+          },
+          "installation_evidence": {
+            "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+            "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+          }
+        },
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "architecture": "wse3",
+        "simulator_threads": 1,
+        "compile_command": [
+          "cslc",
+          "./src/layout.csl",
+          "--arch=wse3",
+          "--fabric-dims=11,6",
+          "--fabric-offsets=4,1",
+          "--params=P:4,Mt:16,Kt:68,Nt:20",
+          "-o",
+          "out",
+          "--memcpy",
+          "--channels=1"
+        ],
+        "paired_seeds": [
+          20261061,
+          20261062
+        ]
+      },
+      "profile_contract": {
+        "id": "meshgemm.cold-prefill-ffn-down-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 272,
+          "N": 80
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "candidate": "baseline",
+      "qualification": "full_six_case_two_seed_baseline",
+      "metric": "max_local_cycles",
+      "conservative_speedup": 1.0,
+      "memory_ratio": 1.0,
+      "cycles": 45006.0,
+      "memory_bytes_per_pe": 16208,
+      "per_seed": [
+        {
+          "seed": 20261061,
+          "cycles": 45006.0,
+          "memory_bytes_per_pe": 16208
+        },
+        {
+          "seed": 20261062,
+          "cycles": 45006.0,
+          "memory_bytes_per_pe": 16208
+        }
+      ],
+      "max_fraction_of_error_bound": 0.05476110951404246,
+      "work_units_per_cycle": 61.886859529840464,
+      "work_unit": "arithmetic_operations",
+      "pareto_optimal": true
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "track_sha256": "3bca72063dc6420f7367fc7ea976c69a7168dc3cd004e69d8a5d70ce6aa6ecbd",
+      "track": {
+        "profile_sha256": "d90bd73c4c42a0801dcd56af1b55b550e2404e83bf68de2e36f658bf3c7fb727",
+        "baseline_source_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+        "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+        "harness_sha256": "dd4a5baa691659f9668f4e863cabad21bffad50f0dd11877b6e28170381a542f",
+        "sdk": {
+          "sdk_release": "2.10.1",
+          "sdk_build": "sdk-202606181328-8faf87a26e",
+          "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+          "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+          "bundled_checksum_verification": "all files passed",
+          "local_sdk_directory": ".sdk/sdk-2.10.1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+          "guest_container_runtime": "singularity-ce version 4.1.1",
+          "host_lima_version": "2.2.1",
+          "example_source_release": "rel-sdk-2.10.0",
+          "execution_platform": {
+            "schema_version": 1,
+            "id": "lima-vz-rosetta-v1",
+            "lima_instance": "cerebras-sdk-rosetta",
+            "hostname": "lima-cerebras-sdk-rosetta",
+            "controller_machine": "aarch64",
+            "virtualization": "vz",
+            "translation": "Rosetta for Linux",
+            "container_runtime": "singularity-ce version 4.1.1",
+            "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+            "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+            "sdk_image_architecture": "x86_64",
+            "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+          },
+          "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+          "controller": {
+            "machine": "aarch64",
+            "hostname": "lima-cerebras-sdk-rosetta",
+            "kernel": "6.8.0-147-generic",
+            "python": "3.12.3"
+          },
+          "installation_evidence": {
+            "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+            "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+          }
+        },
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "architecture": "wse3",
+        "simulator_threads": 1,
+        "compile_command": [
+          "cslc",
+          "./src/layout.csl",
+          "--arch=wse3",
+          "--fabric-dims=11,6",
+          "--fabric-offsets=4,1",
+          "--params=P:4,Mt:16,Kt:20,Nt:68",
+          "-o",
+          "out",
+          "--memcpy",
+          "--channels=1"
+        ],
+        "paired_seeds": [
+          20261061,
+          20261062
+        ]
+      },
+      "profile_contract": {
+        "id": "meshgemm.cold-prefill-ffn-up-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 80,
+          "N": 272
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "candidate": "baseline",
+      "qualification": "full_six_case_two_seed_baseline",
+      "metric": "max_local_cycles",
+      "conservative_speedup": 1.0,
+      "memory_ratio": 1.0,
+      "cycles": 34929.0,
+      "memory_bytes_per_pe": 14688,
+      "per_seed": [
+        {
+          "seed": 20261061,
+          "cycles": 34929.0,
+          "memory_bytes_per_pe": 14688
+        },
+        {
+          "seed": 20261062,
+          "cycles": 34929.0,
+          "memory_bytes_per_pe": 14688
+        }
+      ],
+      "max_fraction_of_error_bound": 0.1233024164323806,
+      "work_units_per_cycle": 79.74118926966132,
+      "work_unit": "arithmetic_operations",
+      "pareto_optimal": false
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+      "track_sha256": "80319cf0955f28ba1b9d2eca4fd7537d82b6fad9958c82176804737d0aaaee40",
+      "candidate": "gemm-prefill-dead-weight-gather-v2",
+      "source_sha256": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
+      "qualification": "matched_full_six_case_fresh_pair",
+      "metric": "max_local_cycles",
+      "conservative_speedup": 1.3511663514365486,
+      "memory_ratio": 1.0049358341559724,
+      "default_policy_eligible": true,
+      "default_policy": {
+        "status": "confirmed_improvement",
+        "initial": {
+          "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T075223Z-meshgemm.cold-prefill-ffn-down-batch64-0a67af0a/result.json",
+          "speedup": 1.3511663514365486,
+          "memory_ratio": 1.0049358341559724,
+          "cycle_reduction_percent": 25.98986801759765,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        "confirmation": {
+          "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T075038Z-meshgemm.cold-prefill-ffn-down-batch64-eb80c17a/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T075404Z-meshgemm.cold-prefill-ffn-down-batch64-97666bdd/result.json",
+          "speedup": 1.3511663514365486,
+          "memory_ratio": 1.0049358341559724,
+          "cycle_reduction_percent": 25.98986801759765,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "confirmation_passed",
+          "qwen_tps_result": false
+        },
+        "scope": "one fixed benchmark profile",
+        "qwen_tps_result": false
+      },
+      "receipts": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+          "sha256": "a97b2ccfa587f992d8f5e66b7be41f93454f174782a965d489bdaf70f5fb59d9"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T075223Z-meshgemm.cold-prefill-ffn-down-batch64-0a67af0a/result.json",
+          "sha256": "b4635866043b4dc1df3ec3920124f2d47f8d01f1096b0a78cbb92e553b1057f3"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T075038Z-meshgemm.cold-prefill-ffn-down-batch64-eb80c17a/result.json",
+          "sha256": "8aebfd9c86a4df7c027039048e68a2ef12f5a9d80f780c759d41663a31bdcbaa"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T075404Z-meshgemm.cold-prefill-ffn-down-batch64-97666bdd/result.json",
+          "sha256": "2b03f0754500ebb9958807c0558aa1eec594239775812b9d50a2f2a07d222dca"
+        }
+      },
+      "cycles": 33309.0,
+      "memory_bytes_per_pe": 16288,
+      "per_seed": [
+        {
+          "seed": 20261061,
+          "cycles": 33309.0,
+          "memory_bytes_per_pe": 16288
+        },
+        {
+          "seed": 20261062,
+          "cycles": 33309.0,
+          "memory_bytes_per_pe": 16288
+        }
+      ],
+      "max_fraction_of_error_bound": 0.05476110951404246,
+      "work_units_per_cycle": 83.61944219280075,
+      "work_unit": "arithmetic_operations",
+      "pareto_optimal": false
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+      "track_sha256": "80319cf0955f28ba1b9d2eca4fd7537d82b6fad9958c82176804737d0aaaee40",
+      "candidate": "gemm-prefill-packed-output-alias",
+      "source_sha256": "1a873b1008e67c487c755e1a54c51f149ccbc4b36f2124122fdf9ac6f067dd44",
+      "qualification": "matched_full_six_case_fresh_pair",
+      "metric": "max_local_cycles",
+      "conservative_speedup": 1.353360396932792,
+      "memory_ratio": 1.0009871668311945,
+      "default_policy_eligible": true,
+      "default_policy": {
+        "status": "confirmed_improvement",
+        "initial": {
+          "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T075541Z-meshgemm.cold-prefill-ffn-down-batch64-fce7d0a1/result.json",
+          "speedup": 1.353360396932792,
+          "memory_ratio": 1.0009871668311945,
+          "cycle_reduction_percent": 26.109852019730706,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        "confirmation": {
+          "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T075038Z-meshgemm.cold-prefill-ffn-down-batch64-eb80c17a/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T075717Z-meshgemm.cold-prefill-ffn-down-batch64-02124762/result.json",
+          "speedup": 1.353360396932792,
+          "memory_ratio": 1.0009871668311945,
+          "cycle_reduction_percent": 26.109852019730706,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "confirmation_passed",
+          "qwen_tps_result": false
+        },
+        "scope": "one fixed benchmark profile",
+        "qwen_tps_result": false
+      },
+      "receipts": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+          "sha256": "a97b2ccfa587f992d8f5e66b7be41f93454f174782a965d489bdaf70f5fb59d9"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T075541Z-meshgemm.cold-prefill-ffn-down-batch64-fce7d0a1/result.json",
+          "sha256": "ae5787a1f17c2d34d10119737dd4c9e4e3805b8e53deb37f68837af0996d2db3"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T075038Z-meshgemm.cold-prefill-ffn-down-batch64-eb80c17a/result.json",
+          "sha256": "8aebfd9c86a4df7c027039048e68a2ef12f5a9d80f780c759d41663a31bdcbaa"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T075717Z-meshgemm.cold-prefill-ffn-down-batch64-02124762/result.json",
+          "sha256": "2a8fd2ba206c104fd5a3f8041fef1e046b7c3335464271b4eb791108c5a6e9a3"
+        }
+      },
+      "cycles": 33255.0,
+      "memory_bytes_per_pe": 16224,
+      "per_seed": [
+        {
+          "seed": 20261061,
+          "cycles": 33255.0,
+          "memory_bytes_per_pe": 16224
+        },
+        {
+          "seed": 20261062,
+          "cycles": 33255.0,
+          "memory_bytes_per_pe": 16224
+        }
+      ],
+      "max_fraction_of_error_bound": 0.05476110951404246,
+      "work_units_per_cycle": 83.75522477822884,
+      "work_unit": "arithmetic_operations",
+      "pareto_optimal": true
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+      "track_sha256": "80319cf0955f28ba1b9d2eca4fd7537d82b6fad9958c82176804737d0aaaee40",
+      "candidate": "gemm-row-major-map-k-base",
+      "source_sha256": "d059c2c522dfb5a29ded5274f23b944470fe9bf594ab701b309f6ade3434d442",
+      "qualification": "matched_full_six_case_fresh_pair",
+      "metric": "max_local_cycles",
+      "conservative_speedup": 1.3298073513769058,
+      "memory_ratio": 1.1125370187561698,
+      "default_policy_eligible": false,
+      "default_policy": {
+        "status": "rejected",
+        "initial": {
+          "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T075857Z-meshgemm.cold-prefill-ffn-down-batch64-4f9be280/result.json",
+          "speedup": 1.3298073513769058,
+          "memory_ratio": 1.1125370187561698,
+          "cycle_reduction_percent": 24.801137626094295,
+          "eligible": false,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "rejected",
+          "qwen_tps_result": false
+        },
+        "confirmation": {
+          "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T075038Z-meshgemm.cold-prefill-ffn-down-batch64-eb80c17a/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T080033Z-meshgemm.cold-prefill-ffn-down-batch64-36a0ecf0/result.json",
+          "speedup": 1.3298073513769058,
+          "memory_ratio": 1.1125370187561698,
+          "cycle_reduction_percent": 24.801137626094295,
+          "eligible": false,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "rejected",
+          "qwen_tps_result": false
+        },
+        "scope": "one fixed benchmark profile",
+        "qwen_tps_result": false
+      },
+      "receipts": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+          "sha256": "a97b2ccfa587f992d8f5e66b7be41f93454f174782a965d489bdaf70f5fb59d9"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T075857Z-meshgemm.cold-prefill-ffn-down-batch64-4f9be280/result.json",
+          "sha256": "c24c351018d5efb5106ce479c2a26e4dc8f8d59f7dd713bb9a2ed074d94b9904"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T075038Z-meshgemm.cold-prefill-ffn-down-batch64-eb80c17a/result.json",
+          "sha256": "8aebfd9c86a4df7c027039048e68a2ef12f5a9d80f780c759d41663a31bdcbaa"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T080033Z-meshgemm.cold-prefill-ffn-down-batch64-36a0ecf0/result.json",
+          "sha256": "ac6a3f7d43550fb97e6663a382b2434d25cf4f10bd1f554b39e7387b248ec8a5"
+        }
+      },
+      "cycles": 33844.0,
+      "memory_bytes_per_pe": 18032,
+      "per_seed": [
+        {
+          "seed": 20261061,
+          "cycles": 33844.0,
+          "memory_bytes_per_pe": 18032
+        },
+        {
+          "seed": 20261062,
+          "cycles": 33844.0,
+          "memory_bytes_per_pe": 18032
+        }
+      ],
+      "max_fraction_of_error_bound": 0.05476110951404246,
+      "work_units_per_cycle": 82.29760075641177,
+      "work_unit": "arithmetic_operations",
+      "pareto_optimal": false
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "track_sha256": "3bca72063dc6420f7367fc7ea976c69a7168dc3cd004e69d8a5d70ce6aa6ecbd",
+      "candidate": "gemm-prefill-dead-weight-gather-v2",
+      "source_sha256": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
+      "qualification": "matched_full_six_case_fresh_pair",
+      "metric": "max_local_cycles",
+      "conservative_speedup": 1.0920772886443222,
+      "memory_ratio": 1.0043572984749456,
+      "default_policy_eligible": true,
+      "default_policy": {
+        "status": "confirmed_improvement",
+        "initial": {
+          "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T080208Z-meshgemm.cold-prefill-ffn-up-batch64-39adb44d/result.json",
+          "speedup": 1.0920772886443222,
+          "memory_ratio": 1.0043572984749456,
+          "cycle_reduction_percent": 8.431389389905242,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        "confirmation": {
+          "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T080454Z-meshgemm.cold-prefill-ffn-up-batch64-7904451c/result.json",
+          "speedup": 1.0920772886443222,
+          "memory_ratio": 1.0043572984749456,
+          "cycle_reduction_percent": 8.431389389905242,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "confirmation_passed",
+          "qwen_tps_result": false
+        },
+        "scope": "one fixed benchmark profile",
+        "qwen_tps_result": false
+      },
+      "receipts": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+          "sha256": "76645c00c9a8c4c940393ed0bbfb71046c8f250fe93afeeee8d048321238e18a"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T080208Z-meshgemm.cold-prefill-ffn-up-batch64-39adb44d/result.json",
+          "sha256": "e838adad653fb8cd4261aa9962bc6e19f46ad17ce21dbad785738b5e51320cf3"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+          "sha256": "96e8d12ae6fb594877cd0ffd2327f16c61a86639ce1b289b87ed08175d02386b"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T080454Z-meshgemm.cold-prefill-ffn-up-batch64-7904451c/result.json",
+          "sha256": "02a08350a426d9eebb4989af53b9e465cbc869b2c59f7da443bca64dabcff72d"
+        }
+      },
+      "cycles": 31984.0,
+      "memory_bytes_per_pe": 14752,
+      "per_seed": [
+        {
+          "seed": 20261061,
+          "cycles": 31984.0,
+          "memory_bytes_per_pe": 14752
+        },
+        {
+          "seed": 20261062,
+          "cycles": 31984.0,
+          "memory_bytes_per_pe": 14752
+        }
+      ],
+      "max_fraction_of_error_bound": 0.1233024164323806,
+      "work_units_per_cycle": 87.08354177088545,
+      "work_unit": "arithmetic_operations",
+      "pareto_optimal": false
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "track_sha256": "3bca72063dc6420f7367fc7ea976c69a7168dc3cd004e69d8a5d70ce6aa6ecbd",
+      "candidate": "gemm-prefill-packed-output-alias",
+      "source_sha256": "1a873b1008e67c487c755e1a54c51f149ccbc4b36f2124122fdf9ac6f067dd44",
+      "qualification": "matched_full_six_case_fresh_pair",
+      "metric": "max_local_cycles",
+      "conservative_speedup": 1.0972230948042974,
+      "memory_ratio": 1.0,
+      "default_policy_eligible": true,
+      "default_policy": {
+        "status": "confirmed_improvement",
+        "initial": {
+          "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T080711Z-meshgemm.cold-prefill-ffn-up-batch64-41f2bcc4/result.json",
+          "speedup": 1.0972230948042974,
+          "memory_ratio": 1.0,
+          "cycle_reduction_percent": 8.860831973431827,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        "confirmation": {
+          "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T080928Z-meshgemm.cold-prefill-ffn-up-batch64-e5256083/result.json",
+          "speedup": 1.0972230948042974,
+          "memory_ratio": 1.0,
+          "cycle_reduction_percent": 8.860831973431827,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "confirmation_passed",
+          "qwen_tps_result": false
+        },
+        "scope": "one fixed benchmark profile",
+        "qwen_tps_result": false
+      },
+      "receipts": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+          "sha256": "76645c00c9a8c4c940393ed0bbfb71046c8f250fe93afeeee8d048321238e18a"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T080711Z-meshgemm.cold-prefill-ffn-up-batch64-41f2bcc4/result.json",
+          "sha256": "3544b7d26bffcf71b2b3c7c05f47cc8e911ebeb0e20a4ef10eec5d602892528c"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+          "sha256": "96e8d12ae6fb594877cd0ffd2327f16c61a86639ce1b289b87ed08175d02386b"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T080928Z-meshgemm.cold-prefill-ffn-up-batch64-e5256083/result.json",
+          "sha256": "21322aa0c367ae276b1023f85f5d986c68b10ac7e351f4d12cbb04bdb72bb3ab"
+        }
+      },
+      "cycles": 31834.0,
+      "memory_bytes_per_pe": 14688,
+      "per_seed": [
+        {
+          "seed": 20261061,
+          "cycles": 31834.0,
+          "memory_bytes_per_pe": 14688
+        },
+        {
+          "seed": 20261062,
+          "cycles": 31834.0,
+          "memory_bytes_per_pe": 14688
+        }
+      ],
+      "max_fraction_of_error_bound": 0.1233024164323806,
+      "work_units_per_cycle": 87.493874473833,
+      "work_unit": "arithmetic_operations",
+      "pareto_optimal": true
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "track_sha256": "3bca72063dc6420f7367fc7ea976c69a7168dc3cd004e69d8a5d70ce6aa6ecbd",
+      "candidate": "gemm-row-major-map-k-base",
+      "source_sha256": "d059c2c522dfb5a29ded5274f23b944470fe9bf594ab701b309f6ade3434d442",
+      "qualification": "matched_full_six_case_fresh_pair",
+      "metric": "max_local_cycles",
+      "conservative_speedup": 1.053887698759919,
+      "memory_ratio": 1.2276688453159041,
+      "default_policy_eligible": false,
+      "default_policy": {
+        "status": "rejected",
+        "initial": {
+          "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T081146Z-meshgemm.cold-prefill-ffn-up-batch64-da1f70d1/result.json",
+          "speedup": 1.053887698759919,
+          "memory_ratio": 1.2276688453159041,
+          "cycle_reduction_percent": 5.113229694523169,
+          "eligible": false,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "rejected",
+          "qwen_tps_result": false
+        },
+        "confirmation": {
+          "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T081405Z-meshgemm.cold-prefill-ffn-up-batch64-234036d5/result.json",
+          "speedup": 1.053887698759919,
+          "memory_ratio": 1.2276688453159041,
+          "cycle_reduction_percent": 5.113229694523169,
+          "eligible": false,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "rejected",
+          "qwen_tps_result": false
+        },
+        "scope": "one fixed benchmark profile",
+        "qwen_tps_result": false
+      },
+      "receipts": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+          "sha256": "76645c00c9a8c4c940393ed0bbfb71046c8f250fe93afeeee8d048321238e18a"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T081146Z-meshgemm.cold-prefill-ffn-up-batch64-da1f70d1/result.json",
+          "sha256": "70401c661c0384d4e1549dfff70dc3a1a648330b47e51471e5806c56b6afea72"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+          "sha256": "96e8d12ae6fb594877cd0ffd2327f16c61a86639ce1b289b87ed08175d02386b"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T081405Z-meshgemm.cold-prefill-ffn-up-batch64-234036d5/result.json",
+          "sha256": "341cb0cadb4c616ae73e1e16aac5d2a3edc7d35a15e82662f339cf6e13786eb8"
+        }
+      },
+      "cycles": 33143.0,
+      "memory_bytes_per_pe": 18032,
+      "per_seed": [
+        {
+          "seed": 20261061,
+          "cycles": 33143.0,
+          "memory_bytes_per_pe": 18032
+        },
+        {
+          "seed": 20261062,
+          "cycles": 33143.0,
+          "memory_bytes_per_pe": 18032
+        }
+      ],
+      "max_fraction_of_error_bound": 0.1233024164323806,
+      "work_units_per_cycle": 84.03825845578251,
+      "work_unit": "arithmetic_operations",
+      "pareto_optimal": false
+    }
+  ],
+  "qwen_tps_result": false,
+  "manifest_sha256": "9124b9aa3caca51a7153660ce2335c8c9a22044f79af14066ea1312d4f9b75eb",
+  "reporter_sha256": "a46c3b92a6c6d5c45a8b8b40b4000eee67d8b21b7e66df65a4c37ebb874d1659"
+}

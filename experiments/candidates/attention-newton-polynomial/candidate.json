@@ -1,0 +1,17 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128-latency32",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.dsr-newton-bounded-exp",
+  "hypothesis": "Revisit bounded exponential evaluation after the descriptor/bank/vector/Newton bottlenecks have been removed. Retain the parent's QK/PV and exact ascending-term work; use the existing degree-ten exp(x/16) with four squarings only on[-16,0], and unchanged SDK exp elsewhere. This tests whether scalar exponentials now dominate the faster complete attention path.",
+  "falsification": "Reject any original1e-4 output/cache-bound failure, combined exp/reciprocal property failure, changed FP32 precision/PE/bounds/timers/causal work, shutdown failure, more than1.10x memory or failed fresh six-case paired confirmation. Do not retain over a faster incumbent; no positive screen alone is confirmation.",
+  "parent_candidate": "attention-newton",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

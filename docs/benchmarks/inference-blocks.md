@@ -120,3 +120,14 @@ tools/sdk-run python3 research.py suite decoder --variant baseline --seed 101
 The local source is the measured baseline, separate from candidate overlays.
 Timer/sequence/snapshot control functions are protected. Review other source
 changes for equivalent work: text guards do not formally prove semantics.
+
+
+## Added context and prefill workloads
+
+The original four-track suites remain frozen. `decoder-context-stress` adds
+`decoder.h16-f32-ctx28`, a full context 28-to32 sequence with all four cache-prefix
+snapshots, unchanged FP32 arithmetic and one PE. `prefill-ffn-batch64` adds
+64-row versions of both cold FFN projection shapes on the same 4×4 PE budget.
+These are distinct workloads requiring new baselines, not extensions of earlier
+measured claims. Distributed attention has its own [GQA contract](decode-attention.md),
+including a different coordinator-clock primary metric.

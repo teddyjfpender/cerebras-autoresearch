@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "full_fresh_frontier_pilot",
+  "name": "cold-prefill64-speed-memory-frontier",
+  "seed": 20261061,
+  "policy": "Full six-case initial/fresh qualification of every correct point, independently of the default 1.05x/1.10x retention policy. No relative memory-growth cutoff for inclusion in the frontier. Same workload, precision, timing and PE budget. User authorized 2026-10-26.",
+  "candidates": [
+    "gemm-prefill-dead-weight-gather-v2",
+    "gemm-prefill-packed-output-alias",
+    "gemm-prefill-dead-weight-bank-offset",
+    "gemm-row-major-map-k-base"
+  ],
+  "profiles": [
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+      "initial_baseline": {
+        "path": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+        "sha256": "a97b2ccfa587f992d8f5e66b7be41f93454f174782a965d489bdaf70f5fb59d9"
+      }
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "initial_baseline": {
+        "path": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+        "sha256": "76645c00c9a8c4c940393ed0bbfb71046c8f250fe93afeeee8d048321238e18a"
+      },
+      "fresh_baseline": {
+        "path": "runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+        "sha256": "96e8d12ae6fb594877cd0ffd2327f16c61a86639ce1b289b87ed08175d02386b"
+      }
+    }
+  ]
+}

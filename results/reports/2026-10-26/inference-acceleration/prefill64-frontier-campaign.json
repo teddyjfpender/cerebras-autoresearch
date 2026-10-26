@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "status": "prefill_frontier_full_fresh_complete",
+  "plan_sha256": "d744dfb97d440d26bef337b33028f0a63cdb315cc0e12e0886d1b5efec31aa4f",
+  "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+  "candidate_identities": {
+    "gemm-prefill-dead-weight-gather-v2": {
+      "source": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
+      "manifest": "f47e37ac3b247608514ccf4249b45e30ad5fa1292a269241deebb2afe2ec1ca4"
+    },
+    "gemm-prefill-packed-output-alias": {
+      "source": "1a873b1008e67c487c755e1a54c51f149ccbc4b36f2124122fdf9ac6f067dd44",
+      "manifest": "e458b9c4709d22a41029d06997232c0f567a898558fab4f5b8e80165871c9e2d"
+    },
+    "gemm-prefill-dead-weight-bank-offset": {
+      "source": "50585d8cabc01fbc6d1119df479b2a5058ef175581912f34929ed2acf0aed7f0",
+      "manifest": "3d7dd279ed2768dcf26a237ee23a16fdd5ff3720c228ce23d185af3680b10913"
+    },
+    "gemm-row-major-map-k-base": {
+      "source": "d059c2c522dfb5a29ded5274f23b944470fe9bf594ab701b309f6ade3434d442",
+      "manifest": "30a11110b132b715309f2dd2cf06e815728915c956a44522ea5a0a6b905f5678"
+    }
+  },
+  "qualified_point_count": 6,
+  "points": [
+    {
+      "label": "gemm-prefill-dead-weight-gather-v2",
+      "initial_baseline": {
+        "path": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+        "sha256": "a97b2ccfa587f992d8f5e66b7be41f93454f174782a965d489bdaf70f5fb59d9"
+      },
+      "initial_candidate": {
+        "path": "runs/v2/20261026T075223Z-meshgemm.cold-prefill-ffn-down-batch64-0a67af0a/result.json",
+        "sha256": "b4635866043b4dc1df3ec3920124f2d47f8d01f1096b0a78cbb92e553b1057f3"
+      },
+      "fresh_baseline": {
+        "path": "runs/v2/20261026T075038Z-meshgemm.cold-prefill-ffn-down-batch64-eb80c17a/result.json",
+        "sha256": "8aebfd9c86a4df7c027039048e68a2ef12f5a9d80f780c759d41663a31bdcbaa"
+      },
+      "fresh_candidate": {
+        "path": "runs/v2/20261026T075404Z-meshgemm.cold-prefill-ffn-down-batch64-97666bdd/result.json",
+        "sha256": "2b03f0754500ebb9958807c0558aa1eec594239775812b9d50a2f2a07d222dca"
+      }
+    },
+    {
+      "label": "gemm-prefill-packed-output-alias",
+      "initial_baseline": {
+        "path": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+        "sha256": "a97b2ccfa587f992d8f5e66b7be41f93454f174782a965d489bdaf70f5fb59d9"
+      },
+      "initial_candidate": {
+        "path": "runs/v2/20261026T075541Z-meshgemm.cold-prefill-ffn-down-batch64-fce7d0a1/result.json",
+        "sha256": "ae5787a1f17c2d34d10119737dd4c9e4e3805b8e53deb37f68837af0996d2db3"
+      },
+      "fresh_baseline": {
+        "path": "runs/v2/20261026T075038Z-meshgemm.cold-prefill-ffn-down-batch64-eb80c17a/result.json",
+        "sha256": "8aebfd9c86a4df7c027039048e68a2ef12f5a9d80f780c759d41663a31bdcbaa"
+      },
+      "fresh_candidate": {
+        "path": "runs/v2/20261026T075717Z-meshgemm.cold-prefill-ffn-down-batch64-02124762/result.json",
+        "sha256": "2a8fd2ba206c104fd5a3f8041fef1e046b7c3335464271b4eb791108c5a6e9a3"
+      }
+    },
+    {
+      "label": "gemm-row-major-map-k-base",
+      "initial_baseline": {
+        "path": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+        "sha256": "a97b2ccfa587f992d8f5e66b7be41f93454f174782a965d489bdaf70f5fb59d9"
+      },
+      "initial_candidate": {
+        "path": "runs/v2/20261026T075857Z-meshgemm.cold-prefill-ffn-down-batch64-4f9be280/result.json",
+        "sha256": "c24c351018d5efb5106ce479c2a26e4dc8f8d59f7dd713bb9a2ed074d94b9904"
+      },
+      "fresh_baseline": {
+        "path": "runs/v2/20261026T075038Z-meshgemm.cold-prefill-ffn-down-batch64-eb80c17a/result.json",
+        "sha256": "8aebfd9c86a4df7c027039048e68a2ef12f5a9d80f780c759d41663a31bdcbaa"
+      },
+      "fresh_candidate": {
+        "path": "runs/v2/20261026T080033Z-meshgemm.cold-prefill-ffn-down-batch64-36a0ecf0/result.json",
+        "sha256": "ac6a3f7d43550fb97e6663a382b2434d25cf4f10bd1f554b39e7387b248ec8a5"
+      }
+    },
+    {
+      "label": "gemm-prefill-dead-weight-gather-v2",
+      "initial_baseline": {
+        "path": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+        "sha256": "76645c00c9a8c4c940393ed0bbfb71046c8f250fe93afeeee8d048321238e18a"
+      },
+      "initial_candidate": {
+        "path": "runs/v2/20261026T080208Z-meshgemm.cold-prefill-ffn-up-batch64-39adb44d/result.json",
+        "sha256": "e838adad653fb8cd4261aa9962bc6e19f46ad17ce21dbad785738b5e51320cf3"
+      },
+      "fresh_baseline": {
+        "path": "runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+        "sha256": "96e8d12ae6fb594877cd0ffd2327f16c61a86639ce1b289b87ed08175d02386b"
+      },
+      "fresh_candidate": {
+        "path": "runs/v2/20261026T080454Z-meshgemm.cold-prefill-ffn-up-batch64-7904451c/result.json",
+        "sha256": "02a08350a426d9eebb4989af53b9e465cbc869b2c59f7da443bca64dabcff72d"
+      }
+    },
+    {
+      "label": "gemm-prefill-packed-output-alias",
+      "initial_baseline": {
+        "path": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+        "sha256": "76645c00c9a8c4c940393ed0bbfb71046c8f250fe93afeeee8d048321238e18a"
+      },
+      "initial_candidate": {
+        "path": "runs/v2/20261026T080711Z-meshgemm.cold-prefill-ffn-up-batch64-41f2bcc4/result.json",
+        "sha256": "3544b7d26bffcf71b2b3c7c05f47cc8e911ebeb0e20a4ef10eec5d602892528c"
+      },
+      "fresh_baseline": {
+        "path": "runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+        "sha256": "96e8d12ae6fb594877cd0ffd2327f16c61a86639ce1b289b87ed08175d02386b"
+      },
+      "fresh_candidate": {
+        "path": "runs/v2/20261026T080928Z-meshgemm.cold-prefill-ffn-up-batch64-e5256083/result.json",
+        "sha256": "21322aa0c367ae276b1023f85f5d986c68b10ac7e351f4d12cbb04bdb72bb3ab"
+      }
+    },
+    {
+      "label": "gemm-row-major-map-k-base",
+      "initial_baseline": {
+        "path": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+        "sha256": "76645c00c9a8c4c940393ed0bbfb71046c8f250fe93afeeee8d048321238e18a"
+      },
+      "initial_candidate": {
+        "path": "runs/v2/20261026T081146Z-meshgemm.cold-prefill-ffn-up-batch64-da1f70d1/result.json",
+        "sha256": "70401c661c0384d4e1549dfff70dc3a1a648330b47e51471e5806c56b6afea72"
+      },
+      "fresh_baseline": {
+        "path": "runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+        "sha256": "96e8d12ae6fb594877cd0ffd2327f16c61a86639ce1b289b87ed08175d02386b"
+      },
+      "fresh_candidate": {
+        "path": "runs/v2/20261026T081405Z-meshgemm.cold-prefill-ffn-up-batch64-234036d5/result.json",
+        "sha256": "341cb0cadb4c616ae73e1e16aac5d2a3edc7d35a15e82662f339cf6e13786eb8"
+      }
+    }
+  ],
+  "failures": [
+    {
+      "operation": "meshgemm.cold-prefill-ffn-down-batch64/gemm-prefill-dead-weight-bank-offset/20261061",
+      "receipt": {
+        "path": "runs/v2/20261026T075855Z-meshgemm.cold-prefill-ffn-down-batch64-87bb9860/result.json",
+        "sha256": "53be063ef54615e0a5b6a73c158bd5106b1528a7d899bee924f9d235704c08a0"
+      },
+      "error": "Step failed (1): /Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T075855Z-meshgemm.cold-prefill-ffn-down-batch64-87bb9860/work/step-0.log"
+    },
+    {
+      "operation": "meshgemm.cold-prefill-ffn-up-batch64/gemm-prefill-dead-weight-bank-offset/20261061",
+      "receipt": {
+        "path": "runs/v2/20261026T081144Z-meshgemm.cold-prefill-ffn-up-batch64-ce670650/result.json",
+        "sha256": "9213bc3ff5167ed0c43e7665177746322813804993b729ef3bfbb0ab64956712"
+      },
+      "error": "Step failed (1): /Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T081144Z-meshgemm.cold-prefill-ffn-up-batch64-ce670650/work/step-0.log"
+    }
+  ],
+  "decisions": [
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+      "candidate": "gemm-prefill-dead-weight-gather-v2",
+      "receipt": "runs/v2/20261026T075540Z-confirmation-5b3675c7/result.json",
+      "status": "confirmed_improvement"
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+      "candidate": "gemm-prefill-packed-output-alias",
+      "receipt": "runs/v2/20261026T075854Z-confirmation-cf645791/result.json",
+      "status": "confirmed_improvement"
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+      "candidate": "gemm-row-major-map-k-base",
+      "receipt": "runs/v2/20261026T080207Z-confirmation-6f78c600/result.json",
+      "status": "rejected"
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "candidate": "gemm-prefill-dead-weight-gather-v2",
+      "receipt": "runs/v2/20261026T080710Z-confirmation-418ff56d/result.json",
+      "status": "confirmed_improvement"
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "candidate": "gemm-prefill-packed-output-alias",
+      "receipt": "runs/v2/20261026T081143Z-confirmation-bf6d4c19/result.json",
+      "status": "confirmed_improvement"
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "candidate": "gemm-row-major-map-k-base",
+      "receipt": "runs/v2/20261026T081623Z-confirmation-56379a96/result.json",
+      "status": "rejected"
+    }
+  ],
+  "runs": {
+    "meshgemm.cold-prefill-ffn-down-batch64/baseline/20261061": {
+      "path": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+      "sha256": "a97b2ccfa587f992d8f5e66b7be41f93454f174782a965d489bdaf70f5fb59d9"
+    },
+    "meshgemm.cold-prefill-ffn-down-batch64/baseline/20261062": {
+      "path": "runs/v2/20261026T075038Z-meshgemm.cold-prefill-ffn-down-batch64-eb80c17a/result.json",
+      "sha256": "8aebfd9c86a4df7c027039048e68a2ef12f5a9d80f780c759d41663a31bdcbaa"
+    },
+    "meshgemm.cold-prefill-ffn-down-batch64/gemm-prefill-dead-weight-gather-v2/20261061": {
+      "path": "runs/v2/20261026T075223Z-meshgemm.cold-prefill-ffn-down-batch64-0a67af0a/result.json",
+      "sha256": "b4635866043b4dc1df3ec3920124f2d47f8d01f1096b0a78cbb92e553b1057f3"
+    },
+    "meshgemm.cold-prefill-ffn-down-batch64/gemm-prefill-dead-weight-gather-v2/20261062": {
+      "path": "runs/v2/20261026T075404Z-meshgemm.cold-prefill-ffn-down-batch64-97666bdd/result.json",
+      "sha256": "2b03f0754500ebb9958807c0558aa1eec594239775812b9d50a2f2a07d222dca"
+    },
+    "meshgemm.cold-prefill-ffn-down-batch64/gemm-prefill-packed-output-alias/20261061": {
+      "path": "runs/v2/20261026T075541Z-meshgemm.cold-prefill-ffn-down-batch64-fce7d0a1/result.json",
+      "sha256": "ae5787a1f17c2d34d10119737dd4c9e4e3805b8e53deb37f68837af0996d2db3"
+    },
+    "meshgemm.cold-prefill-ffn-down-batch64/gemm-prefill-packed-output-alias/20261062": {
+      "path": "runs/v2/20261026T075717Z-meshgemm.cold-prefill-ffn-down-batch64-02124762/result.json",
+      "sha256": "2a8fd2ba206c104fd5a3f8041fef1e046b7c3335464271b4eb791108c5a6e9a3"
+    },
+    "meshgemm.cold-prefill-ffn-down-batch64/gemm-prefill-dead-weight-bank-offset/20261061": {
+      "path": "runs/v2/20261026T075855Z-meshgemm.cold-prefill-ffn-down-batch64-87bb9860/result.json",
+      "sha256": "53be063ef54615e0a5b6a73c158bd5106b1528a7d899bee924f9d235704c08a0"
+    },
+    "meshgemm.cold-prefill-ffn-down-batch64/gemm-row-major-map-k-base/20261061": {
+      "path": "runs/v2/20261026T075857Z-meshgemm.cold-prefill-ffn-down-batch64-4f9be280/result.json",
+      "sha256": "c24c351018d5efb5106ce479c2a26e4dc8f8d59f7dd713bb9a2ed074d94b9904"
+    },
+    "meshgemm.cold-prefill-ffn-down-batch64/gemm-row-major-map-k-base/20261062": {
+      "path": "runs/v2/20261026T080033Z-meshgemm.cold-prefill-ffn-down-batch64-36a0ecf0/result.json",
+      "sha256": "ac6a3f7d43550fb97e6663a382b2434d25cf4f10bd1f554b39e7387b248ec8a5"
+    },
+    "meshgemm.cold-prefill-ffn-up-batch64/baseline/20261061": {
+      "path": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+      "sha256": "76645c00c9a8c4c940393ed0bbfb71046c8f250fe93afeeee8d048321238e18a"
+    },
+    "meshgemm.cold-prefill-ffn-up-batch64/baseline/20261062": {
+      "path": "runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+      "sha256": "96e8d12ae6fb594877cd0ffd2327f16c61a86639ce1b289b87ed08175d02386b"
+    },
+    "meshgemm.cold-prefill-ffn-up-batch64/gemm-prefill-dead-weight-gather-v2/20261061": {
+      "path": "runs/v2/20261026T080208Z-meshgemm.cold-prefill-ffn-up-batch64-39adb44d/result.json",
+      "sha256": "e838adad653fb8cd4261aa9962bc6e19f46ad17ce21dbad785738b5e51320cf3"
+    },
+    "meshgemm.cold-prefill-ffn-up-batch64/gemm-prefill-dead-weight-gather-v2/20261062": {
+      "path": "runs/v2/20261026T080454Z-meshgemm.cold-prefill-ffn-up-batch64-7904451c/result.json",
+      "sha256": "02a08350a426d9eebb4989af53b9e465cbc869b2c59f7da443bca64dabcff72d"
+    },
+    "meshgemm.cold-prefill-ffn-up-batch64/gemm-prefill-packed-output-alias/20261061": {
+      "path": "runs/v2/20261026T080711Z-meshgemm.cold-prefill-ffn-up-batch64-41f2bcc4/result.json",
+      "sha256": "3544b7d26bffcf71b2b3c7c05f47cc8e911ebeb0e20a4ef10eec5d602892528c"
+    },
+    "meshgemm.cold-prefill-ffn-up-batch64/gemm-prefill-packed-output-alias/20261062": {
+      "path": "runs/v2/20261026T080928Z-meshgemm.cold-prefill-ffn-up-batch64-e5256083/result.json",
+      "sha256": "21322aa0c367ae276b1023f85f5d986c68b10ac7e351f4d12cbb04bdb72bb3ab"
+    },
+    "meshgemm.cold-prefill-ffn-up-batch64/gemm-prefill-dead-weight-bank-offset/20261061": {
+      "path": "runs/v2/20261026T081144Z-meshgemm.cold-prefill-ffn-up-batch64-ce670650/result.json",
+      "sha256": "9213bc3ff5167ed0c43e7665177746322813804993b729ef3bfbb0ab64956712"
+    },
+    "meshgemm.cold-prefill-ffn-up-batch64/gemm-row-major-map-k-base/20261061": {
+      "path": "runs/v2/20261026T081146Z-meshgemm.cold-prefill-ffn-up-batch64-da1f70d1/result.json",
+      "sha256": "70401c661c0384d4e1549dfff70dc3a1a648330b47e51471e5806c56b6afea72"
+    },
+    "meshgemm.cold-prefill-ffn-up-batch64/gemm-row-major-map-k-base/20261062": {
+      "path": "runs/v2/20261026T081405Z-meshgemm.cold-prefill-ffn-up-batch64-234036d5/result.json",
+      "sha256": "341cb0cadb4c616ae73e1e16aac5d2a3edc7d35a15e82662f339cf6e13786eb8"
+    }
+  },
+  "scope": "Completed cold-prefill portion only; attention qualification is separate. Correct speed/memory tradeoffs remain independent of conservative promotion.",
+  "qwen_tps_result": false
+}

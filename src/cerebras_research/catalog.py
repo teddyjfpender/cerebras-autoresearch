@@ -19,6 +19,7 @@ ADAPTERS = {
     "recurrent_gdn",
     "recurrent_gdn_native",
     "recurrent_gdn_full",
+    "decode_attention",
     "sdk",
 }
 
@@ -66,9 +67,10 @@ def load_catalog():
             ):
                 raise ValueError(f"Invalid {key}: {name}")
         if profile["adapter"] != "sdk":
-            if (
-                profile["validation"] != "independent_six_case"
-                or profile["metric"] != "max_local_cycles"
+            if profile["validation"] != "independent_six_case" or profile["metric"] != (
+                "coordinator_cycles"
+                if profile["adapter"] == "decode_attention"
+                else "max_local_cycles"
             ):
                 raise ValueError(
                     f"Independent adapter requires its numerical/timing contract: {name}"
@@ -79,6 +81,7 @@ def load_catalog():
                 "pipeline": (1, 4),
                 "gated_mlp": (0, 1),
                 "decoder": (0, 1),
+                "decode_attention": (0, 1),
                 "reusable_gemm": (0, 1),
                 "resident_swiglu": (0, 1),
                 "resident_swiglu_bf16": (0, 1),
@@ -182,6 +185,40 @@ def load_catalog():
                 raise ValueError(f"Invalid full native recurrent head contract: {name}")
         if profile["adapter"] == "pipeline" and grid != [1, 1]:
             raise ValueError(f"Current pipeline adapter requires one PE: {name}")
+        if profile["adapter"] == "decode_attention":
+            dims = profile["dimensions"]
+            if (
+                set(dims) != {"P", "S", "D", "G", "T", "L"}
+                or grid != [dims["P"], 1]
+                or not 2 <= dims["P"] <= 128
+                or dims["P"] & (dims["P"] - 1)
+                or dims["D"] not in (64, 128)
+                or dims["G"] not in (2, 4)
+                or dims["T"] != 4
+                or not 0 < dims["L"] <= dims["P"] * dims["S"] - dims["T"]
+                or dims["S"] * dims["D"] >= 32768
+                or profile["precision"] != "fp32"
+                or profile.get("oracle_contract") != "sharded_gqa_decode_fp32_v1"
+            ):
+                raise ValueError(f"Invalid sharded attention contract: {name}")
+            expected_work = (
+                4 * dims["G"] * dims["D"] * sum(dims["L"] + step + 1 for step in range(dims["T"]))
+            )
+            if profile["work_units"] != expected_work:
+                raise ValueError(f"Attention work count changed: {name}")
+            static_floats = (
+                2 * dims["D"] * dims["S"]
+                + 2 * dims["T"] * dims["G"] * dims["D"]
+                + 2 * dims["T"] * dims["D"]
+                + 2 * dims["G"] * dims["S"]
+                + dims["P"] * dims["G"]
+                + 2 * dims["G"]
+                + 2 * dims["G"] * (dims["D"] + 1)
+            )
+            if 4 * static_floats + 28 > 52 * 1024:
+                raise ValueError(
+                    f"Attention static buffers leave insufficient code headroom: {name}"
+                )
         if profile["adapter"] in ("gated_mlp", "decoder"):
             dims = profile["dimensions"]
             if (

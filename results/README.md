@@ -14,6 +14,108 @@ screen proving automatic logging with an evaluator source capsule. All 48 host
 tests and artifact replay passed. This is an unsigned local ledger; see the
 [ledger contract](../docs/experiments/ledger.md) for guarantees and limits.
 
+## Active inference acceleration — distributed attention
+
+The current SDK route freshly reproduces PR #1's `attention-newton` candidate
+on `decode-attention.d64-ctx128-latency32`: **220,273 → 43,165 coordinator
+cycles, 5.103046×**, at unchanged 32-PE/FP32 workload and timing. Both paired
+seeds pass all six families. Independent numerical/state/timestamp replay checks
+all 24 baseline/candidate case executions. Program-object memory is
+**29,216 → 30,480 bytes/PE (+4.33%)**.
+
+[Complete evidence](reports/2026-10-26/inference-acceleration/attention-latency32-confirmed.json).
+This is a fresh reproduction under this checkout's evaluator and SDK route,
+not a new gain beyond PR #1 or a comparison against production inference code.
+Four further attention profiles now pass matched full/fresh confirmation:
+boundary **2.198245x**, context128 **2.191341x**, 16-PE latency **3.904094x**,
+and context1024 **2.225131x** (390673 to 175573 cycles, +5.00% memory).
+[Context1024 receipt](reports/2026-10-26/inference-acceleration/attention-context1024-confirmed.json).
+The D128/context512 and D64/context4096 profiles and whole-suite independent
+raw-array replay remain pending; no seven-profile or model/hardware TPS claim
+is made. Completed attention runs are checkpointed while the larger cold GEMM
+frontier is qualified, then its frozen campaign resumes serially.
+
+## Decoder follow-up — causal vector QK
+
+The current three-context portfolio confirms **3.066666× geometric mean**,
+worst **2.997299×**, with full/fresh evidence and independent numerical/state/
+timestamp replay. The shorter context retains its previous implementation;
+the two longer contexts use the new vector-QK source. This is a portfolio of
+explicit implementations, not one universally qualified QK kernel.
+
+| Profile | Original reference → current cycles | Conservative speedup |
+| --- | ---: | ---: |
+| `decoder.h16-f32-ctx4` | 366,243 → 122,191 | 2.997299× |
+| `decoder.h16-f32-ctx12` | 494,929 → 155,849 | 3.175696× |
+| `decoder.h16-f32-ctx28` | 752,337 → 248,303 | 3.029915× |
+
+The vector-QK changes improve both full/fresh candidate arms by approximately
+**20.7%** and **28.8%** over the reciprocal-softmax incumbent on contexts 12/28,
+using the exact same paired baselines, seeds and evaluator.
+[Portfolio evidence](reports/2026-10-26/inference-acceleration/decoder-qk-portfolio.json),
+[suite confirmation](reports/2026-10-26/inference-acceleration/decoder-qk-suite-confirmed.json).
+These remain scaled FP32 complete layer programs, not model/hardware TPS.
+
+## Complete decoder contexts — reciprocal softmax
+
+One frozen FP32 candidate passes individual full/fresh confirmation on all three
+contexts. Independent numerical/state/timestamp replay checks all 72 full-run
+case executions, including every complete cache prefix and output.
+
+| Profile | Baseline → candidate cycles | Conservative speedup |
+| --- | ---: | ---: |
+| `decoder.h16-f32-ctx4` | 366,243 → 122,191 | 2.997299× |
+| `decoder.h16-f32-ctx12` | 494,929 → 188,049 | 2.631915× |
+| `decoder.h16-f32-ctx28` | 752,337 → 319,767 | 2.352766× |
+
+[Profile evidence](reports/2026-10-26/inference-acceleration/decoder-contexts-confirmed.json).
+The complete three-context suite now confirms **2.647648× geometric mean**,
+worst **2.352766×**. [Suite evidence](reports/2026-10-26/inference-acceleration/decoder-initial-suite-confirmed.json).
+The observed 4–8% advantage over the older polynomial candidate
+is a matched positive-screen comparison; full/fresh confirmations above compare
+against the original scalar references. These are scaled one-PE layer programs,
+not complete Qwen/model or hardware TPS.
+
+## Cold prefill GEMM — map-K streaming
+
+The original 16-row cold FFN up/down pair is freshly confirmed at **2.370248×
+geometric mean**, worst **2.191303×**, with all full numerical/timestamp evidence
+independently replayed. Up is **23,230 →10,601 cycles (2.191303×)** and down is
+**31,381 →12,240 cycles (2.563807×)**.
+
+[Suite evidence](reports/2026-10-26/inference-acceleration/prefill16-initial-suite-confirmed.json),
+[full initial portfolio](reports/2026-10-26/inference-acceleration/prefill-projections-initial.json).
+The first 64-row screens missed the conservative memory/promotion policy.
+Their larger-memory results remain valid research hypotheses and are now being
+fully qualified for the explicit speed/memory frontier, rather than discarded.
+
+## Cold batch64 GEMM — buffer reuse and the speed/memory frontier
+
+Both larger profiles now pass full six-case validation at two paired seeds:
+
+| Profile | Reference → gather cycles | Speedup | Program-object bytes/PE | Growth |
+| --- | ---: | ---: | ---: | ---: |
+| FFN-up, 64 rows | 34,929 → 31,984 | 1.092077x | 14,688 → 14,752 | +0.44% |
+| FFN-down, 64 rows | 45,006 → 33,309 | 1.351166x | 16,208 → 16,288 | +0.49% |
+
+[Fresh-paired frontier](reports/2026-10-26/inference-acceleration/prefill64-gather-portfolio-frontier.json)
+records the two profiles separately, with each baseline and implementation.
+The complete paired arms pass independent raw-array/timestamp replay (48 case
+executions). Packing uses a dead weight working buffer after the final transfer
+callbacks, with complete output restoration inside the timer. These destructive
+scratch variants are specific to the original cold, single-iteration contracts.
+
+The [frontier protocol](../docs/experiments/frontier.md) treats cycles and memory
+as independent objectives. Fully qualify faster higher-memory variants even
+when they fail the default 10% promotion policy. The active pilot measures four
+implementations per shape, including the original larger accumulator, direct
+output-buffer aliasing and bank offsets. The [completed fresh frontier](reports/2026-10-26/inference-acceleration/prefill64-fresh-speed-memory-frontier.json)
+contains 6 qualified implementation/profile points, including dominated tradeoffs.
+The separate [conservative suite](reports/2026-10-26/inference-acceleration/prefill64-frontier-default-suite-confirmed.json)
+confirms 1.218580x geometric-mean speedup; all 96 full-run
+case executions pass independent numerical/timestamp replay. These are fixed 16-PE FP16 simulations, not
+native model prefill or hardware/model TPS.
+
 ## Latest resident GEMM result
 
 The complete three-shape dispatcher suite is freshly confirmed at **1.146754x

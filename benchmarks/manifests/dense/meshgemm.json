@@ -155,6 +155,68 @@
         "repeats": 1,
         "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
       }
+    },
+    {
+      "id": "meshgemm.cold-prefill-ffn-up-batch64",
+      "adapter": "meshgemm",
+      "family": "dense-gemm",
+      "dimensions": {
+        "M": 64,
+        "K": 80,
+        "N": 272
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 2785280,
+      "work_unit": "arithmetic_operations",
+      "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+      }
+    },
+    {
+      "id": "meshgemm.cold-prefill-ffn-down-batch64",
+      "adapter": "meshgemm",
+      "family": "dense-gemm",
+      "dimensions": {
+        "M": 64,
+        "K": 272,
+        "N": 80
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 2785280,
+      "work_unit": "arithmetic_operations",
+      "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+      }
     }
   ]
 }

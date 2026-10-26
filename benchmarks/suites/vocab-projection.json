@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "meshgemv.vocab-k80-n512",
+    "meshgemv.vocab-k80-n1024"
+  ],
+  "description": "Two fixed16-PE scaled vocabulary-projection GEMVs. FP16, full output reduction; no sampling or model TPS."
+}

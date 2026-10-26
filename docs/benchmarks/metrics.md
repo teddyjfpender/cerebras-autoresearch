@@ -2,10 +2,15 @@
 
 ## Primary score
 
-For independent-oracle profiles, `max_local_cycles` is the maximum per-PE
+For most independent-oracle profiles, `max_local_cycles` is the maximum per-PE
 `(end_timestamp - start_timestamp) / timed_repeats`, then the maximum across
 numerical cases. Decode the 48-bit counter directly from integer words, including
 wraparound. Every interval uses one PE's own clock.
+
+The distributed decode-attention contract instead scores `coordinator_cycles`: PE(P-1,0)'s own clock interval around dispatch through all four causal tokens and the final
+output store. Its local PE intervals remain diagnostics. Profile identity and
+metric stay fixed within a matched pair; the two timing definitions are not
+interchangeable. See [decode attention](decode-attention.md).
 
 This includes local work and communication waits. It is not a synchronized
 global makespan. Moving work between PEs can change that relationship;
@@ -27,6 +32,7 @@ V1 receipts for promotion.
 | Resident recurrent gated delta rule | Four resident tokens, S0 copy, normalization, decay/delta/state/read and all full snapshots | 0 / 1 sequence |
 | Native-width recurrent head group | Fixed T4/48PE or T8/96PE sequence; full state, all physical normalization/decay work and every snapshot | 0 / 1 sequence |
 | Full native recurrent heads | All16 key/48 value heads, native K/V128, two complete resident tokens, every full state snapshot | 0 / 1 sequence |
+| Distributed decode attention | Coordinator dispatch, four resident causal tokens, KV appends, collectives and output stores | 0 / 1 sequence |
 | Timed SDK references | Audited upstream region | Profile-specific |
 | Untimed SDK references | Numerical assertions | No cycle score |
 | Host I/O diagnostics | Emulated transfer interval | No hardware bandwidth claim |

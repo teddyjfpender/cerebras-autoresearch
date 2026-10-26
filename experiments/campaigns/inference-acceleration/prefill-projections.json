@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "name": "prefill-projections",
+  "seed": 20261061,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-scaled",
+      "candidates": [
+        {
+          "candidate": "gemm-row-major-vector-pack"
+        },
+        {
+          "candidate": "gemm-row-major-map-k-base"
+        },
+        {
+          "candidate": "gemm-prefill-dsr-dispatch"
+        },
+        {
+          "candidate": "gemm-prefill-column-dsr"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-scaled",
+      "candidates": [
+        {
+          "candidate": "gemm-row-major-vector-pack"
+        },
+        {
+          "candidate": "gemm-row-major-map-k-base"
+        },
+        {
+          "candidate": "gemm-prefill-dsr-dispatch"
+        },
+        {
+          "candidate": "gemm-prefill-column-dsr"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "candidates": [
+        {
+          "candidate": "gemm-row-major-vector-pack"
+        },
+        {
+          "candidate": "gemm-row-major-map-k-base"
+        },
+        {
+          "candidate": "gemm-prefill-dsr-dispatch"
+        },
+        {
+          "candidate": "gemm-prefill-column-dsr"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+      "candidates": [
+        {
+          "candidate": "gemm-row-major-vector-pack"
+        },
+        {
+          "candidate": "gemm-row-major-map-k-base"
+        },
+        {
+          "candidate": "gemm-prefill-dsr-dispatch"
+        },
+        {
+          "candidate": "gemm-prefill-column-dsr"
+        }
+      ]
+    }
+  ]
+}

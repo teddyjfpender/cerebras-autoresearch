@@ -1,0 +1,17 @@
+{
+  "adapter": "decoder",
+  "initial_profile": "decoder.h16-f32-ctx12",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decoder.causal-vector-qk",
+  "hypothesis": "At cache capacity16 or32, replace per-position scalar QK dot loops with a vector of all currently causal scores and an ascending-D FP32 FMA walk over strided keys. Hoist the fixed inverse scale. Keep the short-context incumbent to avoid setup regression, and preserve all maxima/softmax/PV/projections/MLP/cache-prefix/output work and full timing.",
+  "falsification": "Reject any future-slot inclusion, skipped valid key/dimension/head/token, precision/PE/timing change, original5e-5 numerical/state or clean-exit failure, more than1.10x memory or failed fresh six-case pairing. Retain only if faster than the qualified reciprocal-softmax incumbent; require all three contexts and worst-cell guards for a shared-source claim.",
+  "parent_candidate": "decoder-vector-softmax-reciprocal",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

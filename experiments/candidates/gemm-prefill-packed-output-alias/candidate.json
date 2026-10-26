@@ -1,0 +1,18 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-batch64",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "meshgemm.cold-packed-output-lifetime-alias",
+  "hypothesis": "Accumulate all FP16 reductions in row-major res_tile, then transpose the complete result into dead W_0_tile after its final communication callbacks. Export the named column-major res output from W_0_tile itself so no final scratch-to-output copy is needed. Input W and output res share a physical allocation in disjoint lifetime intervals under the fixed cold one-iteration contract. Preserve all outputs, workload, PE grid and timer boundaries.",
+  "falsification": "Reject missing communication/reduction terms or outputs, changed precision/workload/PE/timer contracts, premature scratch reuse, numerical or clean-shutdown failures, changed full/fresh source/evaluator identity. Record cycles and program-object memory for every correct full/fresh point. Default conservative promotion additionally requires >=1.05x speedup and <=1.10x memory; the separate Pareto report keeps qualified memory tradeoffs even when that policy rejects them.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "contract_scope": "Only zero-warmup, one-iteration cold GEMM profiles with Kt >= Mt; rotating working input buffers are dead after final communication."
+}

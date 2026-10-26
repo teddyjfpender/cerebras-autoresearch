@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "keep_stronger_incumbent",
+  "incumbent": {
+    "path": "results/reports/2026-10-26/inference-acceleration/attention-latency32-confirmed.json",
+    "sha256": "88f5f81fec68dc4e845598970cd46e5b936991c98b4d153b90c08de88b88ddc9"
+  },
+  "incumbent_speedup": 5.103046449669871,
+  "tested_confirmation": {
+    "path": "runs/v2/20261026T062019Z-confirmation-b438e627/result.json",
+    "sha256": "1cc7f9197843ea538b65ba0ddc25a45ec054cac7d69383904484330ba56125d5"
+  },
+  "tested_speedup": 5.066309397856387,
+  "tested_candidate": "attention-newton-polynomial",
+  "reason": "Positive-case rank did not predict worst-of-six performance. The new candidate passes absolute baseline gates but is slower than the existing full/fresh confirmation, so it does not replace that implementation.",
+  "numerics": {
+    "path": "results/reports/2026-10-26/inference-acceleration/attention-math-followup-numerics.json",
+    "sha256": "3b103ae0d277574832bd0d5b72dd47befbf8792880a8cf89d9950b38659cb6fc"
+  },
+  "qwen_tps_result": false
+}

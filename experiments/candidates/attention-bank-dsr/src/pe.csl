@@ -1,0 +1,214 @@
+// Resident GQA decode: vector reference, one dispatch plus three collectives/token.
+// Same SDK collectives API as the Apache-2.0 example cited in layout.csl.
+param memcpy_params;
+param c2d_params;
+param P: i16;
+param S: i16;
+param D: i16;
+param G: i16;
+param T: i16;
+param L: i16;
+const sys = @import_module("<memcpy/memcpy>", memcpy_params);
+const mpi = @import_module("<collectives_2d/pe>", .{ .dim_params = c2d_params.x });
+const clock = @import_module("<time>");
+const math = @import_module("<math>");
+const BEGIN: local_task_id = @get_local_task_id(9);
+const MAXIMA: local_task_id = @get_local_task_id(10);
+const PARTIAL: local_task_id = @get_local_task_id(11);
+const OUTPUT: local_task_id = @get_local_task_id(12);
+const ROOT: u16 = @as(u16, P-1);
+const R: i16 = D+1;
+var Q: [T*G*D]f32;
+var NEW_K: [T*D]f32;
+var NEW_V: [T*D]f32;
+// Dimension-major cache permits vector operations over the local context.
+var K: [D*S]f32;
+var V: [D*S]f32;
+var Y: [T*G*D]f32;
+var ptr_Q: [*]f32 = &Q;
+var ptr_NEW_K: [*]f32 = &NEW_K;
+var ptr_NEW_V: [*]f32 = &NEW_V;
+var ptr_K: [*]f32 = &K;
+var ptr_V: [*]f32 = &V;
+const ptr_Y: [*]f32 = &Y;
+var scores: [G*S]f32;
+var weights: [G*S]f32;
+var local_max: [G]f32;
+var all_max: [P*G]f32;
+var global_max: [G]f32;
+var partial: [G*R]f32;
+var merged: [G*R]f32;
+var flag = @zeros([1]u32);
+var step: i16 = 0;
+var valid: i16 = 0;
+var px: i16 = 0;
+var begin = @zeros([3]u16);
+var end = @zeros([3]u16);
+var times = @zeros([6]u16);
+const ptr_times: [*]u16 = &times;
+var score_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{S} -> scores[i] });
+var weight_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{S} -> weights[i] });
+var key_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{S} -> K[i] });
+var value_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> V[i*S] });
+var num_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> partial[i] });
+
+// BEGIN LOCAL COMPUTE: candidate edits are confined to this region.
+fn attention_exp(x: f32) f32 { return math.exp(x); }
+
+var bank_logits: [S+1]f32 align(16);
+const compute_dest = @get_dsr(dsr_dest, 2);
+const compute_src0 = @get_dsr(dsr_src0, 2);
+const compute_src1 = @get_dsr(dsr_src1, 2);
+fn qk_step(q: f32, inv_scale: f32) void {
+    @fmacs(compute_dest, compute_src0, compute_src1, q * inv_scale);
+}
+
+fn make_logits() void {
+    const inv_scale: f32 = 1.0 / math.sqrt(@as(f32, D));
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        var logits = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{S} -> bank_logits[i+1] });
+        var keys = @set_dsd_base_addr(key_dsd, &K);
+        @fmovs(logits, 0.0);
+        @load_to_dsr(compute_dest, logits, .{ .save_address = false });
+        @load_to_dsr(compute_src0, logits, .{ .save_address = false });
+        @load_to_dsr(compute_src1, keys, .{ .save_address = true });
+        var queries = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> Q[i] });
+        queries = @increment_dsd_offset(queries, (step*G+head)*D, f32);
+        @map(qk_step, queries, inv_scale);
+        const destination = @increment_dsd_offset(score_dsd, head*S, f32);
+        @fmovs(destination, logits);
+    }
+}
+
+fn make_partial() void {
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        var denominator: f32 = 0.0;
+        var local_weights = @increment_dsd_offset(weight_dsd, head*S, f32);
+        @fmovs(local_weights, 0.0);
+        var slot: i16 = 0;
+        while (slot < valid) : (slot += 1) {
+            const w: f32 = attention_exp(scores[head*S+slot] - global_max[head]);
+            weights[head*S+slot] = w;
+            denominator += w;
+        }
+        partial[head*R] = denominator;
+        var numerator = @increment_dsd_offset(num_dsd, head*R+1, f32);
+        var values = @set_dsd_base_addr(value_dsd, &V);
+        @fmovs(numerator, 0.0);
+        @load_to_dsr(compute_dest, numerator, .{ .save_address = false });
+        @load_to_dsr(compute_src0, numerator, .{ .save_address = false });
+        slot = 0;
+        while (slot < valid) : (slot += 1) {
+            @load_to_dsr(compute_src1, values, .{ .save_address = false });
+            @fmacs(compute_dest, compute_src0, compute_src1, weights[head*S+slot]);
+            values = @increment_dsd_offset(values, 1, f32);
+        }
+    }
+}
+fn store_output() void {
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        const inv_denominator: f32 = 1.0 / merged[head*R];
+        var output = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> Y[i] });
+        var numerator = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{D} -> merged[i] });
+        output = @increment_dsd_offset(output, (step*G+head)*D, f32);
+        numerator = @increment_dsd_offset(numerator, head*R+1, f32);
+        @fmuls(output, numerator, inv_denominator);
+    }
+}
+fn merge_maxima() void {
+        var head: i16 = 0;
+        while (head < G) : (head += 1) {
+            global_max[head] = -3.4e38;
+            var shard: i16 = 0;
+            while (shard < P) : (shard += 1) {
+                if (all_max[shard*G+head] > global_max[head]) {
+                    global_max[head] = all_max[shard*G+head];
+                }
+            }
+        }
+}
+// END LOCAL COMPUTE
+
+// Trusted control: cache writes, causal maxima, collectives, output dispatch and timers.
+fn compute() void {
+    mpi.init();
+    px = @as(i16, mpi.pe_id);
+    step = 0;
+    clock.enable_tsc();
+    clock.get_timestamp(&begin);
+    // The coordinator's own interval encloses dispatch and complete outputs.
+    mpi.broadcast(ROOT, @ptrcast([*]u32, &flag), 1, BEGIN);
+}
+
+task begin_token() void {
+    const position: i16 = L+step;
+    if (position/S == px) {
+        var dim: i16 = 0;
+        while (dim < D) : (dim += 1) {
+            K[dim*S+position%S] = NEW_K[step*D+dim];
+            V[dim*S+position%S] = NEW_V[step*D+dim];
+        }
+    }
+    valid = position-px*S+1;
+    if (valid < 0) { valid = 0; }
+    if (valid > S) { valid = S; }
+    make_logits();
+    var head: i16 = 0;
+    while (head < G) : (head += 1) {
+        local_max[head] = -3.4e38;
+        var slot: i16 = 0;
+        while (slot < valid) : (slot += 1) {
+            if (scores[head*S+slot] > local_max[head]) {
+                local_max[head] = scores[head*S+slot];
+            }
+        }
+    }
+    mpi.gather(ROOT, @ptrcast([*]u32, &local_max), @ptrcast([*]u32, &all_max),
+               @as(u16, G), MAXIMA);
+}
+
+task after_maxima() void {
+    if (px == P-1) {
+        merge_maxima();
+    }
+    mpi.broadcast(ROOT, @ptrcast([*]u32, &global_max), @as(u16, G), PARTIAL);
+}
+
+task after_broadcast() void {
+    make_partial();
+    mpi.reduce_fadds(ROOT, @ptrcast([*]f32, &partial), @ptrcast([*]f32, &merged),
+                     @as(u16, G*R), OUTPUT);
+}
+
+task after_reduce() void {
+    if (px == P-1) {
+        store_output();
+    }
+    step += 1;
+    if (step < T) {
+        @activate(BEGIN);
+    } else {
+        clock.get_timestamp(&end);
+        clock.disable_tsc();
+        for (@range(i16, 3)) |i| { times[i] = begin[i]; times[i+3] = end[i]; }
+        sys.unblock_cmd_stream();
+    }
+}
+
+comptime {
+    @bind_local_task(begin_token, BEGIN);
+    @bind_local_task(after_maxima, MAXIMA);
+    @bind_local_task(after_broadcast, PARTIAL);
+    @bind_local_task(after_reduce, OUTPUT);
+    @export_symbol(ptr_Q, "Q");
+    @export_symbol(ptr_NEW_K, "NEW_K");
+    @export_symbol(ptr_NEW_V, "NEW_V");
+    @export_symbol(ptr_K, "K");
+    @export_symbol(ptr_V, "V");
+    @export_symbol(ptr_Y, "Y");
+    @export_symbol(ptr_times, "times");
+    @export_symbol(compute);
+}

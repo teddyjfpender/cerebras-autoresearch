@@ -1,0 +1,17 @@
+{
+  "adapter": "meshgemv",
+  "initial_profile": "meshgemv.vocab-k80-n512",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "11d6f7ea37d7dda0cc12fb22f63dba570d4fa6d126c3d80b3144b61803690f3c",
+  "starting_variant": "bank-alignment",
+  "shape_specific": false,
+  "approach": "meshgemv.vocab-unroll-bank-offset",
+  "hypothesis": "For fixed hidden width80 and vocabulary widths512/1024, combine literal expansion of all20 local FP16 FMA terms with bank-offset weight storage and aligned accumulators. Reduce callback/bank overhead in the complete resident GEMV including reduction. The local-row assert prevents accidental use at other hidden widths.",
+  "falsification": "Reject any skipped term, warmup/timed repetition or reduction, changed FP16 precision/grid/timing ABI, six-case output or shutdown failure, less than1.05x baseline speedup, memory growth above1.10x, failed fresh pairing or a slower outcome than the strongest qualified variant. Both output widths must qualify before a suite-wide claim.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}
