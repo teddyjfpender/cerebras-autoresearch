@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "reference": "https://github.com/teddyjfpender/cerebras-autoresearch/pull/1",
+  "commit": "5e818e10b7740daaa0d5e2962f7010100385e0e1",
+  "metadata": {
+    "path": "runs/references/pr-1/metadata.json",
+    "sha256": "ad48c43be7dbf47649ec46383ae1e70be834b0597a831e9070ebb289be196a7c"
+  },
+  "report": {
+    "path": "runs/references/pr-1/attention-5x.json",
+    "sha256": "53fcb70a1ff4d7f084db492c2d867f25269fc4645b4cfb67d3c799162c346115"
+  },
+  "source": {
+    "path": "runs/references/pr-1/attention-newton.csl",
+    "sha256": "c147c923b11e1c2eb2c943417e745c8f764b1b715960f9aeaf4f2a13dc14039b"
+  },
+  "reported_profile": "decode-attention.d64-ctx128-latency32",
+  "reported_speedup": 5.103046449669871,
+  "local_reexecution": false,
+  "transfer": "Frozen native/full recurrent bank-offset and persistent DSR row-address candidates. Same ascending-K FP32 FMAs, canonical operands, protected history/state/timers. Fresh matched controls required.",
+  "qwen_tps_result": false
+}

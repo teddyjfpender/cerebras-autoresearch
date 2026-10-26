@@ -170,3 +170,23 @@ metrics and recorded step durations. This includes PE timing/spread, error
 fraction, declared work per cycle, PE-cycle cost and resident sequence averages.
 Historical replay reports keep their original auditor hashes; later audits add
 new reports rather than rewriting earlier evidence.
+
+## Full simulator SRAM corroboration
+
+For supported resident GEMM and distributed SwiGLU contracts,
+`tools/replay_snapshots.py` reads every saved stage/output, immutable input,
+boundary weight history and timer word from the complete clean-stop SDK core.
+It checks the raw artifacts and ELF/source identities, then compares bit-exact
+reconstructed arrays with the saved numerical evidence. This launches no device
+and grants no retention decision. It complements the independent FP64 replay.
+
+```sh
+tools/sdk-run cs_python tools/replay_snapshots.py \
+  --manifest runs/audits/selected-receipts.json \
+  --output results/reports/my-core-replay.json
+```
+
+The manifest schema matches numerical replay. Reports cannot be overwritten.
+Unsupported contracts, duplicate receipts, changed/missing cores, mismatched
+snapshot helpers and any array/timestamp mismatch fail the audit. Distributed
+SwiGLU is registered; its current device qualification is recorded in results.

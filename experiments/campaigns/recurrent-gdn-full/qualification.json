@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "name": "qualify-full-native-head-reference",
+  "seed": 20261041,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "recurrent-gdn-full.k128-v128-h16-t2",
+      "candidates": []
+    }
+  ]
+}

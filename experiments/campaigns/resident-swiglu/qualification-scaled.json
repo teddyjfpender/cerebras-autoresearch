@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "name": "resident-swiglu-qualification-scaled",
+  "seed": 20261031,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "resident-swiglu.ffn-scaled",
+      "candidates": []
+    }
+  ]
+}

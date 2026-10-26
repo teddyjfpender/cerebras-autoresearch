@@ -1,7 +1,9 @@
 # Resident GEMM sequence
 
-Status: registered for qualification; device compilation and six-case validation
-are required before a result can be used for optimization.
+Status: all three registered profiles passed device compilation, six-case
+validation and independent output/state/timestamp replay. See the
+[qualification report](../../../results/reports/2026-10-23-reusable-gemm-qualification.json).
+Candidate improvements still require matched full validation and fresh confirmation.
 
 Derived from WaferLLM MeshGEMM at
 `fd1c2daae37cd68706c03fc8009887ecee9900f8`; see `LICENSE.upstream`.

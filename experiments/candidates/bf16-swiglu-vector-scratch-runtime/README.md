@@ -1,0 +1,5 @@
+# bf16-swiglu-vector-scratch-runtime
+
+Use FP32 vector degree-six SiLU for Ft>=32 and 2*Mt<=Ht, reinterpreting the 4-byte-aligned dead W1 receive buffer as square scratch. Its last send/receive completes before the stage callback; next down-stage reception overwrites every logical W1 word before use. This removes the additional square allocation. Smaller tiles use the scalar composition to bound code/descriptor overhead. Every stage, term and output/state store remains fixed. Set the aligned W1-to-FP32 scratch alias at runtime: this SDK rejects comptime pointer casts. Preserve the same lifetime/capacity predicate and all requested work.
+
+Reject skipped/reordered projection terms, BF16 accumulation, missing stage quantization, stale logical reads, numerical/state/shutdown failures, protected-control changes, speedup below 1.05x or memory above 1.10x. Require six families, fresh matched seed and complete suite guards for cross-shape claims. Reject any alias used while communication is live or any scratch extent exceeding W1; compare complete working-state histories at both seeds.

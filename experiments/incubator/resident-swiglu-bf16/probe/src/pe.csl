@@ -1,0 +1,50 @@
+// Unscored precision capability fixture; no throughput/timing result.
+param memcpy_params;
+const sys = @import_module("<memcpy/memcpy>", memcpy_params);
+const fp = @fp16();
+comptime { @comptime_assert(fp == bf16); }
+const N: i16 = 16;
+var X: [N]fp;
+var BASE: [N]f32;
+var TEST: [N]f32;
+var OUT: [N]f32;
+var BF: [N]fp;
+var ROUND: [N]f32;
+var BFVEC: [N]fp;
+var ROUNDVEC: [N]f32;
+var ptr_X: [*]fp = &X;
+var ptr_BASE: [*]f32 = &BASE;
+var ptr_TEST: [*]f32 = &TEST;
+const ptr_OUT: [*]f32 = &OUT;
+const ptr_BF: [*]fp = &BF;
+const ptr_ROUND: [*]f32 = &ROUND;
+const ptr_BFVEC: [*]fp = &BFVEC;
+const ptr_ROUNDVEC: [*]f32 = &ROUNDVEC;
+var test_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{N} -> TEST[i] });
+var bfvec_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{N} -> BFVEC[i] });
+var roundvec_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{N} -> ROUNDVEC[i] });
+var x_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{N} -> X[i] });
+var base_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{N} -> BASE[i] });
+var out_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{N} -> OUT[i] });
+fn compute() void {
+    @fs2h(bfvec_dsd, test_dsd);
+    @fh2s(roundvec_dsd, bfvec_dsd);
+    for (@range(i16, N)) |i| {
+        BF[i] = @as(fp, TEST[i]);
+        ROUND[i] = @as(f32, BF[i]);
+    }
+    @fmovs(out_dsd, base_dsd);
+    @fmachs(out_dsd, out_dsd, x_dsd, @as(fp, 1.5));
+    sys.unblock_cmd_stream();
+}
+comptime {
+    @export_symbol(ptr_X, "X");
+    @export_symbol(ptr_BASE, "BASE");
+    @export_symbol(ptr_TEST, "TEST");
+    @export_symbol(ptr_OUT, "OUT");
+    @export_symbol(ptr_BF, "BF");
+    @export_symbol(ptr_ROUND, "ROUND");
+    @export_symbol(ptr_BFVEC, "BFVEC");
+    @export_symbol(ptr_ROUNDVEC, "ROUNDVEC");
+    @export_symbol(compute);
+}

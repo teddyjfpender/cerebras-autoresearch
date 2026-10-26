@@ -2,10 +2,17 @@
 set -euo pipefail
 task_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 task_sdk_dir=${CEREBRAS_SDK_DIR:-"$task_root/.sdk/sdk-2.10.1"}
+task_platform="$task_root/config/sdk-platform.json"
+task_default_vm=cerebras-sdk
+if test -f "$task_platform"; then
+  task_default_vm=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["lima_instance"])' "$task_platform")
+fi
+task_vm=${CEREBRAS_SDK_VM:-"$task_default_vm"}
 test -x "$task_sdk_dir/cslc" || { echo "SDK cslc not found in $task_sdk_dir" >&2; exit 2; }
-exec limactl shell --workdir="$task_root" cerebras-sdk bash -c '
+exec limactl shell --workdir="$task_root" "$task_vm" bash -c '
   export PATH="$1:$PATH"
+  export CEREBRAS_SDK_VM="$2"
   export SINGULARITYENV_CSL_SUPPRESS_SIMFAB_TRACE=${SINGULARITYENV_CSL_SUPPRESS_SIMFAB_TRACE:-1}
-  shift
+  shift 2
   exec "$@"
-' sdk-run "$task_sdk_dir" "$@"
+' sdk-run "$task_sdk_dir" "$task_vm" "$@"

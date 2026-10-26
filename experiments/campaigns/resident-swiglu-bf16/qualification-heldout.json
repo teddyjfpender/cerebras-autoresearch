@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "name": "bf16-heldout-baselines",
+  "seed": 20261033,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "resident-swiglu-bf16.batch4-ffn",
+      "candidates": []
+    },
+    {
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "candidates": []
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "adapter": "recurrent_gdn_native",
+  "initial_profile": "recurrent-gdn-native.k128-v128-t4",
+  "source": {
+    "repository": "local",
+    "reference_repository": "https://github.com/huggingface/transformers",
+    "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+    "implementation": "independent native-width FP32 vector reference, one key-head group"
+  },
+  "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "native_gdn.convert_once_vector_normalization",
+  "hypothesis": "Convert each canonical BF16 query/key once into FP32 work arrays, reuse exact converted values in the unchanged scalar squared-norm reductions, then apply the original query/key scaling with vector FP32 multiplies. Remove redundant conversions and scalar scaling loops.",
+  "falsification": "Reject any omitted K/state/normalization term, changed precision/control/timed history, canonical or replicated-prefix drift, fixed local/full-chain error failure, shutdown/core/timer mismatch, speedup below1.05x or program-memory growth above1.10x. Require all six families, fresh paired seed, both complete native profiles and worst-cell guards before a suite claim.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "qualification_receipt": "runs/v2/20261023T142107Z-recurrent-gdn-native.k128-v128-t4-43a81f78/result.json",
+  "qualification_receipt_sha256": "1d6afd074d8993faa90d478575df41a46aa83f3e821844ee5fbe6377a03d2d87"
+}

@@ -1,0 +1,18 @@
+{
+  "adapter": "reusable_gemm",
+  "initial_profile": "reusable-gemm.prefill-ffn-up-scaled",
+  "source": {
+    "repository": "local",
+    "derived_from": "WaferLLM",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "resident-gemm.row4-fixed-output-descriptors-k2",
+  "hypothesis": "For Mt4, load four complete output descriptor pairs once per local matrix product, retain them across all K terms, and load each weight vector once per K. This removes repeated per-row output descriptor setup while preserving exact FP16 K-term order, timed transpose, full frame state and residency invariants. Shift-only banks4/5/6 are used after shift completion; in-flight two-hop banks2/3 stay untouched. Expand two consecutive K steps per loop to reduce branch overhead, with generic fallback for odd Kt.",
+  "falsification": "Reject any simulator/shutdown failure, omitted or reordered arithmetic term, six-case output/state failure or protected-control change. Require full fresh paired seeds, at least1.05x matched speedup and at most1.10x program memory. Cross-shape claims require every suite cell and its worst-cell guard.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

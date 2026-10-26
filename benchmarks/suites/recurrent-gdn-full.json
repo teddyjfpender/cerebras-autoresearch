@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "id": "recurrent-gdn-full",
+  "description": "One complete full-native-head two-token workload; exact profile scope, not cross-shape generality.",
+  "profiles": [
+    "recurrent-gdn-full.k128-v128-h16-t2"
+  ]
+}

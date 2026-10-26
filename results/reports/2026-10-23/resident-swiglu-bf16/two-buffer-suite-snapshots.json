@@ -1,0 +1,779 @@
+{
+  "schema_version": 1,
+  "status": "core_output_state_and_timer_replayed",
+  "case_count": 96,
+  "auditor_sha256": "073d310943b6a467a5eae723ebc9c68cc01669db976a4911d0986184bf31bf9f",
+  "helper_sha256": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+  "records": [
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T121717Z-resident-swiglu-bf16.batch32-h64-f192-534a0aa4/result.json",
+        "sha256": "6a562688087a8d8749a1d08aeefb354bf7fd05b9f243fade4e06de23dbb590c0"
+      },
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "f6a26f5eb84025c4d8ae814c61c52cf7aa807489e455575c32c70cc304c6658e",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "ef0de9847265e510780bb1226bb97ba26e6a64e59474c5f1cf1eca4cfc9c9f87",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "550b410bc5f954c18fbadc05e7fce51ad451c439d346593a1427476c25de3567",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "8880b3036ee1320a34acff122cb57db75c534d0ad7004634669454da80af5842",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "ea838c671d73f2b7c29f155915e97347a48af9fc2ed4aaa313929be22564b8c5",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "3effdc7fc042f6e84b3bb7a4acfc8334429376462817ddf08724faf8149ae657",
+          "half_words_checked": 184416
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T121213Z-resident-swiglu-bf16.batch4-ffn-5d0f88ec/result.json",
+        "sha256": "ef7e5c817543b0a10b8ed179ce578d90692b594af0632b06d32418a447b4465f"
+      },
+      "profile": "resident-swiglu-bf16.batch4-ffn",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "2046fb8faf2949bd18cdb839bfc550a42cc8d7e7fd925abd9a2cd3f78bce5f5d",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "4af205977ffb803e28131f8da3c1aefb375f9d71566c208488a4007d0e9a143b",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "8576c46dab69042f27f7a718c6873277ea879481fbe05282890fdce66654e6ae",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "9cc3233e92784f8bd21b612f5b6432519fabcfc2b098f4a9abbb28708a8c30d2",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "599b90a7645ffcca98da38c46518dea3d5fb40535db959842ecd797c9359c0d7",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "6b3e10fb925b49abbb1ae9339d3c5f5aa1dc218048e1e75174bd54d91a6abba3",
+          "half_words_checked": 169312
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T105451Z-resident-swiglu-bf16.ffn-scaled-1a17f4c9/result.json",
+        "sha256": "e69915614ef4fdd77f8aad4915900bb42ebabd35f3f0ac55d306113a21c7000d"
+      },
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "cefb29f8c7cb519bb30b6f2c85a6763c0aa01e6b28ef54380c5e0895133407ed",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "bd738aaa15eb37844d3c3da58badb3ad6b7b95b518cd853784e415b67036fbd1",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "770a54d9e8cc048a998bfd205a8b06f6e0a98445738c1a96017089b8fd5c9b4b",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "d50b8bfda2f4fcbdb82d13d4dfb8a2efec4c18e9fedc4e4f89834d9cf07094a7",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "fa188124c31200c88c70317073976c326dae2f798bf17765e9f9749c57eb1be9",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "3d8786fe064549202b7fbe4c519f9b70a8fdc0712d0744ea821cbb347d4d18ad",
+          "half_words_checked": 220000
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T105329Z-resident-swiglu-bf16.small-55f690a3/result.json",
+        "sha256": "1d3ff86207d657306e22cd828f4cca774d014d66874f81276b6ff685b5861efc"
+      },
+      "profile": "resident-swiglu-bf16.small",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "cc906effd8df8551f55e74b9dde9bd975857af67166e49fe3fe330703a85fad9",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "4774eea6e1309a27a30d899ba69f095330da542e1112b9c57842c527403373fb",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "688b51fc9aca98094cebe6ae20b36b22e23e3835a08af5d3a87f82e8dc9e3184",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "31cb8c522f30611d31392c46e2d97f4ee79c177e8b54860548a0bae27480140a",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "b08181700442472752bef4730d124bfb1df5d910cac9380c8623c6a3ff53f007",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "dc304bebbf943df8660a714342b8730a3f19b5531b1464dba634a90c2a89dfd6",
+          "half_words_checked": 12896
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T124834Z-resident-swiglu-bf16.batch32-h64-f192-137be5b6/result.json",
+        "sha256": "a1821484c4a87dc0fa125ebf44662cb63d004b96891528277cfeeb63d841ab90"
+      },
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "b95b91616f28dcbe95e069fa4c38d45b6334e184e8e4fee9aa787809f98a1aa9",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "9bfe59e4f9dfdb3f3ae695a2bcccca2929cabf251b2bd7e847f8997657ad00c6",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "f9c48770144e474bfa9f8c33f78b045b31eb46059d5cc2b15c2158183b8f3bad",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "1e073e531f86b0276782f611e683cfcd9441c5d2b28c55e72d9067588f3a35c4",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "5ef53975ed2494dd4d98febd0dccb2b3397d1c8e38bfa4f6d55c67ee7af61db6",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "e30c792b8c8b1205ed3f66dc5406dd41f0f5df4a7606e45279093fb3160d796e",
+          "half_words_checked": 184416
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T130719Z-resident-swiglu-bf16.batch4-ffn-4fd3ae35/result.json",
+        "sha256": "f34516b38dfcd1dbac844e71472352470377d7b31e321eac686a16ee0144508f"
+      },
+      "profile": "resident-swiglu-bf16.batch4-ffn",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "0b822974e6a186f31abbbdfcddebed44250a198bb27ce014afc2a3eacbda06e2",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "8b117d2becd4c37a18c7dd62a04023df8ff95e4de02a7ea3c7c8e521e4446902",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "f9785c4aa7ac0b86d751aa62422d5124265f5c2f635daa8198d8bc80a234700e",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "abfba1f39c4f315d17e66e422a033ac548c826776bec4927950339564860a9fd",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "9c851e20268a8ed21a8a3666c1cfcc8e0ceccf286b925c122d33f7bd978eafe1",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "455fbb39392a4a8a96355fef6acc22fa174da6bfaf71101e5bc8a1fc4238cdd8",
+          "half_words_checked": 169312
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T131506Z-resident-swiglu-bf16.ffn-scaled-ed35bc64/result.json",
+        "sha256": "49aa779d38260b06d57d3fef5a09739e40ad248ba5c2af644d6d3cff99c35e4f"
+      },
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "cf04429faa548b54c853d1e125304c1e8831d810b55cf175460b3e1b447d78af",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "57fdac0dedb4062ffc1d4e7481bf65d3a479e5e790521cf5e402aa056ca47b5d",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "5fd94f7ebf375b84f8b1b753cab901875e88e018b937793b1bc976dd55fc4de7",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "89f55ea98020d14045881d07c8854642a1da2ccb90dc15522e6ff55252a2fc62",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "273fe19153ffcdaa5dc93a81e4319458754cb4531fd98210a0bb4744b768a304",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "b3cdb34f005d6d62abaa7a5af0f50205fc2281c29b09e3051a493e6e0b1e505b",
+          "half_words_checked": 220000
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T132558Z-resident-swiglu-bf16.small-37377848/result.json",
+        "sha256": "1e10a64afcb9d8c1d5348da5da5ff9c999710c2864574716649b577f10543aa6"
+      },
+      "profile": "resident-swiglu-bf16.small",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "b7f5e3a9e6013eeba04290fac547f976bec1479e4435f19adda27deaf4903c8f",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "e56f928b9e963dc0b5780cf0d2675ceabf509049d302fb75c24b1f6428b1d76c",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "c6709e6c8bd386c0642ef63b144768ff6a58659b293a9c93ba26e8086798e241",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "f443fb455cb2e49c08710217902ff1b224d73a035f3b8b2e84ce8bc187b545a3",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "cfccdb7299c0cd686904d53b4f6bbdd7bbb2db8b141f29a2c84ea55b2b67c5e2",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "329d09884ee9c4078346855e92724a213372e7b7127bb941632e298449b00d17",
+          "half_words_checked": 12896
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T125402Z-resident-swiglu-bf16.batch32-h64-f192-57395064/result.json",
+        "sha256": "e61a850f6af71169650d02de7c2c7c14e0ab68cd2d4355d9fdf2af7dbdd877ca"
+      },
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "92eb795d27144078257bcf2fcefdd62a3fd8df94e27ee604762b73286ebc2a0e",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "0424271a00aabfdd2a9c6a7b5870a65e933b145f1dc9c9dd956858202d1f78d6",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "873bd4490fa9d9f937fa1e457aa0e7e72fdc7180035632eae65b41cc0fe20527",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "8880b3036ee1320a34acff122cb57db75c534d0ad7004634669454da80af5842",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "1cc528734a0b7ccbf0532b31013c10155fedd6c228eda14c72bc348d47e04065",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "2020770bbf5216f365451ef7d408cee809c53fb7a36c9caeb504578d045edd51",
+          "half_words_checked": 184416
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T123227Z-resident-swiglu-bf16.batch4-ffn-b76c237f/result.json",
+        "sha256": "6b08bbdcbf53cf3227f36067e9b117e5c09ed6673616ada46d5350ab0d1ea781"
+      },
+      "profile": "resident-swiglu-bf16.batch4-ffn",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "d4e3d65e59a943f5862de0c823741e93cf520679a52f6fbab3e9ee27b62a3484",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "cc143ccfda83d8cfc5268bc17b91d7d6d5dd5025c5b96e6ae8e9d338c5f698ff",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "4e6d1b549a5cd3947ceb01156d4d6894ab6589ea0a240b12326e8b93536ebf01",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "9cc3233e92784f8bd21b612f5b6432519fabcfc2b098f4a9abbb28708a8c30d2",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "3f23b70eb17e961be9475dbbe306a8052f710d6e106b930f0ffbd7e11afdf4bd",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "0b8c703f3d6ec1ed157ad881d83fc12674c00d5ad6b53a68d849ad086ecfc52f",
+          "half_words_checked": 169312
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T112251Z-resident-swiglu-bf16.ffn-scaled-b3067a0c/result.json",
+        "sha256": "e16e7b5ff3253808f97df4527e520c82ce7df7c46c5606688d72d33fb22078ab"
+      },
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "03bbfdb001570b3cf4d68d00371109ade02fb6071e6b853b80b3a1233ab33301",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "042614e8361e871282092a8803ab13d8211775a1a771c505bf92dd44273ad7e1",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "7b173af663319bc9dc0f7ffe38ecce59e8aad09b17e2b5e1b1d9f2be984a4c66",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "d50b8bfda2f4fcbdb82d13d4dfb8a2efec4c18e9fedc4e4f89834d9cf07094a7",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "8c718215e5fd5e09bf054a9d8f21c19c4671d782827f8d818828f9ab78518848",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "df8ed5466e414a5b1c6514cbf8f600a504e3e7bc6c943e8b617787be6446280e",
+          "half_words_checked": 220000
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T110535Z-resident-swiglu-bf16.small-3dfce701/result.json",
+        "sha256": "be96bf19cc911c88f810d81c95c20a46d43f92b08790d5a5f0217e080a28b439"
+      },
+      "profile": "resident-swiglu-bf16.small",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "bdbac9762df58f4818d46e3a49e4f6d40501f9be20f7a9865cbcdef22d769395",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "53c5fb5acd10b2af626663eaf65b900c3569b7a2124b922dc75fb29aa4196d5d",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "1b59170f7cdc9a44ef662882b6b65178fdf427f09cec38cbf4beff1ba44c28e8",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "31cb8c522f30611d31392c46e2d97f4ee79c177e8b54860548a0bae27480140a",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "0aa18cebcc636d68d3da0418194d6c5bd3f7c5ad030031bc5469c357f7f211df",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "6484f989bb5cbd190410107034bf6860cfe756080278734e6f6a83ddbc7bf40f",
+          "half_words_checked": 12896
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T130106Z-resident-swiglu-bf16.batch32-h64-f192-d1d2a669/result.json",
+        "sha256": "16019655ff070a0358a624bfb1e8dbe3b7dbdafe1d1d28660b9ddc9cab76a1b7"
+      },
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "09ea7d6fa8da2c7cf443a45667acc7edd647bf84742f90d8b9f71fef89f278eb",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "f2b1f6f2ed93c01a8dac23088982ee55dd53615c897b5769f4cc08c7262b0d9a",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "45c051c7643d2f6ebeb8122c041bc4c027697876c65b1de45e1717b73858b3a5",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "1e073e531f86b0276782f611e683cfcd9441c5d2b28c55e72d9067588f3a35c4",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "c530033a84e786456fdab3675e5696e0368813ef29dfef4ad55662f62cf1e618",
+          "half_words_checked": 184416
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "abf5c9e8fb8ca420909603e8b1a0048b483ff02e0cd4fae62f31497ebb1ac436",
+          "half_words_checked": 184416
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T131041Z-resident-swiglu-bf16.batch4-ffn-fae695ab/result.json",
+        "sha256": "5ecd84a45358c2db0efc954a817e5ff09b82c7a16f6384d389146300fdda9554"
+      },
+      "profile": "resident-swiglu-bf16.batch4-ffn",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "8dfce933e922abcde14daf655dd1d214735d36d1c4495311fc632f96779596fc",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "239572d56ff9ee638aceffd77729a29033995f4dcc9a6df346e4aaa7299c8ec6",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "036123da8567fe43554a49489545f540468ad91bbba7a82e946ac23d3751472a",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "abfba1f39c4f315d17e66e422a033ac548c826776bec4927950339564860a9fd",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "ef0d7b58d8caeceeca6588ea90fbeef6e8d8c38968b617255d63942d3ade40cb",
+          "half_words_checked": 169312
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "64469a9af3700fb1a78d4cda2eb6efc2027290964aee4e3ead7789006efd765d",
+          "half_words_checked": 169312
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T132022Z-resident-swiglu-bf16.ffn-scaled-7c15a0eb/result.json",
+        "sha256": "efb2283da17ee73abaa2465477ec2f06271bb285aff8408c212d81ac080559f1"
+      },
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "bd5cbaed032b4a234909b6b0c15913b79743f98bd6aab2ffc1558223bec172b6",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "813711f3a8fab0e6d981bffb53def4ec1327e3aecd5c0a970ba865f5858a573e",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "0b7624e1a1e8434903adfd6f35cd83c833691cdbbeb9661a5212e463cf6b1220",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "89f55ea98020d14045881d07c8854642a1da2ccb90dc15522e6ff55252a2fc62",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "55391694123d3a567a909a8c8b031c44473b931f83c8eac246d8a3bd77da6e8b",
+          "half_words_checked": 220000
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "5e599c419f97b90f25ab103e871a45b9c97526855800c32f59c68bfec55ab731",
+          "half_words_checked": 220000
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T132646Z-resident-swiglu-bf16.small-3ef5f8d4/result.json",
+        "sha256": "00e7eb8109f9ef14d6ffd5615cdec5b147fe17cf07c0c24a33e0e6bcb40efb78"
+      },
+      "profile": "resident-swiglu-bf16.small",
+      "source_sha256": "6cfacf3e5fb34c30bcd8ae53f2e21f0d182aa2b3a94495b960c89b8ac9fd3d0e",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+      "cases": [
+        {
+          "case": "positive",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "4a638485d8044e4e034bff4d3cf9eabc3d4619f779558b74e4d75878d87e8767",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "signed",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "405cb3e486f9f8ec61d65890263d4168c2583fb34b95fb3484a27ecfb91d7635",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "zero",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "a5d71e7f223b22539ecf4c74268413dea6233910b7d3d471b0f6eea20ce1f531",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "cancellation",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "f443fb455cb2e49c08710217902ff1b224d73a035f3b8b2e84ce8bc187b545a3",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "one_hot",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "9719dc89ebd8d67a59f47479d4fce660daa8f9a07e9e30667856e1a6be34ea48",
+          "half_words_checked": 12896
+        },
+        {
+          "case": "mixed_scale",
+          "complete_output_state_and_timer_match": true,
+          "core_sha256": "b2b5317d3bb1c37512e679580b5c511ce3b693a54bbc460181c7112142ea6f4d",
+          "half_words_checked": 12896
+        }
+      ]
+    }
+  ],
+  "qwen_tps_result": false,
+  "manifest_sha256": "f99b96b44346f9a587ab159628602685950edfd3fe1af26a28cd7cae58b3f805"
+}

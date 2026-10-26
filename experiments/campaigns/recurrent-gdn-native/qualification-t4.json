@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "name": "qualify-native-k128-v128-t4-vector-reference",
+  "seed": 20261038,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "candidates": []
+    }
+  ]
+}

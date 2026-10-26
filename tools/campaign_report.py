@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from cerebras_research.ledger import receipt_row
 from cerebras_research.paths import contained, digest, identity, write_json
+from cerebras_research.provenance import evaluator_files
 
 LIVE = {"running", "preparing"}
 
@@ -112,13 +113,7 @@ def build_report(plan_path, state_path):
         checkpoint=dict(path=str(state_path.relative_to(ROOT)), sha256=digest(state_path)),
         evaluator_sha256=state["evaluator_sha256"],
         audit_tool_sha256=digest(Path(__file__)),
-        audit_evaluator_sha256=identity(
-            {
-                str(path.relative_to(ROOT)): digest(path)
-                for path in sorted((ROOT / "src/cerebras_research").glob("*.py"))
-                + sorted((ROOT / "benchmarks/drivers").glob("*.py"))
-            }
-        ),
+        audit_evaluator_sha256=identity(evaluator_files(ROOT)),
         candidate_identities=state.get("candidate_identities", {}),
         imports=dict(
             initial_baselines={

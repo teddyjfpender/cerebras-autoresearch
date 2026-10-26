@@ -1,0 +1,20 @@
+{
+  "adapter": "recurrent_gdn_native",
+  "initial_profile": "recurrent-gdn-native.k128-v128-t4",
+  "source": {
+    "repository": "local",
+    "reference_repository": "https://github.com/huggingface/transformers",
+    "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+    "implementation": "independent native-width FP32 vector reference, one key-head group"
+  },
+  "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "native_gdn.bulk_local_dsr",
+  "hypothesis": "Replace all three K-row state loops with bulk FP32 vector products, repeat-DSD four-partial reductions and pointwise outer update. Reuse only the dead current-frame STATE_HISTORY slot as product scratch; protected save_frame still writes every final state. Execute every product with FP32 MUL/ADD under the original gamma2K/gamma2 bounds; original BF16 output conversion, exact canonical/replica checks and all frames remain. Local mem4d descriptors loaded sequentially into DSR bank zero avoid global descriptor register pressure and constant lowering defects.",
+  "falsification": "Reject incorrect mem4d flattening/reduction, any omitted K*V term/frame/state store, reuse of a past history or live/canonical buffer, scratch extent outside the current frame, changed precision or timing, fixed local/full-chain error failure, shutdown/core/timer failure, speedup below1.05x or memory above1.10x. Require full six-case fresh pairs and exact suite coverage for widening claims.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "parent_candidate": "native-gdn-bulk-state-dsd"
+}

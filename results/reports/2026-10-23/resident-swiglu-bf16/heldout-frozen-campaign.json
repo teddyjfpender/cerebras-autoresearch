@@ -1,0 +1,3239 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-23T12:44:43Z",
+  "campaign_status": "completed",
+  "plan": {
+    "path": "experiments/campaigns/resident-swiglu-bf16/optimization-heldout-frozen.json",
+    "sha256": "df1e09cc262a1e2727bda152846a95e0e7eb04591cdb0e9fb69624f9ac210526",
+    "identity": "5c43177cfe70e973ea7750aaa0081b67ca018fa5f3d19c3fa07dca77fd91f9d0"
+  },
+  "checkpoint": {
+    "path": "runs/campaigns/resident-swiglu-bf16/heldout-frozen-result.json",
+    "sha256": "0f501472e8c81182161f6496fac43968c5a2c7fac6d6311e35ff16761160d811"
+  },
+  "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+  "audit_tool_sha256": "d0afff8452b814db032899c7d26c94d27bd0bacf6180033a5ed75e60c124f1a6",
+  "audit_evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+  "candidate_identities": {
+    "bf16-swiglu-vector-scratch-tail4-runtime": {
+      "source": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
+      "manifest": "0e345e9b8db8cbefc5993a96ff9da6b4ca478c302e41de3ec0137a750c52b205"
+    }
+  },
+  "imports": {
+    "initial_baselines": {
+      "resident-swiglu-bf16.batch4-ffn": "runs/v2/20261023T121213Z-resident-swiglu-bf16.batch4-ffn-5d0f88ec/result.json",
+      "resident-swiglu-bf16.batch32-h64-f192": "runs/v2/20261023T121717Z-resident-swiglu-bf16.batch32-h64-f192-534a0aa4/result.json"
+    },
+    "fresh_baselines": {}
+  },
+  "executed_attempt_count": 5,
+  "requested_profiles": [
+    "resident-swiglu-bf16.batch4-ffn",
+    "resident-swiglu-bf16.batch32-h64-f192"
+  ],
+  "cells": {
+    "resident-swiglu-bf16.batch4-ffn": {
+      "status": "confirmed_improvement",
+      "baseline": "runs/v2/20261023T121213Z-resident-swiglu-bf16.batch4-ffn-5d0f88ec/result.json",
+      "screens": [
+        {
+          "candidate": {
+            "variant": "candidate",
+            "candidate": "bf16-swiglu-vector-scratch-tail4-runtime"
+          },
+          "receipt": "runs/v2/20261023T122820Z-resident-swiglu-bf16.batch4-ffn-1dde540f/result.json",
+          "outcome": "screen_passed",
+          "speedup": 1.8139053114505983,
+          "memory_ratio": 1.063922942206655,
+          "eligible": true
+        }
+      ],
+      "selected": {
+        "variant": "candidate",
+        "candidate": "bf16-swiglu-vector-scratch-tail4-runtime"
+      },
+      "confirmation": "runs/v2/20261023T124057Z-confirmation-a0541ba3/result.json"
+    },
+    "resident-swiglu-bf16.batch32-h64-f192": {
+      "status": "no_confirmed_gain",
+      "baseline": "runs/v2/20261023T121717Z-resident-swiglu-bf16.batch32-h64-f192-534a0aa4/result.json",
+      "screens": [
+        {
+          "candidate": {
+            "variant": "candidate",
+            "candidate": "bf16-swiglu-vector-scratch-tail4-runtime"
+          },
+          "receipt": "runs/v2/20261023T124057Z-resident-swiglu-bf16.batch32-h64-f192-ab1f29fc/result.json",
+          "outcome": "screen_passed",
+          "speedup": 1.5754913250050802,
+          "memory_ratio": 1.1249468763280919,
+          "eligible": false
+        }
+      ]
+    }
+  },
+  "records": [
+    {
+      "receipt": "runs/v2/20261023T121213Z-resident-swiglu-bf16.batch4-ffn-5d0f88ec/result.json",
+      "receipt_sha256": "ef7e5c817543b0a10b8ed179ce578d90692b594af0632b06d32418a447b4465f",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "resident-swiglu-bf16.batch4-ffn",
+        "adapter": "resident_swiglu_bf16",
+        "family": "distributed-resident-swiglu",
+        "dimensions": {
+          "M": 4,
+          "H": 80,
+          "F": 272,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-accum",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2088960,
+        "work_unit": "projection_arithmetic_operations",
+        "description": "Held-out shape: four BF16 resident batches M4/H80/F272, FP32 accumulators and nonlinear/residual arithmetic, BF16 stage boundaries, all outputs/state on 16 PEs.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261033,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 383514.0,
+        "mean_local_cycles": 383505.75,
+        "pe_cycle_spread": 23.0,
+        "max_error_fraction": 0.9960274967053873,
+        "cycles_per_frame": 95878.5,
+        "amortized_cycles_per_batch_row": 23969.625,
+        "max_program_object_bytes_per_pe": 36544,
+        "work_units_per_cycle": 5.446893724870539,
+        "pe_cycles": 6136224.0,
+        "experiment_wall_seconds": 310.32137904799674
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 36544,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 36544
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 36544
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 36544
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 36544
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 36544
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 36544
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 36544
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 36544
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 36544
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 36544
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 36544
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 36544
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 36544
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 36544
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 36544
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 36544
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.4794563460741017,
+          "max_fraction_of_error_bound": 0.9827491483635845,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "ccae89089ca633714b589d898745d5a907174b0f95bab26fa8db81f0460abfb0",
+          "metrics": {
+            "max_local_cycles": 383514.0,
+            "mean_local_cycles": 383505.75,
+            "pe_cycle_spread": 16.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.004476741713342669,
+          "max_fraction_of_error_bound": 0.9960274967053873,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "0c8b5b4704e496158ad6865e5ac03644b15c80f0186513f47d716e4659f0e7ce",
+          "metrics": {
+            "max_local_cycles": 383026.0,
+            "mean_local_cycles": 383015.1875,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "02eeb1bed845f500b24a50eb373670685d4742cb2cfe8cb8851313af9b5210cc",
+          "metrics": {
+            "max_local_cycles": 362298.0,
+            "mean_local_cycles": 362289.75,
+            "pe_cycle_spread": 16.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "57099bdb21d326d994f8f9ba04e66ca16939b54b99f86765fdd8ec1c73b0aa78",
+          "metrics": {
+            "max_local_cycles": 362298.0,
+            "mean_local_cycles": 362289.75,
+            "pe_cycle_spread": 16.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.0026619963295722027,
+          "max_fraction_of_error_bound": 0.9795824326991232,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "c258cf742072a64185e237d45e572cff7b0871b69d5bbde8a57b7c7374315a49",
+          "metrics": {
+            "max_local_cycles": 383001.0,
+            "mean_local_cycles": 382991.0,
+            "pe_cycle_spread": 23.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.0625,
+          "max_fraction_of_error_bound": 0.9868000487007281,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "399fbc504ac19bbdce865c470cff95b8a2c68da7c6aff94f640ad947c1b9176b",
+          "metrics": {
+            "max_local_cycles": 383026.0,
+            "mean_local_cycles": 383015.1875,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident_swiglu_bf16.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "4a95866106608793dcf358ede15f95ca62ac14ec",
+        "git_dirty": false,
+        "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "cc151d08bce5d1b1da6cb8a3fd851149913d3b1f17b2397a0dabade928a36a3a",
+          "src/cerebras_research/catalog.py": "5b994ec06af51233bac91c9af5aaac656b60e17fc45db1db0d9dae20f25672a5",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "640d08cd95c9baf0626992193fcc6944083d1ee2ea28c33cde734647b05cf941",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "efa335096979e53018645b6e8532f6f2271d7d57ff466b3cc2c18010f74f134c",
+      "baseline_tree_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:1,Ht:20,Ft:68,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:1,Ht:20,Ft:68,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 9.725849552998625,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 50.47540999699959,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 51.35105502400074,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 48.435355802999766,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 47.83952178399886,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 50.67186837099871,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 51.039768861000994,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7825496549994568,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T121717Z-resident-swiglu-bf16.batch32-h64-f192-534a0aa4/result.json",
+      "receipt_sha256": "6a562688087a8d8749a1d08aeefb354bf7fd05b9f243fade4e06de23dbb590c0",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "resident-swiglu-bf16.batch32-h64-f192",
+        "adapter": "resident_swiglu_bf16",
+        "family": "distributed-resident-swiglu",
+        "dimensions": {
+          "M": 32,
+          "H": 64,
+          "F": 192,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-accum",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 9437184,
+        "work_unit": "projection_arithmetic_operations",
+        "description": "Held-out shape: four BF16 resident batches M32/H64/F192, FP32 accumulators and nonlinear/residual arithmetic, BF16 stage boundaries, all outputs/state on 16 PEs.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261033,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 651264.0,
+        "mean_local_cycles": 651255.375,
+        "pe_cycle_spread": 40.0,
+        "max_error_fraction": 0.9960479179997055,
+        "cycles_per_frame": 162816.0,
+        "amortized_cycles_per_batch_row": 5088.0,
+        "max_program_object_bytes_per_pe": 37648,
+        "work_units_per_cycle": 14.49056603773585,
+        "pe_cycles": 10420224.0,
+        "experiment_wall_seconds": 426.6547535849986
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 37648,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 37648
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 37648
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 37648
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 37648
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 37648
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 37648
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 37648
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 37648
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 37648
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 37648
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 37648
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 37648
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 37648
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 37648
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 37648
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 37648
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.4908577722949161,
+          "max_fraction_of_error_bound": 0.9933118264155549,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "4cee4c2fd3ec2d142486b64491d20e65ea212c9806b424e76a003ae4774a32cc",
+          "metrics": {
+            "max_local_cycles": 651264.0,
+            "mean_local_cycles": 651255.375,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.004624407356709659,
+          "max_fraction_of_error_bound": 0.9960479179997055,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "14d92b5cd1a390e4916a96ec9d6e244572237e7dcbee5901ab4e3e19a46c3eba",
+          "metrics": {
+            "max_local_cycles": 648374.0,
+            "mean_local_cycles": 648354.875,
+            "pe_cycle_spread": 40.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "0fd531d9304458fcbab426be1c1aaa553c28e39f1cd92915f758486d0efef9f7",
+          "metrics": {
+            "max_local_cycles": 531456.0,
+            "mean_local_cycles": 531447.375,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "0e1efb9595048a3a2a68c771d8965844f3f310a9faf69c4a05c4a1d004635ac3",
+          "metrics": {
+            "max_local_cycles": 531456.0,
+            "mean_local_cycles": 531447.375,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.00391016459397564,
+          "max_fraction_of_error_bound": 0.9798222751112504,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "812a195e91c08f57db547c89a17994ed93518af83cbded38a23deb0de2b0f6d0",
+          "metrics": {
+            "max_local_cycles": 648362.0,
+            "mean_local_cycles": 648349.0625,
+            "pe_cycle_spread": 26.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.06593338026913287,
+          "max_fraction_of_error_bound": 0.9960479179997055,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "0a80cf014b6deacd55353cf12f296bbc07e339890401e4885d35bb1bd548db56",
+          "metrics": {
+            "max_local_cycles": 648374.0,
+            "mean_local_cycles": 648354.875,
+            "pe_cycle_spread": 40.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident_swiglu_bf16.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "4a95866106608793dcf358ede15f95ca62ac14ec",
+        "git_dirty": true,
+        "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "cc151d08bce5d1b1da6cb8a3fd851149913d3b1f17b2397a0dabade928a36a3a",
+          "src/cerebras_research/catalog.py": "5b994ec06af51233bac91c9af5aaac656b60e17fc45db1db0d9dae20f25672a5",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "640d08cd95c9baf0626992193fcc6944083d1ee2ea28c33cde734647b05cf941",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "e7f97b9e08e97c22ff046c78b5c40aff6a1eab79d4f91e8a7940e758fb0d1079",
+      "baseline_tree_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:8,Ht:16,Ft:48,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:8,Ht:16,Ft:48,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 10.209182056998543,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 73.27894392600138,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 72.32737199000076,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 61.74410787399938,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 62.00588001899996,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 72.49055856599989,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 73.82793321899953,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7707759339991753,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T122820Z-resident-swiglu-bf16.batch4-ffn-1dde540f/result.json",
+      "receipt_sha256": "43692bd2e0c45a5581449d3bbb64be9e465d0551ff0b11270567513b408054f1",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "screen_passed",
+      "profile": {
+        "id": "resident-swiglu-bf16.batch4-ffn",
+        "adapter": "resident_swiglu_bf16",
+        "family": "distributed-resident-swiglu",
+        "dimensions": {
+          "M": 4,
+          "H": 80,
+          "F": 272,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-accum",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2088960,
+        "work_unit": "projection_arithmetic_operations",
+        "description": "Held-out shape: four BF16 resident batches M4/H80/F272, FP32 accumulators and nonlinear/residual arithmetic, BF16 stage boundaries, all outputs/state on 16 PEs.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261033,
+      "screen_only": true,
+      "metrics": {
+        "max_local_cycles": 211430.0,
+        "mean_local_cycles": 211167.375,
+        "pe_cycle_spread": 736.0,
+        "max_error_fraction": 0.9827491483635845,
+        "cycles_per_frame": 52857.5,
+        "amortized_cycles_per_batch_row": 13214.375,
+        "max_program_object_bytes_per_pe": 38880,
+        "work_units_per_cycle": 9.880149458449605,
+        "pe_cycles": 3382880.0,
+        "experiment_wall_seconds": 43.782731502997194
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 38880,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 38880
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 38880
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 38880
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 38880
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "cases": [
+          "positive"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.4794563460741017,
+          "max_fraction_of_error_bound": 0.9827491483635845,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "282804e0bd264b0aec2facdfc8b101fdbdc471855fcf90cbd5369cd982a5fee3",
+          "metrics": {
+            "max_local_cycles": 211430.0,
+            "mean_local_cycles": 211167.375,
+            "pe_cycle_spread": 736.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident_swiglu_bf16.vector-silu6-scratch-tail4.runtime-dsd-alias",
+        "candidate": "bf16-swiglu-vector-scratch-tail4-runtime",
+        "hypothesis": "Extend the vector/scratch dispatcher with a degree-4 FP32 Taylor exp tail for 4<abs(g)<=8, four repeated squares and stable SiLU division. Keep degree-six central SiLU and native exp outside abs(g)>8. An exhaustive separate BF16 gate screen passed with one quarter of the unchanged local allowance reserved; require full device/fresh validation. This targets costly positive-tail exp fallbacks without weakening precision or allocating new scratch. Set the aligned W1-to-FP32 scratch alias at runtime: this SDK rejects comptime pointer casts. Preserve the same lifetime/capacity predicate and all requested work.",
+        "falsification": "Reject skipped/reordered projection terms, BF16 accumulation, missing stage quantization, stale logical reads, numerical/state/shutdown failures, protected-control changes, speedup below 1.05x or memory above 1.10x. Require six families, fresh matched seed and complete suite guards for cross-shape claims. Reject any alias used while communication is live or any scratch extent exceeding W1; compare complete working-state histories at both seeds.",
+        "manifest_sha256": "0e345e9b8db8cbefc5993a96ff9da6b4ca478c302e41de3ec0137a750c52b205",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "e92be4246cce6cc4ce765954058efcb4a7ea6c55",
+        "git_dirty": false,
+        "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "cc151d08bce5d1b1da6cb8a3fd851149913d3b1f17b2397a0dabade928a36a3a",
+          "src/cerebras_research/catalog.py": "5b994ec06af51233bac91c9af5aaac656b60e17fc45db1db0d9dae20f25672a5",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "640d08cd95c9baf0626992193fcc6944083d1ee2ea28c33cde734647b05cf941",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "efa335096979e53018645b6e8532f6f2271d7d57ff466b3cc2c18010f74f134c",
+      "baseline_tree_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:1,Ht:20,Ft:68,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:1,Ht:20,Ft:68,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 10.548956039998302,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 32.45411827099815,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7796571920007409,
+          "log": "step-2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T122903Z-resident-swiglu-bf16.batch4-ffn-ad8c9e89/result.json",
+      "receipt_sha256": "d488ecec9227a6b54ffec0f16b4205923e2e42f2557c650ac7004b7aace361be",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "resident-swiglu-bf16.batch4-ffn",
+        "adapter": "resident_swiglu_bf16",
+        "family": "distributed-resident-swiglu",
+        "dimensions": {
+          "M": 4,
+          "H": 80,
+          "F": 272,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-accum",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2088960,
+        "work_unit": "projection_arithmetic_operations",
+        "description": "Held-out shape: four BF16 resident batches M4/H80/F272, FP32 accumulators and nonlinear/residual arithmetic, BF16 stage boundaries, all outputs/state on 16 PEs.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261033,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 211430.0,
+        "mean_local_cycles": 211167.375,
+        "pe_cycle_spread": 736.0,
+        "max_error_fraction": 0.9960274967053873,
+        "cycles_per_frame": 52857.5,
+        "amortized_cycles_per_batch_row": 13214.375,
+        "max_program_object_bytes_per_pe": 38880,
+        "work_units_per_cycle": 9.880149458449605,
+        "pe_cycles": 3382880.0,
+        "experiment_wall_seconds": 205.99196358999689
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 38880,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 38880
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 38880
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 38880
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 38880
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.4794563460741017,
+          "max_fraction_of_error_bound": 0.9827491483635845,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "282804e0bd264b0aec2facdfc8b101fdbdc471855fcf90cbd5369cd982a5fee3",
+          "metrics": {
+            "max_local_cycles": 211430.0,
+            "mean_local_cycles": 211167.375,
+            "pe_cycle_spread": 736.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.004476741713342669,
+          "max_fraction_of_error_bound": 0.9960274967053873,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "20f4d566f7ea1e70dd949456b6953ca88f8e37fbd6a7a35193ddd8027f4ab15e",
+          "metrics": {
+            "max_local_cycles": 210549.0,
+            "mean_local_cycles": 210535.25,
+            "pe_cycle_spread": 23.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "9eb3fbf19141c969746d9084b384c0328f4b08abd3f28c68c1c4e53dc137510b",
+          "metrics": {
+            "max_local_cycles": 210549.0,
+            "mean_local_cycles": 210535.25,
+            "pe_cycle_spread": 23.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "87a0272835ef0fbb610733e19cfcc7e66075a59d7ad6d02cfb21be6dc95d769b",
+          "metrics": {
+            "max_local_cycles": 210549.0,
+            "mean_local_cycles": 210535.25,
+            "pe_cycle_spread": 23.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.0026619963295722027,
+          "max_fraction_of_error_bound": 0.9795824326991232,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "28e30c14a2285d668397c0dcfd4c25ae10e8cf72977bd6a6afe461de0f2cd576",
+          "metrics": {
+            "max_local_cycles": 210549.0,
+            "mean_local_cycles": 210535.25,
+            "pe_cycle_spread": 23.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.0625,
+          "max_fraction_of_error_bound": 0.9868000487007281,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "daa1af9e709c80ddaa8b5a45fd0666b95cb7e12eef749878422058bcb11cb7f1",
+          "metrics": {
+            "max_local_cycles": 210549.0,
+            "mean_local_cycles": 210535.25,
+            "pe_cycle_spread": 23.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident_swiglu_bf16.vector-silu6-scratch-tail4.runtime-dsd-alias",
+        "candidate": "bf16-swiglu-vector-scratch-tail4-runtime",
+        "hypothesis": "Extend the vector/scratch dispatcher with a degree-4 FP32 Taylor exp tail for 4<abs(g)<=8, four repeated squares and stable SiLU division. Keep degree-six central SiLU and native exp outside abs(g)>8. An exhaustive separate BF16 gate screen passed with one quarter of the unchanged local allowance reserved; require full device/fresh validation. This targets costly positive-tail exp fallbacks without weakening precision or allocating new scratch. Set the aligned W1-to-FP32 scratch alias at runtime: this SDK rejects comptime pointer casts. Preserve the same lifetime/capacity predicate and all requested work.",
+        "falsification": "Reject skipped/reordered projection terms, BF16 accumulation, missing stage quantization, stale logical reads, numerical/state/shutdown failures, protected-control changes, speedup below 1.05x or memory above 1.10x. Require six families, fresh matched seed and complete suite guards for cross-shape claims. Reject any alias used while communication is live or any scratch extent exceeding W1; compare complete working-state histories at both seeds.",
+        "manifest_sha256": "0e345e9b8db8cbefc5993a96ff9da6b4ca478c302e41de3ec0137a750c52b205",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "e92be4246cce6cc4ce765954058efcb4a7ea6c55",
+        "git_dirty": true,
+        "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "cc151d08bce5d1b1da6cb8a3fd851149913d3b1f17b2397a0dabade928a36a3a",
+          "src/cerebras_research/catalog.py": "5b994ec06af51233bac91c9af5aaac656b60e17fc45db1db0d9dae20f25672a5",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "640d08cd95c9baf0626992193fcc6944083d1ee2ea28c33cde734647b05cf941",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "efa335096979e53018645b6e8532f6f2271d7d57ff466b3cc2c18010f74f134c",
+      "baseline_tree_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:1,Ht:20,Ft:68,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:1,Ht:20,Ft:68,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 10.547823467000853,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 32.563012896000146,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 32.78599342899906,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 32.252255003000755,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 32.410918995999964,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 32.44205253600012,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 32.21435476099941,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7755525019965717,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T123226Z-comparison-4a88193c/result.json",
+      "receipt_sha256": "f906123d89a0a9d2e52149997491cd34817b79024b4b8d2fdeef64b254085d16",
+      "kind": "comparison",
+      "evidence_audit": "verified",
+      "status": "needs_fresh_confirmation",
+      "decision": "needs_fresh_confirmation",
+      "profile": "resident-swiglu-bf16.batch4-ffn",
+      "inputs": {
+        "baseline": "runs/v2/20261023T121213Z-resident-swiglu-bf16.batch4-ffn-5d0f88ec/result.json",
+        "candidate": "runs/v2/20261023T122903Z-resident-swiglu-bf16.batch4-ffn-ad8c9e89/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "eligible": true,
+      "speedup": 1.8139053114505983,
+      "memory_ratio": 1.063922942206655,
+      "metric": "max_local_cycles",
+      "cycle_reduction_percent": 44.87033067893219
+    },
+    {
+      "receipt": "runs/v2/20261023T123227Z-resident-swiglu-bf16.batch4-ffn-b76c237f/result.json",
+      "receipt_sha256": "6b08bbdcbf53cf3227f36067e9b117e5c09ed6673616ada46d5350ab0d1ea781",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "resident-swiglu-bf16.batch4-ffn",
+        "adapter": "resident_swiglu_bf16",
+        "family": "distributed-resident-swiglu",
+        "dimensions": {
+          "M": 4,
+          "H": 80,
+          "F": 272,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-accum",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2088960,
+        "work_unit": "projection_arithmetic_operations",
+        "description": "Held-out shape: four BF16 resident batches M4/H80/F272, FP32 accumulators and nonlinear/residual arithmetic, BF16 stage boundaries, all outputs/state on 16 PEs.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261034,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 383514.0,
+        "mean_local_cycles": 383505.75,
+        "pe_cycle_spread": 29.0,
+        "max_error_fraction": 0.9960479179997055,
+        "cycles_per_frame": 95878.5,
+        "amortized_cycles_per_batch_row": 23969.625,
+        "max_program_object_bytes_per_pe": 36544,
+        "work_units_per_cycle": 5.446893724870539,
+        "pe_cycles": 6136224.0,
+        "experiment_wall_seconds": 311.88301116200455
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 36544,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 36544
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 36544
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 36544
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 36544
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 36544
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 36544
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 36544
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 36544
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 36544
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 36544
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 36544
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 36544
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 36544
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 36544
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 36544
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 36544
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.4948516638606293,
+          "max_fraction_of_error_bound": 0.9900867760095013,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "f01b74b46e0b1fa8036f171035754a8d5d116cfc55dbb5c344335f7665b7b53b",
+          "metrics": {
+            "max_local_cycles": 383514.0,
+            "mean_local_cycles": 383505.75,
+            "pe_cycle_spread": 16.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.0041228500248169375,
+          "max_fraction_of_error_bound": 0.9960479179997055,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "d2dffd3cf43331889a52c6db3e93454ffeb05d65617ff64701e53bc0ce757ab9",
+          "metrics": {
+            "max_local_cycles": 383030.0,
+            "mean_local_cycles": 383023.375,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "537201266c62b7270a61d7a3b6e09e939bd189c2095082a16eba05263a13cb11",
+          "metrics": {
+            "max_local_cycles": 362298.0,
+            "mean_local_cycles": 362289.75,
+            "pe_cycle_spread": 16.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "57099bdb21d326d994f8f9ba04e66ca16939b54b99f86765fdd8ec1c73b0aa78",
+          "metrics": {
+            "max_local_cycles": 362298.0,
+            "mean_local_cycles": 362289.75,
+            "pe_cycle_spread": 16.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.0032441180651345825,
+          "max_fraction_of_error_bound": 0.9795824326991232,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "c8587dbf0648e63ca302811ea86b8b098d24afd4d8a3e807456f40e05e416c19",
+          "metrics": {
+            "max_local_cycles": 383015.0,
+            "mean_local_cycles": 382999.625,
+            "pe_cycle_spread": 29.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.06511087616498656,
+          "max_fraction_of_error_bound": 0.9959819079999882,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "511f5132f444ea08119e8ff2b5b37be1a8bcc4a438450b46de363fd43390ad22",
+          "metrics": {
+            "max_local_cycles": 383030.0,
+            "mean_local_cycles": 383023.375,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident_swiglu_bf16.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "e92be4246cce6cc4ce765954058efcb4a7ea6c55",
+        "git_dirty": true,
+        "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "cc151d08bce5d1b1da6cb8a3fd851149913d3b1f17b2397a0dabade928a36a3a",
+          "src/cerebras_research/catalog.py": "5b994ec06af51233bac91c9af5aaac656b60e17fc45db1db0d9dae20f25672a5",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "640d08cd95c9baf0626992193fcc6944083d1ee2ea28c33cde734647b05cf941",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "efa335096979e53018645b6e8532f6f2271d7d57ff466b3cc2c18010f74f134c",
+      "baseline_tree_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "source_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:1,Ht:20,Ft:68,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:1,Ht:20,Ft:68,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 10.040088199999445,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 50.48117798199746,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 50.740659232000326,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 49.04297593999945,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 48.89501170600124,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 50.80794652100303,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 51.09697554900049,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7781760320031026,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T123734Z-resident-swiglu-bf16.batch4-ffn-8c6e6c59/result.json",
+      "receipt_sha256": "52895127b46a75b02a1f1c9ad8f180a8213129f8a27b079cff26be4a87f22a8c",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "resident-swiglu-bf16.batch4-ffn",
+        "adapter": "resident_swiglu_bf16",
+        "family": "distributed-resident-swiglu",
+        "dimensions": {
+          "M": 4,
+          "H": 80,
+          "F": 272,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-accum",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2088960,
+        "work_unit": "projection_arithmetic_operations",
+        "description": "Held-out shape: four BF16 resident batches M4/H80/F272, FP32 accumulators and nonlinear/residual arithmetic, BF16 stage boundaries, all outputs/state on 16 PEs.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261034,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 211282.0,
+        "mean_local_cycles": 211101.1875,
+        "pe_cycle_spread": 495.0,
+        "max_error_fraction": 0.9960479179997055,
+        "cycles_per_frame": 52820.5,
+        "amortized_cycles_per_batch_row": 13205.125,
+        "max_program_object_bytes_per_pe": 38880,
+        "work_units_per_cycle": 9.887070360939408,
+        "pe_cycles": 3380512.0,
+        "experiment_wall_seconds": 205.60980587500308
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 38880,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 38880
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 38880
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 38880
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 38880
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 38880
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 38880
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 38880
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.4948516638606293,
+          "max_fraction_of_error_bound": 0.9894056247143663,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "e71c826203973c2ca52dde222072b02f49f499febb79c8065c211a3409a760cb",
+          "metrics": {
+            "max_local_cycles": 211282.0,
+            "mean_local_cycles": 211101.1875,
+            "pe_cycle_spread": 495.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.0041228500248169375,
+          "max_fraction_of_error_bound": 0.9960479179997055,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "1adad8e2f7da22fd965e15c7fd08c074a0b5da4f66685dff5ad1657969a8352a",
+          "metrics": {
+            "max_local_cycles": 210549.0,
+            "mean_local_cycles": 210535.25,
+            "pe_cycle_spread": 23.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "8211a3a3e5c2c0e1173b591ccf8b1f5821cc00f45574d7a0bf67c1f993419071",
+          "metrics": {
+            "max_local_cycles": 210549.0,
+            "mean_local_cycles": 210535.25,
+            "pe_cycle_spread": 23.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "87a0272835ef0fbb610733e19cfcc7e66075a59d7ad6d02cfb21be6dc95d769b",
+          "metrics": {
+            "max_local_cycles": 210549.0,
+            "mean_local_cycles": 210535.25,
+            "pe_cycle_spread": 23.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.0032441180651345825,
+          "max_fraction_of_error_bound": 0.9795824326991232,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "f43129c7288c287075bd3ce17583989848559cf5912b3917a02f2c60b52087e1",
+          "metrics": {
+            "max_local_cycles": 210549.0,
+            "mean_local_cycles": 210535.25,
+            "pe_cycle_spread": 23.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261034,
+          "passed": true,
+          "max_abs_error": 0.06511087616498656,
+          "max_fraction_of_error_bound": 0.9959819079999882,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "7bc41caf1af1cbd32dcc8f7067e65ddc232109a06a7edad190fb73ecbd562b15",
+          "metrics": {
+            "max_local_cycles": 210549.0,
+            "mean_local_cycles": 210535.25,
+            "pe_cycle_spread": 23.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident_swiglu_bf16.vector-silu6-scratch-tail4.runtime-dsd-alias",
+        "candidate": "bf16-swiglu-vector-scratch-tail4-runtime",
+        "hypothesis": "Extend the vector/scratch dispatcher with a degree-4 FP32 Taylor exp tail for 4<abs(g)<=8, four repeated squares and stable SiLU division. Keep degree-six central SiLU and native exp outside abs(g)>8. An exhaustive separate BF16 gate screen passed with one quarter of the unchanged local allowance reserved; require full device/fresh validation. This targets costly positive-tail exp fallbacks without weakening precision or allocating new scratch. Set the aligned W1-to-FP32 scratch alias at runtime: this SDK rejects comptime pointer casts. Preserve the same lifetime/capacity predicate and all requested work.",
+        "falsification": "Reject skipped/reordered projection terms, BF16 accumulation, missing stage quantization, stale logical reads, numerical/state/shutdown failures, protected-control changes, speedup below 1.05x or memory above 1.10x. Require six families, fresh matched seed and complete suite guards for cross-shape claims. Reject any alias used while communication is live or any scratch extent exceeding W1; compare complete working-state histories at both seeds.",
+        "manifest_sha256": "0e345e9b8db8cbefc5993a96ff9da6b4ca478c302e41de3ec0137a750c52b205",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "e92be4246cce6cc4ce765954058efcb4a7ea6c55",
+        "git_dirty": true,
+        "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "cc151d08bce5d1b1da6cb8a3fd851149913d3b1f17b2397a0dabade928a36a3a",
+          "src/cerebras_research/catalog.py": "5b994ec06af51233bac91c9af5aaac656b60e17fc45db1db0d9dae20f25672a5",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "640d08cd95c9baf0626992193fcc6944083d1ee2ea28c33cde734647b05cf941",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "efa335096979e53018645b6e8532f6f2271d7d57ff466b3cc2c18010f74f134c",
+      "baseline_tree_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:1,Ht:20,Ft:68,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:1,Ht:20,Ft:68,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 10.551180968999688,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 33.05508706099863,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 32.714076118001685,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 32.293867890999536,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 32.597323234000214,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 31.658903095001733,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261034"
+          ],
+          "wall_seconds": 31.948915105000196,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7904524020013923,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T124057Z-confirmation-a0541ba3/result.json",
+      "receipt_sha256": "160a558a9ce8dbfb75b0b3ef41ea0094a6a547c571d370fadc29dd05b32d3066",
+      "kind": "confirmation",
+      "evidence_audit": "verified",
+      "status": "confirmed_improvement",
+      "inputs": {
+        "initial_baseline": "runs/v2/20261023T121213Z-resident-swiglu-bf16.batch4-ffn-5d0f88ec/result.json",
+        "initial_candidate": "runs/v2/20261023T122903Z-resident-swiglu-bf16.batch4-ffn-ad8c9e89/result.json",
+        "fresh_baseline": "runs/v2/20261023T123227Z-resident-swiglu-bf16.batch4-ffn-b76c237f/result.json",
+        "fresh_candidate": "runs/v2/20261023T123734Z-resident-swiglu-bf16.batch4-ffn-8c6e6c59/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "initial": {
+        "profile": "resident-swiglu-bf16.batch4-ffn",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T121213Z-resident-swiglu-bf16.batch4-ffn-5d0f88ec/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T122903Z-resident-swiglu-bf16.batch4-ffn-ad8c9e89/result.json",
+        "speedup": 1.8139053114505983,
+        "memory_ratio": 1.063922942206655,
+        "cycle_reduction_percent": 44.87033067893219,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "needs_fresh_confirmation",
+        "qwen_tps_result": false
+      },
+      "confirmation": {
+        "profile": "resident-swiglu-bf16.batch4-ffn",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T123227Z-resident-swiglu-bf16.batch4-ffn-b76c237f/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T123734Z-resident-swiglu-bf16.batch4-ffn-8c6e6c59/result.json",
+        "speedup": 1.8151759260135742,
+        "memory_ratio": 1.063922942206655,
+        "cycle_reduction_percent": 44.90892118671026,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "confirmation_passed",
+        "qwen_tps_result": false
+      }
+    },
+    {
+      "receipt": "runs/v2/20261023T124057Z-resident-swiglu-bf16.batch32-h64-f192-ab1f29fc/result.json",
+      "receipt_sha256": "dccadeced03727905fee7f752a4d5d0c04935b99f63bf8ed8ed60907fe50d84a",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "screen_passed",
+      "profile": {
+        "id": "resident-swiglu-bf16.batch32-h64-f192",
+        "adapter": "resident_swiglu_bf16",
+        "family": "distributed-resident-swiglu",
+        "dimensions": {
+          "M": 32,
+          "H": 64,
+          "F": 192,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-accum",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 9437184,
+        "work_unit": "projection_arithmetic_operations",
+        "description": "Held-out shape: four BF16 resident batches M32/H64/F192, FP32 accumulators and nonlinear/residual arithmetic, BF16 stage boundaries, all outputs/state on 16 PEs.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261033,
+      "screen_only": true,
+      "metrics": {
+        "max_local_cycles": 413372.0,
+        "mean_local_cycles": 413287.4375,
+        "pe_cycle_spread": 216.0,
+        "max_error_fraction": 0.9933118264155549,
+        "cycles_per_frame": 103343.0,
+        "amortized_cycles_per_batch_row": 3229.46875,
+        "max_program_object_bytes_per_pe": 42352,
+        "work_units_per_cycle": 22.829761086866068,
+        "pe_cycles": 6613952.0,
+        "experiment_wall_seconds": 65.08129981399907
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 42352,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 42352
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 42352
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 42352
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 42352
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 42352
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 42352
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 42352
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 42352
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 42352
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 42352
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 42352
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 42352
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 42352
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 42352
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 42352
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 42352
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_swiglu_sequence_bf16_fp32_v1",
+        "cases": [
+          "positive"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261033,
+          "passed": true,
+          "max_abs_error": 0.4908577722949161,
+          "max_fraction_of_error_bound": 0.9933118264155549,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "0472abe473d109b40f321f6041ccf80ec410c7bd104558428a4bbde8278a2f54",
+          "metrics": {
+            "max_local_cycles": 413372.0,
+            "mean_local_cycles": 413287.4375,
+            "pe_cycle_spread": 216.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident_swiglu_bf16.vector-silu6-scratch-tail4.runtime-dsd-alias",
+        "candidate": "bf16-swiglu-vector-scratch-tail4-runtime",
+        "hypothesis": "Extend the vector/scratch dispatcher with a degree-4 FP32 Taylor exp tail for 4<abs(g)<=8, four repeated squares and stable SiLU division. Keep degree-six central SiLU and native exp outside abs(g)>8. An exhaustive separate BF16 gate screen passed with one quarter of the unchanged local allowance reserved; require full device/fresh validation. This targets costly positive-tail exp fallbacks without weakening precision or allocating new scratch. Set the aligned W1-to-FP32 scratch alias at runtime: this SDK rejects comptime pointer casts. Preserve the same lifetime/capacity predicate and all requested work.",
+        "falsification": "Reject skipped/reordered projection terms, BF16 accumulation, missing stage quantization, stale logical reads, numerical/state/shutdown failures, protected-control changes, speedup below 1.05x or memory above 1.10x. Require six families, fresh matched seed and complete suite guards for cross-shape claims. Reject any alias used while communication is live or any scratch extent exceeding W1; compare complete working-state histories at both seeds.",
+        "manifest_sha256": "0e345e9b8db8cbefc5993a96ff9da6b4ca478c302e41de3ec0137a750c52b205",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "e92be4246cce6cc4ce765954058efcb4a7ea6c55",
+        "git_dirty": true,
+        "evaluator_sha256": "20975096ef01adb490bca3da6dada520893f2eb3cca21d9c8d54c02c63ce5845",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "cc151d08bce5d1b1da6cb8a3fd851149913d3b1f17b2397a0dabade928a36a3a",
+          "src/cerebras_research/catalog.py": "5b994ec06af51233bac91c9af5aaac656b60e17fc45db1db0d9dae20f25672a5",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "640d08cd95c9baf0626992193fcc6944083d1ee2ea28c33cde734647b05cf941",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "e7f97b9e08e97c22ff046c78b5c40aff6a1eab79d4f91e8a7940e758fb0d1079",
+      "baseline_tree_sha256": "6a08b7aea18d0f02df049c7d0d2b64005aa536a8d402d57fa3800062c60eee7c",
+      "source_sha256": "8b4aea21a7582f9c036958e05f4844631fa1f804b19e939a933d93bec65ca60c",
+      "harness_sha256": "661916aa11a41d6c5378861a84cda461678710144f55d6fb2146327b6ff45d61",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:8,Ht:16,Ft:48,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:8,Ht:16,Ft:48,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 10.396933852000075,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "resident_swiglu_bf16.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261033"
+          ],
+          "wall_seconds": 53.904934291000245,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.779431670998747,
+          "log": "step-2.log",
+          "exit_code": 0
+        }
+      ]
+    }
+  ],
+  "record_count": 9,
+  "validated_case_count": 30,
+  "artifact_integrity_replayed": true,
+  "numerical_arrays_recomputed": false,
+  "qwen_tps_result": false
+}

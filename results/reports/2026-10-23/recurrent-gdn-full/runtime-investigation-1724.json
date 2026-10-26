@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "status": "full_head_runtime_unresolved",
+  "baseline_cancelled": {
+    "path": "runs/v2/20261023T160509Z-recurrent-gdn-full.k128-v128-h16-t2-a6dce575/result.json",
+    "sha256": "4d7869d3a1dae6abd379f2a86869850b693deeed09e01f2640a3766b6e4de547"
+  },
+  "diagnostics": [
+    {
+      "path": "runs/maintenance/full-grid-transport-diagnostic-v2/result.json",
+      "sha256": "29e78bb283428c81701a1af3ed29ca4f17fc277de895bb2e28e7b74720fd1749"
+    },
+    {
+      "path": "runs/maintenance/full-grid-transport-diagnostic-v3/result.json",
+      "sha256": "d1362901617d4fcfe9fc109c5a87fcaaa45ff276823a8c2607cb432cc0b0b8d2"
+    },
+    {
+      "path": "runs/maintenance/full-grid-transport-diagnostic-v4/result.json",
+      "sha256": "c753e5bf524c65f6d7326f08f0a3babea742231fbb7b14fbba8ef60afaa379b6"
+    },
+    {
+      "path": "runs/maintenance/full-grid-transport-diagnostic-v5/result.json",
+      "sha256": "56fe09ffc63c3bae37edd7b1a3086db28964b4a67c127a56a19305bece0522a3"
+    },
+    {
+      "path": "runs/maintenance/full-grid-transport-diagnostic-v7/result.json",
+      "sha256": "2ddc281b91f1ae273c39c0a926705f6d82958d4bf7903aaf9c9c3e015475033a"
+    },
+    {
+      "path": "runs/maintenance/gdn-pair-transport-diagnostic/result.json",
+      "sha256": "9733c540f3d15070033ffb6372577b795a812dc1262658490af07b8df7825a62"
+    },
+    {
+      "path": "runs/maintenance/full-grid-rpc-sentinel/result.json",
+      "sha256": "70d314ae6ab7ed7f398345681655823c176bf695548a80f8f514c201e422b40c"
+    },
+    {
+      "path": "runs/maintenance/full-grid-h2d-probe/controller-result.json",
+      "sha256": "2826e98189ac4edbf5b58d5526749820955b0d9111cfabe588904185b691e211"
+    },
+    {
+      "path": "runs/maintenance/full-grid-h2d-probe/small-controller-result.json",
+      "sha256": "1cbf727f83afd2c6abeb68deab647887a3166f9df37c9d222a012216a082139f"
+    },
+    {
+      "path": "runs/maintenance/full-grid-h2d-probe/controller-n64-row.json",
+      "sha256": "47373e588d88e329d9d1bf06360ccb3412047d112a8949e1c1383889e42053d1"
+    },
+    {
+      "path": "runs/maintenance/full-grid-h2d-probe/controller-n1024-threads4.json",
+      "sha256": "2497123e4ac53cf7ec093ec2954ef0ff5c0a8aa11683278d8c4ee430a589af9e"
+    },
+    {
+      "path": "runs/maintenance/full-grid-h2d-cursor/controller-result.json",
+      "sha256": "c4a60b6c4f0d23c3373b6721a4dcc45fa71c0875aaed3b30b6f128872f6c5b02"
+    },
+    {
+      "path": "runs/maintenance/full-grid-trace-diagnostic-v2/result.json",
+      "sha256": "40da7f4b88642fd24455a780170c89a5a2f028eacf2803371d9e8eb5c3948603"
+    },
+    {
+      "path": "runs/maintenance/full-grid-trace-diagnostic-v2/trace-summary.json",
+      "sha256": "3e89aaafd413b611edb6c192f56d3271a5bc023117d2d9fbed26c67a05e8882f"
+    },
+    {
+      "path": "runs/maintenance/full-grid-trace-diagnostic-v2/get_instruction_trace_at.json",
+      "sha256": "f6352aa45f946f5c5fc131cd2e3c462e770a5505281df89906ffade3685b4c72"
+    }
+  ],
+  "observations": [
+    "The full resident baseline was cancelled without any accepted score.",
+    "The same identity-state T2 program passes48 PEs with all input/state/timer bits checked.",
+    "A simple768-PE FP32 RPC sentinel and scalar-input N1 probe pass.",
+    "Larger input transfers on768 PEs stall, including row/column/point rectangles, alternative16x48 geometry, and a4-thread diagnostic. No general SDK limit is established.",
+    "A bounded trace contains only early SDK command handling at the sampled PEs; no scored arithmetic profile is established.",
+    "The pre-stop checkpoint is not post-execution proof and contains no valid completed timer intervals. Removing timer or shutdown checks is not an accepted remedy."
+  ],
+  "scope": "Unscored runtime investigation. Failed/cancelled probes do not qualify a baseline, improvement, model result or hardware TPS.",
+  "qwen_tps_result": false
+}

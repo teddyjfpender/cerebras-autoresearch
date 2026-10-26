@@ -89,3 +89,30 @@ silently use more PEs or weaker accuracy.
 
 Simulator results do not establish hardware TPS, energy, sustained service
 capacity, or a faster hosted model. API telemetry has its own protocol.
+
+## Descriptive paired-array audit
+
+After full validation, `tools/paired_array_report.py` compares explicitly named
+raw arrays from matched baseline/candidate receipts. Its manifest binds each
+receipt digest; it checks profile, seed, evaluator, SDK, compiler arguments and
+harness identity before reporting changed words and numeric differences. Use
+`--bf16-keys` for raw BF16 uint16 arrays so their values are decoded correctly.
+
+```sh
+tools/sdk-run cs_python tools/paired_array_report.py \
+  --manifest runs/paired-arrays.json \
+  --keys bits_g bits_u bits_v bits_d bits_y \
+  --bf16-keys bits_g bits_u bits_v bits_d bits_y \
+  --output results/reports/paired-arrays.json
+```
+
+This read-only report describes these arrays. It does not grant retention,
+replace the independent numerical/core replay, or prove equivalent requested work.
+Keep its immutable output and audit-tool identity alongside the full evidence.
+
+The `all` suite is the current catalog aggregate. Its membership grows when new
+profiles are registered; each receipt preserves the exact requested membership
+and identities. Historical aggregate receipts retain their original scope and
+metrics. Obtain new baselines for changed aggregate membership. Dedicated frozen
+family suites keep their published contracts; `all` mixes validation tiers and
+cannot receive automatic promotion.

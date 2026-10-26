@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "status": "two_complete_chain_baselines_qualified",
+  "case_count": 12,
+  "records": [
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T095750Z-resident-swiglu.small-e10bd3dd/result.json",
+        "sha256": "142475e3d676b96f41ea2e9648e63029cbae5e2dec3cf164530f4deadfba4109"
+      },
+      "profile": {
+        "id": "resident-swiglu.small",
+        "adapter": "resident_swiglu",
+        "family": "distributed-resident-swiglu",
+        "dimensions": {
+          "M": 16,
+          "H": 16,
+          "F": 32,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16-fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_swiglu_sequence_fp16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 196608,
+        "work_unit": "projection_arithmetic_operations",
+        "description": "Four distinct resident batches: gate/up projections, SiLU/product, down projection and residual; every intermediate/output and canonical/boundary weight state checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-batch chain including all copies, padded communication, three projections, nonlinear/residual, all intermediate/output and boundary-state stores"
+        }
+      },
+      "metrics": {
+        "max_local_cycles": 58502.0,
+        "mean_local_cycles": 58493.875,
+        "pe_cycle_spread": 22.0,
+        "max_error_fraction": 0.40993133797409836,
+        "cycles_per_frame": 14625.5,
+        "amortized_cycles_per_batch_row": 914.09375,
+        "max_program_object_bytes_per_pe": 10496,
+        "work_units_per_cycle": 3.360705616901986,
+        "pe_cycles": 936032.0,
+        "experiment_wall_seconds": 57.38554192800075
+      },
+      "source_sha256": "b2222b5c6e64617041b914a0c4eda1b1704ef6023a059c6f99a187fe47d75397",
+      "baseline_tree_sha256": "b2222b5c6e64617041b914a0c4eda1b1704ef6023a059c6f99a187fe47d75397",
+      "harness_sha256": "d143d36875f2c1038606c72fa744ba9ec52a0a813b276bb9f51e4eb4adefc818",
+      "evaluator_sha256": "91f1236a2df72a9ac422df7d6728a3fe723070338435e8ed51e96fa7016aedb8",
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Ht:4,Ft:8,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 0.015900060534477234,
+          "max_fraction_of_error_bound": 0.23443956887103382,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "e460170b8aa0b89ca300ff055648aa0856a75fa379966ac9fc2507be81ce2fe9",
+          "metrics": {
+            "max_local_cycles": 58502.0,
+            "mean_local_cycles": 58493.875,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 0.002178311871830374,
+          "max_fraction_of_error_bound": 0.34839159122285,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "e26eedda316625321b67d0edaee36e75d864b95d0094ca813a96f8c44d035cb6",
+          "metrics": {
+            "max_local_cycles": 58319.0,
+            "mean_local_cycles": 58312.125,
+            "pe_cycle_spread": 22.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "ff2d2c96629e89bd672218a8aede30a8886e5e588d73002ab168f4cc3f8bcf12",
+          "metrics": {
+            "max_local_cycles": 48518.0,
+            "mean_local_cycles": 48509.875,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "1e335b6fb9d16ed62872c76d916a9f9bf3bde14e8a965679777c3da4631aadc2",
+          "metrics": {
+            "max_local_cycles": 48518.0,
+            "mean_local_cycles": 48509.875,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 0.0001220703125,
+          "max_fraction_of_error_bound": 0.40993133797409836,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "f89419d962c56c4a02d796b165f70f56e59c6ae8e5e76758ea7db0fd9aa667b4",
+          "metrics": {
+            "max_local_cycles": 58313.0,
+            "mean_local_cycles": 58304.6875,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 0.004076300499971097,
+          "max_fraction_of_error_bound": 0.34839159122285,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "fee8c1495b0883595f122d3c5f2ed312493d5b03368acb6ab41ec46ac5f6faf5",
+          "metrics": {
+            "max_local_cycles": 58319.0,
+            "mean_local_cycles": 58312.125,
+            "pe_cycle_spread": 22.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "compute_elf_count": 16,
+      "saved_core_count": 6
+    },
+    {
+      "receipt": {
+        "path": "runs/v2/20261023T100030Z-resident-swiglu.ffn-scaled-76fcd3bf/result.json",
+        "sha256": "a3c9504a44e2a490a731bedeec734c80fb050c373c8aed34f5483f3a7f929809"
+      },
+      "profile": {
+        "id": "resident-swiglu.ffn-scaled",
+        "adapter": "resident_swiglu",
+        "family": "distributed-resident-swiglu",
+        "dimensions": {
+          "M": 16,
+          "H": 80,
+          "F": 272,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16-fp32",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_swiglu_sequence_fp16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 8355840,
+        "work_unit": "projection_arithmetic_operations",
+        "description": "Four distinct resident batches: gate/up projections, SiLU/product, down projection and residual; every intermediate/output and canonical/boundary weight state checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-batch chain including all copies, padded communication, three projections, nonlinear/residual, all intermediate/output and boundary-state stores"
+        }
+      },
+      "metrics": {
+        "max_local_cycles": 586834.0,
+        "mean_local_cycles": 586823.625,
+        "pe_cycle_spread": 42.0,
+        "max_error_fraction": 0.4833402545191481,
+        "cycles_per_frame": 146708.5,
+        "amortized_cycles_per_batch_row": 9169.28125,
+        "max_program_object_bytes_per_pe": 43712,
+        "work_units_per_cycle": 14.238847783189113,
+        "pe_cycles": 9389344.0,
+        "experiment_wall_seconds": 428.4881391560002
+      },
+      "source_sha256": "b2222b5c6e64617041b914a0c4eda1b1704ef6023a059c6f99a187fe47d75397",
+      "baseline_tree_sha256": "b2222b5c6e64617041b914a0c4eda1b1704ef6023a059c6f99a187fe47d75397",
+      "harness_sha256": "d143d36875f2c1038606c72fa744ba9ec52a0a813b276bb9f51e4eb4adefc818",
+      "evaluator_sha256": "91f1236a2df72a9ac422df7d6728a3fe723070338435e8ed51e96fa7016aedb8",
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Ht:20,Ft:68,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 0.7361116188302788,
+          "max_fraction_of_error_bound": 0.24698170483269563,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "cd30663c701473c0395509cae610d1ed591d0b4e92f24f96bf4aa872808057bd",
+          "metrics": {
+            "max_local_cycles": 586834.0,
+            "mean_local_cycles": 586823.625,
+            "pe_cycle_spread": 24.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 0.004841202637180686,
+          "max_fraction_of_error_bound": 0.4426050399133384,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "b9f05215084b20510fb1c7ac1de20452f167f46d0c6f8d0d003f240a73193173",
+          "metrics": {
+            "max_local_cycles": 585314.0,
+            "mean_local_cycles": 585289.0,
+            "pe_cycle_spread": 42.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "c89406c304e68dc3b9aaeeb76d1631f736859f8d769fb8671bdb3a77b7bc7748",
+          "metrics": {
+            "max_local_cycles": 501970.0,
+            "mean_local_cycles": 501959.625,
+            "pe_cycle_spread": 24.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "5e004b285886ef8cb279c26b07691fe970940e682a680bc845bff8a70a5f4e64",
+          "metrics": {
+            "max_local_cycles": 501970.0,
+            "mean_local_cycles": 501959.625,
+            "pe_cycle_spread": 24.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 6.103515625e-05,
+          "max_fraction_of_error_bound": 0.4833402545191481,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "b44a0c05400ea7e5c62117a1e48a527a8b4bc1381bbb18fb0947607e523ca37a",
+          "metrics": {
+            "max_local_cycles": 585282.0,
+            "mean_local_cycles": 585272.9375,
+            "pe_cycle_spread": 26.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261031,
+          "passed": true,
+          "max_abs_error": 0.010850654503784085,
+          "max_fraction_of_error_bound": 0.4426050399133384,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "3edc423f179c7875021dea87ea28f00feb8dba5c2dbdf8ef26a04a8b3fc36357",
+          "metrics": {
+            "max_local_cycles": 585314.0,
+            "mean_local_cycles": 585289.0,
+            "pe_cycle_spread": 42.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "compute_elf_count": 16,
+      "saved_core_count": 6
+    }
+  ],
+  "numerical_replay": "results/reports/2026-10-23/resident-swiglu/qualified-full-numerics.json",
+  "core_replay": "results/reports/2026-10-23/resident-swiglu/qualified-full-snapshots.json",
+  "qwen_tps_result": false
+}

@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_suite_improvement",
+  "created_utc": "2026-10-23T11:39:25.837426+00:00",
+  "decision": {
+    "status": "confirmed_suite_improvement",
+    "initial": {
+      "geometric_mean_speedup": 1.4560062197058925,
+      "worst_speedup": 1.4133027412148291,
+      "profiles": [
+        "resident-swiglu-bf16.small",
+        "resident-swiglu-bf16.ffn-scaled"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "resident-swiglu-bf16.small",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T105329Z-resident-swiglu-bf16.small-55f690a3/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T110446Z-resident-swiglu-bf16.small-7067e8b4/result.json",
+          "speedup": 1.5,
+          "memory_ratio": 1.0216450216450217,
+          "cycle_reduction_percent": 33.333333333333336,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu-bf16.ffn-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T105451Z-resident-swiglu-bf16.ffn-scaled-1a17f4c9/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T111718Z-resident-swiglu-bf16.ffn-scaled-a853a262/result.json",
+          "speedup": 1.4133027412148291,
+          "memory_ratio": 1.0436697247706421,
+          "cycle_reduction_percent": 29.243751473910507,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "confirmation": {
+      "geometric_mean_speedup": 1.4513499499657343,
+      "worst_speedup": 1.4042777848436927,
+      "profiles": [
+        "resident-swiglu-bf16.small",
+        "resident-swiglu-bf16.ffn-scaled"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "resident-swiglu-bf16.small",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T110535Z-resident-swiglu-bf16.small-3dfce701/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T110631Z-resident-swiglu-bf16.small-c4fc2805/result.json",
+          "speedup": 1.5,
+          "memory_ratio": 1.0216450216450217,
+          "cycle_reduction_percent": 33.333333333333336,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "resident-swiglu-bf16.ffn-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T112251Z-resident-swiglu-bf16.ffn-scaled-b3067a0c/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T113016Z-resident-swiglu-bf16.ffn-scaled-358e022e/result.json",
+          "speedup": 1.4042777848436927,
+          "memory_ratio": 1.0436697247706421,
+          "cycle_reduction_percent": 28.78901804237344,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "cell_evidence": {
+      "resident-swiglu-bf16.small": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.5,
+        "confirmation_speedup": 1.5
+      },
+      "resident-swiglu-bf16.ffn-scaled": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.4133027412148291,
+        "confirmation_speedup": 1.4042777848436927
+      }
+    },
+    "scope": "exact complete suite coverage",
+    "qwen_tps_result": false,
+    "schema_version": 2,
+    "record_type": "suite_confirmation",
+    "inputs": {
+      "initial_baseline": "runs/v2/20261023T113831Z-suite-reuse-956dc354/result.json",
+      "initial_candidate": "runs/v2/20261023T113831Z-suite-reuse-ae1ebb0d/result.json",
+      "fresh_baseline": "runs/v2/20261023T113831Z-suite-reuse-5f2afc89/result.json",
+      "fresh_candidate": "runs/v2/20261023T113831Z-suite-reuse-5b5c2d25/result.json"
+    },
+    "budgets": {
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "regression_limit": 1.02
+    },
+    "receipt": "runs/v2/20261023T113833Z-suite_confirmation-39ab138f/result.json"
+  },
+  "state": {
+    "path": "runs/campaigns/resident-swiglu-bf16/initial-suite-state.json",
+    "sha256": "843bdd553360b6292c0bd6e07ac61c98029215ea9400699a4435903e0a7386f9"
+  },
+  "arms": {
+    "initial_baseline": {
+      "path": "runs/v2/20261023T113831Z-suite-reuse-956dc354/result.json",
+      "sha256": "ee44759a63a545cef128013a3dcff0987ec3102871ea9f954d404b43ff790ce4"
+    },
+    "initial_candidate": {
+      "path": "runs/v2/20261023T113831Z-suite-reuse-ae1ebb0d/result.json",
+      "sha256": "2da4b8630bb7c58e0966d333c3d620e38dffe60bbfc3a9a8ea055fced41277b1"
+    },
+    "fresh_baseline": {
+      "path": "runs/v2/20261023T113831Z-suite-reuse-5f2afc89/result.json",
+      "sha256": "ea2d47ef6ddd7f0601aa1d91aa7b7247fecf70bb1bc20efff8ed496dd63dd8f7"
+    },
+    "fresh_candidate": {
+      "path": "runs/v2/20261023T113831Z-suite-reuse-5b5c2d25/result.json",
+      "sha256": "cc164fbc1cf95263dd8f39eec13cbc5cd5c7e78d37d8b2de8784f3375b23aaa8"
+    }
+  },
+  "campaign": {
+    "path": "results/reports/2026-10-23/resident-swiglu-bf16/initial-optimization-campaign.json",
+    "sha256": "869d5409448944af4fd5c0fade740162e5624284c8dc18640cf82ccfe702114a"
+  },
+  "numerics": {
+    "path": "results/reports/2026-10-23/resident-swiglu-bf16/initial-suite-numerics.json",
+    "sha256": "faff751a0c3f5dd05f4e16b57edb943b60eedd8ed03e5a947085e735e408ed9e"
+  },
+  "snapshots": {
+    "path": "results/reports/2026-10-23/resident-swiglu-bf16/initial-suite-snapshots.json",
+    "sha256": "9dcd167fe335f96bebdb2d608038123f32d2c6a23256b7a915c885f643ad31c7"
+  },
+  "case_count": 48,
+  "qwen_tps_result": false,
+  "scope": "Complete four-frame distributed BF16-storage/FP32-accumulator SwiGLU; two fixed16-PE profiles, two seeds, every stage and canonical/working state."
+}

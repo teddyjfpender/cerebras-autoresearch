@@ -7,11 +7,21 @@ import subprocess
 from .paths import ROOT, digest, identity
 
 
-def capture(profile, variant, candidate=None):
-    files = sorted((ROOT / "src/cerebras_research").glob("*.py")) + sorted(
-        (ROOT / "benchmarks/drivers").glob("*.py")
+def evaluator_files(root=None):
+    root = ROOT if root is None else root
+    files = sorted((root / "src/cerebras_research").glob("*.py")) + sorted(
+        (root / "benchmarks/drivers").glob("*.py")
     )
-    evaluator = {str(p.relative_to(ROOT)): digest(p) for p in files}
+    files += [
+        root / name
+        for name in ("tools/sdk-run", "config/sdk-platform.json", "config/sdk-install.json")
+        if (root / name).is_file()
+    ]
+    return {str(path.relative_to(root)): digest(path) for path in files}
+
+
+def capture(profile, variant, candidate=None):
+    evaluator = evaluator_files()
 
     def git(*args):
         return subprocess.check_output(

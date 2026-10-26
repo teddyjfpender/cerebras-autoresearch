@@ -7,7 +7,20 @@ import re
 from .paths import ROOT, contained, identity
 
 CATALOG = ROOT / "benchmarks/manifests/catalog.json"
-ADAPTERS = {"meshgemv", "meshgemm", "pipeline", "gated_mlp", "decoder", "reusable_gemm", "sdk"}
+ADAPTERS = {
+    "meshgemv",
+    "meshgemm",
+    "pipeline",
+    "gated_mlp",
+    "decoder",
+    "reusable_gemm",
+    "resident_swiglu",
+    "resident_swiglu_bf16",
+    "recurrent_gdn",
+    "recurrent_gdn_native",
+    "recurrent_gdn_full",
+    "sdk",
+}
 
 
 def load_catalog():
@@ -67,6 +80,11 @@ def load_catalog():
                 "gated_mlp": (0, 1),
                 "decoder": (0, 1),
                 "reusable_gemm": (0, 1),
+                "resident_swiglu": (0, 1),
+                "resident_swiglu_bf16": (0, 1),
+                "recurrent_gdn": (0, 1),
+                "recurrent_gdn_native": (0, 1),
+                "recurrent_gdn_full": (0, 1),
             }[profile["adapter"]]
             timing = profile["timing_protocol"]
             if (timing["warmups"], timing["repeats"]) != expected_timing:
@@ -88,6 +106,80 @@ def load_catalog():
                 or (dims["K"] + 4) * 2**-11 >= 1
             ):
                 raise ValueError(f"Invalid resident GEMM sequence contract: {name}")
+        if profile["adapter"] == "resident_swiglu":
+            dims = profile["dimensions"]
+            if (
+                grid != [4, 4]
+                or set(dims) != {"M", "H", "F", "T"}
+                or dims.get("T") != 4
+                or any(dims[k] % 4 for k in ("M", "H", "F"))
+                or dims["F"] < dims["H"]
+                or profile["precision"] != "fp16-fp32"
+                or profile.get("oracle_contract") != "resident_swiglu_sequence_fp16_fp32_v1"
+                or (dims["F"] + 4) * 2**-11 >= 1
+                or profile["work_unit"] != "projection_arithmetic_operations"
+                or profile["work_units"] != 6 * dims["T"] * dims["M"] * dims["H"] * dims["F"]
+            ):
+                raise ValueError(f"Invalid resident SwiGLU sequence contract: {name}")
+        if profile["adapter"] == "resident_swiglu_bf16":
+            dims = profile["dimensions"]
+            if (
+                grid != [4, 4]
+                or set(dims) != {"M", "H", "F", "T"}
+                or dims.get("T") != 4
+                or any(dims[k] % 4 for k in ("M", "H", "F"))
+                or dims["F"] < dims["H"]
+                or (dims["M"] // 4) * (dims["F"] // 4) % 2
+                or (dims["H"] // 4) * (dims["F"] // 4) % 2
+                or profile["precision"] != "bf16-fp32-accum"
+                or profile.get("oracle_contract") != "resident_swiglu_sequence_bf16_fp32_v1"
+                or (dims["F"] + 4) * 2**-24 >= 1
+                or profile["work_unit"] != "projection_arithmetic_operations"
+                or profile["work_units"] != 6 * dims["T"] * dims["M"] * dims["H"] * dims["F"]
+            ):
+                raise ValueError(f"Invalid BF16 resident chain contract: {name}")
+        if profile["adapter"] == "recurrent_gdn":
+            dims = profile["dimensions"]
+            if (
+                grid != [4, 4]
+                or set(dims) != {"K", "V", "T", "R"}
+                or dims.get("K") not in (16, 32)
+                or dims.get("V") != 16
+                or dims.get("T") != 4
+                or dims.get("R") != 3
+                or profile["precision"] != "bf16-fp32-state"
+                or profile.get("oracle_contract") != "resident_recurrent_gdn_bf16_fp32_v1"
+                or profile["work_unit"] != "state_arithmetic_operations"
+                or profile["work_units"]
+                != 16 * dims["T"] * dims["R"] * (7 * dims["K"] * dims["V"] + 2 * dims["V"])
+            ):
+                raise ValueError(f"Invalid recurrent gated delta contract: {name}")
+        if profile["adapter"] == "recurrent_gdn_native":
+            dims = profile["dimensions"]
+            cell = (dims.get("T"), dims.get("VT"), *grid)
+            if (
+                set(dims) != {"K", "V", "T", "R", "VT"}
+                or dims.get("K") != 128
+                or dims.get("V") != 128
+                or dims.get("R") != 3
+                or cell not in ((4, 8, 8, 6), (8, 4, 12, 8))
+                or profile["precision"] != "bf16-fp32-state"
+                or profile.get("oracle_contract") != "resident_recurrent_gdn_native_head_group_v1"
+                or profile["work_unit"] != "state_arithmetic_operations"
+                or profile["work_units"] != 3 * dims["T"] * (7 * 128 * 128 + 2 * 128)
+            ):
+                raise ValueError(f"Invalid native-width recurrent contract: {name}")
+        if profile["adapter"] == "recurrent_gdn_full":
+            dims = profile["dimensions"]
+            if (
+                dims != {"G": 16, "R": 3, "K": 128, "V": 128, "T": 2, "VT": 8}
+                or grid != [32, 24]
+                or profile["precision"] != "bf16-fp32-state"
+                or profile.get("oracle_contract") != "resident_recurrent_gdn_full_native_heads_v1"
+                or profile["work_unit"] != "state_arithmetic_operations"
+                or profile["work_units"] != 16 * 3 * 2 * (7 * 128 * 128 + 2 * 128)
+            ):
+                raise ValueError(f"Invalid full native recurrent head contract: {name}")
         if profile["adapter"] == "pipeline" and grid != [1, 1]:
             raise ValueError(f"Current pipeline adapter requires one PE: {name}")
         if profile["adapter"] in ("gated_mlp", "decoder"):

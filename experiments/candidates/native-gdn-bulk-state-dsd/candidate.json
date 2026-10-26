@@ -1,0 +1,25 @@
+{
+  "adapter": "recurrent_gdn_native",
+  "initial_profile": "recurrent-gdn-native.k128-v128-t4",
+  "source": {
+    "repository": "local",
+    "reference_repository": "https://github.com/huggingface/transformers",
+    "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+    "implementation": "independent native-width FP32 vector reference, one key-head group"
+  },
+  "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "native_gdn.bulk_mem4d_fp32_state",
+  "hypothesis": "Replace all three K-row state loops with bulk FP32 vector products, repeat-DSD four-partial reductions and pointwise outer update. Reuse only the dead current-frame STATE_HISTORY slot as product scratch; protected save_frame still writes every final state. Execute every product with FP32 MUL/ADD under the original gamma2K/gamma2 bounds; original BF16 output conversion, exact canonical/replica checks and all frames remain.",
+  "falsification": "Reject incorrect mem4d flattening/reduction, any omitted K*V term/frame/state store, reuse of a past history or live/canonical buffer, scratch extent outside the current frame, changed precision or timing, fixed local/full-chain error failure, shutdown/core/timer failure, speedup below1.05x or memory above1.10x. Require full six-case fresh pairs and exact suite coverage for widening claims.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "parent_candidate": "native-gdn-vector-norm",
+  "parent_source_sha256": "20667875a1c72511275a5b0faeedb7c65a9d35c8fa3372140fd1799df6e862e3",
+  "qualification_receipt": "runs/v2/20261023T142107Z-recurrent-gdn-native.k128-v128-t4-43a81f78/result.json",
+  "qualification_receipt_sha256": "1d6afd074d8993faa90d478575df41a46aa83f3e821844ee5fbe6377a03d2d87",
+  "sdk_pattern_source": "sdk-examples/benchmarks/25-pt-stencil/task.csl:reduceBuffer",
+  "sdk_pattern_file_sha256": "80a4b983731416d060f914b051dd3a7e7716af5d446f005b829edd662fdef603"
+}

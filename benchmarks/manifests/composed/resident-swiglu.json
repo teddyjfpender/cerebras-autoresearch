@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "resident-swiglu.small",
+      "adapter": "resident_swiglu",
+      "family": "distributed-resident-swiglu",
+      "dimensions": {
+        "M": 16,
+        "H": 16,
+        "F": 32,
+        "T": 4
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16-fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_swiglu_sequence_fp16_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 196608,
+      "work_unit": "projection_arithmetic_operations",
+      "description": "Four distinct resident batches: gate/up projections, SiLU/product, down projection and residual; every intermediate/output and canonical/boundary weight state checked.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-batch chain including all copies, padded communication, three projections, nonlinear/residual, all intermediate/output and boundary-state stores"
+      }
+    },
+    {
+      "id": "resident-swiglu.ffn-scaled",
+      "adapter": "resident_swiglu",
+      "family": "distributed-resident-swiglu",
+      "dimensions": {
+        "M": 16,
+        "H": 80,
+        "F": 272,
+        "T": 4
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16-fp32",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_swiglu_sequence_fp16_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 8355840,
+      "work_unit": "projection_arithmetic_operations",
+      "description": "Four distinct resident batches: gate/up projections, SiLU/product, down projection and residual; every intermediate/output and canonical/boundary weight state checked.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-batch chain including all copies, padded communication, three projections, nonlinear/residual, all intermediate/output and boundary-state stores"
+      }
+    }
+  ]
+}

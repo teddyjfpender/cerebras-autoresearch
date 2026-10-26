@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "name": "fp32-vector-recurrent-state-two-widths",
+  "seed": 20261035,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "recurrent-gdn.k16-v16",
+      "baseline_receipt": "runs/v2/20261023T133631Z-recurrent-gdn.k16-v16-678410d7/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "recurrent-gdn-vector-state"
+        }
+      ]
+    },
+    {
+      "profile": "recurrent-gdn.k32-v16",
+      "baseline_receipt": "runs/v2/20261023T134108Z-recurrent-gdn.k32-v16-06a7ba14/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "recurrent-gdn-vector-state"
+        }
+      ]
+    }
+  ]
+}

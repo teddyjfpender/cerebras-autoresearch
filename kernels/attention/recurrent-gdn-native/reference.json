@@ -1,0 +1,6 @@
+{
+  "repository": "https://github.com/huggingface/transformers",
+  "commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+  "url": "https://raw.githubusercontent.com/huggingface/transformers/129e8dc306932532e0b9e702d1fb4d5d7771c2a4/src/transformers/models/qwen3_5/modeling_qwen3_5.py",
+  "sha256": "af05d0acfe79fff8aea1c75f93516a6a72bc80f6f901329a73e66a3866fe1e7c"
+}

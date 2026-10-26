@@ -1,0 +1,97 @@
+"""Unscored full-head FP32 arithmetic preflight using pinned upstream prefixes."""
+
+import argparse
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
+sys.path.insert(0, str(ROOT / "experiments/incubator/recurrent-gdn-native"))
+from bulk_precision_probe import simulate  # noqa: E402
+from recurrent_gdn_full_oracle import evidence, inputs  # noqa: E402
+from resident_swiglu_bf16_oracle import decode  # noqa: E402
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    reference = ROOT / "runs/maintenance/recurrent-gdn-full-upstream-reference.json"
+    output = args.output.resolve()
+    if output.exists():
+        raise ValueError("Historical evidence is immutable")
+    records = []
+    for item in json.loads(reference.read_text())["records"]:
+        path = ROOT / item["artifact"]
+        if hashlib.sha256(path.read_bytes()).hexdigest() != item["artifact_sha256"]:
+            raise ValueError("Upstream raw arrays changed")
+        data = inputs(2, item["seed"], item["case"])
+        with np.load(path, allow_pickle=False) as raw:
+            prefix = {n: raw[n].copy() for n in ("Q_HISTORY", "K_HISTORY", "A_HISTORY")}
+        # FP32 square, sixteen ascending partial sums, balanced FP32 tree.
+        for name, output_name in (("Q_CANON", "Q_HISTORY"), ("K_CANON", "K_HISTORY")):
+            raw_value = decode(data[name])
+            squares = (raw_value * raw_value).astype(np.float32).reshape(16, 2, 8, 16)
+            partial = np.zeros((16, 2, 16), np.float32)
+            for row in range(8):
+                partial = (partial + squares[:, :, row]).astype(np.float32)
+            while partial.shape[-1] > 1:
+                partial = (partial[..., 0::2] + partial[..., 1::2]).astype(np.float32)
+            inverse = (
+                np.float32(1) / np.sqrt((partial[..., 0] + np.float32(0.000001)).astype(np.float32))
+            ).astype(np.float32)
+            prefix[output_name] = (raw_value * inverse[..., None]).astype(np.float32)
+            if name == "Q_CANON":
+                scale = np.float32(1) / np.sqrt(np.float32(128))
+                prefix[output_name] = (prefix[output_name] * scale).astype(np.float32)
+        groups = []
+        for group in range(16):
+            groups.append(
+                simulate(
+                    {k: v[group] for k, v in data.items()},
+                    {k: v[group] for k, v in prefix.items()},
+                    2,
+                )
+            )
+        actual = {k: np.stack([g[k] for g in groups]) for k in groups[0]}
+        arrays, error, bound = evidence(2, data, actual, data)
+        if not arrays["exact_state_match"] or not np.all(error <= bound):
+            raise AssertionError("Original fixed numerical contract failed")
+        records.append(
+            dict(
+                case=item["case"],
+                seed=item["seed"],
+                max_error_fraction=float((error / bound).max()),
+                passed=True,
+                artifact_sha256=item["artifact_sha256"],
+            )
+        )
+    result = dict(
+        schema_version=1,
+        status="full_native_bulk_vector_norm_preflight_passed",
+        script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        records=records,
+        sdk_device_execution=False,
+        performance_measurement=False,
+        qwen_tps_result=False,
+        scope="All16 key groups,48 value heads,K/V128,T2 FP32 MUL/ADD and four-partial arithmetic under fixed bounds. Sixteen-partial FP32 vector norm with fixed epsilon/sqrt/scaling; actual upstream decay prefixes. Descriptor traversal, aliasing, compiler execution and timed speed remain unverified.",
+    )
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(result, indent=2) + "\n")
+    print(
+        json.dumps(
+            dict(
+                status=result["status"],
+                cases=len(records),
+                max_error_fraction=max(r["max_error_fraction"] for r in records),
+            )
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()

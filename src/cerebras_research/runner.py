@@ -12,6 +12,7 @@ from .catalog import profile_identity
 from .paths import ROOT, contained, digest, identity, tree_digest, write_json
 from .process import run_logged
 from .provenance import capture
+from .sdk import execution_sdk
 
 CASES = ("positive", "signed", "zero", "cancellation", "one_hot", "mixed_scale")
 
@@ -25,6 +26,7 @@ def execute(
         raise ValueError("--variant candidate requires --candidate NAME")
     if candidate and variant != "candidate":
         raise ValueError("Use --variant candidate with a candidate workspace")
+    sdk = execution_sdk(ROOT)
     run_id = (
         time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
         + "-"
@@ -46,7 +48,7 @@ def execute(
         "screen_only": screen,
         "simulator_threads": 1,
         "architecture": "wse3",
-        "sdk": json.loads((ROOT / "config/sdk-install.json").read_text()),
+        "sdk": sdk,
         "steps": [],
         "cases": [],
         "metrics": {},
@@ -145,10 +147,23 @@ def execute(
                 "gated_mlp": "resident.py",
                 "decoder": "resident.py",
                 "reusable_gemm": "reusable_gemm.py",
+                "resident_swiglu": "resident_swiglu.py",
+                "resident_swiglu_bf16": "resident_swiglu_bf16.py",
+                "recurrent_gdn": "recurrent_gdn.py",
+                "recurrent_gdn_native": "recurrent_gdn_native.py",
+                "recurrent_gdn_full": "recurrent_gdn_full.py",
             }.get(kind, "dense.py")
             for case in CASES[:1] if screen else CASES:
                 args = ["cs_python", driver, "--name", "out", "--case", case, "--seed", str(seed)]
-                if kind not in ("pipeline", "reusable_gemm"):
+                if kind not in (
+                    "pipeline",
+                    "reusable_gemm",
+                    "resident_swiglu",
+                    "resident_swiglu_bf16",
+                    "recurrent_gdn",
+                    "recurrent_gdn_native",
+                    "recurrent_gdn_full",
+                ):
                     args.extend(["--kind", kind])
                 log = step(args)
                 if "SUCCESS!" not in log:
@@ -175,6 +190,17 @@ def execute(
                 record["metrics"][
                     "cycles_per_frame" if kind == "gated_mlp" else "cycles_per_token"
                 ] = record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
+            if kind in ("resident_swiglu", "resident_swiglu_bf16"):
+                record["metrics"]["cycles_per_frame"] = (
+                    record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
+                )
+                record["metrics"]["amortized_cycles_per_batch_row"] = record["metrics"][
+                    "max_local_cycles"
+                ] / (profile["dimensions"]["T"] * profile["dimensions"]["M"])
+            if kind in ("recurrent_gdn", "recurrent_gdn_native", "recurrent_gdn_full"):
+                record["metrics"]["cycles_per_token"] = (
+                    record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]
+                )
             if kind == "reusable_gemm":
                 record["metrics"]["cycles_per_gemm"] = (
                     record["metrics"]["max_local_cycles"] / profile["dimensions"]["T"]

@@ -1,0 +1,4011 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-23T09:28:18Z",
+  "campaign_status": "completed",
+  "plan": {
+    "path": "experiments/campaigns/reusable-gemm/optimization-iteration5.json",
+    "sha256": "6e373c34859b30f6a186b4e987591527bcefbc7b2b6c98ff0ad10532f70a13e0",
+    "identity": "3a21b388427c2019e55183df2cf6ac55257bd5600a9871b162e10b7dce71e7e6"
+  },
+  "checkpoint": {
+    "path": "runs/campaigns/20261023-resident-gemm-thirteen-hour/iteration5-result.json",
+    "sha256": "9db16e864413456f7256043c705c66912186cb459d386b2e920d5df9a4179c38"
+  },
+  "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+  "audit_tool_sha256": "d0afff8452b814db032899c7d26c94d27bd0bacf6180033a5ed75e60c124f1a6",
+  "audit_evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+  "candidate_identities": {
+    "resident-gemm-column-reset-array": {
+      "source": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
+      "manifest": "0c13668373802ac5794f11cb20f84e199539b95adfda276e4ce086b4f6d45177"
+    }
+  },
+  "imports": {
+    "initial_baselines": {
+      "reusable-gemm.tiny-sequence": "runs/v2/20261023T085001Z-reusable-gemm.tiny-sequence-638f9e60/result.json",
+      "reusable-gemm.prefill-ffn-up-scaled": "runs/v2/20261023T085120Z-reusable-gemm.prefill-ffn-up-scaled-4728d143/result.json",
+      "reusable-gemm.prefill-ffn-down-scaled": "runs/v2/20261023T085922Z-reusable-gemm.prefill-ffn-down-scaled-06e8c3eb/result.json"
+    },
+    "fresh_baselines": {}
+  },
+  "executed_attempt_count": 6,
+  "requested_profiles": [
+    "reusable-gemm.tiny-sequence",
+    "reusable-gemm.prefill-ffn-up-scaled",
+    "reusable-gemm.prefill-ffn-down-scaled"
+  ],
+  "cells": {
+    "reusable-gemm.tiny-sequence": {
+      "status": "no_confirmed_gain",
+      "baseline": "runs/v2/20261023T085001Z-reusable-gemm.tiny-sequence-638f9e60/result.json",
+      "screens": [
+        {
+          "candidate": {
+            "variant": "candidate",
+            "candidate": "resident-gemm-column-reset-array"
+          },
+          "receipt": "runs/v2/20261023T091743Z-reusable-gemm.tiny-sequence-c562b384/result.json",
+          "outcome": "screen_passed",
+          "speedup": 1.0252735398366466,
+          "memory_ratio": 0.9915611814345991,
+          "eligible": false
+        }
+      ]
+    },
+    "reusable-gemm.prefill-ffn-up-scaled": {
+      "status": "no_confirmed_gain",
+      "baseline": "runs/v2/20261023T085120Z-reusable-gemm.prefill-ffn-up-scaled-4728d143/result.json",
+      "screens": [
+        {
+          "candidate": {
+            "variant": "candidate",
+            "candidate": "resident-gemm-column-reset-array"
+          },
+          "receipt": "runs/v2/20261023T091757Z-reusable-gemm.prefill-ffn-up-scaled-a377aeef/result.json",
+          "outcome": "screen_passed",
+          "speedup": 1.0313578702105626,
+          "memory_ratio": 0.9978517722878625,
+          "eligible": false
+        }
+      ]
+    },
+    "reusable-gemm.prefill-ffn-down-scaled": {
+      "status": "confirmed_improvement",
+      "baseline": "runs/v2/20261023T085922Z-reusable-gemm.prefill-ffn-down-scaled-06e8c3eb/result.json",
+      "screens": [
+        {
+          "candidate": {
+            "variant": "candidate",
+            "candidate": "resident-gemm-column-reset-array"
+          },
+          "receipt": "runs/v2/20261023T091824Z-reusable-gemm.prefill-ffn-down-scaled-6c4964ee/result.json",
+          "outcome": "screen_passed",
+          "speedup": 1.063081498910531,
+          "memory_ratio": 0.9984084880636604,
+          "eligible": true
+        }
+      ],
+      "selected": {
+        "variant": "candidate",
+        "candidate": "resident-gemm-column-reset-array"
+      },
+      "confirmation": "runs/v2/20261023T092533Z-confirmation-ce9bba6a/result.json"
+    }
+  },
+  "records": [
+    {
+      "receipt": "runs/v2/20261023T085001Z-reusable-gemm.tiny-sequence-638f9e60/result.json",
+      "receipt_sha256": "f41f08bcfd048f8d02a19ba86c19d5b058d46a9d131a6c51abc861d9e1d3df97",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "reusable-gemm.tiny-sequence",
+        "adapter": "reusable_gemm",
+        "family": "resident-gemm-sequence",
+        "dimensions": {
+          "M": 16,
+          "K": 16,
+          "N": 16,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_gemm_sequence_fp16_v1",
+        "metric": "max_local_cycles",
+        "work_units": 32768,
+        "work_unit": "arithmetic_operations",
+        "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261029,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 6653.0,
+        "mean_local_cycles": 6643.4375,
+        "pe_cycle_spread": 21.0,
+        "max_error_fraction": 0.15650712409940506,
+        "cycles_per_gemm": 1663.25,
+        "max_program_object_bytes_per_pe": 7584,
+        "work_units_per_cycle": 4.925296858560048,
+        "pe_cycles": 106448.0,
+        "experiment_wall_seconds": 26.154690974000005
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 7584,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 7584
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 7584
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 7584
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 7584
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 7584
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 7584
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 7584
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 7584
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 7584
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 7584
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 7584
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 7584
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 7584
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 7584
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 7584
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 7584
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_gemm_sequence_fp16_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.00920097529888153,
+          "max_fraction_of_error_bound": 0.15650712409940506,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "25ae6369ed20c4f03deb7a7689b2d50f6b7bbf6d612629c0b77a2b3ee934773d",
+          "metrics": {
+            "max_local_cycles": 6653.0,
+            "mean_local_cycles": 6643.4375,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.00479329377412796,
+          "max_fraction_of_error_bound": 0.09595206526666437,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "38e9ab4e06849d604d94e25c93d6bbbb21c86fbc1bd8d286dd8fd457da5dfef3",
+          "metrics": {
+            "max_local_cycles": 6653.0,
+            "mean_local_cycles": 6643.4375,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "7990c6258175f066783abb1bb9e8d9b00c3791457914a27e709d840b31dd1cd3",
+          "metrics": {
+            "max_local_cycles": 6653.0,
+            "mean_local_cycles": 6643.4375,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "c1288b9b8633a25d04bc0e35ae83afceee9ccc9ada4de48184cb65da92ead56c",
+          "metrics": {
+            "max_local_cycles": 6653.0,
+            "mean_local_cycles": 6643.4375,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "9c967447c74e536ae15d31ba37b7ee0e84429767e04dfc96f61dd2ee027ca8e1",
+          "metrics": {
+            "max_local_cycles": 6653.0,
+            "mean_local_cycles": 6643.4375,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.00479329377412796,
+          "max_fraction_of_error_bound": 0.09595206526666437,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "8db475b675778b2da4b7a3124356e15ef8e97d74c3136ad890d474fd92f6c66e",
+          "metrics": {
+            "max_local_cycles": 6653.0,
+            "mean_local_cycles": 6643.4375,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "reusable_gemm.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "56aaca3b9e4a834e39885b754de284ce560dbdb7",
+        "git_dirty": true,
+        "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "5dfb3973b72dc8a2fa12006eb9462e9d006ffbb188258b406ca2a39913dd8a47",
+          "src/cerebras_research/catalog.py": "7f6332822fd5c5ef84b562b3979a103a87ed8f79747da4a91e9aa4465c1eae1c",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "f5516ddf13ba1acbe1d530a5692cd5c20d96756434ed7fa228d2ecd5d52d950a",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "9d53081fe76309dae60a100bdae89366bc8fd39d7fee6d89880fa036c8f0e426",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Kt:4,Nt:4,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:4,Kt:4,Nt:4,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.624918421000075,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 2.5885456400001203,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 2.588145182000062,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 2.6020004599999993,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 2.687158631999864,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 2.595286379999834,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 2.691112306999912,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7775239520001378,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T085120Z-reusable-gemm.prefill-ffn-up-scaled-4728d143/result.json",
+      "receipt_sha256": "b05830fec04567d9dc3ba5e19a79aa1eea5b99c37f95e9cf7eb2cb8f012b89bc",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "reusable-gemm.prefill-ffn-up-scaled",
+        "adapter": "reusable_gemm",
+        "family": "resident-gemm-sequence",
+        "dimensions": {
+          "M": 16,
+          "K": 80,
+          "N": 272,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_gemm_sequence_fp16_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261029,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 95611.0,
+        "mean_local_cycles": 95602.125,
+        "pe_cycle_spread": 20.0,
+        "max_error_fraction": 0.10615387521927071,
+        "cycles_per_gemm": 23902.75,
+        "max_program_object_bytes_per_pe": 29792,
+        "work_units_per_cycle": 29.131376096892616,
+        "pe_cycles": 1529776.0,
+        "experiment_wall_seconds": 109.24464510000007
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 29792,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 29792
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 29792
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 29792
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 29792
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 29792
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 29792
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 29792
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 29792
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 29792
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 29792
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 29792
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 29792
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 29792
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 29792
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 29792
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 29792
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_gemm_sequence_fp16_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.11430792510509491,
+          "max_fraction_of_error_bound": 0.10615387521927071,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "b5378a3c02be0b1af4c4643dae36831208e296182397c4293032bda58717b837",
+          "metrics": {
+            "max_local_cycles": 95611.0,
+            "mean_local_cycles": 95602.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.03396084904670715,
+          "max_fraction_of_error_bound": 0.03786986840541049,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "6275e40dad240bda7ba0b04b819c5efe505e53ef65db1181868370186968c120",
+          "metrics": {
+            "max_local_cycles": 95611.0,
+            "mean_local_cycles": 95602.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "20ae4f16dbc2c8f65001dbd6eaf0979c21d54926de16d641f468b22562c9588a",
+          "metrics": {
+            "max_local_cycles": 95611.0,
+            "mean_local_cycles": 95602.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "762cd6665ed7715cbdf42ca1e7ac44c894e240ca7cbc502fe1b4a83c5021ce10",
+          "metrics": {
+            "max_local_cycles": 95611.0,
+            "mean_local_cycles": 95602.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "f714c073487215a0d5c4cd105742c6ffb83b585f3f9ea2d65610b924f89c17bd",
+          "metrics": {
+            "max_local_cycles": 95611.0,
+            "mean_local_cycles": 95602.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.03396084904670715,
+          "max_fraction_of_error_bound": 0.03786986840541049,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "eec437acc8cb4aee98b42b0b7327ee429423a00e5cef79bc5a90bab53ad43848",
+          "metrics": {
+            "max_local_cycles": 95611.0,
+            "mean_local_cycles": 95602.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "reusable_gemm.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "56aaca3b9e4a834e39885b754de284ce560dbdb7",
+        "git_dirty": true,
+        "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "5dfb3973b72dc8a2fa12006eb9462e9d006ffbb188258b406ca2a39913dd8a47",
+          "src/cerebras_research/catalog.py": "7f6332822fd5c5ef84b562b3979a103a87ed8f79747da4a91e9aa4465c1eae1c",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "f5516ddf13ba1acbe1d530a5692cd5c20d96756434ed7fa228d2ecd5d52d950a",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "991ae58752d98b5f26106f26b40d4dc5c5fc47d900609d5c43b2cdd2da5aef70",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Kt:20,Nt:68,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:4,Kt:20,Nt:68,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.783007704999818,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 16.431759457000226,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 16.737822913999935,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 16.106053752999742,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 16.338334913999915,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 16.39177216600001,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 16.47416381300036,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.9817303780000657,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T085922Z-reusable-gemm.prefill-ffn-down-scaled-06e8c3eb/result.json",
+      "receipt_sha256": "cbc36f87c01a232b432db9022b61479926a2e93f73f2a8d06d65af198f57b2a9",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "reusable-gemm.prefill-ffn-down-scaled",
+        "adapter": "reusable_gemm",
+        "family": "resident-gemm-sequence",
+        "dimensions": {
+          "M": 16,
+          "K": 272,
+          "N": 80,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_gemm_sequence_fp16_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261029,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 128315.0,
+        "mean_local_cycles": 128306.125,
+        "pe_cycle_spread": 20.0,
+        "max_error_fraction": 0.04965823809865492,
+        "cycles_per_gemm": 32078.75,
+        "max_program_object_bytes_per_pe": 30160,
+        "work_units_per_cycle": 21.706581459689048,
+        "pe_cycles": 2053040.0,
+        "experiment_wall_seconds": 134.43294984799968
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 30160,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 30160
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 30160
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 30160
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 30160
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 30160
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 30160
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 30160
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 30160
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 30160
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 30160
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 30160
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 30160
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 30160
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 30160
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 30160
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 30160
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_gemm_sequence_fp16_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.5285903688054532,
+          "max_fraction_of_error_bound": 0.04965823809865492,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "8f81cd2f64b97e5ed92294758ea1521584fb5f14c7aebc20954bad0d6cddcf28",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.09196598455309868,
+          "max_fraction_of_error_bound": 0.008956698719061362,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "597b00b0b83af07b94d763dd2468e27c8c65665d2b78b288e5c8be5e9aa6e84c",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "c1a6fd4ca08c249cf8c8f390dc2de3d4576fde2b89ecc564206c97d2b7f2697a",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "44f270a5f37c83529205058844c8b14dc96e5a06dcb2eec4667bc58dd127f5ea",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "18298d5b239a61307a4a7cd32dab8216de1a57087d514293d2cbb6d066749863",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.09196598455309868,
+          "max_fraction_of_error_bound": 0.008956698719061362,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "9759852531fa55c26d84f7d54fe69d3e6e0a258bfee07eae1315f7fe0ea63f51",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "reusable_gemm.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "56aaca3b9e4a834e39885b754de284ce560dbdb7",
+        "git_dirty": true,
+        "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "5dfb3973b72dc8a2fa12006eb9462e9d006ffbb188258b406ca2a39913dd8a47",
+          "src/cerebras_research/catalog.py": "7f6332822fd5c5ef84b562b3979a103a87ed8f79747da4a91e9aa4465c1eae1c",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "f5516ddf13ba1acbe1d530a5692cd5c20d96756434ed7fa228d2ecd5d52d950a",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "5623c21be2738e6790f1ac243d8af0720a350fed3f0d75f50f639fd7d0d207c8",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Kt:68,Nt:20,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:4,Kt:68,Nt:20,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.390317987999879,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 20.474314804000187,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 20.720416516000114,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 20.476290060999872,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 20.892944574000012,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 20.86596443399958,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 20.83751418899965,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7751872820003882,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T091743Z-reusable-gemm.tiny-sequence-c562b384/result.json",
+      "receipt_sha256": "065a539ec76fcd1dda4e60d8fb823eed5062aba13b4ac21fc7727cddbed6f677",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "screen_passed",
+      "profile": {
+        "id": "reusable-gemm.tiny-sequence",
+        "adapter": "reusable_gemm",
+        "family": "resident-gemm-sequence",
+        "dimensions": {
+          "M": 16,
+          "K": 16,
+          "N": 16,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_gemm_sequence_fp16_v1",
+        "metric": "max_local_cycles",
+        "work_units": 32768,
+        "work_unit": "arithmetic_operations",
+        "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261029,
+      "screen_only": true,
+      "metrics": {
+        "max_local_cycles": 6489.0,
+        "mean_local_cycles": 6479.375,
+        "pe_cycle_spread": 21.0,
+        "max_error_fraction": 0.15650712409940506,
+        "cycles_per_gemm": 1622.25,
+        "max_program_object_bytes_per_pe": 7520,
+        "work_units_per_cycle": 5.049776544922176,
+        "pe_cycles": 103824.0,
+        "experiment_wall_seconds": 13.130030588999944
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 7520,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 7520
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 7520
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 7520
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 7520
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 7520
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 7520
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 7520
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 7520
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 7520
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 7520
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 7520
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 7520
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 7520
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 7520
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 7520
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 7520
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_gemm_sequence_fp16_v1",
+        "cases": [
+          "positive"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.00920097529888153,
+          "max_fraction_of_error_bound": 0.15650712409940506,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "35d1e1a22e91d165428edadaf34e551a24e10b6320d2d7ca634ee486e2face7f",
+          "metrics": {
+            "max_local_cycles": 6489.0,
+            "mean_local_cycles": 6479.375,
+            "pe_cycle_spread": 21.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident-gemm.column-output-array-base-reset",
+        "candidate": "resident-gemm-column-reset-array",
+        "hypothesis": "Use the installed SDK array form of @set_dsr_base_addr to reset the fixed output tile between K slices. Keep X descriptor reloads in their proven form. Reduce two full output DSD reloads per K term while preserving all FP16 terms/order, reference column layout and invariant-backed frame residency. Earlier pointer-element builtin forms failed compilation and remain failed receipts.",
+        "falsification": "Reject any compilation or simulator/shutdown fault, changed fixed timing/work/PE contract, six-case output/state failure, speedup below1.05x or program memory above1.10x. Require full fresh paired seed confirmation for retention.",
+        "manifest_sha256": "0c13668373802ac5794f11cb20f84e199539b95adfda276e4ce086b4f6d45177",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "601d72a53589a26d5b4f8e411bf7c056ae64eb29",
+        "git_dirty": false,
+        "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "5dfb3973b72dc8a2fa12006eb9462e9d006ffbb188258b406ca2a39913dd8a47",
+          "src/cerebras_research/catalog.py": "7f6332822fd5c5ef84b562b3979a103a87ed8f79747da4a91e9aa4465c1eae1c",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "f5516ddf13ba1acbe1d530a5692cd5c20d96756434ed7fa228d2ecd5d52d950a",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "9d53081fe76309dae60a100bdae89366bc8fd39d7fee6d89880fa036c8f0e426",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Kt:4,Nt:4,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:4,Kt:4,Nt:4,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.682256315999439,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 2.667777503000252,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7799967700002526,
+          "log": "step-2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T091757Z-reusable-gemm.prefill-ffn-up-scaled-a377aeef/result.json",
+      "receipt_sha256": "0ed41dcb39f9b72f0d98ea7764d01c902598d6038f2e7e30fd5f67398f35ae72",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "screen_passed",
+      "profile": {
+        "id": "reusable-gemm.prefill-ffn-up-scaled",
+        "adapter": "reusable_gemm",
+        "family": "resident-gemm-sequence",
+        "dimensions": {
+          "M": 16,
+          "K": 80,
+          "N": 272,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_gemm_sequence_fp16_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261029,
+      "screen_only": true,
+      "metrics": {
+        "max_local_cycles": 92704.0,
+        "mean_local_cycles": 92696.25,
+        "pe_cycle_spread": 19.0,
+        "max_error_fraction": 0.10615387521927071,
+        "cycles_per_gemm": 23176.0,
+        "max_program_object_bytes_per_pe": 29728,
+        "work_units_per_cycle": 30.044874007594064,
+        "pe_cycles": 1483264.0,
+        "experiment_wall_seconds": 26.56840406900028
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 29728,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 29728
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 29728
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 29728
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 29728
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 29728
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 29728
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 29728
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 29728
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 29728
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 29728
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 29728
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 29728
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 29728
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_gemm_sequence_fp16_v1",
+        "cases": [
+          "positive"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.11430792510509491,
+          "max_fraction_of_error_bound": 0.10615387521927071,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "66f111bb594d4354ec1183432e3b22faabbdaebd816cf863a0de5dc0af9df8c1",
+          "metrics": {
+            "max_local_cycles": 92704.0,
+            "mean_local_cycles": 92696.25,
+            "pe_cycle_spread": 19.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident-gemm.column-output-array-base-reset",
+        "candidate": "resident-gemm-column-reset-array",
+        "hypothesis": "Use the installed SDK array form of @set_dsr_base_addr to reset the fixed output tile between K slices. Keep X descriptor reloads in their proven form. Reduce two full output DSD reloads per K term while preserving all FP16 terms/order, reference column layout and invariant-backed frame residency. Earlier pointer-element builtin forms failed compilation and remain failed receipts.",
+        "falsification": "Reject any compilation or simulator/shutdown fault, changed fixed timing/work/PE contract, six-case output/state failure, speedup below1.05x or program memory above1.10x. Require full fresh paired seed confirmation for retention.",
+        "manifest_sha256": "0c13668373802ac5794f11cb20f84e199539b95adfda276e4ce086b4f6d45177",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "601d72a53589a26d5b4f8e411bf7c056ae64eb29",
+        "git_dirty": true,
+        "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "5dfb3973b72dc8a2fa12006eb9462e9d006ffbb188258b406ca2a39913dd8a47",
+          "src/cerebras_research/catalog.py": "7f6332822fd5c5ef84b562b3979a103a87ed8f79747da4a91e9aa4465c1eae1c",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "f5516ddf13ba1acbe1d530a5692cd5c20d96756434ed7fa228d2ecd5d52d950a",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "991ae58752d98b5f26106f26b40d4dc5c5fc47d900609d5c43b2cdd2da5aef70",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Kt:20,Nt:68,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:4,Kt:20,Nt:68,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.636212913000236,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 16.092167032999896,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.8400241230001484,
+          "log": "step-2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T091824Z-reusable-gemm.prefill-ffn-down-scaled-6c4964ee/result.json",
+      "receipt_sha256": "bde3b2b1253d4c964ac29c56c5ddad10e9f03ff4bf091d92d399c01de214df92",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "screen_passed",
+      "profile": {
+        "id": "reusable-gemm.prefill-ffn-down-scaled",
+        "adapter": "reusable_gemm",
+        "family": "resident-gemm-sequence",
+        "dimensions": {
+          "M": 16,
+          "K": 272,
+          "N": 80,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_gemm_sequence_fp16_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261029,
+      "screen_only": true,
+      "metrics": {
+        "max_local_cycles": 120701.0,
+        "mean_local_cycles": 120692.625,
+        "pe_cycle_spread": 17.0,
+        "max_error_fraction": 0.04965823809865492,
+        "cycles_per_gemm": 30175.25,
+        "max_program_object_bytes_per_pe": 30112,
+        "work_units_per_cycle": 23.075865154389774,
+        "pe_cycles": 1931216.0,
+        "experiment_wall_seconds": 30.591030521000903
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 30112,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 30112
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 30112
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 30112
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 30112
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_gemm_sequence_fp16_v1",
+        "cases": [
+          "positive"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.5285903688054532,
+          "max_fraction_of_error_bound": 0.04965823809865492,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "c49fb33f52a72e39f4074ac45a0febabd2bf8dbf45571b3a6cac4adea99c1a55",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident-gemm.column-output-array-base-reset",
+        "candidate": "resident-gemm-column-reset-array",
+        "hypothesis": "Use the installed SDK array form of @set_dsr_base_addr to reset the fixed output tile between K slices. Keep X descriptor reloads in their proven form. Reduce two full output DSD reloads per K term while preserving all FP16 terms/order, reference column layout and invariant-backed frame residency. Earlier pointer-element builtin forms failed compilation and remain failed receipts.",
+        "falsification": "Reject any compilation or simulator/shutdown fault, changed fixed timing/work/PE contract, six-case output/state failure, speedup below1.05x or program memory above1.10x. Require full fresh paired seed confirmation for retention.",
+        "manifest_sha256": "0c13668373802ac5794f11cb20f84e199539b95adfda276e4ce086b4f6d45177",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "601d72a53589a26d5b4f8e411bf7c056ae64eb29",
+        "git_dirty": true,
+        "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "5dfb3973b72dc8a2fa12006eb9462e9d006ffbb188258b406ca2a39913dd8a47",
+          "src/cerebras_research/catalog.py": "7f6332822fd5c5ef84b562b3979a103a87ed8f79747da4a91e9aa4465c1eae1c",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "f5516ddf13ba1acbe1d530a5692cd5c20d96756434ed7fa228d2ecd5d52d950a",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "5623c21be2738e6790f1ac243d8af0720a350fed3f0d75f50f639fd7d0d207c8",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Kt:68,Nt:20,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:4,Kt:68,Nt:20,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.717838317000314,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 20.09754362500007,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7756485790005172,
+          "log": "step-2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T091854Z-reusable-gemm.prefill-ffn-down-scaled-91047251/result.json",
+      "receipt_sha256": "ebdc4e36ee5f25fb1092453cd575e4572129b998a793705cbcdb7f89e67b59f0",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "reusable-gemm.prefill-ffn-down-scaled",
+        "adapter": "reusable_gemm",
+        "family": "resident-gemm-sequence",
+        "dimensions": {
+          "M": 16,
+          "K": 272,
+          "N": 80,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_gemm_sequence_fp16_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261029,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 120701.0,
+        "mean_local_cycles": 120692.625,
+        "pe_cycle_spread": 17.0,
+        "max_error_fraction": 0.04965823809865492,
+        "cycles_per_gemm": 30175.25,
+        "max_program_object_bytes_per_pe": 30112,
+        "work_units_per_cycle": 23.075865154389774,
+        "pe_cycles": 1931216.0,
+        "experiment_wall_seconds": 130.05985298200085
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 30112,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 30112
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 30112
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 30112
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 30112
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_gemm_sequence_fp16_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.5285903688054532,
+          "max_fraction_of_error_bound": 0.04965823809865492,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "c49fb33f52a72e39f4074ac45a0febabd2bf8dbf45571b3a6cac4adea99c1a55",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.09196598455309868,
+          "max_fraction_of_error_bound": 0.008956698719061362,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "a0728be113c38a6e30a25aa62bc58496030cf8f5518b0033c4298b88f96bea46",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "857e0ce46031a5b3693a56c189654a31c7701f2411475b767e8ab1afd7c1252b",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "3e371fce97e8639217efb17ea11edb0d544ec670d734044cde5acd716cee172d",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "94d34a1cfa8f9521ea8c785a4c78fe8a4c2ef2a989c836b3f2895978307fcc01",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261029,
+          "passed": true,
+          "max_abs_error": 0.09196598455309868,
+          "max_fraction_of_error_bound": 0.008956698719061362,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "48a8ba74010bb5c48be47837e14be0403f357fc8d1c4d660492cae51723993f0",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident-gemm.column-output-array-base-reset",
+        "candidate": "resident-gemm-column-reset-array",
+        "hypothesis": "Use the installed SDK array form of @set_dsr_base_addr to reset the fixed output tile between K slices. Keep X descriptor reloads in their proven form. Reduce two full output DSD reloads per K term while preserving all FP16 terms/order, reference column layout and invariant-backed frame residency. Earlier pointer-element builtin forms failed compilation and remain failed receipts.",
+        "falsification": "Reject any compilation or simulator/shutdown fault, changed fixed timing/work/PE contract, six-case output/state failure, speedup below1.05x or program memory above1.10x. Require full fresh paired seed confirmation for retention.",
+        "manifest_sha256": "0c13668373802ac5794f11cb20f84e199539b95adfda276e4ce086b4f6d45177",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "601d72a53589a26d5b4f8e411bf7c056ae64eb29",
+        "git_dirty": true,
+        "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "5dfb3973b72dc8a2fa12006eb9462e9d006ffbb188258b406ca2a39913dd8a47",
+          "src/cerebras_research/catalog.py": "7f6332822fd5c5ef84b562b3979a103a87ed8f79747da4a91e9aa4465c1eae1c",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "f5516ddf13ba1acbe1d530a5692cd5c20d96756434ed7fa228d2ecd5d52d950a",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "5623c21be2738e6790f1ac243d8af0720a350fed3f0d75f50f639fd7d0d207c8",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Kt:68,Nt:20,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:4,Kt:68,Nt:20,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.724227830000018,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 19.92652792300032,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 19.881325696000204,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 19.82362510999974,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 19.954541600000084,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 20.090605491000133,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261029"
+          ],
+          "wall_seconds": 19.8669761379997,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7920231940006488,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T092104Z-comparison-a1315e63/result.json",
+      "receipt_sha256": "1980434c5d90a5fbf8c35b2a506b742b57640b3fc7cfc899ab04606ba6c85b40",
+      "kind": "comparison",
+      "evidence_audit": "verified",
+      "status": "needs_fresh_confirmation",
+      "decision": "needs_fresh_confirmation",
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "inputs": {
+        "baseline": "runs/v2/20261023T085922Z-reusable-gemm.prefill-ffn-down-scaled-06e8c3eb/result.json",
+        "candidate": "runs/v2/20261023T091854Z-reusable-gemm.prefill-ffn-down-scaled-91047251/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "eligible": true,
+      "speedup": 1.063081498910531,
+      "memory_ratio": 0.9984084880636604,
+      "metric": "max_local_cycles",
+      "cycle_reduction_percent": 5.9338347036589685
+    },
+    {
+      "receipt": "runs/v2/20261023T092104Z-reusable-gemm.prefill-ffn-down-scaled-bf350b25/result.json",
+      "receipt_sha256": "f986193b55419ee81ba61c5e2358b913f2b915abc138420b94a89d7d6a9f57d8",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "reusable-gemm.prefill-ffn-down-scaled",
+        "adapter": "reusable_gemm",
+        "family": "resident-gemm-sequence",
+        "dimensions": {
+          "M": 16,
+          "K": 272,
+          "N": 80,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_gemm_sequence_fp16_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261030,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 128315.0,
+        "mean_local_cycles": 128306.125,
+        "pe_cycle_spread": 20.0,
+        "max_error_fraction": 0.05005964982292385,
+        "cycles_per_gemm": 32078.75,
+        "max_program_object_bytes_per_pe": 30160,
+        "work_units_per_cycle": 21.706581459689048,
+        "pe_cycles": 2053040.0,
+        "experiment_wall_seconds": 137.4803870859996
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 30160,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 30160
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 30160
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 30160
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 30160
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 30160
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 30160
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 30160
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 30160
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 30160
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 30160
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 30160
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 30160
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 30160
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 30160
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 30160
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 30160
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_gemm_sequence_fp16_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.5293750279251981,
+          "max_fraction_of_error_bound": 0.05005964982292385,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "d1e4bc1cbd0c68d9b4523e3daffcb4f37e30402430ca7c320662769c8ff0f78a",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.09180247038602829,
+          "max_fraction_of_error_bound": 0.008606970582482444,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "df841ea2eb968dd94608f7d2653064d8af7ea852ae1929f6291c46c7c4738b38",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "1fecd23ad4019bd0dd51c30cd1526a076136a0adec976f305bb55c9242c64fb7",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "44f270a5f37c83529205058844c8b14dc96e5a06dcb2eec4667bc58dd127f5ea",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "b81969ea7ffda4474c6f431a901eb45087a31aa2de9436c28958a36e89eb5060",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.09180247038602829,
+          "max_fraction_of_error_bound": 0.008606970582482444,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "9663af0134d9554446bd1814dcdbd1f4ee87b0ec243bb8a9d60e2f133d31493d",
+          "metrics": {
+            "max_local_cycles": 128315.0,
+            "mean_local_cycles": 128306.125,
+            "pe_cycle_spread": 20.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "reusable_gemm.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "601d72a53589a26d5b4f8e411bf7c056ae64eb29",
+        "git_dirty": true,
+        "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "5dfb3973b72dc8a2fa12006eb9462e9d006ffbb188258b406ca2a39913dd8a47",
+          "src/cerebras_research/catalog.py": "7f6332822fd5c5ef84b562b3979a103a87ed8f79747da4a91e9aa4465c1eae1c",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "f5516ddf13ba1acbe1d530a5692cd5c20d96756434ed7fa228d2ecd5d52d950a",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "5623c21be2738e6790f1ac243d8af0720a350fed3f0d75f50f639fd7d0d207c8",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "source_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Kt:68,Nt:20,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:4,Kt:68,Nt:20,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.57190756899945,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 20.683002846999443,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 21.144508399999722,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 21.222238457000458,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 21.631592898000235,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 21.450931297999887,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 20.989453227000013,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7867523900004016,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T092322Z-reusable-gemm.prefill-ffn-down-scaled-d8bb8d6f/result.json",
+      "receipt_sha256": "79cf824b90b7855600dcf5d1d0c548bede82cbae32cda2d69cf484a2ca0917a8",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "reusable-gemm.prefill-ffn-down-scaled",
+        "adapter": "reusable_gemm",
+        "family": "resident-gemm-sequence",
+        "dimensions": {
+          "M": 16,
+          "K": 272,
+          "N": 80,
+          "T": 4
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_gemm_sequence_fp16_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "Four resident input frames sharing weights; all outputs and canonical/working weight state checked.",
+        "timeout_seconds": 1200,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-frame sequence including timed resets, communication, all output and working-weight snapshots"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261030,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 120701.0,
+        "mean_local_cycles": 120692.625,
+        "pe_cycle_spread": 17.0,
+        "max_error_fraction": 0.05005964982292385,
+        "cycles_per_gemm": 30175.25,
+        "max_program_object_bytes_per_pe": 30112,
+        "work_units_per_cycle": 23.075865154389774,
+        "pe_cycles": 1931216.0,
+        "experiment_wall_seconds": 131.0399273089988
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 30112,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 30112
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 30112
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 30112
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 30112
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 30112
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 30112
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 30112
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_gemm_sequence_fp16_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.5293750279251981,
+          "max_fraction_of_error_bound": 0.05005964982292385,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "13fd3179d25c69fd49fce11ccde5ff422c13ca92a3f05945d73bb4415ab13912",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.09180247038602829,
+          "max_fraction_of_error_bound": 0.008606970582482444,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "c065b26a45af596674da9ffe0bb608f3a1fa9d71505428df67dd75deb47044a7",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "4e6e459b0f1b8324d0a921b7110d597d48556c906f5a116c0b7d693a13d0be4d",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "3e371fce97e8639217efb17ea11edb0d544ec670d734044cde5acd716cee172d",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "0203ff287a94fb4a52c2c84d7e313aec7448f4ec50d43272674610112a9c77bc",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261030,
+          "passed": true,
+          "max_abs_error": 0.09180247038602829,
+          "max_fraction_of_error_bound": 0.008606970582482444,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "f6622f0d2966208c58603feca66c1f2bb9f979b123e68756ab2c8ae202d9b7ad",
+          "metrics": {
+            "max_local_cycles": 120701.0,
+            "mean_local_cycles": 120692.625,
+            "pe_cycle_spread": 17.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "resident-gemm.column-output-array-base-reset",
+        "candidate": "resident-gemm-column-reset-array",
+        "hypothesis": "Use the installed SDK array form of @set_dsr_base_addr to reset the fixed output tile between K slices. Keep X descriptor reloads in their proven form. Reduce two full output DSD reloads per K term while preserving all FP16 terms/order, reference column layout and invariant-backed frame residency. Earlier pointer-element builtin forms failed compilation and remain failed receipts.",
+        "falsification": "Reject any compilation or simulator/shutdown fault, changed fixed timing/work/PE contract, six-case output/state failure, speedup below1.05x or program memory above1.10x. Require full fresh paired seed confirmation for retention.",
+        "manifest_sha256": "0c13668373802ac5794f11cb20f84e199539b95adfda276e4ce086b4f6d45177",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "601d72a53589a26d5b4f8e411bf7c056ae64eb29",
+        "git_dirty": true,
+        "evaluator_sha256": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "5dfb3973b72dc8a2fa12006eb9462e9d006ffbb188258b406ca2a39913dd8a47",
+          "src/cerebras_research/catalog.py": "7f6332822fd5c5ef84b562b3979a103a87ed8f79747da4a91e9aa4465c1eae1c",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "f5516ddf13ba1acbe1d530a5692cd5c20d96756434ed7fa228d2ecd5d52d950a",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "5623c21be2738e6790f1ac243d8af0720a350fed3f0d75f50f639fd7d0d207c8",
+      "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+      "source_sha256": "a6b2990f1210ea4e6824bc6ecdd858a140316451da98c94b49958d16d5e09716",
+      "harness_sha256": "fd45411944822bf99e8aa4428e1da81e73748ae0f79816403f3e55e30dfee633",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:4,Kt:68,Nt:20,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:4,Kt:68,Nt:20,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.780860376000419,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 20.025465891999374,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 19.934937799999716,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 20.27362037400053,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 20.318253534999712,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 19.932552991999728,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "reusable_gemm.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261030"
+          ],
+          "wall_seconds": 19.99733631199979,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7769000279995453,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T092533Z-confirmation-ce9bba6a/result.json",
+      "receipt_sha256": "adea3f7dac08e28d8198847f1daf645b72bed26f072486c879f6c277d4bb672d",
+      "kind": "confirmation",
+      "evidence_audit": "verified",
+      "status": "confirmed_improvement",
+      "inputs": {
+        "initial_baseline": "runs/v2/20261023T085922Z-reusable-gemm.prefill-ffn-down-scaled-06e8c3eb/result.json",
+        "initial_candidate": "runs/v2/20261023T091854Z-reusable-gemm.prefill-ffn-down-scaled-91047251/result.json",
+        "fresh_baseline": "runs/v2/20261023T092104Z-reusable-gemm.prefill-ffn-down-scaled-bf350b25/result.json",
+        "fresh_candidate": "runs/v2/20261023T092322Z-reusable-gemm.prefill-ffn-down-scaled-d8bb8d6f/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "initial": {
+        "profile": "reusable-gemm.prefill-ffn-down-scaled",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T085922Z-reusable-gemm.prefill-ffn-down-scaled-06e8c3eb/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T091854Z-reusable-gemm.prefill-ffn-down-scaled-91047251/result.json",
+        "speedup": 1.063081498910531,
+        "memory_ratio": 0.9984084880636604,
+        "cycle_reduction_percent": 5.9338347036589685,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "needs_fresh_confirmation",
+        "qwen_tps_result": false
+      },
+      "confirmation": {
+        "profile": "reusable-gemm.prefill-ffn-down-scaled",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T092104Z-reusable-gemm.prefill-ffn-down-scaled-bf350b25/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T092322Z-reusable-gemm.prefill-ffn-down-scaled-d8bb8d6f/result.json",
+        "speedup": 1.063081498910531,
+        "memory_ratio": 0.9984084880636604,
+        "cycle_reduction_percent": 5.9338347036589685,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "confirmation_passed",
+        "qwen_tps_result": false
+      }
+    }
+  ],
+  "record_count": 11,
+  "validated_case_count": 36,
+  "artifact_integrity_replayed": true,
+  "numerical_arrays_recomputed": false,
+  "qwen_tps_result": false
+}

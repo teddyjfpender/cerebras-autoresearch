@@ -18,7 +18,12 @@ sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
 
 import numpy as np
 from common import timing
+from recurrent_gdn import pack_timer as recurrent_pack_timer
+from recurrent_gdn_oracle import evidence as recurrent_evidence
+from recurrent_gdn_oracle import inputs as recurrent_inputs
 from resident_oracle import evidence as resident_evidence
+from resident_swiglu_bf16_oracle import evidence as bf16_evidence
+from resident_swiglu_oracle import evidence as swiglu_evidence
 from reusable_gemm_oracle import evidence as sequence_evidence
 
 from cerebras_research.paths import contained, digest, write_json
@@ -66,6 +71,171 @@ def recompute(profile, raw):
         )
         expected = arrays["expected"]
         strict = bool(arrays["exact_state_match"])
+    elif kind == "resident_swiglu":
+        if profile.get("oracle_contract") != "resident_swiglu_sequence_fp16_fp32_v1":
+            raise ValueError("Unsupported resident SwiGLU oracle version")
+        t, m, h, f = (dims[n] for n in ("T", "M", "H", "F"))
+        if any(
+            raw[n].shape != shape
+            for n, shape in dict(x=(t, m, h), wg=(h, f), wu=(h, f), wd=(f, h)).items()
+        ):
+            raise ValueError("Resident SwiGLU inputs disagree with profile")
+        arrays, _, bound = swiglu_evidence(
+            profile["pe_grid"][0],
+            *(raw[n] for n in ("x", "wg", "wu", "wd")),
+            {k: raw["stage_" + k] for k in "guvdy"},
+            {k: raw["canonical_" + k] for k in ("X_FRAMES", "WG_CANON", "WU_CANON", "WD_CANON")},
+            raw["working_w_history"],
+        )
+        np.testing.assert_array_equal(raw["actual"], arrays["actual"])
+        np.testing.assert_array_equal(
+            raw["expected_working_w_history"], arrays["expected_working_w_history"]
+        )
+        expected = arrays["expected"]
+        strict = bool(arrays["exact_state_match"])
+    elif kind == "resident_swiglu_bf16":
+        if profile.get("oracle_contract") != "resident_swiglu_sequence_bf16_fp32_v1":
+            raise ValueError("Unsupported BF16 chain oracle version")
+        t, m, h, f = (dims[n] for n in ("T", "M", "H", "F"))
+        if any(
+            raw[n + "_bits"].shape != shape
+            for n, shape in dict(x=(t, m, h), wg=(h, f), wu=(h, f), wd=(f, h)).items()
+        ):
+            raise ValueError("BF16 inputs disagree with profile")
+        arrays, _, bound = bf16_evidence(
+            profile["pe_grid"][0],
+            *(raw[n + "_bits"] for n in ("x", "wg", "wu", "wd")),
+            {k: raw["bits_" + k] for k in "guvdy"},
+            {k: raw["canonical_" + k] for k in ("X_FRAMES", "WG_CANON", "WU_CANON", "WD_CANON")},
+            raw["working_w_history"],
+        )
+        np.testing.assert_array_equal(raw["actual"], arrays["actual"])
+        np.testing.assert_array_equal(
+            raw["expected_working_w_history"], arrays["expected_working_w_history"]
+        )
+        expected = arrays["expected"]
+        strict = bool(arrays["exact_state_match"])
+    elif kind == "recurrent_gdn":
+        if profile.get("oracle_contract") != "resident_recurrent_gdn_bf16_fp32_v1":
+            raise ValueError("Unsupported recurrent gated delta oracle")
+        names = ("Q_CANON", "K_CANON", "V_CANON", "G_CANON", "BETA_CANON", "S0")
+        stages = (
+            "Q_HISTORY",
+            "K_HISTORY",
+            "A_HISTORY",
+            "DELTA_HISTORY",
+            "STATE_HISTORY",
+            "Y_HISTORY",
+            "FINAL_STATE",
+        )
+        arrays, _, bound = recurrent_evidence(
+            dims["K"],
+            dims["V"],
+            {n: raw["input_" + n] for n in names},
+            {n: raw[n] for n in stages},
+            {n: raw["canonical_" + n] for n in names},
+        )
+        np.testing.assert_array_equal(raw["actual"], arrays["actual"])
+        for name in ("check_labels", "check_offsets"):
+            np.testing.assert_array_equal(raw[name], arrays[name])
+        for name in ("timer_memcpy_u16", "timer_core_u16"):
+            if raw[name].dtype != np.uint16 or raw[name].shape != (4, 4, 6):
+                raise ValueError("Incomplete recurrent timer words")
+        strict = bool(arrays["exact_state_match"]) and np.array_equal(
+            raw["timer_memcpy_u16"], raw["timer_core_u16"]
+        )
+        np.testing.assert_array_equal(recurrent_pack_timer(raw["timer_core_u16"]), raw["timer_u32"])
+        expected = arrays["expected"]
+    elif kind == "recurrent_gdn_native":
+        from recurrent_gdn_native import pack_timer
+        from recurrent_gdn_native_layout import profile as native_profile
+        from recurrent_gdn_native_oracle import evidence as native_evidence
+
+        if profile.get("oracle_contract") != "resident_recurrent_gdn_native_head_group_v1":
+            raise ValueError("Unsupported native recurrent oracle")
+        grid = native_profile(dims["T"])
+        if profile["pe_grid"] != [grid.width, grid.height]:
+            raise ValueError("Native PE budget changed")
+        names = ("Q_CANON", "K_CANON", "V_CANON", "G_CANON", "BETA_CANON", "S0")
+        stages = (
+            "Q_HISTORY",
+            "K_HISTORY",
+            "A_HISTORY",
+            "DELTA_HISTORY",
+            "STATE_HISTORY",
+            "Y_HISTORY",
+            "FINAL_STATE",
+        )
+        inputs = {n: raw["input_" + n] for n in names}
+        captured = {n: raw["physical_" + n] for n in names}
+        captured.update({n: raw["physical_" + n] for n in ("Q_HISTORY", "K_HISTORY", "A_HISTORY")})
+        captured.update(
+            DELTA_HISTORY=grid.columns(raw["DELTA_HISTORY"]),
+            STATE_HISTORY=grid.columns(raw["STATE_HISTORY"], state=True),
+            Y_HISTORY=grid.columns(raw["Y_HISTORY"]),
+            STATE=grid.initial(raw["FINAL_STATE"]),
+        )
+        actual, canonical, _ = grid.evidence(inputs, captured)
+        for name in stages:
+            np.testing.assert_array_equal(actual[name], raw[name])
+        arrays, _, bound = native_evidence(
+            dims["T"], inputs, actual, {n: raw["canonical_" + n] for n in names}
+        )
+        for name in ("actual", "check_labels", "check_offsets"):
+            np.testing.assert_array_equal(raw[name], arrays[name])
+        for name in ("timer_memcpy_u16", "timer_core_u16"):
+            if raw[name].dtype != np.uint16 or raw[name].shape != (grid.height, grid.width, 6):
+                raise ValueError("Incomplete native timer words")
+        strict = bool(arrays["exact_state_match"]) and np.array_equal(
+            raw["timer_memcpy_u16"], raw["timer_core_u16"]
+        )
+        np.testing.assert_array_equal(pack_timer(raw["timer_core_u16"], grid), raw["timer_u32"])
+        expected = arrays["expected"]
+    elif kind == "recurrent_gdn_full":
+        from recurrent_gdn_full import pack_timer
+        from recurrent_gdn_full_layout import profile as native_profile
+        from recurrent_gdn_full_oracle import evidence as native_evidence
+
+        if profile.get("oracle_contract") != "resident_recurrent_gdn_full_native_heads_v1":
+            raise ValueError("Unsupported native recurrent oracle")
+        grid = native_profile(dims["T"])
+        if profile["pe_grid"] != [grid.width, grid.height]:
+            raise ValueError("Native PE budget changed")
+        names = ("Q_CANON", "K_CANON", "V_CANON", "G_CANON", "BETA_CANON", "S0")
+        stages = (
+            "Q_HISTORY",
+            "K_HISTORY",
+            "A_HISTORY",
+            "DELTA_HISTORY",
+            "STATE_HISTORY",
+            "Y_HISTORY",
+            "FINAL_STATE",
+        )
+        inputs = {n: raw["input_" + n] for n in names}
+        captured = {n: raw["physical_" + n] for n in names}
+        captured.update({n: raw["physical_" + n] for n in ("Q_HISTORY", "K_HISTORY", "A_HISTORY")})
+        captured.update(
+            DELTA_HISTORY=grid.columns(raw["DELTA_HISTORY"]),
+            STATE_HISTORY=grid.columns(raw["STATE_HISTORY"], state=True),
+            Y_HISTORY=grid.columns(raw["Y_HISTORY"]),
+            STATE=grid.initial(raw["FINAL_STATE"]),
+        )
+        actual, canonical, _ = grid.evidence(inputs, captured)
+        for name in stages:
+            np.testing.assert_array_equal(actual[name], raw[name])
+        arrays, _, bound = native_evidence(
+            dims["T"], inputs, actual, {n: raw["canonical_" + n] for n in names}
+        )
+        for name in ("actual", "check_labels", "check_offsets"):
+            np.testing.assert_array_equal(raw[name], arrays[name])
+        for name in ("timer_memcpy_u16", "timer_core_u16"):
+            if raw[name].dtype != np.uint16 or raw[name].shape != (grid.height, grid.width, 6):
+                raise ValueError("Incomplete native timer words")
+        strict = bool(arrays["exact_state_match"]) and np.array_equal(
+            raw["timer_memcpy_u16"], raw["timer_core_u16"]
+        )
+        np.testing.assert_array_equal(pack_timer(raw["timer_core_u16"], grid), raw["timer_u32"])
+        expected = arrays["expected"]
     elif kind == "pipeline":
         x, w = raw["x"].astype(np.float64), raw["w"].astype(np.float64)
         if x.shape != (5, dims["K"]) or w.shape != (dims["K"], dims["N"]):
@@ -116,6 +286,30 @@ def check_case(profile, case, artifact):
     if digest(artifact) != case["artifact_sha256"]:
         raise ValueError("Raw artifact digest changed")
     with np.load(artifact, allow_pickle=False) as raw:
+        if profile["adapter"] in ("recurrent_gdn", "recurrent_gdn_native", "recurrent_gdn_full"):
+            if profile["adapter"] == "recurrent_gdn_full":
+                from recurrent_gdn_full_oracle import inputs as full_inputs
+
+                wanted = full_inputs(profile["dimensions"]["T"], case["seed"], case["case"])
+            elif profile["adapter"] == "recurrent_gdn_native":
+                from recurrent_gdn_native_oracle import inputs as native_inputs
+
+                wanted = native_inputs(profile["dimensions"]["T"], case["seed"], case["case"])
+            else:
+                wanted = recurrent_inputs(
+                    profile["dimensions"]["K"],
+                    profile["dimensions"]["V"],
+                    case["seed"],
+                    case["case"],
+                )
+            for name, value in wanted.items():
+                saved = raw["input_" + name]
+                if (
+                    saved.shape != value.shape
+                    or saved.dtype != value.dtype
+                    or saved.tobytes() != value.tobytes()
+                ):
+                    raise ValueError("Recurrent input differs from its declared seed/family")
         expected, bound, strict = recompute(profile, raw)
         np.testing.assert_allclose(raw["expected"], expected, rtol=2e-12, atol=2e-12)
         np.testing.assert_allclose(raw["error_bound"], bound, rtol=2e-12, atol=0)
@@ -132,7 +326,18 @@ def check_case(profile, case, artifact):
         metrics = timing(raw["timer_u32"], profile["timing_protocol"]["repeats"])
         if metrics != case["metrics"]:
             raise ValueError("Recomputed timestamps disagree with the case receipt")
+        by_check = {}
+        if profile["adapter"] in ("recurrent_gdn", "recurrent_gdn_native", "recurrent_gdn_full"):
+            offsets = raw["check_offsets"]
+            for name, start, end in zip(raw["check_labels"], offsets[:-1], offsets[1:]):
+                section = slice(int(start), int(end))
+                by_check[str(name)] = dict(
+                    max_abs_error=float(error[section].max()),
+                    max_error_fraction=float((error[section] / bound[section]).max()),
+                    max_absolute_output=float(np.abs(raw["actual"][section]).max()),
+                )
         return {
+            **({"numerical_checks": by_check} if by_check else {}),
             "case": case["case"],
             "max_error_fraction_recomputed": float((error / bound).max()),
             "max_abs_error_recomputed": float(error.max()),
@@ -157,9 +362,18 @@ def check_summary(data):
         "gated_mlp": "cycles_per_frame",
         "decoder": "cycles_per_token",
         "reusable_gemm": "cycles_per_gemm",
+        "resident_swiglu": "cycles_per_frame",
+        "resident_swiglu_bf16": "cycles_per_frame",
+        "recurrent_gdn": "cycles_per_token",
+        "recurrent_gdn_native": "cycles_per_token",
+        "recurrent_gdn_full": "cycles_per_token",
     }.get(profile["adapter"])
     if unit:
         expected[unit] = primary / profile["dimensions"]["T"]
+    if profile["adapter"] in ("resident_swiglu", "resident_swiglu_bf16"):
+        expected["amortized_cycles_per_batch_row"] = primary / (
+            profile["dimensions"]["T"] * profile["dimensions"]["M"]
+        )
     if data.get("steps"):
         expected["experiment_wall_seconds"] = sum(step["wall_seconds"] for step in data["steps"])
     if any(metrics[name] != value for name, value in expected.items() if name in metrics):
@@ -207,6 +421,9 @@ def audit(manifest):
                 ROOT / "benchmarks/drivers/common.py",
                 ROOT / "benchmarks/drivers/resident_oracle.py",
                 ROOT / "benchmarks/drivers/reusable_gemm_oracle.py",
+                ROOT / "benchmarks/drivers/resident_swiglu_oracle.py",
+                ROOT / "benchmarks/drivers/resident_swiglu_bf16_oracle.py",
+                ROOT / "benchmarks/drivers/recurrent_gdn_oracle.py",
             )
         },
         "records": records,

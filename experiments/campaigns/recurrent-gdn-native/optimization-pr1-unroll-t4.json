@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "name": "pr1-persistent-dsr-bounded-unroll-t4",
+  "seed": 20261043,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "fresh_baselines_from_campaign": "runs/campaigns/recurrent-gdn-native/optimization-pr1-transfer-result.json",
+  "cells": [
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t4",
+      "baseline_receipt": "runs/v2/20261023T172358Z-recurrent-gdn-native.k128-v128-t4-f3666d22/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-pr1-dsr-unroll4"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-pr1-dsr-unroll8"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-pr1-dsr-bank-offset"
+        }
+      ]
+    }
+  ]
+}

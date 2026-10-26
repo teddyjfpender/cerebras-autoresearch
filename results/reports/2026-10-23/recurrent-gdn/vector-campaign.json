@@ -1,0 +1,4788 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-23T14:03:20Z",
+  "campaign_status": "completed",
+  "plan": {
+    "path": "experiments/campaigns/recurrent-gdn/optimization-vector-state.json",
+    "sha256": "eaf2307aa45a380cb98ab9a939eff923ad409adaed1e6bf3bda9067d90c25b28",
+    "identity": "ff0789c98ce14fc2fb355cff105881c3b572b9a26e7692008ae07040256adb45"
+  },
+  "checkpoint": {
+    "path": "runs/campaigns/recurrent-gdn/optimization-vector-state-result.json",
+    "sha256": "ecd0634eba7c59e2c6910948aebb4b38d04523314844c2a08659cc9e8fa55adf"
+  },
+  "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+  "audit_tool_sha256": "d0afff8452b814db032899c7d26c94d27bd0bacf6180033a5ed75e60c124f1a6",
+  "audit_evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+  "candidate_identities": {
+    "recurrent-gdn-vector-state": {
+      "source": "b3e7624c15d88b45a9160cacd4938731597774fb20632b3c6d9b503d23aa42f7",
+      "manifest": "f0b4ec4de7d3195944e99d66febc03f65c9a5b4ab665de427124ec77355acbbe"
+    }
+  },
+  "imports": {
+    "initial_baselines": {
+      "recurrent-gdn.k16-v16": "runs/v2/20261023T133631Z-recurrent-gdn.k16-v16-678410d7/result.json",
+      "recurrent-gdn.k32-v16": "runs/v2/20261023T134108Z-recurrent-gdn.k32-v16-06a7ba14/result.json"
+    },
+    "fresh_baselines": {}
+  },
+  "executed_attempt_count": 8,
+  "requested_profiles": [
+    "recurrent-gdn.k16-v16",
+    "recurrent-gdn.k32-v16"
+  ],
+  "cells": {
+    "recurrent-gdn.k16-v16": {
+      "status": "confirmed_improvement",
+      "baseline": "runs/v2/20261023T133631Z-recurrent-gdn.k16-v16-678410d7/result.json",
+      "screens": [
+        {
+          "candidate": {
+            "variant": "candidate",
+            "candidate": "recurrent-gdn-vector-state"
+          },
+          "receipt": "runs/v2/20261023T134713Z-recurrent-gdn.k16-v16-903c01a2/result.json",
+          "outcome": "screen_passed",
+          "speedup": 7.161137226541313,
+          "memory_ratio": 1.0134831460674156,
+          "eligible": true
+        }
+      ],
+      "selected": {
+        "variant": "candidate",
+        "candidate": "recurrent-gdn-vector-state"
+      },
+      "confirmation": "runs/v2/20261023T135227Z-confirmation-211df2a3/result.json"
+    },
+    "recurrent-gdn.k32-v16": {
+      "status": "confirmed_improvement",
+      "baseline": "runs/v2/20261023T134108Z-recurrent-gdn.k32-v16-06a7ba14/result.json",
+      "screens": [
+        {
+          "candidate": {
+            "variant": "candidate",
+            "candidate": "recurrent-gdn-vector-state"
+          },
+          "receipt": "runs/v2/20261023T135227Z-recurrent-gdn.k32-v16-0ee34b67/result.json",
+          "outcome": "screen_passed",
+          "speedup": 7.544144078499952,
+          "memory_ratio": 1.0080321285140563,
+          "eligible": true
+        }
+      ],
+      "selected": {
+        "variant": "candidate",
+        "candidate": "recurrent-gdn-vector-state"
+      },
+      "confirmation": "runs/v2/20261023T140110Z-confirmation-cf4a3c05/result.json"
+    }
+  },
+  "records": [
+    {
+      "receipt": "runs/v2/20261023T133631Z-recurrent-gdn.k16-v16-678410d7/result.json",
+      "receipt_sha256": "89927fdc884200c4771f20f1e849df86808622c66019b252e8fcc49a0d32a5ec",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn.k16-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 16,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 350208,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261035,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 316866.0,
+        "mean_local_cycles": 316843.375,
+        "pe_cycle_spread": 42.0,
+        "max_error_fraction": 0.9783728837392538,
+        "cycles_per_token": 79216.5,
+        "max_program_object_bytes_per_pe": 28480,
+        "work_units_per_cycle": 1.1052242903940468,
+        "pe_cycles": 5069856.0,
+        "experiment_wall_seconds": 181.08070830900397
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 28480,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 28480
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 28480
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 28480
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 28480
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 28480
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 28480
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 28480
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 28480
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0008762825968218202,
+          "max_fraction_of_error_bound": 0.9773891819166876,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "f2c763742c97a6e6c2e5098ccdc1497ca1c8811df358a85962863aefedf62997",
+          "metrics": {
+            "max_local_cycles": 316866.0,
+            "mean_local_cycles": 316843.375,
+            "pe_cycle_spread": 42.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.00032172774283398264,
+          "max_fraction_of_error_bound": 0.9783728837392538,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "2b26fd2aff5b190aa16ac26f6dd0769466510a1e4beee59f10d5ab587b256890",
+          "metrics": {
+            "max_local_cycles": 316866.0,
+            "mean_local_cycles": 316843.375,
+            "pe_cycle_spread": 42.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 4.8231874605342284e-08,
+          "max_fraction_of_error_bound": 0.33135360009359766,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "a16d59da25f6cab61ec002c0095b5fb30dff47d04d4a705a957836aab6717891",
+          "metrics": {
+            "max_local_cycles": 316866.0,
+            "mean_local_cycles": 316843.375,
+            "pe_cycle_spread": 42.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0009520282716879991,
+          "max_fraction_of_error_bound": 0.9171996527560674,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "65df3f02d1d3895d371842f750bf6f83427c2b66f14789dc0871cbf9670a896f",
+          "metrics": {
+            "max_local_cycles": 316866.0,
+            "mean_local_cycles": 316843.375,
+            "pe_cycle_spread": 42.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.00046626733125207376,
+          "max_fraction_of_error_bound": 0.9678755504802136,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "70205ab7dbe95a539cd52739b56e76f99bec539917e54a0dd0366485059df451",
+          "metrics": {
+            "max_local_cycles": 316866.0,
+            "mean_local_cycles": 316843.375,
+            "pe_cycle_spread": 42.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0002533906871233782,
+          "max_fraction_of_error_bound": 0.9666692305106914,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "4927bf56d9d99db741ab6565c28c0974f173ea0772167e8258e14049d7f4beb2",
+          "metrics": {
+            "max_local_cycles": 316866.0,
+            "mean_local_cycles": 316843.375,
+            "pe_cycle_spread": 42.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "4918c133ac0e4f633ae2c4d87ad4d94bd85c5435",
+        "git_dirty": false,
+        "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "9b687dd001fc5d563e321c7d9faebf7c1446fb5cbcfb3edd088aeaf8ac87cef2",
+          "src/cerebras_research/catalog.py": "2f66edf6a6b4ffebf0c8513427bbaa0cdeccfddcedffe3c6ded61e503ac8eba7",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "9ad9cff3852eb3c1a6fd165bc9829c11da256123af4931928828df604e590555",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "c27f0b53c6b625d81e8ada4b6051370612b5041e6aba55614c67e401422afb67",
+      "baseline_tree_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "source_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "harness_sha256": "1c685c840f27d605b6d013b686a95a6969e75b4ec060b287280ce390b0ca842e",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=K:16,V:16,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=K:16,V:16,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.379575164999551,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 29.027045275001,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 28.49171538000155,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 28.48274482099805,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 28.447434200003045,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 28.970717907999642,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 28.856770235001022,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.4247053250001045,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T134108Z-recurrent-gdn.k32-v16-06a7ba14/result.json",
+      "receipt_sha256": "879d389fd521a224d5ce5bdb1f7069948f2a5ed5e091db773702c8525f2d8c9e",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn.k32-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 32,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 694272,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261035,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 621215.0,
+        "mean_local_cycles": 621200.1875,
+        "pe_cycle_spread": 34.0,
+        "max_error_fraction": 0.9845580630428911,
+        "cycles_per_token": 155303.75,
+        "max_program_object_bytes_per_pe": 47808,
+        "work_units_per_cycle": 1.1176034062281175,
+        "pe_cycles": 9939440.0,
+        "experiment_wall_seconds": 326.7093473529967
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 47808,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 47808
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 47808
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 47808
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 47808
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 47808
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 47808
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 47808
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 47808
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0004868470810356629,
+          "max_fraction_of_error_bound": 0.9845580630428911,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "3731ac911ac02261983b8d90324223ab5ab598eab5286742029b64f4481a7410",
+          "metrics": {
+            "max_local_cycles": 621215.0,
+            "mean_local_cycles": 621200.1875,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0002304001275474643,
+          "max_fraction_of_error_bound": 0.9715233721265414,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "d41b1ad18c8204f47e36ed2f9d567a19ef37e4388780453d7111ed9ffd0c7fc0",
+          "metrics": {
+            "max_local_cycles": 621215.0,
+            "mean_local_cycles": 621200.1875,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 4.764099204024319e-08,
+          "max_fraction_of_error_bound": 0.3323025131149799,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "39d119cf93e86bfcefeb39869cb69012228632e604a4235b6acdf3d1d50c6ab5",
+          "metrics": {
+            "max_local_cycles": 621215.0,
+            "mean_local_cycles": 621200.1875,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.00048473298043108515,
+          "max_fraction_of_error_bound": 0.9051770897683383,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "7b0552452e86bea7cb1ec192abf97420fd8d0a4d6d63b01154baa8085df34c35",
+          "metrics": {
+            "max_local_cycles": 621215.0,
+            "mean_local_cycles": 621200.1875,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0004193157142182713,
+          "max_fraction_of_error_bound": 0.9829319785027822,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "b9d428cd6acd4c5879c48f8f4a5151f944c676746e557b05be94e923fa16d498",
+          "metrics": {
+            "max_local_cycles": 621215.0,
+            "mean_local_cycles": 621200.1875,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.00022618656288633798,
+          "max_fraction_of_error_bound": 0.9710377623552399,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "a596a4e3e175d7b6bb2e69c2c446fab8d925a4997faee0e5fab32710e5d047b9",
+          "metrics": {
+            "max_local_cycles": 621215.0,
+            "mean_local_cycles": 621200.1875,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "4918c133ac0e4f633ae2c4d87ad4d94bd85c5435",
+        "git_dirty": true,
+        "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "9b687dd001fc5d563e321c7d9faebf7c1446fb5cbcfb3edd088aeaf8ac87cef2",
+          "src/cerebras_research/catalog.py": "2f66edf6a6b4ffebf0c8513427bbaa0cdeccfddcedffe3c6ded61e503ac8eba7",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "9ad9cff3852eb3c1a6fd165bc9829c11da256123af4931928828df604e590555",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "fad80835547d2d4f30137c2cf341b04e306222195bd6c3f4156e79fab8a411fa",
+      "baseline_tree_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "source_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "harness_sha256": "1c685c840f27d605b6d013b686a95a6969e75b4ec060b287280ce390b0ca842e",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=K:32,V:16,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=K:32,V:16,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.562757701998635,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 53.25706015800097,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 52.89771729199856,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 52.32115803399938,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 53.746078334999766,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 52.816120663999754,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 52.68484160599837,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.42361356200126465,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T134713Z-recurrent-gdn.k16-v16-903c01a2/result.json",
+      "receipt_sha256": "a3db07c17eb7aebe8d859e11dcfda0b87f416a17c812e51358743fc042b0997e",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "screen_passed",
+      "profile": {
+        "id": "recurrent-gdn.k16-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 16,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 350208,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261035,
+      "screen_only": true,
+      "metrics": {
+        "max_local_cycles": 44248.0,
+        "mean_local_cycles": 44226.375,
+        "pe_cycle_spread": 39.0,
+        "max_error_fraction": 0.9773940004879405,
+        "cycles_per_token": 11062.0,
+        "max_program_object_bytes_per_pe": 28864,
+        "work_units_per_cycle": 7.914662809618513,
+        "pe_cycles": 707968.0,
+        "experiment_wall_seconds": 17.280210813994927
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 28864,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 28864
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "cases": [
+          "positive"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0008762800003914717,
+          "max_fraction_of_error_bound": 0.9773940004879405,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "6d1383c54c057aecdd7b5819fbdbb0087c8ac2ce1f1a3f0216527a479cc9711d",
+          "metrics": {
+            "max_local_cycles": 44248.0,
+            "mean_local_cycles": 44226.375,
+            "pe_cycle_spread": 39.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn.fp32_vector_state_row_walk",
+        "candidate": "recurrent-gdn-vector-state",
+        "hypothesis": "Contiguous V-lane FP32 vector decay, memory projection, outer update and readout remove scalar address/loop overhead; one V-element scratch vector fits the fixed memory gate. Every ascending K term and all protected normalization/exp/state-history/timing work remain.",
+        "falsification": "Reject if any of the six initial/fresh families fails the unchanged local/full-chain FP32/BF16 bounds or immutable/core/timer checks, if any projection term/state store is absent, if memory grows over 10 percent, or if matched full-case speedup is below 1.05x. A suite claim also requires both shapes and worst-cell guards.",
+        "manifest_sha256": "f0b4ec4de7d3195944e99d66febc03f65c9a5b4ab665de427124ec77355acbbe",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "22cea62662c199fc6f38e2d9f3b7937a5af8f2f3",
+        "git_dirty": false,
+        "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "9b687dd001fc5d563e321c7d9faebf7c1446fb5cbcfb3edd088aeaf8ac87cef2",
+          "src/cerebras_research/catalog.py": "2f66edf6a6b4ffebf0c8513427bbaa0cdeccfddcedffe3c6ded61e503ac8eba7",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "9ad9cff3852eb3c1a6fd165bc9829c11da256123af4931928828df604e590555",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "c27f0b53c6b625d81e8ada4b6051370612b5041e6aba55614c67e401422afb67",
+      "baseline_tree_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "source_sha256": "b3e7624c15d88b45a9160cacd4938731597774fb20632b3c6d9b503d23aa42f7",
+      "harness_sha256": "1c685c840f27d605b6d013b686a95a6969e75b4ec060b287280ce390b0ca842e",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=K:16,V:16,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=K:16,V:16,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.721481791999395,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 8.139536940998369,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.41919208099716343,
+          "log": "step-2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T134730Z-recurrent-gdn.k16-v16-82386f21/result.json",
+      "receipt_sha256": "4cacccf2540041c6b9658e78cc8683f5c3f383c482f9f7b25f0e44dfde0d2975",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn.k16-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 16,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 350208,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261035,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 44248.0,
+        "mean_local_cycles": 44226.375,
+        "pe_cycle_spread": 39.0,
+        "max_error_fraction": 0.978354355430304,
+        "cycles_per_token": 11062.0,
+        "max_program_object_bytes_per_pe": 28864,
+        "work_units_per_cycle": 7.914662809618513,
+        "pe_cycles": 707968.0,
+        "experiment_wall_seconds": 58.18944166399888
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 28864,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 28864
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0008762800003914717,
+          "max_fraction_of_error_bound": 0.9773940004879405,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "6d1383c54c057aecdd7b5819fbdbb0087c8ac2ce1f1a3f0216527a479cc9711d",
+          "metrics": {
+            "max_local_cycles": 44248.0,
+            "mean_local_cycles": 44226.375,
+            "pe_cycle_spread": 39.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0003217293772991292,
+          "max_fraction_of_error_bound": 0.978354355430304,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "69878e3148a7c27aa4948cf712c5d979d73a442b29f6b2c2fcdfce4dc8f6aa6d",
+          "metrics": {
+            "max_local_cycles": 44248.0,
+            "mean_local_cycles": 44226.375,
+            "pe_cycle_spread": 39.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 4.8231874605342284e-08,
+          "max_fraction_of_error_bound": 0.33135360009359766,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "4ffd1692c1e7053d5dd8d09a54e7601785a7c22cb831ac16dfff8a73cc2370b9",
+          "metrics": {
+            "max_local_cycles": 44248.0,
+            "mean_local_cycles": 44226.375,
+            "pe_cycle_spread": 39.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0009520282716879991,
+          "max_fraction_of_error_bound": 0.9171996527560674,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "71b62ad7524e45728dcd063436b5ef6b2246644296343cd73bcf68b3ab90daf7",
+          "metrics": {
+            "max_local_cycles": 44248.0,
+            "mean_local_cycles": 44226.375,
+            "pe_cycle_spread": 39.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.00046626733125207376,
+          "max_fraction_of_error_bound": 0.9678755504802136,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "d143cc573203df219ee8e48ca59982b867fcb49a7aed78d84e48bc4fdaec4bdb",
+          "metrics": {
+            "max_local_cycles": 44248.0,
+            "mean_local_cycles": 44226.375,
+            "pe_cycle_spread": 39.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0002533906871233782,
+          "max_fraction_of_error_bound": 0.9666705430929017,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "aa72c5afd7ebef3c7a5026c9d5791355d76f67ff0497c9c501ba39e9a211a68a",
+          "metrics": {
+            "max_local_cycles": 44248.0,
+            "mean_local_cycles": 44226.375,
+            "pe_cycle_spread": 39.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn.fp32_vector_state_row_walk",
+        "candidate": "recurrent-gdn-vector-state",
+        "hypothesis": "Contiguous V-lane FP32 vector decay, memory projection, outer update and readout remove scalar address/loop overhead; one V-element scratch vector fits the fixed memory gate. Every ascending K term and all protected normalization/exp/state-history/timing work remain.",
+        "falsification": "Reject if any of the six initial/fresh families fails the unchanged local/full-chain FP32/BF16 bounds or immutable/core/timer checks, if any projection term/state store is absent, if memory grows over 10 percent, or if matched full-case speedup is below 1.05x. A suite claim also requires both shapes and worst-cell guards.",
+        "manifest_sha256": "f0b4ec4de7d3195944e99d66febc03f65c9a5b4ab665de427124ec77355acbbe",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "22cea62662c199fc6f38e2d9f3b7937a5af8f2f3",
+        "git_dirty": true,
+        "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "9b687dd001fc5d563e321c7d9faebf7c1446fb5cbcfb3edd088aeaf8ac87cef2",
+          "src/cerebras_research/catalog.py": "2f66edf6a6b4ffebf0c8513427bbaa0cdeccfddcedffe3c6ded61e503ac8eba7",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "9ad9cff3852eb3c1a6fd165bc9829c11da256123af4931928828df604e590555",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "c27f0b53c6b625d81e8ada4b6051370612b5041e6aba55614c67e401422afb67",
+      "baseline_tree_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "source_sha256": "b3e7624c15d88b45a9160cacd4938731597774fb20632b3c6d9b503d23aa42f7",
+      "harness_sha256": "1c685c840f27d605b6d013b686a95a6969e75b4ec060b287280ce390b0ca842e",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=K:16,V:16,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=K:16,V:16,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.72936297599881,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 8.390133165001316,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 8.181101484002284,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 8.181508632998884,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 8.057823942999676,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 8.091881993997958,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 8.135912073998043,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.42171739500190597,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T134828Z-comparison-ad0ade9a/result.json",
+      "receipt_sha256": "c7493ececb25a41f7031ec33e676e6ecaca466f1f278f033f35e8ad23bd3bdae",
+      "kind": "comparison",
+      "evidence_audit": "verified",
+      "status": "needs_fresh_confirmation",
+      "decision": "needs_fresh_confirmation",
+      "profile": "recurrent-gdn.k16-v16",
+      "inputs": {
+        "baseline": "runs/v2/20261023T133631Z-recurrent-gdn.k16-v16-678410d7/result.json",
+        "candidate": "runs/v2/20261023T134730Z-recurrent-gdn.k16-v16-82386f21/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "eligible": true,
+      "speedup": 7.161137226541313,
+      "memory_ratio": 1.0134831460674156,
+      "metric": "max_local_cycles",
+      "cycle_reduction_percent": 86.03573750418157
+    },
+    {
+      "receipt": "runs/v2/20261023T134828Z-recurrent-gdn.k16-v16-85feed20/result.json",
+      "receipt_sha256": "fb7317f3c148d92a1372ed20d21ca733cb02751d8551e5b1d222b1fb7c568212",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn.k16-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 16,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 350208,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261036,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 316857.0,
+        "mean_local_cycles": 316839.125,
+        "pe_cycle_spread": 33.0,
+        "max_error_fraction": 0.9851344992487271,
+        "cycles_per_token": 79214.25,
+        "max_program_object_bytes_per_pe": 28480,
+        "work_units_per_cycle": 1.1052556831630673,
+        "pe_cycles": 5069712.0,
+        "experiment_wall_seconds": 184.06293612699665
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 28480,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 28480
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 28480
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 28480
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 28480
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 28480
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 28480
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 28480
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 28480
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 28480
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.000781364705177201,
+          "max_fraction_of_error_bound": 0.9851344992487271,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "a773c65814be0c3fada49eade0f7f3221190063f1bdb9b4c9c94e9d005b7e8f5",
+          "metrics": {
+            "max_local_cycles": 316857.0,
+            "mean_local_cycles": 316839.125,
+            "pe_cycle_spread": 33.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0004422895825602624,
+          "max_fraction_of_error_bound": 0.9776671856179067,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "1be107c1350019dfea4ea9256cd61a38222647599dbee53fe7565d0d4168a65f",
+          "metrics": {
+            "max_local_cycles": 316857.0,
+            "mean_local_cycles": 316839.125,
+            "pe_cycle_spread": 33.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 6.226537896392159e-08,
+          "max_fraction_of_error_bound": 0.3323784935757158,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "fcc39074ffc67e5b98394cd5fc84685f33fc2008311955295e9dc5e6a0a64dae",
+          "metrics": {
+            "max_local_cycles": 316857.0,
+            "mean_local_cycles": 316839.125,
+            "pe_cycle_spread": 33.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0007786237301453669,
+          "max_fraction_of_error_bound": 0.9503763442975356,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "b21e67d03f29393d5d89c16f13153160b50266ddc0ad2e9d24e8d4a51a31a080",
+          "metrics": {
+            "max_local_cycles": 316857.0,
+            "mean_local_cycles": 316839.125,
+            "pe_cycle_spread": 33.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0004790591321776061,
+          "max_fraction_of_error_bound": 0.9509258616994151,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "3011cca9ae4ce0dc8f1dff8f745a8230136b4fb5abcf0ea27c1410618f92803d",
+          "metrics": {
+            "max_local_cycles": 316857.0,
+            "mean_local_cycles": 316839.125,
+            "pe_cycle_spread": 33.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0004863434802455102,
+          "max_fraction_of_error_bound": 0.97724016429837,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "be6ef3a33505c735fe8096675d63f0e416090d67024f7c865236c65aafb7a383",
+          "metrics": {
+            "max_local_cycles": 316857.0,
+            "mean_local_cycles": 316839.125,
+            "pe_cycle_spread": 33.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "22cea62662c199fc6f38e2d9f3b7937a5af8f2f3",
+        "git_dirty": true,
+        "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "9b687dd001fc5d563e321c7d9faebf7c1446fb5cbcfb3edd088aeaf8ac87cef2",
+          "src/cerebras_research/catalog.py": "2f66edf6a6b4ffebf0c8513427bbaa0cdeccfddcedffe3c6ded61e503ac8eba7",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "9ad9cff3852eb3c1a6fd165bc9829c11da256123af4931928828df604e590555",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "c27f0b53c6b625d81e8ada4b6051370612b5041e6aba55614c67e401422afb67",
+      "baseline_tree_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "source_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "harness_sha256": "1c685c840f27d605b6d013b686a95a6969e75b4ec060b287280ce390b0ca842e",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=K:16,V:16,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=K:16,V:16,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.521646288998454,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 29.49068326899942,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 29.2381273280007,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 29.48295927000072,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 28.890341981998063,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 28.842138752999745,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 29.15475503000198,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.44228420599756646,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T135128Z-recurrent-gdn.k16-v16-9bd319db/result.json",
+      "receipt_sha256": "52cdb86d2cb3a27a2710cb4059bce23ed745a5dd5a582604a5a074868b11c0ad",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn.k16-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 16,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 350208,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261036,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 44239.0,
+        "mean_local_cycles": 44222.1875,
+        "pe_cycle_spread": 30.0,
+        "max_error_fraction": 0.9851352537600151,
+        "cycles_per_token": 11059.75,
+        "max_program_object_bytes_per_pe": 28864,
+        "work_units_per_cycle": 7.916272971812202,
+        "pe_cycles": 707824.0,
+        "experiment_wall_seconds": 58.31417801200587
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 28864,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 28864
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 28864
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.000781364705177201,
+          "max_fraction_of_error_bound": 0.9851352537600151,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "c352c11f88bbd2e216664e2703c2b5b1dcb775203da63a75c9e8a77e1845301f",
+          "metrics": {
+            "max_local_cycles": 44239.0,
+            "mean_local_cycles": 44222.1875,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0004422915068938993,
+          "max_fraction_of_error_bound": 0.9776844793738123,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "7441b9072325b4671f42c231853ea7bc0f7e23cc5282204f70e648d1b3fb4b00",
+          "metrics": {
+            "max_local_cycles": 44239.0,
+            "mean_local_cycles": 44222.1875,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 6.226537896392159e-08,
+          "max_fraction_of_error_bound": 0.3323784935757158,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "23156bd7fd31d9a159454f52201e375ea10281a3d75abe85f88034ce928c9a5c",
+          "metrics": {
+            "max_local_cycles": 44239.0,
+            "mean_local_cycles": 44222.1875,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0007786237301453669,
+          "max_fraction_of_error_bound": 0.9503763442975356,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "312bd16a6a04b57e00d6477d2b06600437ff4328c493216daba10c6c1fc46a05",
+          "metrics": {
+            "max_local_cycles": 44239.0,
+            "mean_local_cycles": 44222.1875,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0004790591321776061,
+          "max_fraction_of_error_bound": 0.9509258616994151,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "177bd6b6e7f222b55f57c8e304cdf14481a415890e34c3906448baebe9d14d3d",
+          "metrics": {
+            "max_local_cycles": 44239.0,
+            "mean_local_cycles": 44222.1875,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0004863434802455102,
+          "max_fraction_of_error_bound": 0.977217389223072,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "8beb111774feb27b506059fba07dc3d159290deb9a55ba287102cdc95f96ad75",
+          "metrics": {
+            "max_local_cycles": 44239.0,
+            "mean_local_cycles": 44222.1875,
+            "pe_cycle_spread": 30.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn.fp32_vector_state_row_walk",
+        "candidate": "recurrent-gdn-vector-state",
+        "hypothesis": "Contiguous V-lane FP32 vector decay, memory projection, outer update and readout remove scalar address/loop overhead; one V-element scratch vector fits the fixed memory gate. Every ascending K term and all protected normalization/exp/state-history/timing work remain.",
+        "falsification": "Reject if any of the six initial/fresh families fails the unchanged local/full-chain FP32/BF16 bounds or immutable/core/timer checks, if any projection term/state store is absent, if memory grows over 10 percent, or if matched full-case speedup is below 1.05x. A suite claim also requires both shapes and worst-cell guards.",
+        "manifest_sha256": "f0b4ec4de7d3195944e99d66febc03f65c9a5b4ab665de427124ec77355acbbe",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "22cea62662c199fc6f38e2d9f3b7937a5af8f2f3",
+        "git_dirty": true,
+        "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "9b687dd001fc5d563e321c7d9faebf7c1446fb5cbcfb3edd088aeaf8ac87cef2",
+          "src/cerebras_research/catalog.py": "2f66edf6a6b4ffebf0c8513427bbaa0cdeccfddcedffe3c6ded61e503ac8eba7",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "9ad9cff3852eb3c1a6fd165bc9829c11da256123af4931928828df604e590555",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "c27f0b53c6b625d81e8ada4b6051370612b5041e6aba55614c67e401422afb67",
+      "baseline_tree_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "source_sha256": "b3e7624c15d88b45a9160cacd4938731597774fb20632b3c6d9b503d23aa42f7",
+      "harness_sha256": "1c685c840f27d605b6d013b686a95a6969e75b4ec060b287280ce390b0ca842e",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=K:16,V:16,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=K:16,V:16,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.718939682999917,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 8.26008776800154,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 8.199493082000117,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 8.298021886999777,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 8.03114115200151,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 8.164505978002126,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 8.213430097999662,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.42855836400121916,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T135227Z-confirmation-211df2a3/result.json",
+      "receipt_sha256": "9dbbf28ad6633c51d3e0a9b50eabbdf16bca9d2c00d7df7211e434f06b4620dc",
+      "kind": "confirmation",
+      "evidence_audit": "verified",
+      "status": "confirmed_improvement",
+      "inputs": {
+        "initial_baseline": "runs/v2/20261023T133631Z-recurrent-gdn.k16-v16-678410d7/result.json",
+        "initial_candidate": "runs/v2/20261023T134730Z-recurrent-gdn.k16-v16-82386f21/result.json",
+        "fresh_baseline": "runs/v2/20261023T134828Z-recurrent-gdn.k16-v16-85feed20/result.json",
+        "fresh_candidate": "runs/v2/20261023T135128Z-recurrent-gdn.k16-v16-9bd319db/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "initial": {
+        "profile": "recurrent-gdn.k16-v16",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T133631Z-recurrent-gdn.k16-v16-678410d7/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T134730Z-recurrent-gdn.k16-v16-82386f21/result.json",
+        "speedup": 7.161137226541313,
+        "memory_ratio": 1.0134831460674156,
+        "cycle_reduction_percent": 86.03573750418157,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "needs_fresh_confirmation",
+        "qwen_tps_result": false
+      },
+      "confirmation": {
+        "profile": "recurrent-gdn.k16-v16",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T134828Z-recurrent-gdn.k16-v16-85feed20/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T135128Z-recurrent-gdn.k16-v16-9bd319db/result.json",
+        "speedup": 7.162390650783245,
+        "memory_ratio": 1.0134831460674156,
+        "cycle_reduction_percent": 86.03818126157856,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "confirmation_passed",
+        "qwen_tps_result": false
+      }
+    },
+    {
+      "receipt": "runs/v2/20261023T135227Z-recurrent-gdn.k32-v16-0ee34b67/result.json",
+      "receipt_sha256": "4fd220a6f8fd56494dec612f17c4b0886e92c0155acd1c63f8d99d3af2b93fe4",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "screen_passed",
+      "profile": {
+        "id": "recurrent-gdn.k32-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 32,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 694272,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261035,
+      "screen_only": true,
+      "metrics": {
+        "max_local_cycles": 82344.0,
+        "mean_local_cycles": 82330.125,
+        "pe_cycle_spread": 32.0,
+        "max_error_fraction": 0.9845617512970701,
+        "cycles_per_token": 20586.0,
+        "max_program_object_bytes_per_pe": 48192,
+        "work_units_per_cycle": 8.431361119207228,
+        "pe_cycles": 1317504.0,
+        "experiment_wall_seconds": 22.94390294200275
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 48192,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 48192
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "cases": [
+          "positive"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0004868480673057285,
+          "max_fraction_of_error_bound": 0.9845617512970701,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "edcbf44115eca4067a16a5516b6bf795c3d20e11b87e396d37c8154834df9e19",
+          "metrics": {
+            "max_local_cycles": 82344.0,
+            "mean_local_cycles": 82330.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn.fp32_vector_state_row_walk",
+        "candidate": "recurrent-gdn-vector-state",
+        "hypothesis": "Contiguous V-lane FP32 vector decay, memory projection, outer update and readout remove scalar address/loop overhead; one V-element scratch vector fits the fixed memory gate. Every ascending K term and all protected normalization/exp/state-history/timing work remain.",
+        "falsification": "Reject if any of the six initial/fresh families fails the unchanged local/full-chain FP32/BF16 bounds or immutable/core/timer checks, if any projection term/state store is absent, if memory grows over 10 percent, or if matched full-case speedup is below 1.05x. A suite claim also requires both shapes and worst-cell guards.",
+        "manifest_sha256": "f0b4ec4de7d3195944e99d66febc03f65c9a5b4ab665de427124ec77355acbbe",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "22cea62662c199fc6f38e2d9f3b7937a5af8f2f3",
+        "git_dirty": true,
+        "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "9b687dd001fc5d563e321c7d9faebf7c1446fb5cbcfb3edd088aeaf8ac87cef2",
+          "src/cerebras_research/catalog.py": "2f66edf6a6b4ffebf0c8513427bbaa0cdeccfddcedffe3c6ded61e503ac8eba7",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "9ad9cff3852eb3c1a6fd165bc9829c11da256123af4931928828df604e590555",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "fad80835547d2d4f30137c2cf341b04e306222195bd6c3f4156e79fab8a411fa",
+      "baseline_tree_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "source_sha256": "b3e7624c15d88b45a9160cacd4938731597774fb20632b3c6d9b503d23aa42f7",
+      "harness_sha256": "1c685c840f27d605b6d013b686a95a6969e75b4ec060b287280ce390b0ca842e",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=K:32,V:16,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=K:32,V:16,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.735667891000048,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 13.784097091000149,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.4241379600025539,
+          "log": "step-2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T135250Z-recurrent-gdn.k32-v16-7e7d4067/result.json",
+      "receipt_sha256": "41276b16f2b947442a73ac53af3e7ed259f725bb8246107872eec448ae91692c",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn.k32-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 32,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 694272,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261035,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 82344.0,
+        "mean_local_cycles": 82330.125,
+        "pe_cycle_spread": 32.0,
+        "max_error_fraction": 0.9845617512970701,
+        "cycles_per_token": 20586.0,
+        "max_program_object_bytes_per_pe": 48192,
+        "work_units_per_cycle": 8.431361119207228,
+        "pe_cycles": 1317504.0,
+        "experiment_wall_seconds": 89.28617776399551
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 48192,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 48192
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0004868480673057285,
+          "max_fraction_of_error_bound": 0.9845617512970701,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "edcbf44115eca4067a16a5516b6bf795c3d20e11b87e396d37c8154834df9e19",
+          "metrics": {
+            "max_local_cycles": 82344.0,
+            "mean_local_cycles": 82330.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0002304001275474643,
+          "max_fraction_of_error_bound": 0.9715552102956238,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "73bb8a0894299966150b41928fa551d59f737e5cb3847d9d0b348a8cc421f277",
+          "metrics": {
+            "max_local_cycles": 82344.0,
+            "mean_local_cycles": 82330.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 4.764099204024319e-08,
+          "max_fraction_of_error_bound": 0.3323025131149799,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "bb35416ae7e3edd24518e1c60de93e7a9bd35d9cf3067d9e98cafaf0203f6f04",
+          "metrics": {
+            "max_local_cycles": 82344.0,
+            "mean_local_cycles": 82330.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.00048473298043108515,
+          "max_fraction_of_error_bound": 0.9051770897683383,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "6a7c0841529c0e738d868a6b8a0e0ef353758f0c59521714ecefd2105af5501b",
+          "metrics": {
+            "max_local_cycles": 82344.0,
+            "mean_local_cycles": 82330.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.0004193157142182713,
+          "max_fraction_of_error_bound": 0.9829319785027822,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "0c1213f3a51735a35673b78d7a3675a83eb8d9ecd0247ccb34ca961a26f1efb1",
+          "metrics": {
+            "max_local_cycles": 82344.0,
+            "mean_local_cycles": 82330.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261035,
+          "passed": true,
+          "max_abs_error": 0.00022618751554970284,
+          "max_fraction_of_error_bound": 0.9710291606919247,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "67409914385bb023d02777e733657069dbe7949068835c1db1762bbed8584b6c",
+          "metrics": {
+            "max_local_cycles": 82344.0,
+            "mean_local_cycles": 82330.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn.fp32_vector_state_row_walk",
+        "candidate": "recurrent-gdn-vector-state",
+        "hypothesis": "Contiguous V-lane FP32 vector decay, memory projection, outer update and readout remove scalar address/loop overhead; one V-element scratch vector fits the fixed memory gate. Every ascending K term and all protected normalization/exp/state-history/timing work remain.",
+        "falsification": "Reject if any of the six initial/fresh families fails the unchanged local/full-chain FP32/BF16 bounds or immutable/core/timer checks, if any projection term/state store is absent, if memory grows over 10 percent, or if matched full-case speedup is below 1.05x. A suite claim also requires both shapes and worst-cell guards.",
+        "manifest_sha256": "f0b4ec4de7d3195944e99d66febc03f65c9a5b4ab665de427124ec77355acbbe",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "22cea62662c199fc6f38e2d9f3b7937a5af8f2f3",
+        "git_dirty": true,
+        "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "9b687dd001fc5d563e321c7d9faebf7c1446fb5cbcfb3edd088aeaf8ac87cef2",
+          "src/cerebras_research/catalog.py": "2f66edf6a6b4ffebf0c8513427bbaa0cdeccfddcedffe3c6ded61e503ac8eba7",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "9ad9cff3852eb3c1a6fd165bc9829c11da256123af4931928828df604e590555",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "fad80835547d2d4f30137c2cf341b04e306222195bd6c3f4156e79fab8a411fa",
+      "baseline_tree_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "source_sha256": "b3e7624c15d88b45a9160cacd4938731597774fb20632b3c6d9b503d23aa42f7",
+      "harness_sha256": "1c685c840f27d605b6d013b686a95a6969e75b4ec060b287280ce390b0ca842e",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=K:32,V:16,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=K:32,V:16,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.576038662999053,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 13.316128928996477,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 13.361798579997412,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 13.50668879099976,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 13.301374269001826,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 13.377419006999844,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261035"
+          ],
+          "wall_seconds": 13.4167752880021,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.4299542369990377,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T135418Z-comparison-87be8ae5/result.json",
+      "receipt_sha256": "522002caf006c02c2ccb2b45f539cf1a08d917c30638ff86787441f62b1ae298",
+      "kind": "comparison",
+      "evidence_audit": "verified",
+      "status": "needs_fresh_confirmation",
+      "decision": "needs_fresh_confirmation",
+      "profile": "recurrent-gdn.k32-v16",
+      "inputs": {
+        "baseline": "runs/v2/20261023T134108Z-recurrent-gdn.k32-v16-06a7ba14/result.json",
+        "candidate": "runs/v2/20261023T135250Z-recurrent-gdn.k32-v16-7e7d4067/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "eligible": true,
+      "speedup": 7.544144078499952,
+      "memory_ratio": 1.0080321285140563,
+      "metric": "max_local_cycles",
+      "cycle_reduction_percent": 86.74468581730963
+    },
+    {
+      "receipt": "runs/v2/20261023T135419Z-recurrent-gdn.k32-v16-77a650cf/result.json",
+      "receipt_sha256": "1b36a551ecb202140dc011c7f14958f485fb316614374233061c761ac1712c1f",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn.k32-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 32,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 694272,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261036,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 621218.0,
+        "mean_local_cycles": 621202.3125,
+        "pe_cycle_spread": 34.0,
+        "max_error_fraction": 0.9944779255385628,
+        "cycles_per_token": 155304.5,
+        "max_program_object_bytes_per_pe": 47808,
+        "work_units_per_cycle": 1.1175980090724995,
+        "pe_cycles": 9939488.0,
+        "experiment_wall_seconds": 328.4275926479968
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 47808,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 47808
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 47808
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 47808
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 47808
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 47808
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 47808
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 47808
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 47808
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 47808
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0004824002904240954,
+          "max_fraction_of_error_bound": 0.9868909829571603,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "19a8d7a920a1b685ea87e0b4408090dccf7b751593d73c6dc4ad5a386831d324",
+          "metrics": {
+            "max_local_cycles": 621218.0,
+            "mean_local_cycles": 621202.3125,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0002156446334333484,
+          "max_fraction_of_error_bound": 0.9776625158391096,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "50c8a3f390afc5b6e5bdd2b531054feaf543d2cf2f055c39d2b0211ecb629569",
+          "metrics": {
+            "max_local_cycles": 621218.0,
+            "mean_local_cycles": 621202.3125,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 4.3959966555817687e-08,
+          "max_fraction_of_error_bound": 0.33144599794204327,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "52357ad0eb223ca230d57d099dd2c2a39f767f7d0f5a6dab9ce1414c2b73254a",
+          "metrics": {
+            "max_local_cycles": 621218.0,
+            "mean_local_cycles": 621202.3125,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.00048796331476938515,
+          "max_fraction_of_error_bound": 0.9944779255385628,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "5926f6849d98b2103e894eccee314365619ecc4d6af8e0d879969a43be1bb0eb",
+          "metrics": {
+            "max_local_cycles": 621218.0,
+            "mean_local_cycles": 621202.3125,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0004795771799308568,
+          "max_fraction_of_error_bound": 0.9780839364843,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "ce4cff9e4679e9857af2a92b3486134f7110be6c145777dbf3440ef7a2286fb0",
+          "metrics": {
+            "max_local_cycles": 621218.0,
+            "mean_local_cycles": 621202.3125,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.00012093601174367752,
+          "max_fraction_of_error_bound": 0.9692376778020602,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "7e335b6cbe4b6735593b1dfddedacbf63e58c5f5070560ed4289692a12558501",
+          "metrics": {
+            "max_local_cycles": 621218.0,
+            "mean_local_cycles": 621202.3125,
+            "pe_cycle_spread": 34.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "22cea62662c199fc6f38e2d9f3b7937a5af8f2f3",
+        "git_dirty": true,
+        "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "9b687dd001fc5d563e321c7d9faebf7c1446fb5cbcfb3edd088aeaf8ac87cef2",
+          "src/cerebras_research/catalog.py": "2f66edf6a6b4ffebf0c8513427bbaa0cdeccfddcedffe3c6ded61e503ac8eba7",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "9ad9cff3852eb3c1a6fd165bc9829c11da256123af4931928828df604e590555",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "fad80835547d2d4f30137c2cf341b04e306222195bd6c3f4156e79fab8a411fa",
+      "baseline_tree_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "source_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "harness_sha256": "1c685c840f27d605b6d013b686a95a6969e75b4ec060b287280ce390b0ca842e",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=K:32,V:16,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=K:32,V:16,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.534438557999238,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 53.19730277200142,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 52.95761107299768,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 53.17089560599925,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 52.88466585199785,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 53.352400001000206,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 53.90463642300165,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.425642362999497,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T135941Z-recurrent-gdn.k32-v16-b0450fba/result.json",
+      "receipt_sha256": "ab3c69f85577f388141f7e9f96748589e088bafbcb2afb4a6e7e1c2ad2985dc4",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "recurrent-gdn.k32-v16",
+        "adapter": "recurrent_gdn",
+        "family": "recurrent-gated-delta-rule",
+        "dimensions": {
+          "K": 32,
+          "V": 16,
+          "T": 4,
+          "R": 3
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "metric": "max_local_cycles",
+        "work_units": 694272,
+        "work_unit": "state_arithmetic_operations",
+        "description": "Four resident tokens;16 key heads with three value heads each; BF16 Q/K/V and output, FP32 normalization/decay/delta/state; every intermediate/state and immutable input checked.",
+        "timeout_seconds": 1800,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "whole four-token recurrent operator including initial-state copy, normalization, exp, complete state arithmetic and all intermediate/output/state stores"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261036,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 82347.0,
+        "mean_local_cycles": 82332.125,
+        "pe_cycle_spread": 32.0,
+        "max_error_fraction": 0.9944779255385628,
+        "cycles_per_token": 20586.75,
+        "max_program_object_bytes_per_pe": 48192,
+        "work_units_per_cycle": 8.431053954606725,
+        "pe_cycles": 1317552.0,
+        "experiment_wall_seconds": 88.79758954999488
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 48192,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 48192
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 48192
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "resident_recurrent_gdn_bf16_fp32_v1",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0004824002904240954,
+          "max_fraction_of_error_bound": 0.9868785420832817,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "fc8e13efaffec87316d1cdf1b83599b4f14892c10e9da60d22953af13f1ba46c",
+          "metrics": {
+            "max_local_cycles": 82347.0,
+            "mean_local_cycles": 82332.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "signed",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.00021564714688168674,
+          "max_fraction_of_error_bound": 0.9776577514720968,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "023c287cc74decd17ac7f60a0aa6d20d8d129ec1377f90f2ff1e55dba1b0514c",
+          "metrics": {
+            "max_local_cycles": 82347.0,
+            "mean_local_cycles": 82332.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "zero",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 4.3959966555817687e-08,
+          "max_fraction_of_error_bound": 0.33144599794204327,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "70aae6dc0d6f3fb6a73fabf45a810addcb8f970e6d94fefbb2d477993da14147",
+          "metrics": {
+            "max_local_cycles": 82347.0,
+            "mean_local_cycles": 82332.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.00048796331476938515,
+          "max_fraction_of_error_bound": 0.9944779255385628,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "3bba939d78c57c480c6d04494f0f176b0a53058b5a06432667139b1aa7f35e99",
+          "metrics": {
+            "max_local_cycles": 82347.0,
+            "mean_local_cycles": 82332.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.0004795771799308568,
+          "max_fraction_of_error_bound": 0.9780839364843,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "22814736b6ac3693a3efc28848d75051acade1f1fa5f25cb272f3c387f8fbe2d",
+          "metrics": {
+            "max_local_cycles": 82347.0,
+            "mean_local_cycles": 82332.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261036,
+          "passed": true,
+          "max_abs_error": 0.00012093601174367752,
+          "max_fraction_of_error_bound": 0.9692435559327626,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "090114a20c735a30a61f2ac596a704065604aa9c803eeb068aac3152e3f7d27d",
+          "metrics": {
+            "max_local_cycles": 82347.0,
+            "mean_local_cycles": 82332.125,
+            "pe_cycle_spread": 32.0
+          },
+          "exact_state_match": true
+        }
+      ],
+      "research": {
+        "approach": "recurrent_gdn.fp32_vector_state_row_walk",
+        "candidate": "recurrent-gdn-vector-state",
+        "hypothesis": "Contiguous V-lane FP32 vector decay, memory projection, outer update and readout remove scalar address/loop overhead; one V-element scratch vector fits the fixed memory gate. Every ascending K term and all protected normalization/exp/state-history/timing work remain.",
+        "falsification": "Reject if any of the six initial/fresh families fails the unchanged local/full-chain FP32/BF16 bounds or immutable/core/timer checks, if any projection term/state store is absent, if memory grows over 10 percent, or if matched full-case speedup is below 1.05x. A suite claim also requires both shapes and worst-cell guards.",
+        "manifest_sha256": "f0b4ec4de7d3195944e99d66febc03f65c9a5b4ab665de427124ec77355acbbe",
+        "author": "OpenAI Codex",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "22cea62662c199fc6f38e2d9f3b7937a5af8f2f3",
+        "git_dirty": true,
+        "evaluator_sha256": "e32a40cab521968dd36e41db401513264ede5026531cc41a226e4d9b831bcaf8",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "9b687dd001fc5d563e321c7d9faebf7c1446fb5cbcfb3edd088aeaf8ac87cef2",
+          "src/cerebras_research/catalog.py": "2f66edf6a6b4ffebf0c8513427bbaa0cdeccfddcedffe3c6ded61e503ac8eba7",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "a6345ce25682f469e88813a4417bab69165e9eb8f91af210ce6745860125ec1e",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "9ad9cff3852eb3c1a6fd165bc9829c11da256123af4931928828df604e590555",
+          "src/cerebras_research/scoring.py": "3060a12dd219bf9a44f02fbf78c469ac5f2e3ece83bee725a77979a6aadcd181",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "febd27ef1b16901700db700cac34bab910d8fe38831e05b064a0c78f8d80fac4",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "fad80835547d2d4f30137c2cf341b04e306222195bd6c3f4156e79fab8a411fa",
+      "baseline_tree_sha256": "e03952ecbbfc5ed002114d5905a6f5924ff16e97e6802a35c4ba8bc6914526f9",
+      "source_sha256": "b3e7624c15d88b45a9160cacd4938731597774fb20632b3c6d9b503d23aa42f7",
+      "harness_sha256": "1c685c840f27d605b6d013b686a95a6969e75b4ec060b287280ce390b0ca842e",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=K:32,V:16,T:4",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1",
+        "--fp16-format=bf16"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=K:32,V:16,T:4",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1",
+            "--fp16-format=bf16"
+          ],
+          "wall_seconds": 8.43272654699831,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 13.400037576000614,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 13.430141509998066,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 13.42018802199891,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 13.04428325200206,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 13.416427595999266,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "recurrent_gdn.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261036"
+          ],
+          "wall_seconds": 13.224159288998635,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.4296257579990197,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261023T140110Z-confirmation-cf4a3c05/result.json",
+      "receipt_sha256": "6e5638d44fc511c1a15b33336ff29688c0295efc794934a49c0df420e37c25f2",
+      "kind": "confirmation",
+      "evidence_audit": "verified",
+      "status": "confirmed_improvement",
+      "inputs": {
+        "initial_baseline": "runs/v2/20261023T134108Z-recurrent-gdn.k32-v16-06a7ba14/result.json",
+        "initial_candidate": "runs/v2/20261023T135250Z-recurrent-gdn.k32-v16-7e7d4067/result.json",
+        "fresh_baseline": "runs/v2/20261023T135419Z-recurrent-gdn.k32-v16-77a650cf/result.json",
+        "fresh_candidate": "runs/v2/20261023T135941Z-recurrent-gdn.k32-v16-b0450fba/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "initial": {
+        "profile": "recurrent-gdn.k32-v16",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T134108Z-recurrent-gdn.k32-v16-06a7ba14/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T135250Z-recurrent-gdn.k32-v16-7e7d4067/result.json",
+        "speedup": 7.544144078499952,
+        "memory_ratio": 1.0080321285140563,
+        "cycle_reduction_percent": 86.74468581730963,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "needs_fresh_confirmation",
+        "qwen_tps_result": false
+      },
+      "confirmation": {
+        "profile": "recurrent-gdn.k32-v16",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T135419Z-recurrent-gdn.k32-v16-77a650cf/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T135941Z-recurrent-gdn.k32-v16-b0450fba/result.json",
+        "speedup": 7.5439056674802965,
+        "memory_ratio": 1.0080321285140563,
+        "cycle_reduction_percent": 86.74426690791317,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "confirmation_passed",
+        "qwen_tps_result": false
+      }
+    }
+  ],
+  "record_count": 14,
+  "validated_case_count": 48,
+  "artifact_integrity_replayed": true,
+  "numerical_arrays_recomputed": false,
+  "qwen_tps_result": false
+}

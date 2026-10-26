@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "id": "resident-swiglu-bf16",
+  "description": "Distinct complete BF16-storage/FP32-accumulator resident FFN contracts.",
+  "profiles": [
+    "resident-swiglu-bf16.small",
+    "resident-swiglu-bf16.ffn-scaled"
+  ]
+}

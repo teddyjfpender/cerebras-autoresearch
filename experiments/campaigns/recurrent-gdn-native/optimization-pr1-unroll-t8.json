@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "name": "qualify-frozen-native-unroll8-on-t8",
+  "seed": 20261043,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "recurrent-gdn-native.k128-v128-t8",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "native-gdn-pr1-dsr-unroll8"
+        }
+      ]
+    }
+  ]
+}

@@ -11,7 +11,7 @@ No hosted inference API key is required.
 python3 research.py list
 python3 research.py validate
 python3 research.py fetch
-limactl start --tty=false cerebras-sdk
+limactl start --tty=false cerebras-sdk-rosetta
 tools/sdk-run python3 research.py doctor
 make smoke
 ```
@@ -68,26 +68,32 @@ python3 research.py ledger sync               # Recover unjournaled terminal rec
 
 ## Benchmark coverage
 
-**37 configured profiles, 13 families, 16 suites.** The
+**48 configured profiles, 17 families, 22 suites.** The
 [catalog](docs/benchmarks/catalog.md) describes coverage; [results](results/README.md)
 separate measured profiles from configured ones.
 
 | Area | Workloads |
 | --- | --- |
 | Dense inference | Six GEMV shapes; five cold GEMM shapes; three resident GEMM sequences; scaled FFN up/down projections |
+| Distributed resident FFN | Four distinct batches through gate/up GEMMs, SiLU/product, down GEMM and residual on 16 PEs; separate FP16 and BF16/FP32-accumulator contracts, every intermediate/state checked |
+| Recurrent attention operator | Four resident tokens through gated delta-rule updates; BF16 Q/K/V/output, FP32 normalized operands and complete recurrent state; three value heads per key head on 16 PEs |
 | Complete inference blocks | RMSNorm/SwiGLU MLP at two widths; causal RoPE attention with KV state and MLP at two contexts |
 | Composed programs | Three FP32 matvec → bias → ReLU → residual chains with staged/fused variants; SDK residual norm |
 | Communication/I/O | Row/column broadcast; H2D/D2H diagnostics |
 | Numerical/scientific | Sparse 7-point stencil; 1D/2D/3D FFT; local matvec bandwidth |
 | Exact/spatial | 256-bit multiplication; Game of Life |
 
-Twenty-one profiles have independent six-case oracles. Fourteen use pinned
+Thirty-two profiles have independent six-case oracles. Fourteen use pinned
 upstream reference checks; two are diagnostics. Only the independent-oracle
 tier can pass automatic promotion. Untimed examples receive no cycle score.
 
 The [four-track inference challenge](docs/benchmarks/inference-blocks.md) groups
 the larger FFN GEMM/GEMV pairs and complete gated MLP/decoder-layer workloads.
 Execution qualification is recorded separately from configuration.
+
+After registering profiles or suites, run `make docs` to regenerate the catalog
+tables. `make check` rejects stale tables and requires the `all` aggregate to
+contain every configured profile exactly once.
 
 ## What to optimize
 
@@ -144,3 +150,7 @@ local because the compiler/container is not redistributed. See
 The original `tools/kernel_research.py` and `tools/inference_benchmark.py`
 commands remain compatibility entry points. Hosted API telemetry follows its
 [separate protocol](docs/telemetry/api-protocol.md) and has no kernel score.
+
+The [current inference priority](docs/research/inference-priority.md) pins the
+DeepInfer and Model Zoo reference roles and the gates between simulator kernels,
+complete native operators and eventual model/runtime performance claims.

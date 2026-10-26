@@ -1,0 +1,26 @@
+{
+  "adapter": "recurrent_gdn_native",
+  "initial_profile": "recurrent-gdn-native.k128-v128-t4",
+  "source": {
+    "repository": "local",
+    "reference_repository": "https://github.com/huggingface/transformers",
+    "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+    "implementation": "independent native-width FP32 vector reference, one key-head group"
+  },
+  "baseline_tree_sha256": "9ef0e229977a0b1a2c66fcbe1336d0d6fb19c47aabd4b5b3e346e7ebc89c9176",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "native_gdn.pr1_dsr_bank_unroll4",
+  "hypothesis": "Unroll each persistent DSR FMA walk by4. Keep every K term in the identical ascending order with unchanged FP32 FMA, normalization/exp and complete state/history. Reduce loop branch/index overhead while preserving pointer progress and bank offset.",
+  "falsification": "Reject any changed normalization/exp/FMA ordering, skipped K/V term/group/token/history, descriptor overrun or bank side effect, fixed numerical/state/precision/timing failure, shutdown failure, speedup below1.05x or memory above1.10x. Full six-case matched and fresh pairs required; PR1 GQA gains do not establish recurrent gains.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "reference_pr": "https://github.com/teddyjfpender/cerebras-autoresearch/pull/1",
+  "reference_commit": "5e818e10b7740daaa0d5e2962f7010100385e0e1",
+  "reference_source_sha256": "c147c923b11e1c2eb2c943417e745c8f764b1b715960f9aeaf4f2a13dc14039b",
+  "parent_candidate": "native-gdn-pr1-dsr-bank-offset",
+  "parent_tree_sha256": "2e6c33fe3427a15b90656d7b2054afa54a1cfb1c758c8d87ca397e2aa0c7a365",
+  "unroll_factor": 4,
+  "scope": "Fixed native T4 contract. No T8/full-head gain is established by source compatibility. Fresh matched six-case pairs required."
+}

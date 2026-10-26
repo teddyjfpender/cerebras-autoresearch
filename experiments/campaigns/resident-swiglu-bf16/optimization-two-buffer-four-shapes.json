@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "name": "bf16-two-live-fp32-tiles-four-shape-qualification",
+  "seed": 20261033,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "fresh_baselines_from_campaign": "runs/campaigns/resident-swiglu-bf16/optimization-initial-result.json",
+  "cells": [
+    {
+      "profile": "resident-swiglu-bf16.batch32-h64-f192",
+      "baseline_receipt": "runs/v2/20261023T121717Z-resident-swiglu-bf16.batch32-h64-f192-534a0aa4/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-two-buffer-tail4"
+        }
+      ]
+    },
+    {
+      "profile": "resident-swiglu-bf16.batch4-ffn",
+      "baseline_receipt": "runs/v2/20261023T121213Z-resident-swiglu-bf16.batch4-ffn-5d0f88ec/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-two-buffer-tail4"
+        }
+      ],
+      "fresh_baseline_receipt": {
+        "path": "runs/v2/20261023T123227Z-resident-swiglu-bf16.batch4-ffn-b76c237f/result.json",
+        "sha256": "6b08bbdcbf53cf3227f36067e9b117e5c09ed6673616ada46d5350ab0d1ea781"
+      }
+    },
+    {
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "baseline_receipt": "runs/v2/20261023T105451Z-resident-swiglu-bf16.ffn-scaled-1a17f4c9/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-two-buffer-tail4"
+        }
+      ]
+    },
+    {
+      "profile": "resident-swiglu-bf16.small",
+      "baseline_receipt": "runs/v2/20261023T105329Z-resident-swiglu-bf16.small-55f690a3/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-two-buffer-tail4"
+        }
+      ]
+    }
+  ]
+}

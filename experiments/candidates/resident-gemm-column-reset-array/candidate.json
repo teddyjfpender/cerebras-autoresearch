@@ -1,0 +1,18 @@
+{
+  "adapter": "reusable_gemm",
+  "initial_profile": "reusable-gemm.prefill-ffn-down-scaled",
+  "source": {
+    "repository": "local",
+    "derived_from": "WaferLLM",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "resident-gemm.column-output-array-base-reset",
+  "hypothesis": "Use the installed SDK array form of @set_dsr_base_addr to reset the fixed output tile between K slices. Keep X descriptor reloads in their proven form. Reduce two full output DSD reloads per K term while preserving all FP16 terms/order, reference column layout and invariant-backed frame residency. Earlier pointer-element builtin forms failed compilation and remain failed receipts.",
+  "falsification": "Reject any compilation or simulator/shutdown fault, changed fixed timing/work/PE contract, six-case output/state failure, speedup below1.05x or program memory above1.10x. Require full fresh paired seed confirmation for retention.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

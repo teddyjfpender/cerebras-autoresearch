@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "name": "bf16-resident-swiglu-receive-scratch-and-bounded-tail",
+  "seed": 20261033,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "resident-swiglu-bf16.small",
+      "baseline_receipt": "runs/v2/20261023T105329Z-resident-swiglu-bf16.small-55f690a3/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-vector-scratch-dispatch"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-vector-scratch-tail4"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-vector-scratch-tail5"
+        }
+      ]
+    },
+    {
+      "profile": "resident-swiglu-bf16.ffn-scaled",
+      "baseline_receipt": "runs/v2/20261023T105451Z-resident-swiglu-bf16.ffn-scaled-1a17f4c9/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-vector-scratch-dispatch"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-vector-scratch-tail4"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "bf16-swiglu-vector-scratch-tail5"
+        }
+      ]
+    }
+  ],
+  "fresh_baselines_from_campaign": "runs/campaigns/resident-swiglu-bf16/optimization-initial-result.json"
+}

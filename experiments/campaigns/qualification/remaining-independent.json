@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "name": "qualify-remaining-independent-contracts",
+  "seed": 20261037,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "meshgemm.cold-square32",
+      "candidates": []
+    },
+    {
+      "profile": "meshgemm.cold-rectangular",
+      "candidates": []
+    },
+    {
+      "profile": "meshgemv.ffn-down-scaled",
+      "candidates": []
+    },
+    {
+      "profile": "meshgemv.square128",
+      "candidates": []
+    },
+    {
+      "profile": "pipeline.k64-n32",
+      "candidates": []
+    }
+  ]
+}

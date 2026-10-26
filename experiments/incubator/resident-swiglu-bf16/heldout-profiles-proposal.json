@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "resident-swiglu-bf16.batch4-ffn",
+      "adapter": "resident_swiglu_bf16",
+      "family": "distributed-resident-swiglu",
+      "dimensions": {
+        "M": 4,
+        "H": 80,
+        "F": 272,
+        "T": 4
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "bf16-fp32-accum",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 2088960,
+      "work_unit": "projection_arithmetic_operations",
+      "description": "Prospective held-out shape: four BF16 resident batches M4/H80/F272, FP32 accumulators and nonlinear/residual arithmetic, BF16 stage boundaries, all outputs/state on16 PEs.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+      }
+    },
+    {
+      "id": "resident-swiglu-bf16.batch32-h64-f192",
+      "adapter": "resident_swiglu_bf16",
+      "family": "distributed-resident-swiglu",
+      "dimensions": {
+        "M": 32,
+        "H": 64,
+        "F": 192,
+        "T": 4
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "bf16-fp32-accum",
+      "variants": [
+        "baseline",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "oracle_contract": "resident_swiglu_sequence_bf16_fp32_v1",
+      "metric": "max_local_cycles",
+      "work_units": 9437184,
+      "work_unit": "projection_arithmetic_operations",
+      "description": "Prospective held-out shape: four BF16 resident batches M32/H64/F192, FP32 accumulators and nonlinear/residual arithmetic, BF16 stage boundaries, all outputs/state on16 PEs.",
+      "timeout_seconds": 1800,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 0,
+        "repeats": 1,
+        "scope": "whole four-batch chain including all FP32 accumulations, BF16 conversions, arithmetic, movement, nonlinear/residual and every intermediate/output/state store"
+      }
+    }
+  ]
+}

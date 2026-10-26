@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_profile_improvement",
+  "created_utc": "2026-10-23T17:48:05.595709+00:00",
+  "profile": "recurrent-gdn-native.k128-v128-t4",
+  "candidate": "native-gdn-pr1-dsr-bank-offset",
+  "decision": {
+    "path": "runs/v2/20261023T174206Z-confirmation-8145f65c/result.json",
+    "sha256": "c8d03ee7aea32a2f306258d44a95986213aacc35d35e4f1c16c96c87c0c429dd"
+  },
+  "campaign": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/pr1-t4-campaign.json",
+    "sha256": "4223262f8bf5548963592706b0c48904b732033a353b1489c456282988656424"
+  },
+  "state": {
+    "path": "runs/campaigns/recurrent-gdn-native/optimization-pr1-transfer-result.json",
+    "sha256": "c7e4b0a1c651c658e7ad806db3bb2a7e4dc64e6b977b65a76a39097318a757ab"
+  },
+  "numerics": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/pr1-t4-numerics.json",
+    "sha256": "a26871f5a48b27d1b3b3bfdcfda39a91ff3d4590f672255a2478c5c62898ba7e"
+  },
+  "snapshots": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/pr1-t4-snapshots.json",
+    "sha256": "fb760558aaa4d902ad356f6db2ded868a4faed5d9a35d5a5a33575edc24b755d"
+  },
+  "paired_bits": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/pr1-t4-paired-bits.json",
+    "sha256": "a802658e3f04def958ce53526b41bdc8c36825b2fe8b04271b834e65b680b1b3"
+  },
+  "case_executions": 24,
+  "case_pairs": 12,
+  "all_compared_bits_identical": true,
+  "records": {
+    "recurrent-gdn-native.k128-v128-t4/baseline/20261043/full": {
+      "receipt": {
+        "path": "runs/v2/20261023T172358Z-recurrent-gdn-native.k128-v128-t4-f3666d22/result.json",
+        "sha256": "f6209b8bc4e8cacfa78ef015a07ef94d29d9160e96cd59f83bfd926034b35203"
+      },
+      "metrics": {
+        "max_local_cycles": 115634.0,
+        "mean_local_cycles": 115630.66666666667,
+        "pe_cycle_spread": 10.0,
+        "max_error_fraction": 0.9633738148651233,
+        "cycles_per_token": 28908.5,
+        "max_program_object_bytes_per_pe": 39472,
+        "work_units_per_cycle": 11.928394762786033,
+        "pe_cycles": 5550432.0,
+        "experiment_wall_seconds": 288.3452368059952
+      }
+    },
+    "recurrent-gdn-native.k128-v128-t4/native-gdn-pr1-dsr-bank-offset/20261043/full": {
+      "receipt": {
+        "path": "runs/v2/20261023T173106Z-recurrent-gdn-native.k128-v128-t4-e3204d08/result.json",
+        "sha256": "27af85c09d3259032b77ad480ad19ea30b4be23dbf4c9827d9b39c8b64b52176"
+      },
+      "metrics": {
+        "max_local_cycles": 58060.0,
+        "mean_local_cycles": 58057.0,
+        "pe_cycle_spread": 9.0,
+        "max_error_fraction": 0.9633738148651233,
+        "cycles_per_token": 14515.0,
+        "max_program_object_bytes_per_pe": 39648,
+        "work_units_per_cycle": 23.756941095418533,
+        "pe_cycles": 2786880.0,
+        "experiment_wall_seconds": 190.5783097520034
+      }
+    },
+    "recurrent-gdn-native.k128-v128-t4/baseline/20261044/full": {
+      "receipt": {
+        "path": "runs/v2/20261023T173415Z-recurrent-gdn-native.k128-v128-t4-118886b3/result.json",
+        "sha256": "352112e50bd401fa7a143c5de6500d210b23174892e604bb855cd799262cb03e"
+      },
+      "metrics": {
+        "max_local_cycles": 115634.0,
+        "mean_local_cycles": 115627.33333333333,
+        "pe_cycle_spread": 20.0,
+        "max_error_fraction": 0.9758267767076151,
+        "cycles_per_token": 28908.5,
+        "max_program_object_bytes_per_pe": 39472,
+        "work_units_per_cycle": 11.928394762786033,
+        "pe_cycles": 5550432.0,
+        "experiment_wall_seconds": 279.94057786000485
+      }
+    },
+    "recurrent-gdn-native.k128-v128-t4/native-gdn-pr1-dsr-bank-offset/20261044/full": {
+      "receipt": {
+        "path": "runs/v2/20261023T173852Z-recurrent-gdn-native.k128-v128-t4-8abeaf2d/result.json",
+        "sha256": "8874a0331909080c2896435a87e0fb4590e6fd0a439c311c593df6cb420dee22"
+      },
+      "metrics": {
+        "max_local_cycles": 58060.0,
+        "mean_local_cycles": 58054.0,
+        "pe_cycle_spread": 18.0,
+        "max_error_fraction": 0.9758267767076151,
+        "cycles_per_token": 14515.0,
+        "max_program_object_bytes_per_pe": 39648,
+        "work_units_per_cycle": 23.756941095418533,
+        "pe_cycles": 2786880.0,
+        "experiment_wall_seconds": 195.3812460600093
+      }
+    }
+  },
+  "scope": "One native K128/V128 key-head group, three value heads,T4,48 fixed PEs. Reference already uses vector state arithmetic. Same ascending-K FP32 FMAs and BF16 boundaries, all canonical copies/full states/timers checked. No T8/full-head/decoder/model/hardware TPS result.",
+  "qwen_tps_result": false
+}

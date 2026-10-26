@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_suite_improvement",
+  "created_utc": "2026-10-23T14:04:53.126265+00:00",
+  "decision": {
+    "status": "confirmed_suite_improvement",
+    "initial": {
+      "geometric_mean_speedup": 7.350146325273887,
+      "worst_speedup": 7.161137226541313,
+      "profiles": [
+        "recurrent-gdn.k16-v16",
+        "recurrent-gdn.k32-v16"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "recurrent-gdn.k16-v16",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T133631Z-recurrent-gdn.k16-v16-678410d7/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T134730Z-recurrent-gdn.k16-v16-82386f21/result.json",
+          "speedup": 7.161137226541313,
+          "memory_ratio": 1.0134831460674156,
+          "cycle_reduction_percent": 86.03573750418157,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "recurrent-gdn.k32-v16",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T134108Z-recurrent-gdn.k32-v16-06a7ba14/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T135250Z-recurrent-gdn.k32-v16-7e7d4067/result.json",
+          "speedup": 7.544144078499952,
+          "memory_ratio": 1.0080321285140563,
+          "cycle_reduction_percent": 86.74468581730963,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "confirmation": {
+      "geometric_mean_speedup": 7.350673399298299,
+      "worst_speedup": 7.162390650783245,
+      "profiles": [
+        "recurrent-gdn.k16-v16",
+        "recurrent-gdn.k32-v16"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "recurrent-gdn.k16-v16",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T134828Z-recurrent-gdn.k16-v16-85feed20/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T135128Z-recurrent-gdn.k16-v16-9bd319db/result.json",
+          "speedup": 7.162390650783245,
+          "memory_ratio": 1.0134831460674156,
+          "cycle_reduction_percent": 86.03818126157856,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "recurrent-gdn.k32-v16",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T135419Z-recurrent-gdn.k32-v16-77a650cf/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T135941Z-recurrent-gdn.k32-v16-b0450fba/result.json",
+          "speedup": 7.5439056674802965,
+          "memory_ratio": 1.0080321285140563,
+          "cycle_reduction_percent": 86.74426690791317,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "cell_evidence": {
+      "recurrent-gdn.k16-v16": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 7.161137226541313,
+        "confirmation_speedup": 7.162390650783245
+      },
+      "recurrent-gdn.k32-v16": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 7.544144078499952,
+        "confirmation_speedup": 7.5439056674802965
+      }
+    },
+    "scope": "exact complete suite coverage",
+    "qwen_tps_result": false,
+    "schema_version": 2,
+    "record_type": "suite_confirmation",
+    "inputs": {
+      "initial_baseline": "runs/v2/20261023T140203Z-suite-reuse-394a756d/result.json",
+      "initial_candidate": "runs/v2/20261023T140203Z-suite-reuse-ad61da41/result.json",
+      "fresh_baseline": "runs/v2/20261023T140203Z-suite-reuse-0298521f/result.json",
+      "fresh_candidate": "runs/v2/20261023T140204Z-suite-reuse-f79837ae/result.json"
+    },
+    "budgets": {
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "regression_limit": 1.02
+    },
+    "receipt": "runs/v2/20261023T140205Z-suite_confirmation-f3e4c7c9/result.json"
+  },
+  "state": {
+    "path": "runs/campaigns/recurrent-gdn/vector-suite-state.json",
+    "sha256": "f331f9980eb859acf008798e08bd2030335b1bb897cfdc5cbfd375f58e65d940"
+  },
+  "campaign": {
+    "path": "results/reports/2026-10-23/recurrent-gdn/vector-campaign.json",
+    "sha256": "ea8352ab4449d8fa1cd6ff62d0220104b104f65ffb26f9e3f9c0589c06faec84"
+  },
+  "arms": {
+    "initial_baseline": {
+      "path": "runs/v2/20261023T140203Z-suite-reuse-394a756d/result.json",
+      "sha256": "3bf66f0d0c8ff7772153496df193353fe0a701903713bcd741e698efad2e0767"
+    },
+    "initial_candidate": {
+      "path": "runs/v2/20261023T140203Z-suite-reuse-ad61da41/result.json",
+      "sha256": "9dc69667ffdef4c1405ce2f4be042950fc5b5d8a785819815429db3e6d79c613"
+    },
+    "fresh_baseline": {
+      "path": "runs/v2/20261023T140203Z-suite-reuse-0298521f/result.json",
+      "sha256": "60810de71e7008520f6512982076f0907c0267a30cc77ae6b8d121f5555c97f7"
+    },
+    "fresh_candidate": {
+      "path": "runs/v2/20261023T140204Z-suite-reuse-f79837ae/result.json",
+      "sha256": "d24c1cf1d1acfe2d04177efc8eae9791f6cb2147172a2beb970c03516112acc2"
+    }
+  },
+  "numerics": {
+    "path": "results/reports/2026-10-23/recurrent-gdn/vector-suite-numerics.json",
+    "sha256": "2aee2cb8061e520e761ff8c9ba7dc3f3f381b42209fe3b8c7497ac551712a955"
+  },
+  "snapshots": {
+    "path": "results/reports/2026-10-23/recurrent-gdn/vector-suite-snapshots.json",
+    "sha256": "849bb48e8bea0eeeb81bf39f32199358da56a5e9d6c7773d0ca6541169c74517"
+  },
+  "case_count": 48,
+  "qwen_tps_result": false,
+  "scope": "One frozen FP32 vector-state candidate across both complete K16/K32,V16,T4,R3 profiles and two paired seeds. Every physical immutable input, normalization/decay/delta/full state and BF16 output history is checked. Baseline is an independently authored scalar CSL reference, not Cerebras production inference code."
+}

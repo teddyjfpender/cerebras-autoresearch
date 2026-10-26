@@ -1,0 +1,18 @@
+{
+  "adapter": "reusable_gemm",
+  "initial_profile": "reusable-gemm.prefill-ffn-up-scaled",
+  "source": {
+    "repository": "local",
+    "derived_from": "WaferLLM",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "resident-gemm.vector-output-columns",
+  "hypothesis": "Replace the short-M callback map with Nt-wide FMAs directly into strided column-major output. Preserve every FP16 K term, four resident frames, two-hop communication, all resets and full snapshots. Longer vectors may reduce dispatch cost; output-bank stride may negate it.",
+  "falsification": "Reject any six-case output/state failure, omitted FP16 K term, changed timer/repeat/PE contract or shutdown failure. Retain only after at least 1.05x matched cycle speedup, at most 1.10x program-memory ratio, and fresh paired confirmation. Cross-shape claims require every resident GEMM cell and the suite worst-cell guard.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

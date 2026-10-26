@@ -1,0 +1,206 @@
+// Native K128/V128 head group, column-sharded FP32 vector reference.
+// Derived from the scaled vector-state candidate; new device qualification required.
+const fp = @fp16();
+param memcpy_params;
+param K: i16;
+param V: i16;
+param T: i16;
+const R: i16 = 1;
+comptime { @comptime_assert(fp == bf16); @comptime_assert(K == 128); @comptime_assert((T == 4 and V == 8) or (T == 8 and V == 4)); }
+const sys = @import_module("<memcpy/memcpy>", memcpy_params);
+const clock = @import_module("<time>");
+const math = @import_module("<math>");
+var Q_CANON: [T*K]fp;
+var ptr_Q_CANON: [*]fp = &Q_CANON;
+var K_CANON: [T*K]fp;
+var ptr_K_CANON: [*]fp = &K_CANON;
+var V_CANON: [T*R*V]fp;
+var ptr_V_CANON: [*]fp = &V_CANON;
+var G_CANON: [T*R]f32;
+var ptr_G_CANON: [*]f32 = &G_CANON;
+var BETA_CANON: [T*R]f32;
+var ptr_BETA_CANON: [*]f32 = &BETA_CANON;
+var S0: [R*K*V]f32;
+var ptr_S0: [*]f32 = &S0;
+var Q_HISTORY: [T*K]f32;
+const ptr_Q_HISTORY: [*]f32 = &Q_HISTORY;
+var K_HISTORY: [T*K]f32;
+const ptr_K_HISTORY: [*]f32 = &K_HISTORY;
+var A_HISTORY: [T*R]f32;
+const ptr_A_HISTORY: [*]f32 = &A_HISTORY;
+var DELTA_HISTORY: [T*R*V]f32;
+const ptr_DELTA_HISTORY: [*]f32 = &DELTA_HISTORY;
+var STATE_HISTORY: [T*R*K*V]f32;
+const ptr_STATE_HISTORY: [*]f32 = &STATE_HISTORY;
+var Y_HISTORY: [T*R*V]fp;
+const ptr_Y_HISTORY: [*]fp = &Y_HISTORY;
+var STATE: [R*K*V]f32;
+const ptr_STATE: [*]f32 = &STATE;
+var times: [6]u16;
+const ptr_times: [*]u16 = &times;
+
+var VECTOR_SCRATCH: [V]f32;
+var scratch_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{V} -> VECTOR_SCRATCH[i] });
+var v_input_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{V} -> V_CANON[i] });
+
+var q_input_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |j|{K} -> Q_CANON[j] });
+var k_input_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |j|{K} -> K_CANON[j] });
+
+var Q_WORK: [K]f32;
+var K_WORK: [K]f32;
+var A_WORK: [R]f32;
+var DELTA: [R*V]f32;
+var Y_WORK: [R*V]fp;
+var begin = @zeros([3]u16);
+var end = @zeros([3]u16);
+var state_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R*K*V} -> STATE[i] });
+var initial_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R*K*V} -> S0[i] });
+var q_work_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{K} -> Q_WORK[i] });
+var k_work_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{K} -> K_WORK[i] });
+var a_work_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R} -> A_WORK[i] });
+var delta_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R*V} -> DELTA[i] });
+var y_work_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R*V} -> Y_WORK[i] });
+var q_history_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{K} -> Q_HISTORY[i] });
+var k_history_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{K} -> K_HISTORY[i] });
+var a_history_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R} -> A_HISTORY[i] });
+var delta_history_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R*V} -> DELTA_HISTORY[i] });
+var state_history_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R*K*V} -> STATE_HISTORY[i] });
+var y_history_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{R*V} -> Y_HISTORY[i] });
+
+// Fixed-domain FP32 exp for the declared immutable g in [-2,0].
+// Reduce to [-ln(2),0], use degree-nine Taylor Horner, then an exact binary scale.
+// This is a reference accuracy correction; the original 16*u32 bound is fixed.
+fn decay_exp(g: f32) f32 {
+    var r: f32 = g;
+    var scale: f32 = 1.0;
+    if (g < -1.3862943611198906) {
+        r = g + 1.3862943611198906;
+        scale = 0.25;
+    } else if (g < -0.6931471805599453) {
+        r = g + 0.6931471805599453;
+        scale = 0.5;
+    }
+    var p: f32 = 0.0000027557319223985893;
+    p = p*r + 0.0000248015873015873;
+    p = p*r + 0.0001984126984126984;
+    p = p*r + 0.001388888888888889;
+    p = p*r + 0.008333333333333333;
+    p = p*r + 0.041666666666666664;
+    p = p*r + 0.16666666666666666;
+    p = p*r + 0.5;
+    p = p*r + 1.0;
+    p = p*r + 1.0;
+    return p*scale;
+}
+
+fn one_frame(frame: i16) void {
+    // Exact BF16->FP32 conversion once; both the norm and scaling reuse it.
+    var q_input = @increment_dsd_offset(q_input_dsd, frame*K, fp);
+    var k_input = @increment_dsd_offset(k_input_dsd, frame*K, fp);
+    @fh2s(q_work_dsd, q_input);
+    @fh2s(k_work_dsd, k_input);
+    var qs: f32 = 0.0;
+    var ks: f32 = 0.0;
+    var i: i16 = 0;
+    while (i < K) : (i += 1) {
+        const q: f32 = Q_WORK[i];
+        const k: f32 = K_WORK[i];
+        qs += q*q;
+        ks += k*k;
+    }
+    const qi: f32 = 1.0/math.sqrt(qs + 0.000001);
+    const ki: f32 = 1.0/math.sqrt(ks + 0.000001);
+    const scale: f32 = 1.0/math.sqrt(@as(f32, K));
+    // Preserve the two FP32 query scaling steps and the key scaling step.
+    @fmuls(q_work_dsd, q_work_dsd, qi);
+    @fmuls(q_work_dsd, q_work_dsd, scale);
+    @fmuls(k_work_dsd, k_work_dsd, ki);
+    var head: i16 = 0;
+    while (head < R) : (head += 1) {
+        const decay: f32 = decay_exp(G_CANON[frame*R+head]);
+        A_WORK[head] = decay;
+        var head_state = @set_dsd_length(state_dsd, K*V);
+        head_state = @increment_dsd_offset(head_state, head*K*V, f32);
+        @fmuls(head_state, head_state, decay);
+
+        // Accumulate all K terms, in the original ascending row order.
+        @fmovs(scratch_dsd, @as(f32, 0.0));
+        var row = @set_dsd_length(head_state, V);
+        i = 0;
+        while (i < K) : (i += 1) {
+            @fmacs(scratch_dsd, scratch_dsd, row, K_WORK[i]);
+            row = @increment_dsd_offset(row, V, f32);
+        }
+        var delta = @set_dsd_length(delta_dsd, V);
+        delta = @increment_dsd_offset(delta, head*V, f32);
+        var value = @increment_dsd_offset(v_input_dsd, (frame*R+head)*V, fp);
+        @fh2s(delta, value);
+        @fmuls(scratch_dsd, scratch_dsd, @as(f32, -1.0));
+        @fadds(delta, delta, scratch_dsd);
+        @fmuls(delta, delta, BETA_CANON[frame*R+head]);
+
+        row = @set_dsd_length(head_state, V);
+        i = 0;
+        while (i < K) : (i += 1) {
+            @fmacs(row, row, delta, K_WORK[i]);
+            row = @increment_dsd_offset(row, V, f32);
+        }
+        // The same scratch storage is dead after DELTA is complete.
+        @fmovs(scratch_dsd, @as(f32, 0.0));
+        row = @set_dsd_length(head_state, V);
+        i = 0;
+        while (i < K) : (i += 1) {
+            @fmacs(scratch_dsd, scratch_dsd, row, Q_WORK[i]);
+            row = @increment_dsd_offset(row, V, f32);
+        }
+        var output = @set_dsd_length(y_work_dsd, V);
+        output = @increment_dsd_offset(output, head*V, fp);
+        @fs2h(output, scratch_dsd);
+    }
+}
+
+// Protected: all token/intermediate/full-state snapshots stay inside the timer.
+fn save_frame(frame: i16) void {
+    var q = @increment_dsd_offset(q_history_dsd, frame*K, f32);
+    var k = @increment_dsd_offset(k_history_dsd, frame*K, f32);
+    var a = @increment_dsd_offset(a_history_dsd, frame*R, f32);
+    var delta = @increment_dsd_offset(delta_history_dsd, frame*R*V, f32);
+    var state = @increment_dsd_offset(state_history_dsd, frame*R*K*V, f32);
+    var y = @increment_dsd_offset(y_history_dsd, frame*R*V, fp);
+    @fmovs(q, q_work_dsd);
+    @fmovs(k, k_work_dsd);
+    @fmovs(a, a_work_dsd);
+    @fmovs(delta, delta_dsd);
+    @fmovs(state, state_dsd);
+    @fmovh(y, y_work_dsd);
+}
+
+fn sequence_host() void {
+    clock.enable_tsc();
+    clock.get_timestamp(&begin);
+    @fmovs(state_dsd, initial_dsd);
+    var frame: i16 = 0;
+    while (frame < T) : (frame += 1) { one_frame(frame); save_frame(frame); }
+    clock.get_timestamp(&end);
+    clock.disable_tsc();
+    for (@range(i16, 3)) |i| { times[i] = begin[i]; times[i+3] = end[i]; }
+    sys.unblock_cmd_stream();
+}
+
+comptime {
+    @export_symbol(ptr_Q_CANON, "Q_CANON");
+    @export_symbol(ptr_K_CANON, "K_CANON");
+    @export_symbol(ptr_V_CANON, "V_CANON");
+    @export_symbol(ptr_G_CANON, "G_CANON");
+    @export_symbol(ptr_BETA_CANON, "BETA_CANON");
+    @export_symbol(ptr_S0, "S0");
+    @export_symbol(ptr_Q_HISTORY, "Q_HISTORY");
+    @export_symbol(ptr_K_HISTORY, "K_HISTORY");
+    @export_symbol(ptr_A_HISTORY, "A_HISTORY");
+    @export_symbol(ptr_DELTA_HISTORY, "DELTA_HISTORY");
+    @export_symbol(ptr_STATE_HISTORY, "STATE_HISTORY");
+    @export_symbol(ptr_Y_HISTORY, "Y_HISTORY");
+    @export_symbol(ptr_STATE, "STATE");
+    @export_symbol(ptr_times, "times");
+    @export_symbol(sequence_host);
+}

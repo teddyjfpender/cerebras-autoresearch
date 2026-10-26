@@ -1,0 +1,14 @@
+{
+  "status": "proposal_not_registered_or_executed",
+  "profile": "recurrent-gdn-full.k128-v128-h16-t2",
+  "logical": {"G":16,"R":3,"K":128,"V":128,"T":2},
+  "physical": {"tileV":8,"pe_grid":[32,24],"pes":768},
+  "why_two_tokens": "A stateful decode pair covers the full native head configuration while bounding simulator iteration cost. Existing native T4/T8 profiles separately test deeper recurrence. This is a distinct fixed workload, with new baselines and no cross-token-count score comparison.",
+  "precision": "BF16 Q/K/V/output, FP32 normalization/decay/delta/state",
+  "timing": "Initial-state copy, both complete tokens and every intermediate/output/full-state snapshot; no host reload or cached work.",
+  "oracle": "Same already fixed single-group error propagation specialized to T2, independently checked for all16 groups, canonical copies and physical prefix replicas.",
+  "source": "Same per-PE FP32 vector reference as native T4/T8; permit the new T2 parameter explicitly before baseline. Candidate should preserve the successful native one_frame implementation with the corresponding new T2 control contract.",
+  "model_config": "config/targets/qwen3.8-27b.json",
+  "scope": "Full native recurrent head configuration only, after QKV/convolution and precomputed g/beta, before gated normalization/output projection. Synthetic activations and nonzero initial state; no complete layer/model or hardware TPS.",
+  "qwen_tps_result":false
+}

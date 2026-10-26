@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "name": "resident-gemm-initial-approaches",
+  "seed": 20261027,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "reusable-gemm.tiny-sequence",
+      "baseline_receipt": "runs/v2/20261023T081632Z-reusable-gemm.tiny-sequence-dcd630ef/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-vector-columns"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row-major-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row4-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-resident-state"
+        }
+      ]
+    },
+    {
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "baseline_receipt": "runs/v2/20261023T081702Z-reusable-gemm.prefill-ffn-up-scaled-9d0afdaf/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-vector-columns"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row-major-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row4-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-resident-state"
+        }
+      ]
+    },
+    {
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "baseline_receipt": "runs/v2/20261023T081851Z-reusable-gemm.prefill-ffn-down-scaled-33fe8cf4/result.json",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-vector-columns"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row-major-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-row4-pack"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-resident-state"
+        }
+      ]
+    }
+  ]
+}

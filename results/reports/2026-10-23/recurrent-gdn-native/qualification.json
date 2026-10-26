@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "status": "baseline_qualified",
+  "case_count": 12,
+  "records": [
+    {
+      "profile": {
+        "id": "recurrent-gdn-native.k128-v128-t4",
+        "adapter": "recurrent_gdn_native",
+        "family": "recurrent-gated-delta-native-head-group",
+        "dimensions": {
+          "K": 128,
+          "V": 128,
+          "T": 4,
+          "R": 3,
+          "VT": 8
+        },
+        "pe_grid": [
+          8,
+          6
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_native_head_group_v1",
+        "metric": "max_local_cycles",
+        "work_units": 1379328,
+        "work_unit": "state_arithmetic_operations",
+        "description": "One native K128 key-head group, three V128 value heads, 4 resident tokens; full FP32 state and BF16 output, complete V-column sharding on 48 PEs, all physical immutable/normalized replicas and full logical histories checked.",
+        "timeout_seconds": 3600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "Whole 4-token native-width recurrent head group, initial-state copy, all replicated normalization/exp, every state operation and all intermediate/output/full-state stores"
+        }
+      },
+      "receipt": {
+        "path": "runs/v2/20261023T142107Z-recurrent-gdn-native.k128-v128-t4-43a81f78/result.json",
+        "sha256": "1d6afd074d8993faa90d478575df41a46aa83f3e821844ee5fbe6377a03d2d87"
+      },
+      "cycles": 115634.0,
+      "memory": 39472,
+      "numerics": {
+        "path": "results/reports/2026-10-23/recurrent-gdn-native/qualified-t4-numerics.json",
+        "sha256": "3a4b3e23040d4e3cf21a92c2a6f262cdf67a5811e119be7537246176f8f8bbb5"
+      },
+      "snapshots": {
+        "path": "results/reports/2026-10-23/recurrent-gdn-native/qualified-t4-snapshots.json",
+        "sha256": "ef60d8c63010fc6800cd61f98943e04f8e72fc8edd030ecc622392d8d2a65012"
+      }
+    },
+    {
+      "profile": {
+        "id": "recurrent-gdn-native.k128-v128-t8",
+        "adapter": "recurrent_gdn_native",
+        "family": "recurrent-gated-delta-native-head-group",
+        "dimensions": {
+          "K": 128,
+          "V": 128,
+          "T": 8,
+          "R": 3,
+          "VT": 4
+        },
+        "pe_grid": [
+          12,
+          8
+        ],
+        "precision": "bf16-fp32-state",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "oracle_contract": "resident_recurrent_gdn_native_head_group_v1",
+        "metric": "max_local_cycles",
+        "work_units": 2758656,
+        "work_unit": "state_arithmetic_operations",
+        "description": "One native K128 key-head group, three V128 value heads, 8 resident tokens; full FP32 state and BF16 output, complete V-column sharding on 96 PEs, all physical immutable/normalized replicas and full logical histories checked.",
+        "timeout_seconds": 3600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "Whole 8-token native-width recurrent head group, initial-state copy, all replicated normalization/exp, every state operation and all intermediate/output/full-state stores"
+        }
+      },
+      "receipt": {
+        "path": "runs/v2/20261023T142715Z-recurrent-gdn-native.k128-v128-t8-c3bf1dbf/result.json",
+        "sha256": "fe133540cf769266fd7b268ec52898b21a5ac01dc37dcdc6e7bec916365fad34"
+      },
+      "cycles": 211278.0,
+      "memory": 41536,
+      "numerics": {
+        "path": "results/reports/2026-10-23/recurrent-gdn-native/qualified-t8-numerics.json",
+        "sha256": "f66ade1b65b272bd618cc39ccd1a303ab42880794b6a2558fbfe733fb5f51e77"
+      },
+      "snapshots": {
+        "path": "results/reports/2026-10-23/recurrent-gdn-native/qualified-t8-snapshots.json",
+        "sha256": "2d3297eb76029b19c9d7aeead209d6baf28374b38a36e8f752e526fbcdc74787"
+      }
+    }
+  ],
+  "qwen_tps_result": false
+}

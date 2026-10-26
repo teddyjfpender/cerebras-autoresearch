@@ -1,0 +1,20 @@
+{
+  "adapter": "recurrent_gdn",
+  "initial_profile": "recurrent-gdn.k16-v16",
+  "source": {
+    "repository": "local",
+    "reference_repository": "https://github.com/huggingface/transformers",
+    "reference_commit": "129e8dc306932532e0b9e702d1fb4d5d7771c2a4",
+    "implementation": "independent scalar mathematical reference"
+  },
+  "baseline_tree_sha256": "8aa44bf3cc777425ab7be092fce5e314f104024897dab49e3739ffb650b1c603",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "recurrent_gdn.reference_accuracy_correction",
+  "hypothesis": "The installed scalar math.exp exceeds the already fixed 16*u32 decay envelope at a canonical input. Binary range reduction to [-ln2,0] and degree-nine FP32 Taylor Horner should meet the unchanged bound while preserving every recurrent term and timed snapshot.",
+  "falsification": "Reject any dense-domain or six-family sample above the original 16*u32 exp envelope, any local/full-chain/state/input/timer failure, or any reduced workload/precision. This is a reference correctness repair, not a retained speedup over an invalid baseline.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "qualification_receipt": "runs/v2/20261023T133105Z-recurrent-gdn.k16-v16-5a49e651/result.json"
+}

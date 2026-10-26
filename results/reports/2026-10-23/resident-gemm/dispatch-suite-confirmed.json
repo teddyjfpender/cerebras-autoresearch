@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_suite_improvement",
+  "created_utc": "2026-10-23T09:46:47.601804+00:00",
+  "frozen": {
+    "evaluator": "4da3eec24531adbbccc90de8fa3094b312ff48d76bd3066f91bad35212c0c7c2",
+    "candidate_source": "3edf32777e8a74e292f7e78e721abd32fdc05c881cb122d03ea9a71ff7e5d609",
+    "candidate_manifest": "38da147742b66367842d81dab93db840c611b3a1731279126693f06fbd256124",
+    "profiles": [
+      "9d53081fe76309dae60a100bdae89366bc8fd39d7fee6d89880fa036c8f0e426",
+      "991ae58752d98b5f26106f26b40d4dc5c5fc47d900609d5c43b2cdd2da5aef70",
+      "5623c21be2738e6790f1ac243d8af0720a350fed3f0d75f50f639fd7d0d207c8"
+    ]
+  },
+  "state": {
+    "path": "runs/campaigns/20261023-resident-gemm-thirteen-hour/dispatch-suite-state.json",
+    "sha256": "bb3e327d9898ba160881a38fee4816a6ad36ef2c8aff4a3ff9b0cb47483b7bdd"
+  },
+  "decision": {
+    "status": "confirmed_suite_improvement",
+    "initial": {
+      "geometric_mean_speedup": 1.1467541691376304,
+      "worst_speedup": 1.0252735398366466,
+      "profiles": [
+        "reusable-gemm.tiny-sequence",
+        "reusable-gemm.prefill-ffn-up-scaled",
+        "reusable-gemm.prefill-ffn-down-scaled"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "reusable-gemm.tiny-sequence",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T085001Z-reusable-gemm.tiny-sequence-638f9e60/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T093137Z-reusable-gemm.tiny-sequence-21c157e5/result.json",
+          "speedup": 1.0252735398366466,
+          "memory_ratio": 0.9915611814345991,
+          "cycle_reduction_percent": 2.4650533593867374,
+          "eligible": false,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "rejected",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "reusable-gemm.prefill-ffn-up-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T085120Z-reusable-gemm.prefill-ffn-up-scaled-4728d143/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T093204Z-reusable-gemm.prefill-ffn-up-scaled-6b84c775/result.json",
+          "speedup": 1.383581268812225,
+          "memory_ratio": 1.0284640171858217,
+          "cycle_reduction_percent": 27.7237974710023,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "reusable-gemm.prefill-ffn-down-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T085922Z-reusable-gemm.prefill-ffn-down-scaled-06e8c3eb/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T093335Z-reusable-gemm.prefill-ffn-down-scaled-4d41679b/result.json",
+          "speedup": 1.063081498910531,
+          "memory_ratio": 0.9984084880636604,
+          "cycle_reduction_percent": 5.9338347036589685,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "confirmation": {
+      "geometric_mean_speedup": 1.1467541691376304,
+      "worst_speedup": 1.0252735398366466,
+      "profiles": [
+        "reusable-gemm.tiny-sequence",
+        "reusable-gemm.prefill-ffn-up-scaled",
+        "reusable-gemm.prefill-ffn-down-scaled"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "reusable-gemm.tiny-sequence",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T093547Z-reusable-gemm.tiny-sequence-c86874f9/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T093615Z-reusable-gemm.tiny-sequence-d61df932/result.json",
+          "speedup": 1.0252735398366466,
+          "memory_ratio": 0.9915611814345991,
+          "cycle_reduction_percent": 2.4650533593867374,
+          "eligible": false,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "rejected",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "reusable-gemm.prefill-ffn-up-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T085604Z-reusable-gemm.prefill-ffn-up-scaled-c011f8bb/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T093642Z-reusable-gemm.prefill-ffn-up-scaled-beb65810/result.json",
+          "speedup": 1.383581268812225,
+          "memory_ratio": 1.0284640171858217,
+          "cycle_reduction_percent": 27.7237974710023,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "reusable-gemm.prefill-ffn-down-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T092104Z-reusable-gemm.prefill-ffn-down-scaled-bf350b25/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T093813Z-reusable-gemm.prefill-ffn-down-scaled-1e530eed/result.json",
+          "speedup": 1.063081498910531,
+          "memory_ratio": 0.9984084880636604,
+          "cycle_reduction_percent": 5.9338347036589685,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "cell_evidence": {
+      "reusable-gemm.tiny-sequence": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.0252735398366466,
+        "confirmation_speedup": 1.0252735398366466
+      },
+      "reusable-gemm.prefill-ffn-up-scaled": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.383581268812225,
+        "confirmation_speedup": 1.383581268812225
+      },
+      "reusable-gemm.prefill-ffn-down-scaled": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 1.063081498910531,
+        "confirmation_speedup": 1.063081498910531
+      }
+    },
+    "scope": "exact complete suite coverage",
+    "qwen_tps_result": false,
+    "schema_version": 2,
+    "record_type": "suite_confirmation",
+    "inputs": {
+      "initial_baseline": "runs/v2/20261023T093137Z-suite-reuse-b99e9fb2/result.json",
+      "initial_candidate": "runs/v2/20261023T093547Z-suite-reuse-3d5ba0fd/result.json",
+      "fresh_baseline": "runs/v2/20261023T093614Z-suite-reuse-0c396f68/result.json",
+      "fresh_candidate": "runs/v2/20261023T094025Z-suite-reuse-6984c6be/result.json"
+    },
+    "budgets": {
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "regression_limit": 1.02
+    },
+    "receipt": "runs/v2/20261023T094027Z-suite_confirmation-d5bd1692/result.json"
+  },
+  "profile_confirmations": {
+    "reusable-gemm.prefill-ffn-up-scaled": {
+      "status": "confirmed_improvement",
+      "initial": {
+        "profile": "reusable-gemm.prefill-ffn-up-scaled",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T085120Z-reusable-gemm.prefill-ffn-up-scaled-4728d143/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T093204Z-reusable-gemm.prefill-ffn-up-scaled-6b84c775/result.json",
+        "speedup": 1.383581268812225,
+        "memory_ratio": 1.0284640171858217,
+        "cycle_reduction_percent": 27.7237974710023,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "needs_fresh_confirmation",
+        "qwen_tps_result": false
+      },
+      "confirmation": {
+        "profile": "reusable-gemm.prefill-ffn-up-scaled",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T085604Z-reusable-gemm.prefill-ffn-up-scaled-c011f8bb/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T093642Z-reusable-gemm.prefill-ffn-up-scaled-beb65810/result.json",
+        "speedup": 1.383581268812225,
+        "memory_ratio": 1.0284640171858217,
+        "cycle_reduction_percent": 27.7237974710023,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "confirmation_passed",
+        "qwen_tps_result": false
+      },
+      "scope": "one fixed benchmark profile",
+      "qwen_tps_result": false,
+      "schema_version": 2,
+      "record_type": "confirmation",
+      "inputs": {
+        "initial_baseline": "runs/v2/20261023T085120Z-reusable-gemm.prefill-ffn-up-scaled-4728d143/result.json",
+        "initial_candidate": "runs/v2/20261023T093204Z-reusable-gemm.prefill-ffn-up-scaled-6b84c775/result.json",
+        "fresh_baseline": "runs/v2/20261023T085604Z-reusable-gemm.prefill-ffn-up-scaled-c011f8bb/result.json",
+        "fresh_candidate": "runs/v2/20261023T093642Z-reusable-gemm.prefill-ffn-up-scaled-beb65810/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "receipt": "runs/v2/20261023T094641Z-confirmation-550a134c/result.json"
+    },
+    "reusable-gemm.prefill-ffn-down-scaled": {
+      "status": "confirmed_improvement",
+      "initial": {
+        "profile": "reusable-gemm.prefill-ffn-down-scaled",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T085922Z-reusable-gemm.prefill-ffn-down-scaled-06e8c3eb/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T093335Z-reusable-gemm.prefill-ffn-down-scaled-4d41679b/result.json",
+        "speedup": 1.063081498910531,
+        "memory_ratio": 0.9984084880636604,
+        "cycle_reduction_percent": 5.9338347036589685,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "needs_fresh_confirmation",
+        "qwen_tps_result": false
+      },
+      "confirmation": {
+        "profile": "reusable-gemm.prefill-ffn-down-scaled",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T092104Z-reusable-gemm.prefill-ffn-down-scaled-bf350b25/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261023T093813Z-reusable-gemm.prefill-ffn-down-scaled-1e530eed/result.json",
+        "speedup": 1.063081498910531,
+        "memory_ratio": 0.9984084880636604,
+        "cycle_reduction_percent": 5.9338347036589685,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "confirmation_passed",
+        "qwen_tps_result": false
+      },
+      "scope": "one fixed benchmark profile",
+      "qwen_tps_result": false,
+      "schema_version": 2,
+      "record_type": "confirmation",
+      "inputs": {
+        "initial_baseline": "runs/v2/20261023T085922Z-reusable-gemm.prefill-ffn-down-scaled-06e8c3eb/result.json",
+        "initial_candidate": "runs/v2/20261023T093335Z-reusable-gemm.prefill-ffn-down-scaled-4d41679b/result.json",
+        "fresh_baseline": "runs/v2/20261023T092104Z-reusable-gemm.prefill-ffn-down-scaled-bf350b25/result.json",
+        "fresh_candidate": "runs/v2/20261023T093813Z-reusable-gemm.prefill-ffn-down-scaled-1e530eed/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "receipt": "runs/v2/20261023T094642Z-confirmation-26f7a812/result.json"
+    }
+  },
+  "arms": {
+    "initial_baseline": {
+      "path": "runs/v2/20261023T093137Z-suite-reuse-b99e9fb2/result.json",
+      "sha256": "fdabbb8f79e3f1e9b104c188f15563909e805e77d7b2b7c8962d7c2b2a2a78c6"
+    },
+    "initial_candidate": {
+      "path": "runs/v2/20261023T093547Z-suite-reuse-3d5ba0fd/result.json",
+      "sha256": "e0c82e428712059f9bb1d01deb96f61531b00cffad38a60a873864696abdeb46"
+    },
+    "fresh_baseline": {
+      "path": "runs/v2/20261023T093614Z-suite-reuse-0c396f68/result.json",
+      "sha256": "20f136db6d9bdf28e65ef9bb8214a71761e00e430fec485fb7e337b22b8c08a4"
+    },
+    "fresh_candidate": {
+      "path": "runs/v2/20261023T094025Z-suite-reuse-6984c6be/result.json",
+      "sha256": "1aa18a94b70b75a1219af3cc37b51f6fddf38af6a4821f140c4e69867b454386"
+    }
+  },
+  "new_sdk_executions": 7,
+  "full_profile_run_count": 12,
+  "validated_case_count": 72,
+  "numerical_replay": {
+    "path": "results/reports/2026-10-23/resident-gemm/dispatch-suite-numerics.json",
+    "sha256": "a2559d5ef3be63eb86a5bac2674aa5e68482de6cc2aa9d6e768d3903f5a12630"
+  },
+  "snapshot_replay": {
+    "path": "results/reports/2026-10-23/resident-gemm/dispatch-suite-snapshots.json",
+    "sha256": "e7d1f559578f16a90de38cbb33d1b2753a27d66508fb770c45bb9db7d1e41eac"
+  },
+  "artifact_integrity_replayed": true,
+  "qwen_tps_result": false
+}

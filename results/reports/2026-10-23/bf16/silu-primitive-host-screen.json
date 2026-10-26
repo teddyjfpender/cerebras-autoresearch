@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "status": "math_screen_only",
+  "bf16_gate_count": 33026,
+  "range": [
+    -4,
+    4
+  ],
+  "prescribed_normal_product_relative_gate": 0.01171875,
+  "unchanged_oracle_relative_allowance": 0.015625,
+  "results": [
+    {
+      "degree": 4,
+      "coefficients": [
+        0.24951119720935822,
+        -0.019782835617661476,
+        0.001512703369371593,
+        -7.235365046653897e-05,
+        1.478802573728899e-06
+      ],
+      "max_absolute_error": 0.0046190093887714945,
+      "max_relative_error": 0.06420209425035486,
+      "worst_gate": -4.0,
+      "normal_product_relative_envelope": 0.06835919736018692,
+      "primitive_gate_passed": false
+    },
+    {
+      "degree": 5,
+      "coefficients": [
+        0.2498745173215866,
+        -0.020464539527893066,
+        0.0018110087839886546,
+        -0.00012207495456095785,
+        4.974918738298584e-06,
+        -8.740290269315665e-08
+      ],
+      "max_absolute_error": 0.0011941124068828302,
+      "max_relative_error": 0.01659761018857726,
+      "worst_gate": -4.0,
+      "normal_product_relative_envelope": 0.02056875543401082,
+      "primitive_gate_passed": false
+    },
+    {
+      "degree": 6,
+      "coefficients": [
+        0.24996817111968994,
+        -0.02071063406765461,
+        0.001964864321053028,
+        -0.00016054362640716136,
+        9.483213943894953e-06,
+        -3.3536409205225937e-07,
+        5.165857963618237e-09
+      ],
+      "max_absolute_error": 0.0003043483627705179,
+      "max_relative_error": 0.004230301483914267,
+      "worst_gate": -4.0,
+      "normal_product_relative_envelope": 0.008153136189691823,
+      "primitive_gate_passed": true
+    },
+    {
+      "degree": 7,
+      "coefficients": [
+        0.2499919980764389,
+        -0.020794151350855827,
+        0.002035360550507903,
+        -0.0001850260014180094,
+        1.3691502317669801e-05,
+        -7.141264859455987e-07,
+        2.2263055399207587e-08,
+        -3.0530711292442447e-10
+      ],
+      "max_absolute_error": 7.735978237111141e-05,
+      "max_relative_error": 0.0010752651966997242,
+      "worst_gate": -4.0,
+      "normal_product_relative_envelope": 0.00498577535319078,
+      "primitive_gate_passed": true
+    },
+    {
+      "degree": 8,
+      "coefficients": [
+        0.24999800324440002,
+        -0.02082121931016445,
+        0.002064982196316123,
+        -0.00019860590691678226,
+        1.6874706489033997e-05,
+        -1.127971927417093e-06,
+        5.2440363162986614e-08,
+        -1.4600675113385364e-09,
+        1.8043132959943975e-11
+      ],
+      "max_absolute_error": 1.9676579323252286e-05,
+      "max_relative_error": 0.0002734953523383111,
+      "worst_gate": -4.0,
+      "normal_product_relative_envelope": 0.004180873547398933,
+      "primitive_gate_passed": true
+    },
+    {
+      "degree": 9,
+      "coefficients": [
+        0.2499995082616806,
+        -0.020829683169722557,
+        0.002076630247756839,
+        -0.00020540290279313922,
+        1.8946026102639735e-05,
+        -1.4904890122124925e-06,
+        9.020471480880587e-08,
+        -3.772240741994892e-09,
+        9.481546797696083e-11,
+        -1.066282478978664e-12
+      ],
+      "max_absolute_error": 4.8805343242364074e-06,
+      "max_relative_error": 6.783716989981573e-05,
+      "worst_gate": -4.0,
+      "normal_product_relative_envelope": 0.0039744120003795125,
+      "primitive_gate_passed": true
+    },
+    {
+      "degree": 10,
+      "coefficients": [
+        0.24999988079071045,
+        -0.020832257345318794,
+        0.0020809767302125692,
+        -0.00020854327885899693,
+        2.014847268583253e-05,
+        -1.7610757367947372e-06,
+        1.2778924940448633e-07,
+        -7.032280979757388e-09,
+        2.667361609365315e-10,
+        -6.10722323407531e-12,
+        6.301175672820264e-14
+      ],
+      "max_absolute_error": 1.9683536578440908e-06,
+      "max_relative_error": 2.6438699131730403e-05,
+      "worst_gate": -3.953125,
+      "normal_product_relative_envelope": 0.003932851814357763,
+      "primitive_gate_passed": true
+    }
+  ],
+  "device_execution": false,
+  "qwen_tps_result": false,
+  "script": {
+    "path": "experiments/incubator/resident-swiglu-bf16/primitive_silu_probe.py",
+    "sha256": "4e234fb2db9e5af92f966c86fd29e6d286e09b8010f54f7e07b28c270b150775"
+  },
+  "raw": {
+    "path": "runs/maintenance/bf16-silu-primitive.json",
+    "sha256": "250dac003d2405e3d6256cea9e55b8512d572f4647ed5dbe0396ab19bb622099"
+  }
+}

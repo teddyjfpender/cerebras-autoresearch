@@ -1,0 +1,80 @@
+# BF16 storage / FP32 accumulator contract v1
+
+Registered benchmark contract; both initial six-case baselines are now device qualified.
+See [qualification evidence](../../results/reports/2026-10-23/resident-swiglu-bf16/qualification.json).
+Native scalar/vector BF16 conversions and mixed FMA passed the separate exact
+SDK capability fixture. The mathematical bounds below were fixed before any
+BF16 FFN device bringup. This contract remains separate from FP16 scores.
+
+Let ub=2^-8, u32=2^-24, qb=2^-133 and q32=2^-149. Quantize immutable X/W inputs
+to BF16 round-to-nearest-even and retain exact uint16 words. Decode to FP64 for
+independent arithmetic. Require finite inputs, intermediates and outputs; use
+bounded six-family inputs with no overflow. Inputs and every canonical weight
+must survive bit-exact, including signed zero. Preserve every frame's final
+working down-weight tile. Every projection executes all requested products.
+
+For projection inner dimension K, l=K+P and gamma32=l*u32/(1-l*u32), define
+
+```
+R = FP64(A) @ FP64(B)
+Eacc = gamma32 * (abs(A) @ abs(B)) + l*q32
+Eprojection = Eacc + ub*(abs(R)+Eacc) + qb
+```
+
+This bounds FP32 FMA accumulation followed by BF16 output quantization. It does
+not permit BF16 accumulation or silently inherit the old FP16 numerical contract.
+
+For actual verified BF16 gate/up operands Ga,Ua, verify V against
+`SiLU64(Ga)*Ua` with fixed envelope `4*ub*abs(SiLU64(Ga)*Ua)+qb`. For actual V,
+verify D against its FP64 product with Wd and the projection bound above.
+For actual D and immutable X, set RY=D+X, Eadd=4*u32*(abs(D)+abs(X))+q32;
+verify BF16 Y against RY with `Eadd+ub*(abs(RY)+Eadd)+qb`.
+
+Also enforce an independent ideal full-chain output from immutable inputs. For
+ideal G*,U* with their projection bounds Eg,Eu:
+
+```
+V* = SiLU64(G*)*U*
+Ev = 1.5*abs(U*)*Eg + (abs(G*)+Eg)*Eu
+     + 4*ub*(abs(G*)+Eg)*(abs(U*)+Eu) + qb
+D* = V* @ Wd
+Ein = Ev @ abs(Wd)
+EaccD = gamma32_F*((abs(V*)+Ev) @ abs(Wd)) + (F+P)*q32
+Ed = Ein + EaccD + ub*(abs(D*)+Ein+EaccD) + qb
+Y* = D* + X
+EaddY = 4*u32*(abs(D*)+Ed+abs(X)) + q32
+Ey = Ed + EaddY + ub*(abs(D*)+Ed+abs(X)+EaddY) + qb
+```
+
+Require the local checks and `abs(Y-Y*)<=Ey`, complete declared shapes, raw BF16
+bit consistency, and all canonical/boundary state. Tests must reject low-bit
+numeric drift, signed-zero changes, stage/output/cache corruption, wrong precision
+and missing frames, even when outer artifact hashes are recomputed.
+
+Timing includes every stage/frame, conversions, arithmetic, movement, nonlinear
+work, full intermediate/output and state stores, with no host reload/launch
+between stages. One thread, fresh process/case, clean shutdown, no warmup reuse.
+Report total max local cycles, cycles/frame, amortized cycles/batch row, declared
+projection operations/cycle, PE spread, numerical errors and program bytes/PE.
+Profile and suite retention gates remain 1.05x, 1.10x memory, fresh full pairs,
+complete suite coverage and fixed worst-cell guards. Existing FP16 scores stay
+separate. The installed SDK's exact BF16 mode/rounding semantics must be tested.
+
+Host sampling first produces FP32 matrices from the declared six families,
+then rounds each input to BF16 nearest-even. The oracle operates on those exact
+BF16 input words. Initial cells are M16/H16/F32/T4 and M16/H80/F272/T4 on4x4 PEs.
+Half-word communication tiles must be complete and even-sized. Every G/U/V/D/Y
+stage is BF16 storage. In particular U and D must be quantized before the
+activation/product and residual respectively; keeping an unrounded internal
+FP32 value across those boundaries changes the declared precision contract.
+
+## Held-out workloads registered 2026-10-23
+
+Two additional profiles keep this oracle/precision/grid/timer contract and need
+new baselines: M4/H80/F272/T4 (`batch4-ffn`) and M32/H64/F192/T4
+(`batch32-h64-f192`). They test smaller batches and a different projection aspect
+ratio; the latter reaches exactly2*Mt==Ht in the scratch-capacity predicate.
+The candidate sources were frozen before any held-out device measurements in
+`experiments/incubator/resident-swiglu-bf16/heldout-runtime-freeze.json`.
+Registration is not qualification. The new four-cell suite is
+`resident-swiglu-bf16-generalization`; the original two-cell suite is unchanged.

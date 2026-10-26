@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "name": "resident-gemm-proven-bank-base-updates",
+  "seed": 20261029,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "reusable-gemm.tiny-sequence",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-output-base-update"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-column-base-update"
+        }
+      ],
+      "baseline_receipt": "runs/v2/20261023T085001Z-reusable-gemm.tiny-sequence-638f9e60/result.json"
+    },
+    {
+      "profile": "reusable-gemm.prefill-ffn-up-scaled",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-output-base-update"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-column-base-update"
+        }
+      ],
+      "baseline_receipt": "runs/v2/20261023T085120Z-reusable-gemm.prefill-ffn-up-scaled-4728d143/result.json"
+    },
+    {
+      "profile": "reusable-gemm.prefill-ffn-down-scaled",
+      "candidates": [
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-output-base-update"
+        },
+        {
+          "variant": "candidate",
+          "candidate": "resident-gemm-column-base-update"
+        }
+      ],
+      "baseline_receipt": "runs/v2/20261023T085922Z-reusable-gemm.prefill-ffn-down-scaled-06e8c3eb/result.json"
+    }
+  ],
+  "fresh_baselines_from_campaign": "runs/campaigns/20261023-resident-gemm-thirteen-hour/iteration2-result.json"
+}

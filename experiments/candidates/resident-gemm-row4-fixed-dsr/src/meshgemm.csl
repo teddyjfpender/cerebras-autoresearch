@@ -1,0 +1,443 @@
+// Derived from pinned WaferLLM; see README.md and LICENSE.upstream.
+// Incubator: resident distinct-frame sequence with timed canonical resets.
+// ---------------------- Input Parameters --------------------- //
+param memcpy_params;
+param comm_params;
+
+param P: i16;
+param T: i16;
+param Mt: i16;
+param Kt: i16;
+param Nt: i16;
+
+// ---------------------- Input Matrix ------------------------ //
+
+var X_0_tile: [Mt*Kt]f16 = @zeros([Mt*Kt]f16);
+var X_1_tile: [Mt*Kt]f16 = @zeros([Mt*Kt]f16);
+var ptr_X: [*]f16 = &X_0_tile;
+var X_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt} -> X_0_tile[i] });
+
+var W_0_tile: [Kt*Nt]f16 = @zeros([Kt*Nt]f16);
+var W_1_tile: [Kt*Nt]f16 = @zeros([Kt*Nt]f16);
+var ptr_W: [*]f16 = &W_0_tile;
+var W_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Nt} -> W_0_tile[i] });
+
+// ---------------------- Output Matrix ----------------------- //
+
+var res_tile: [Mt*Nt]f16 = @zeros([Mt*Nt]f16);
+var ptr_res: [*]f16 = &res_tile;
+var res_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Nt} -> res_tile[i] });
+
+// ---------------------- Modules ------------------------------ //
+
+const sys_mod = @import_module("<memcpy/memcpy>", memcpy_params);
+const layout_module = @import_module("<layout>");
+
+const comm_mod = @import_module("comm_lib/comm_pe.csl", .{
+    .comm_params = comm_params,
+    .P = P, .Mt = Mt, .Kt = Kt, .Nt = Nt,
+    .x_finish_id = x_finish_id,
+    .y_finish_id = y_finish_id,
+    .left_matrix_shift_callback = left_matrix_shift_callback,
+});
+
+// ---------------------- Local Variables ---------------------- //
+
+const jumpcast_finish_id: local_task_id = @get_local_task_id(23);
+const x_finish_id: local_task_id = @get_local_task_id(24);
+const y_finish_id: local_task_id = @get_local_task_id(25);
+const next_step_id: local_task_id = @get_local_task_id(26);
+
+var px: i16 = 0;
+var py: i16 = 0;
+
+var x_shift_step: i16 = 0;
+var x_shift_reverse: bool = false;
+
+var swap_ptr: [*]f16 = &X_0_tile;
+var ptr_X_send: [*]f16 = &X_0_tile;
+var ptr_X_recv: [*]f16 = &X_1_tile;
+var ptr_W_send: [*]f16 = &W_0_tile;
+var ptr_W_recv: [*]f16 = &W_1_tile;
+
+var out_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt} -> res_tile[i] });
+var ptr_out: [*]f16 = &res_tile;
+
+const out_dest_dsr = @get_dsr(dsr_dest, 1);
+const out_src0_dsr = @get_dsr(dsr_src0, 1);
+const X_src1_dsr = @get_dsr(dsr_src1, 1);
+
+// Modified for research: contiguous output-column vectors with a final transpose.
+var row_accum: [Mt*Nt]f16;
+var row_accum_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Nt} -> row_accum[i] });
+var row_output_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Nt} -> row_accum[i] });
+var row_weight_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Nt} -> W_0_tile[i] });
+
+var packed_output_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Nt} -> res_tile[i*Mt] });
+
+fn pack_outputs() void {
+    var row: i16 = 0;
+    while (row < Mt) : (row += 1) {
+        var source = @increment_dsd_offset(row_output_dsd, row*Nt, f16);
+        var destination = @increment_dsd_offset(packed_output_dsd, row, f16);
+        @fmovh(destination, source);
+    }
+}
+
+// Output descriptors remain fixed across all local K terms. Shift-only
+// banks4/5/6 are free after shift completion; two-hop banks2/3 stay untouched.
+const row_dest_1 = @get_dsr(dsr_dest, 4);
+const row_accum_1 = @get_dsr(dsr_src0, 4);
+const row_dest_2 = @get_dsr(dsr_dest, 5);
+const row_accum_2 = @get_dsr(dsr_src0, 5);
+const row_dest_3 = @get_dsr(dsr_dest, 6);
+const row_accum_3 = @get_dsr(dsr_src0, 6);
+
+// ------------------------- Timer ------------------------- //
+
+const timestamp = @import_module("<time>");
+var tscStartBuffer = @zeros([timestamp.tsc_size_words]u16);
+var tscEndBuffer = @zeros([timestamp.tsc_size_words]u16);
+
+var time_buf_f32 = @zeros([3]f32);
+var ptr_time_memcpy: [*]f32 = &time_buf_f32;
+
+var tscRefBuffer = @zeros([timestamp.tsc_size_words]u16);
+var time_ref_f32 = @zeros([2]f32);
+var ptr_time_ref: [*]f32 = &time_ref_f32;
+
+
+fn init_task() void {
+    timestamp.enable_tsc();
+    px = @as(i16, layout_module.get_x_coord());
+    py = @as(i16, layout_module.get_y_coord());
+
+    if (py%2 == 0) {
+        x_shift_step = py/2;
+        x_shift_reverse = true;
+    } else {
+        x_shift_step = (py+1)/2;
+        x_shift_reverse = false;
+    }
+
+    sys_mod.unblock_cmd_stream();
+}
+
+task x_finish() void {
+    @block(x_finish_id);
+    @unblock(jumpcast_finish_id);
+}
+
+task y_finish() void {
+    @block(y_finish_id);
+    @activate(jumpcast_finish_id);
+}
+
+task jumpcast_finish() void {
+    @block(jumpcast_finish_id);
+    @unblock(next_step_id);
+}
+
+task next_step() void {
+    @block(next_step_id);
+    mm_compute();
+}
+
+fn gemv_static_step_X(curW: f16) void {
+    @fmach(out_dest_dsr, out_src0_dsr, X_src1_dsr, curW);
+}
+
+fn mm_compute() void {
+
+    swap_ptr = ptr_X_send;
+    ptr_X_send = ptr_X_recv;
+    ptr_X_recv = swap_ptr;
+
+    swap_ptr = ptr_W_send;
+    ptr_W_send = ptr_W_recv;
+    ptr_W_recv = swap_ptr;
+
+    if (step < P) {
+
+        comm_mod.two_hop_comm(ptr_X_send, ptr_W_send, ptr_X_recv, ptr_W_recv);
+
+        X_dsd = @set_dsd_base_addr(X_dsd, ptr_X_send);
+        W_dsd = @set_dsd_base_addr(W_dsd, ptr_W_send);
+
+        X_dsd = @set_dsd_length(X_dsd, @bitcast(u16, Mt));
+        W_dsd = @set_dsd_length(W_dsd, @bitcast(u16, Nt));
+
+        var weights = @set_dsd_base_addr(row_weight_dsd, ptr_W_send);
+        if (Mt == 4) {
+            var output_0 = @increment_dsd_offset(row_output_dsd, 0*Nt, f16);
+            @load_to_dsr(out_dest_dsr, output_0, .{ .save_address = false });
+            @load_to_dsr(out_src0_dsr, output_0, .{ .save_address = false });
+            var output_1 = @increment_dsd_offset(row_output_dsd, 1*Nt, f16);
+            @load_to_dsr(row_dest_1, output_1, .{ .save_address = false });
+            @load_to_dsr(row_accum_1, output_1, .{ .save_address = false });
+            var output_2 = @increment_dsd_offset(row_output_dsd, 2*Nt, f16);
+            @load_to_dsr(row_dest_2, output_2, .{ .save_address = false });
+            @load_to_dsr(row_accum_2, output_2, .{ .save_address = false });
+            var output_3 = @increment_dsd_offset(row_output_dsd, 3*Nt, f16);
+            @load_to_dsr(row_dest_3, output_3, .{ .save_address = false });
+            @load_to_dsr(row_accum_3, output_3, .{ .save_address = false });
+            var k: i16 = 0;
+            while (k < Kt) : (k += 1) {
+                @load_to_dsr(X_src1_dsr, weights, .{ .save_address = false });
+                @fmach(out_dest_dsr, out_src0_dsr, X_src1_dsr, ptr_X_send[(k+0)*Mt+0]);
+                @fmach(row_dest_1, row_accum_1, X_src1_dsr, ptr_X_send[(k+0)*Mt+1]);
+                @fmach(row_dest_2, row_accum_2, X_src1_dsr, ptr_X_send[(k+0)*Mt+2]);
+                @fmach(row_dest_3, row_accum_3, X_src1_dsr, ptr_X_send[(k+0)*Mt+3]);
+                weights = @increment_dsd_offset(weights, Nt, f16);
+            }
+        } else {
+        var weights = @set_dsd_base_addr(row_weight_dsd, ptr_W_send);
+        var k: i16 = 0;
+        while (k < Kt) : (k += 1) {
+            @load_to_dsr(X_src1_dsr, weights, .{ .save_address = false });
+            var row: i16 = 0;
+            while (row < Mt) : (row += 1) {
+                var output = @increment_dsd_offset(row_output_dsd, row*Nt, f16);
+                @load_to_dsr(out_dest_dsr, output, .{ .save_address = false });
+                @load_to_dsr(out_src0_dsr, output, .{ .save_address = false });
+                @fmach(out_dest_dsr, out_src0_dsr, X_src1_dsr, ptr_X_send[k*Mt+row]);
+            }
+            weights = @increment_dsd_offset(weights, Nt, f16);
+        }
+        }
+
+        step += 1;
+        @activate(next_step_id);
+
+    } else {
+        pack_outputs();
+        step = 0;
+
+        meshgemm_entry();
+
+    }
+}
+
+// Canonical inputs survive every frame; working buffers may rotate internally.
+var X_FRAMES: [T*Mt*Kt]f16;
+var W_CANON: [Kt*Nt]f16;
+var ALL_OUT: [T*Mt*Nt]f16;
+var W_HISTORY_0: [Kt*Nt]f16;
+var W_HISTORY_1: [Kt*Nt]f16;
+var W_HISTORY_2: [Kt*Nt]f16;
+var W_HISTORY_3: [Kt*Nt]f16;
+var ptr_X_FRAMES: [*]f16 = &X_FRAMES;
+var ptr_W_CANON: [*]f16 = &W_CANON;
+const ptr_ALL_OUT: [*]f16 = &ALL_OUT;
+// Four independent array pointers keep each state reply bounded.
+comptime { @comptime_assert(T == 4); }
+const ptr_W_HISTORY_0: [*]f16 = &W_HISTORY_0;
+const ptr_W_HISTORY_1: [*]f16 = &W_HISTORY_1;
+const ptr_W_HISTORY_2: [*]f16 = &W_HISTORY_2;
+const ptr_W_HISTORY_3: [*]f16 = &W_HISTORY_3;
+var frame: i16 = 0;
+var canonical_x_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Kt} -> X_FRAMES[i] });
+var canonical_w_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_CANON[i] });
+var working_x0_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Kt} -> X_0_tile[i] });
+var working_x1_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Kt} -> X_1_tile[i] });
+var working_w0_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_0_tile[i] });
+var working_w1_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_1_tile[i] });
+
+fn prepare_frame() void {
+    var frame_x = @increment_dsd_offset(canonical_x_dsd, frame*Mt*Kt, f16);
+    @fmovh(working_x0_dsd, frame_x);
+    // Every completed P-step weight circulation restores W0 exactly; the
+    // full history oracle checks that invariant after each resident frame.
+    if (frame == 0) { @fmovh(working_w0_dsd, canonical_w_dsd); }
+    // X1/W1 are receive buffers. Full even-sized receives and the existing
+    // send/receive barriers overwrite them before either becomes a source.
+    if (py%2 == 0) {
+        x_shift_step = py/2;
+        x_shift_reverse = true;
+    } else {
+        x_shift_step = (py+1)/2;
+        x_shift_reverse = false;
+    }
+    ptr_out = &res_tile;
+}
+
+// Protected sequence, timer and full-output/state collection.
+fn sequence_host() void {
+    timestamp.enable_tsc();
+    frame = 0;
+    timestamp.get_timestamp(&tscRefBuffer);
+    timestamp.get_timestamp(&tscStartBuffer);
+    prepare_frame();
+    meshgemm_host(0, 1);
+}
+
+var saved_output_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Mt*Nt} -> ALL_OUT[i] });
+var saved_weight_0_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_HISTORY_0[i] });
+var saved_weight_1_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_HISTORY_1[i] });
+var saved_weight_2_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_HISTORY_2[i] });
+var saved_weight_3_dsd = @get_dsd(mem1d_dsd, .{ .tensor_access = |i|{Kt*Nt} -> W_HISTORY_3[i] });
+
+fn save_frame() void {
+    var output = @increment_dsd_offset(saved_output_dsd, frame*Mt*Nt, f16);
+    var weights = saved_weight_0_dsd;
+    if (frame == 1) { weights = saved_weight_1_dsd; }
+    else if (frame == 2) { weights = saved_weight_2_dsd; }
+    else if (frame == 3) { weights = saved_weight_3_dsd; }
+    @fmovh(output, res_dsd);
+    @fmovh(weights, working_w0_dsd);
+}
+
+// ---------------------- Entry Point ------------------------- //
+
+var total_repeat_times: i16 = 1;
+var total_warmup_times: i16 = 0;
+
+var repeat_times: i16 = 0;
+var step: i16 = 0;
+
+fn meshgemm_host(total_warmup_times_: i16, total_repeat_times_: i16) void {
+    total_repeat_times = total_repeat_times_;
+    total_warmup_times = total_warmup_times_;
+
+    repeat_times = 0;
+    step = 0;
+
+    meshgemm_entry();
+}
+
+fn meshgemm_entry() void {
+
+    // Run (total_warmup_times + total_repeat_times) times; only the last `total_repeat_times` iterations are timed
+    if (repeat_times == total_repeat_times + total_warmup_times) {
+        exit();
+    } else {
+
+        repeat_times += 1;
+
+        ptr_X_send = &X_1_tile;
+        ptr_X_recv = &X_0_tile;
+
+        left_matrix_shift_callback();
+    }
+}
+
+fn left_matrix_shift_callback() void {
+    if (step < @as(i16, P/2)) {
+
+        if (x_shift_step >= 0) {
+            x_shift_step -= 1;
+
+            swap_ptr = ptr_X_send;
+            ptr_X_send = ptr_X_recv;
+            ptr_X_recv = swap_ptr;
+        }
+
+        step += 1;
+
+        if (x_shift_reverse) {
+            comm_mod.left_matrix_shift_reverse(ptr_X_send, ptr_X_recv);
+        } else {
+            comm_mod.left_matrix_shift(ptr_X_send, ptr_X_recv);
+        }
+    } else {
+        if (x_shift_step != 0) {
+            swap_ptr = ptr_X_send;
+            ptr_X_send = ptr_X_recv;
+            ptr_X_recv = swap_ptr;
+        } // Useful value in ptr_X_recv
+
+        step = 0;
+        @fmovh(row_accum_dsd, 0.0);
+
+        ptr_W_send = &W_1_tile;
+        ptr_W_recv = &W_0_tile;
+
+        out_dsd = @set_dsd_base_addr(out_dsd, ptr_out);
+        ptr_out = &res_tile;
+
+        mm_compute();
+    }
+}
+
+fn exit() void {
+    save_frame();
+    frame += 1;
+    if (frame < T) {
+        prepare_frame();
+        meshgemm_host(0, 1);
+    } else {
+        timestamp.get_timestamp(&tscEndBuffer);
+        timestamp.disable_tsc();
+        f_reference_timestamps();
+        f_memcpy_timestamps();
+        sys_mod.unblock_cmd_stream();
+    }
+}
+
+fn f_memcpy_timestamps() void {
+    var lo_ : u16 = 0;
+    var hi_ : u16 = 0;
+    var word : u32 = 0;
+
+    lo_ = tscStartBuffer[0];
+    hi_ = tscStartBuffer[1];
+    time_buf_f32[0] = @bitcast(f32, (@as(u32,hi_) << @as(u16,16)) | @as(u32, lo_) );
+
+    lo_ = tscStartBuffer[2];
+    hi_ = tscEndBuffer[0];
+    time_buf_f32[1] = @bitcast(f32, (@as(u32,hi_) << @as(u16,16)) | @as(u32, lo_) );
+
+    lo_ = tscEndBuffer[1];
+    hi_ = tscEndBuffer[2];
+    time_buf_f32[2] = @bitcast(f32, (@as(u32,hi_) << @as(u16,16)) | @as(u32, lo_) );
+}
+
+fn f_reference_timestamps() void {
+    var lo_ : u16 = 0;
+    var hi_ : u16 = 0;
+
+    lo_ = tscRefBuffer[0];
+    hi_ = tscRefBuffer[1];
+    time_ref_f32[0] = @bitcast(f32, (@as(u32,hi_) << @as(u16,16)) | @as(u32, lo_) );
+
+    lo_ = tscRefBuffer[2];
+    hi_ = 0;
+    time_ref_f32[1] = @bitcast(f32, (@as(u32,hi_) << @as(u16,16)) | @as(u32, lo_) );
+}
+
+comptime {
+    @export_symbol(ptr_time_memcpy, "time_memcpy");
+    @export_symbol(ptr_time_ref, "time_ref");
+}
+
+comptime {
+    @bind_local_task(x_finish, x_finish_id);
+    @bind_local_task(y_finish, y_finish_id);
+    @bind_local_task(jumpcast_finish, jumpcast_finish_id);
+    @bind_local_task(next_step, next_step_id);
+
+    @block(x_finish_id);
+    @block(y_finish_id);
+    @block(jumpcast_finish_id);
+    @block(next_step_id);
+}
+
+comptime {
+    @export_symbol(ptr_X, "X");
+    @export_symbol(ptr_W, "W");
+    @export_symbol(ptr_res, "res");
+
+    @export_symbol(init_task);
+    @export_symbol(meshgemm_entry);
+    @export_symbol(meshgemm_host);
+}
+comptime {
+    @export_symbol(ptr_X_FRAMES, "X_FRAMES");
+    @export_symbol(ptr_W_CANON, "W_CANON");
+    @export_symbol(ptr_ALL_OUT, "ALL_OUT");
+    @export_symbol(ptr_W_HISTORY_0, "W_HISTORY_0");
+    @export_symbol(ptr_W_HISTORY_1, "W_HISTORY_1");
+    @export_symbol(ptr_W_HISTORY_2, "W_HISTORY_2");
+    @export_symbol(ptr_W_HISTORY_3, "W_HISTORY_3");
+    @export_symbol(sequence_host);
+}

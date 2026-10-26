@@ -1,0 +1,18 @@
+{
+  "adapter": "reusable_gemm",
+  "initial_profile": "reusable-gemm.prefill-ffn-down-scaled",
+  "source": {
+    "repository": "local",
+    "derived_from": "WaferLLM",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "90132f1c09b8180856f5f6249a8e044f3827eb8db2f4720e4a4114338d6fa80e",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "resident-gemm.column-map-k2-residency",
+  "hypothesis": "Fuse 2 consecutive K slices into one column map with independent advancing accumulator and fixed X descriptors. Preserve exact per-output FP16 K order while reducing map-loop overhead. Shift-only DSRs are reused only after shift completion; in-flight two-hop communication DSRs 2/3 remain untouched. Combine with invariant-backed resident frame resets.",
+  "falsification": "Reject any omitted or reordered FP16 K term, six-case output/state violation, changed timing/repetition/PE contract, simulator failure, or memory growth above 1.10x. Require at least 1.05x matched speedup and full fresh paired confirmation; cross-shape claims need complete suite coverage.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_profile_improvement",
+  "created_utc": "2026-10-23T18:10:01.842284+00:00",
+  "profile": "recurrent-gdn-native.k128-v128-t4",
+  "candidate": "native-gdn-pr1-dsr-unroll8",
+  "decision": {
+    "path": "runs/v2/20261023T175939Z-confirmation-5d3c7bda/result.json",
+    "sha256": "ae2e59707cc2d20e6e4ada7d3cc887e03384ff782fe41a5dfbcb162a97b65e1a"
+  },
+  "initial_speedup": 2.4283164283164282,
+  "fresh_speedup": 2.42836742408333,
+  "conservative_speedup": 2.4283164283164282,
+  "state": {
+    "path": "runs/campaigns/recurrent-gdn-native/optimization-pr1-unroll-t4-result.json",
+    "sha256": "49c5b177aabdb0c8eea6f921aedba914b2223f7f44f30cf326b5b9a311cc2643"
+  },
+  "campaign": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/unroll-t4-campaign.json",
+    "sha256": "941b7ee43bb62486dff5fca6220c6192904c305ab6ee39a2dcb0de7a0c17d827"
+  },
+  "manifest": {
+    "path": "runs/campaigns/recurrent-gdn-native/unroll-t4-full-manifest.json",
+    "sha256": "1672cf5294db8b6ffd7bfd2076d27ab4d39a5a221361f597620a85ee19ac08f3"
+  },
+  "numerics": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/unroll-t4-numerics.json",
+    "sha256": "4cbe68b12d0258d141ced6b8e0b13339e6edd4fef13f0e77118de926c042fca8"
+  },
+  "snapshots": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/unroll-t4-snapshots.json",
+    "sha256": "6524df78fb1dea5956eea592ad636da6c138419583ea0199dcedbb150caeae36"
+  },
+  "paired_bits": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/unroll-t4-paired-bits.json",
+    "sha256": "cc5215363ca30a43883a36f12413637430c5f3f00d7a453c7dce8941a4afe024"
+  },
+  "case_executions": 24,
+  "case_pairs": 12,
+  "all_compared_bits_identical": true,
+  "scope": "One fixed native K128/V128 key-head group with three value heads,T4,48 PEs. T8 and full-head scores require their own complete matched validation. BF16 inputs/output and FP32 state/arithmetic remain fixed.",
+  "qwen_tps_result": false
+}

@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "status": "math_screen_only",
+  "bf16_gate_count": 33282,
+  "range": [
+    -8,
+    8
+  ],
+  "main_degree": 6,
+  "tail_scale": 16,
+  "tail_squares": 4,
+  "prescribed_normal_product_relative_gate": 0.01171875,
+  "unchanged_oracle_relative_allowance": 0.015625,
+  "results": [
+    {
+      "degree": 3,
+      "coefficients": [
+        1.0,
+        1.0,
+        0.5,
+        0.1666666716337204
+      ],
+      "max_relative_error": 0.06055275818661838,
+      "worst_gate": -8.0,
+      "normal_product_relative_envelope": 0.0646956058590844,
+      "primitive_gate_passed": false
+    },
+    {
+      "degree": 4,
+      "coefficients": [
+        1.0,
+        1.0,
+        0.5,
+        0.1666666716337204,
+        0.0416666679084301
+      ],
+      "max_relative_error": 0.006351831980147045,
+      "worst_gate": -8.0,
+      "normal_product_relative_envelope": 0.010282954041372472,
+      "primitive_gate_passed": true
+    },
+    {
+      "degree": 5,
+      "coefficients": [
+        1.0,
+        1.0,
+        0.5,
+        0.1666666716337204,
+        0.0416666679084301,
+        0.008333333767950535
+      ],
+      "max_relative_error": 0.004230301483914267,
+      "worst_gate": -4.0,
+      "normal_product_relative_envelope": 0.008153136189691823,
+      "primitive_gate_passed": true
+    },
+    {
+      "degree": 6,
+      "coefficients": [
+        1.0,
+        1.0,
+        0.5,
+        0.1666666716337204,
+        0.0416666679084301,
+        0.008333333767950535,
+        0.0013888889225199819
+      ],
+      "max_relative_error": 0.004230301483914267,
+      "worst_gate": -4.0,
+      "normal_product_relative_envelope": 0.008153136189691823,
+      "primitive_gate_passed": true
+    },
+    {
+      "degree": 7,
+      "coefficients": [
+        1.0,
+        1.0,
+        0.5,
+        0.1666666716337204,
+        0.0416666679084301,
+        0.008333333767950535,
+        0.0013888889225199819,
+        0.00019841270113829523
+      ],
+      "max_relative_error": 0.004230301483914267,
+      "worst_gate": -4.0,
+      "normal_product_relative_envelope": 0.008153136189691823,
+      "primitive_gate_passed": true
+    },
+    {
+      "degree": 8,
+      "coefficients": [
+        1.0,
+        1.0,
+        0.5,
+        0.1666666716337204,
+        0.0416666679084301,
+        0.008333333767950535,
+        0.0013888889225199819,
+        0.00019841270113829523,
+        2.4801587642286904e-05
+      ],
+      "max_relative_error": 0.004230301483914267,
+      "worst_gate": -4.0,
+      "normal_product_relative_envelope": 0.008153136189691823,
+      "primitive_gate_passed": true
+    }
+  ],
+  "device_execution": false,
+  "qwen_tps_result": false,
+  "raw": {
+    "path": "runs/maintenance/bf16-silu-tail-primitive.json",
+    "sha256": "4e8ede52fbfb01e42999ad137f19b675cdc13a4d5516c06ccae9d98f8c5480dc"
+  },
+  "script": {
+    "path": "experiments/incubator/resident-swiglu-bf16/primitive_silu_tail_probe.py",
+    "sha256": "323399bd91b7d86424d820b2e32e4c804ae9247edc7df2ff4026efd1667b4b82"
+  }
+}

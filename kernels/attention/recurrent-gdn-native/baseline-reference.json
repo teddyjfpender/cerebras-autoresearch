@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "parent_candidate": "recurrent-gdn-vector-state",
+  "parent_source_file": "experiments/candidates/recurrent-gdn-vector-state/src/pe.csl",
+  "parent_source_file_sha256": "e4d0cf46a6256677c37161ebcc4451dbca8c1a5ca017bfc31fa5792014ca3ea0",
+  "adaptation": "R=1 per physical PE, native K128, V-column tile8/4 and T4/8 rectangular profiles; full logical state retained.",
+  "qualification": "Scaled parent is fully/fresh-suite confirmed; new native full baselines are required.",
+  "production_cerebras_runtime": false,
+  "parent_full_fresh_suite": {
+    "path": "results/reports/2026-10-23/recurrent-gdn/vector-suite-confirmed.json",
+    "sha256": "ee8dfa9c3e08116469846d1904d94fa14f001a184700e5f49154b5196374c813"
+  }
+}

@@ -14,6 +14,181 @@ screen proving automatic logging with an evaluator source capsule. All 48 host
 tests and artifact replay passed. This is an unsigned local ledger; see the
 [ledger contract](../docs/experiments/ledger.md) for guarantees and limits.
 
+## Latest resident GEMM result
+
+The complete three-shape dispatcher suite is freshly confirmed at **1.146754x
+geometric mean speedup** (worst1.025274x), with all72 paired numerical/core
+cases independently replayed. FFN-up is95,611 ->69,104 cycles and FFN-down
+128,315 ->120,701. Tiny is6,653 ->6,489 within the suite guard.
+[Complete evidence](reports/2026-10-23/resident-gemm/dispatch-suite-confirmed.json).
+
+## Distributed resident SwiGLU — confirmed complete chain
+
+`swiglu-projection-silu-reuse` passed full validation and fresh paired confirmation
+on both profiles, including every G/U/V/D/Y intermediate and canonical/working
+state. All **48 cases** passed independent numerical and saved-core/timer replay.
+The conservative suite geometric mean is **1.415571x**, worst cell **1.376291x**.
+
+| Profile | Initial reference → candidate cycles | Fresh reference → candidate cycles | Program bytes/PE |
+| --- | ---: | ---: | ---: |
+| `resident-swiglu.small` | 58,502 → 42,506 | 58,502 → 42,506 | 10,496 → 10,768 |
+| `resident-swiglu.ffn-scaled` | 586,834 → 400,069 | 586,834 → 403,053 | 43,712 → 45,184 |
+
+[Complete evidence](reports/2026-10-23/resident-swiglu/initial-suite-confirmed.json)
+binds the two seeds and complete suite. The scaled cell is data dependent, so
+both measured seed arms are shown. The candidate combines projection layout,
+bounded FP32 SiLU evaluation and invariant-backed receive-buffer reuse. This
+track retains its original FP16 accumulation/storage and FP32 residual contract;
+BF16/FP32-accumulation work requires separate profiles and new baselines.
+
+## Native BF16 resident SwiGLU — confirmed complete chain
+
+`bf16-swiglu-vector-scratch-tail4-runtime` is freshly confirmed on both original
+profiles, with **1.537186x conservative geometric mean**, worst cell **1.499687x**.
+All **48 paired cases** passed independent numerical and complete saved-core,
+canonical/working-state and raw-timer replay. One frozen parameterized source
+uses vector activation where scratch capacity permits and scalar activation on
+smaller tiles; every BF16 stage boundary and FP32 accumulation remains fixed.
+
+| Profile | Initial reference → candidate cycles | Fresh reference → candidate cycles | Program bytes/PE |
+| --- | ---: | ---: | ---: |
+| `resident-swiglu-bf16.small` | 57,573 → 38,390 | 57,573 → 38,390 | 11,088 → 11,456 |
+| `resident-swiglu-bf16.ffn-scaled` | 585,178 → 368,626 | 585,178 → 371,395 | 43,600 → 47,184 |
+
+[Complete refinement evidence](reports/2026-10-23/resident-swiglu-bf16/runtime-suite-confirmed.json)
+binds both seeds and the entire original suite. The scaled cell uses +8.22%
+program memory within the unchanged 10% gate. Scratch reuse fixes the earlier
+vector candidates' memory overrun; the rejected comptime pointer cast and
+compiler interruption remain journaled.
+
+The [initial scalar composition](reports/2026-10-23/resident-swiglu-bf16/initial-suite-confirmed.json)
+remains confirmed at 1.451350x conservative mean with less memory. Its
+[paired stage audit](reports/2026-10-23/resident-swiglu-bf16/initial-paired-stage-differences.json)
+found every G/U word identical in all 24 matched case pairs (233,472 values per
+stage). The bounded approximation changes some V/D/Y words; the original local
+and ideal full-chain bounds passed separately. The
+[baseline qualification](reports/2026-10-23/resident-swiglu-bf16/qualification.json)
+and all historical reports are unchanged. These are scaled FFN operator results.
+
+Two additional workloads now have full six-case baselines and independent
+numerical/core replay: M4/H80/F272 at 383,514 cycles (36,544 program bytes/PE),
+and M32/H64/F192 at 651,264 cycles (37,648 bytes/PE), each T4 on 16 PEs. They form the distinct four-cell
+`resident-swiglu-bf16-generalization` suite with the original profiles. Candidate
+source identities were frozen before any held-out device observations. The
+frozen source is freshly confirmed on M4 at1.8139x conservative speedup. Its M32
+screen reached1.5755x but exceeded the fixed memory budget (+12.49%); it is
+rejected there. See the [held-out campaign](reports/2026-10-23/resident-swiglu-bf16/heldout-frozen-campaign.json).
+The follow-up two-buffer source is now separately qualified on all four shapes, as described below.
+
+## BF16 four-shape generalization — confirmed follow-up
+
+`bf16-swiglu-two-buffer-tail4` passes the complete four-profile suite with
+**1.589946x conservative geometric mean**, worst cell **1.499687x**. All **96
+paired cases** pass independent numerical, complete core/state and raw timer
+replay. Two live FP32 tiles replace the previous three-tile expansion/activation
+layout; timed transpose/copy-back and every projection/stage/frame remain.
+
+| Profile | Initial reference → candidate cycles | Fresh candidate cycles | Program bytes/PE |
+| --- | ---: | ---: | ---: |
+| `resident-swiglu-bf16.small` | 57,573 → 38,390 | 38,390 | 11,088 → 11,328 |
+| `resident-swiglu-bf16.ffn-scaled` | 585,178 → 376,762 | 379,531 | 43,600 → 46,064 |
+| `resident-swiglu-bf16.batch4-ffn` | 383,514 → 212,861 | 212,713 | 36,544 → 38,432 |
+| `resident-swiglu-bf16.batch32-h64-f192` | 651,264 → 424,872 | 424,870 | 37,648 → 40,784 |
+
+Memory growth is at most8.33%, including the batch32 boundary that rejected the
+previous source. The specialized earlier candidate is slightly faster on some
+cells; this shared source qualifies the entire fixed four-cell suite. It is a
+follow-up after held-out observations, not an unseen-shape claim.
+[Complete confirmation](reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-confirmed.json),
+[all campaign attempts](reports/2026-10-23/resident-swiglu-bf16/two-buffer-campaign.json),
+[96-case numerical replay](reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-numerics.json),
+[96-case core/state/timer replay](reports/2026-10-23/resident-swiglu-bf16/two-buffer-suite-snapshots.json).
+These are simulator operator-chain results; Qwen TPS is unmeasured.
+
+## Native recurrent suite — PR1 row reuse and bounded unrolling
+
+One frozen `native-gdn-pr1-dsr-unroll8` source confirms **2.569953× geometric
+mean**, worst **2.428316×**, across both complete native-width profiles and
+fresh paired seeds. The reference already uses vector FP32 state arithmetic.
+All **48 baseline/candidate case executions** pass independent numerical and
+complete core/state/timer replay. All compared normalized operands, decay/delta, full state histories, BF16 outputs and final states are bit identical to their matched controls.
+
+| Profile | Initial baseline → candidate cycles | Fresh candidate cycles | Conservative speedup | Program bytes/PE |
+| --- | ---: | ---: | ---: | ---: |
+| `recurrent-gdn-native.k128-v128-t4` | 115,634 → 47,619 | 47,618 | 2.428316× | 39,472 → 40,224 |
+| `recurrent-gdn-native.k128-v128-t8` | 211,278 → 77,680 | 77,680 | 2.719851× | 41,536 → 42,320 |
+
+Every ascending-K FP32 FMA remains. The implementation combines normalization
+conversion reuse, a bank-offset accumulator, persistent DSR row addresses and
+bounded unrolling. The two workloads each retain their fixed PE/precision/timing
+budget and every full state snapshot. This is one key-head group with three
+value heads; full 16-key/48-value-head and model TPS remain separate claims.
+
+[Complete confirmed suite](reports/2026-10-23/recurrent-gdn-native/unroll-suite-confirmed.json),
+[48-case numerical replay](reports/2026-10-23/recurrent-gdn-native/unroll-suite-numerics.json),
+[48-case core/state/timer replay](reports/2026-10-23/recurrent-gdn-native/unroll-suite-snapshots.json).
+
+## Native T4 recurrent operator — PR1 descriptor reuse confirmed
+
+`native-gdn-pr1-dsr-bank-offset` confirms **1.991629×** on the fixed K128/V128,
+three-value-head T4,48-PE workload. Both paired seeds give **115,634 →58,060
+cycles**; program-object memory is **39,472 →39,648 bytes/PE (+0.446%)**.
+The reference already uses FP32 vector state arithmetic.
+
+All **24 baseline/candidate case executions** pass independent numerical and
+complete core/state/timer replay. Across12 case pairs, normalized Q/K, decay,
+delta, every full state, BF16 output and final state are **bit identical**.
+The candidate reuses DSR row addresses and offsets the accumulator bank; every
+ascending-K FP32 FMA and all protected snapshots remain.
+
+[Complete evidence](reports/2026-10-23/recurrent-gdn-native/pr1-t4-confirmed.json).
+This is a T4-only confirmation under a new matched evaluator capsule. The earlier
+T4/T8 normalization-reuse suite below is separate. Full-head transport remains
+under investigation; no full-head or model TPS result is established.
+
+## Native-width recurrent operator — confirmed normalization reuse
+
+Native K128/V128, three value heads, both T4/T8 profiles and two paired seeds
+confirm **1.251334× geometric mean**, worst **1.247939×**, against an already
+vectorized state baseline. All **48 paired cases** pass full numerical and
+core/state/timer replay. Every token and full FP32 state remains checked.
+
+| Tokens | Baseline → candidate cycles | Speedup | Program memory growth |
+| --- | ---: | ---: | ---: |
+| T4 | 115,634 → 92,660 | 1.2479× | 0.446% |
+| T8 | 211,278 → 168,384 | 1.2547× | 0.462% |
+
+[Complete evidence](reports/2026-10-23/recurrent-gdn-native/vector-suite-confirmed.json).
+This is one key-head group with native state width. The full 16-key/48-value-head
+operator is the next fixed-contract challenge; no model TPS is established.
+
+## Resident recurrent gated-delta operator — confirmed vectorization
+
+One frozen `recurrent-gdn-vector-state` source passes both complete profiles and
+fresh paired seed: **7.350146x conservative geometric mean**, worst **7.161137x**.
+All **48 paired cases** pass independent numerical and complete core/state/timer
+replay, including every token's FP32 full state, normalized Q/K, decay, delta,
+BF16 output and all immutable canonical inputs. Memory growth is at most1.35%.
+
+| Profile | Initial reference → vector cycles | Fresh vector cycles | Program bytes/PE |
+| --- | ---: | ---: | ---: |
+| `recurrent-gdn.k16-v16` | 316,866 → 44,248 | 44,239 | 28,480 → 28,864 |
+| `recurrent-gdn.k32-v16` | 621,215 → 82,344 | 82,347 | 47,808 → 48,192 |
+
+The baseline is the repository's independent scalar CSL correctness reference,
+with fixed FP32 state and BF16 Q/K/V/output. It is not Cerebras's production
+runtime. This operator is after projections/convolution and precomputed g/beta,
+before gated output normalization/projection. No layer/model TPS is established.
+The initial native `math.exp` accuracy failure remains journaled; the reference
+was repaired before qualification without changing the fixed numerical bounds.
+
+[12-case baseline qualification](reports/2026-10-23/recurrent-gdn/qualification.json),
+[complete fresh suite](reports/2026-10-23/recurrent-gdn/vector-suite-confirmed.json),
+[48-case numerical replay](reports/2026-10-23/recurrent-gdn/vector-suite-numerics.json),
+[48-case core/state/timer replay](reports/2026-10-23/recurrent-gdn/vector-suite-snapshots.json).
+The native K128/V128 follow-up will use the vector implementation as its starting
+reference, with its own fixed PE budgets, full baselines and new qualification.
+
 ## Four inference tracks — qualified baselines
 
 All eight profiles passed six independent numerical families under one frozen
@@ -38,9 +213,10 @@ scores cover the complete four-frame/token sequence, including output/state
 stores. Compare matched arms within one profile. The blocks are scaled FP32
 local programs; no Qwen/model/hardware TPS claim follows.
 
-Across historical evaluator tracks, the current 34-profile catalog now has
-**13 full independent baselines, 14 reference checks and two diagnostics**:
-29 exercised profiles. Five independent shapes remain unqualified:
+Across historical evaluator tracks, the current 48-profile catalog has
+**26 full independent baselines, 14 reference checks and two diagnostics**:
+42 exercised profiles. The new full-native-head recurrent profile is in SDK
+qualification. Five older independent shapes remain unqualified:
 `meshgemm.cold-square32`, `meshgemm.cold-rectangular`, `meshgemv.ffn-down-scaled`,
 `meshgemv.square128`, and `pipeline.k64-n32`.
 
@@ -54,6 +230,38 @@ preserves earlier screens and compile failures. The
 [active session](../experiments/campaigns/2026-10-22-twelve-hour/README.md)
 describe the optimization and further investigation. Earlier counts below refer
 to their original 30-profile tree.
+
+## Resident reusable GEMM — qualified baselines
+
+All three profiles passed the six independent families under the selected
+`lima-vz-rosetta-v1` execution profile: **18 successful SDK case runs**. Each
+sequence computes four distinct resident inputs against shared weights. These
+are baselines; no optimized resident GEMM is retained by this qualification.
+
+| Profile | Four-frame cycles | Average cycles/GEMM | Program bytes/PE |
+| --- | ---: | ---: | ---: |
+| `reusable-gemm.tiny-sequence` | 6,653 | 1,663.25 | 7,584 |
+| `reusable-gemm.prefill-ffn-up-scaled` | 95,611 | 23,902.75 | 29,792 |
+| `reusable-gemm.prefill-ffn-down-scaled` | 128,315 | 32,078.75 | 30,160 |
+
+The [qualification report](reports/2026-10-23-reusable-gemm-qualification.json)
+binds the source/profile/evaluator/SDK identities, all 48 compiled compute ELFs,
+commands, errors, memory and case receipts. The
+[independent numerical replay](reports/2026-10-23-reusable-gemm-qualified-numerics.json)
+recomputed all 18 cases. The
+[snapshot replay](reports/2026-10-23-reusable-gemm-qualified-snapshots.json)
+also matched every output, canonical input, working-weight history and raw timer
+word against its saved SDK core. All 18 cores are artifact-hashed and preserved.
+Maximum error-bound fractions were 0.164, 0.122 and 0.0485 respectively; every
+canonical/working-state bit check passed. The
+[suite receipt](reports/2026-10-23-reusable-gemm-qualified-suite.json) imports these
+three measurements and executes no additional SDK attempts.
+
+The [host-route diagnostic](reports/2026-10-23-sdk-rosetta-platform-screen.json)
+and [SDK setup](../docs/sdk/setup.md) explain the faster execution route and its
+distinct evaluator track. Earlier QEMU measurements and failed/interrupted
+readback attempts remain immutable history. Compare optimized candidates with
+matched baselines on this track; these scores do not establish hardware or model TPS.
 
 ## Inference-block optimization — confirmed results
 
@@ -271,3 +479,96 @@ The [experiment index](../EXPERIMENTS.md) links the original research.
 For new attempts, use the [protocol](../docs/experiments/protocol.md), preserve raw
 artifacts, and export a new uniquely named report. Simulator results alone do
 not establish hardware TPS, energy, sustained service capacity, or model speed.
+
+## Resident GEMM first optimization pass (2026-10-23)
+
+On the separately qualified Rosetta SDK platform, contiguous row accumulation
+and a timed vector pack reduce FFN-up's complete four-frame sequence from
+95,611 to 75,962 cycles (1.25867x; 20.55% fewer cycles). Program-object memory
+increases from 29,792 to 30,848 bytes per PE (+3.54%). All six cases pass at
+seeds 20261027 and 20261028. The fixed canonical-input and complete per-frame
+weight-state checks pass. Independent replay corroborates all 24 paired cases,
+including every saved output/state/timestamp against the simulator cores.
+
+Tiny and FFN-down retain their reference implementations: none of the four
+first approaches passed the 1.05x cycle gate. This is a profile-specific gain.
+
+- [Campaign and rejected screens](reports/2026-10-23-resident-gemm-initial-campaign.json)
+- [24-case numerical replay](reports/2026-10-23-resident-gemm-initial-up-numerics.json)
+- [24-case core/state/timer replay](reports/2026-10-23-resident-gemm-initial-up-snapshots.json)
+
+## Resident GEMM descriptor refinement (2026-10-23)
+
+FFN-up's separately confirmed fixed-contract sequence improves further to
+69,104 cycles from the matched 95,611 reference (1.38358x; 27.724% fewer cycles).
+Program-object memory is 30,640 vs 29,792 bytes/PE (+2.846%). Hoisting the weight
+descriptor and eliminating invariant-proven redundant resets preserves every
+FP16 K term, complete output packing and boundary-state snapshot. Both seeds
+20261029/20261030 pass all six cases. The 24 paired cases independently replay
+numerically and match complete simulator core outputs/state/timestamp words.
+Tiny and FFN-down retain the original layout; grouped-map simulator failures
+remain failures in the journal. Further candidate work is unmeasured until run.
+
+- [Second campaign including all failures](reports/2026-10-23-resident-gemm-iteration2-campaign.json)
+- [24-case numerical replay](reports/2026-10-23-resident-gemm-iteration2-up-numerics.json)
+- [24-case simulator-core replay](reports/2026-10-23-resident-gemm-iteration2-up-snapshots.json)
+
+The third resident GEMM campaign confirmed the same 69,104-cycle FFN-up result
+using the parameterized aspect-ratio dispatcher; tiny/down screens keep the
+reference column-map layout. This confirms FFN-up only: a cross-shape suite
+claim still needs full tiny/down pairs. Additional mapped and fixed-descriptor
+experiments failed compilation or simulation and were not retained.
+
+- [Third campaign and all failures](reports/2026-10-23-resident-gemm-iteration3-campaign.json)
+- [Dispatcher 24-case numerical replay](reports/2026-10-23-resident-gemm-iteration3-up-numerics.json)
+- [Dispatcher 24-case complete core replay](reports/2026-10-23-resident-gemm-iteration3-up-snapshots.json)
+
+## Resident GEMM contraction refinement (2026-10-23)
+
+FFN-down's reference column map benefits from array-form output-descriptor
+base resets: 128,315 -> 120,701 cycles (1.06308x; 5.934% fewer cycles), with
+30,112 vs 30,160 program bytes/PE. All six cases pass both seeds20261029/20261030;
+all 24 paired cases pass independent FP64 numerical replay and complete core
+output/state/timestamp corroboration. Tiny's same-approach screen is only
+1.02527x and is not individually retained. The combined dispatcher is awaiting
+full complete-suite qualification.
+
+- [Array-base campaign](reports/2026-10-23-resident-gemm-iteration5-campaign.json)
+- [FFN-down 24-case numerical replay](reports/2026-10-23-resident-gemm-iteration5-down-numerics.json)
+- [FFN-down 24-case full-core replay](reports/2026-10-23-resident-gemm-iteration5-down-snapshots.json)
+
+## Resident GEMM complete-suite confirmation (2026-10-23)
+
+One parameterized dispatcher passes the complete three-profile suite at both
+seeds20261029/20261030: geometric mean1.146754x, worst cell1.025274x. All72
+paired cases pass independent FP64 replay and complete simulator-core
+output/state/timer corroboration. Individual FFN-up/down confirmations are also
+recorded; tiny qualifies within the suite guard and remains below the individual
+1.05x retention threshold. Seven new SDK runs reuse five matched baselines.
+
+| Profile | Reference cycles | Dispatcher cycles | Program bytes/PE reference -> dispatcher |
+| --- | ---: | ---: | ---: |
+| Tiny four-frame sequence | 6,653 | 6,489 | 7,584 -> 7,520 |
+| Scaled resident FFN-up | 95,611 | 69,104 | 29,792 -> 30,640 |
+| Scaled resident FFN-down | 128,315 | 120,701 | 30,160 -> 30,112 |
+
+[Confirmed suite and profile decisions](reports/2026-10-23/resident-gemm/dispatch-suite-confirmed.json),
+[72-case numerical replay](reports/2026-10-23/resident-gemm/dispatch-suite-numerics.json),
+[72-case core replay](reports/2026-10-23/resident-gemm/dispatch-suite-snapshots.json).
+
+## Complete distributed resident SwiGLU — qualified baselines
+
+Both profiles pass all six cases on16 compute PEs, with every G/U/V/D/Y
+intermediate/output, exact canonical inputs/weights, complete per-frame final
+working-weight state and timer corroborated in the12-case replay.
+
+| Profile | Whole4-frame cycles | Program bytes/PE | Max error fraction |
+| --- | ---: | ---: | ---: |
+| `resident-swiglu.small` | 58,502 | 10,496 | 0.410 |
+| `resident-swiglu.ffn-scaled` | 586,834 | 43,712 | 0.483 |
+
+[Qualified receipts and full identities](reports/2026-10-23/resident-swiglu/qualification.json),
+[12-case FP64 replay](reports/2026-10-23/resident-swiglu/qualified-full-numerics.json),
+[12-case complete core/state/timer replay](reports/2026-10-23/resident-swiglu/qualified-full-snapshots.json).
+These are new chain baselines, not retained optimization results. The three
+initial compile failures remain in the journal with separate bringup reports.

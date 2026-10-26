@@ -1,0 +1,37 @@
+# Repository host execution profile; comparisons require matched fresh baselines.
+vmType: vz
+arch: aarch64
+cpus: 4
+memory: 4GiB
+disk: 10GiB
+rosetta:
+  enabled: true
+  binfmt: true
+images:
+  - location: https://cloud-images.ubuntu.com/noble/20261017/noble-server-cloudimg-arm64.img
+    arch: aarch64
+    digest: sha256:50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e
+ssh:
+  loadDotSSHPubKeys: false
+mountType: virtiofs
+mounts:
+  - location: /Users/theodorepender/Coding/cerebras-autoresearch
+    writable: true
+containerd:
+  system: false
+  user: false
+provision:
+  - mode: system
+    script: |
+      #!/bin/bash
+      set -eux -o pipefail
+      export DEBIAN_FRONTEND=noninteractive
+      apt-get update -y
+      apt-get install -y --no-install-recommends singularity-container=4.1.1+ds2-1ubuntu0.3 squashfs-tools-ng python3 git
+probes:
+  - script: |
+      #!/bin/bash
+      set -eu
+      command -v singularity
+      test -r /proc/sys/fs/binfmt_misc/rosetta
+    hint: Check cloud-init output and Rosetta registration in the experimental guest.

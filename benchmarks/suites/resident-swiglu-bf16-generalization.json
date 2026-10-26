@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "id": "resident-swiglu-bf16-generalization",
+  "description": "Fixed original two-cell suite plus predeclared smaller-batch and different-aspect-ratio workloads; independent full/fresh coverage and per-cell memory/worst-speed guards.",
+  "profiles": [
+    "resident-swiglu-bf16.small",
+    "resident-swiglu-bf16.ffn-scaled",
+    "resident-swiglu-bf16.batch4-ffn",
+    "resident-swiglu-bf16.batch32-h64-f192"
+  ]
+}

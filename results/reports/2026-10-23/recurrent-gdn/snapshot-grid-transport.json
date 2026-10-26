@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "status": "existing_square_core_transport_bit_equivalent",
+  "helper_sha256": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+  "legacy_helper_sha256": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+  "records": [
+    {
+      "receipt": "runs/v2/20261023T095750Z-resident-swiglu.small-e10bd3dd/result.json",
+      "receipt_sha256": "142475e3d676b96f41ea2e9648e63029cbae5e2dec3cf164530f4deadfba4109",
+      "profile": "resident-swiglu.small",
+      "case": "positive",
+      "core_sha256": "7e5fd72112e71dcd6713a0e96c9860abec611594f15c81e0d348c2b50a1f0d15",
+      "half_words_compared": 13920,
+      "all_arrays_bit_exact": true
+    },
+    {
+      "receipt": "runs/v2/20261023T105329Z-resident-swiglu-bf16.small-55f690a3/result.json",
+      "receipt_sha256": "1d3ff86207d657306e22cd828f4cca774d014d66874f81276b6ff685b5861efc",
+      "profile": "resident-swiglu-bf16.small",
+      "case": "positive",
+      "core_sha256": "cc906effd8df8551f55e74b9dde9bd975857af67166e49fe3fe330703a85fad9",
+      "half_words_compared": 12896,
+      "all_arrays_bit_exact": true
+    }
+  ],
+  "scope": "Two previously qualified4x4 SDK cores, including FP16/FP32 and raw BF16 fields. Rectangular/shared-ELF support is unit-tested separately; native rectangular device qualification is pending.",
+  "sdk_device_execution": false,
+  "qwen_tps_result": false
+}

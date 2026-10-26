@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "name": "qualify-resident-recurrent-gdn-k16",
+  "seed": 20261035,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "recurrent-gdn.k16-v16",
+      "candidates": []
+    }
+  ]
+}

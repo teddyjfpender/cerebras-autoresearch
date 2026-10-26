@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "status": "stopped_at_user_request",
+  "closed_utc": "2026-10-23T18:56:12.497026+00:00",
+  "latest_user_request": "Finish this up and wrap it up now.",
+  "native_suite": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-native/unroll-suite-confirmed.json",
+    "sha256": "e87436a4cbb1b6f2bddbdacd491e2b46b3fb7ed7cafa39761fbd396440c65d16"
+  },
+  "full_head_closeout": {
+    "path": "results/reports/2026-10-23/recurrent-gdn-full/closeout.json",
+    "sha256": "eb016a1f2484634c8ef78ca3d7ef85eedff75a347c803f0cbe07e786505a6b24"
+  },
+  "ledger": {
+    "status": "verified",
+    "rows": 477,
+    "head": "3946cf3e9e9defd59c7d64f21f7dea113b8ab504f8087cf814008e0cd80b19bf",
+    "artifacts_checked": true,
+    "git_prefix_checked": true,
+    "authenticated_judge": false
+  },
+  "ledger_sync": {
+    "added": 0,
+    "rows": 477,
+    "ledger": "results/results.tsv",
+    "skipped_receipts": []
+  },
+  "host_checks": {
+    "command": "make check",
+    "passed": true,
+    "tests": 120,
+    "skipped": 1,
+    "log": {
+      "path": "runs/maintenance/final-closeout-check.log",
+      "sha256": "59d4e10e38b01c0c9cc284e4680468d047aff2cba13ffeb0ad94a72d55f90495"
+    }
+  },
+  "workers": {
+    "t4": {
+      "state": "not_running",
+      "reason": "saved worker process no longer exists"
+    },
+    "t8": {
+      "state": "not_running",
+      "reason": "saved worker process no longer exists"
+    },
+    "simulator_lease": "free",
+    "full_head_queue": "stopped_before_launch",
+    "full_head_worker_started": false
+  },
+  "future_work_scheduled": false,
+  "original_deadline_utc": "2026-10-23T20:45:41Z",
+  "stop_condition": "Latest request supersedes continuing to the original deadline. Existing final confirmation completed; queued full-head check cancelled before launch.",
+  "qwen_tps_result": false
+}
