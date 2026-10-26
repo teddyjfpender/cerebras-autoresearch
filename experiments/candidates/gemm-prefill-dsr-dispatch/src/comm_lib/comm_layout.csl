@@ -105,7 +105,7 @@ fn get_params(px: i16, py: i16) comm_params_t {
 
             x_shift_re_recv_color = x_shift_re_interleave[(px + 1) % 3];
             x_shift_re_send_color = x_shift_re_interleave[(px - 1) % 3];
-        } else {  
+        } else {
             x_send_color = x_interleave[(px - 1) % 3];
             x_recv_color = x_interleave[(px + 1) % 3];
 
@@ -138,7 +138,7 @@ fn get_params(px: i16, py: i16) comm_params_t {
         if (py % 2 == 0) {
             y_send_color = y_interleave[(py + 1) % 3];
             y_recv_color = y_interleave[(py - 1) % 3];
-        } else {  
+        } else {
             y_send_color = y_interleave[(py - 1) % 3];
             y_recv_color = y_interleave[(py + 1) % 3];
         }

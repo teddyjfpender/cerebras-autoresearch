@@ -176,7 +176,7 @@ fn two_hop_comm(left_matrix_send_buffer_ptr: [*]f16, right_matrix_send_buffer_pt
     right_matrix_send_dsd = @set_dsd_base_addr(right_matrix_send_dsd, right_matrix_send_buffer_ptr);
     left_matrix_recv_dsd = @set_dsd_base_addr(left_matrix_recv_dsd, left_matrix_recv_buffer_ptr);
     right_matrix_recv_dsd = @set_dsd_base_addr(right_matrix_recv_dsd, right_matrix_recv_buffer_ptr);
-    
+
     @load_to_dsr(left_send_dsr, left_matrix_send_dsd);
     @load_to_dsr(left_recv_dsr, left_matrix_recv_dsd);
     @load_to_dsr(right_send_dsr, right_matrix_send_dsd);
