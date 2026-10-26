@@ -14,6 +14,47 @@ precision, PE budget and timing. All runs still enter the ordinary TSV journal.
 Record the default comparison even when it rejects the relative memory cost.
 Hardware/compilation limits still apply; failed allocations are failed attempts.
 
+## Reusable full frontier loop
+
+`tools/run_frontier.py` runs every selected candidate through full initial/fresh
+validation. It does not screen out more memory or smaller cycle gains, and does
+not pick only one winner. A minimal plan is:
+
+```json
+{
+  "schema_version": 1,
+  "kind": "full_fresh_frontier_pilot",
+  "seed": 20261061,
+  "candidates": ["YOUR-CANDIDATE"],
+  "profiles": [{"profile": "meshgemm.cold-prefill-ffn-up-batch64"}]
+}
+```
+
+```sh
+tools/sdk-run python3 tools/run_frontier.py experiments/YOUR-PLAN.json \
+  --state runs/campaigns/YOUR-FRONTIER.json --max-seconds 7200
+tools/sdk-run python3 tools/paired_frontier.py \
+  --manifest runs/campaigns/YOUR-FRONTIER.pairs.json \
+  --output results/reports/UNIQUE-frontier.json
+tools/sdk-run cs_python tools/replay_numerics.py \
+  --manifest runs/campaigns/YOUR-FRONTIER.full.json \
+  --output results/reports/UNIQUE-numerics.json
+```
+
+Each profile may optionally import digest-bound `initial_baseline` and
+`fresh_baseline` pointers with the same format shown below. Omit these fields
+when reproducing without the original local artifacts; new matched controls
+will be executed. A checkpoint freezes plan/evaluator/candidate identities and
+checks cached receipts. Resume with the same command; cancelled work retries,
+failed work requires `--retry-failed`, and source changes require a new state.
+Use `--status` to read saved progress and worker liveness without running work.
+After retrying failures, use a new `--export-prefix` if the immutable exported
+manifests already exist. All ordinary runs and conservative policy decisions
+are journaled automatically. `completed_with_failures` explicitly preserves
+unqualified attempts; only complete fresh pairs enter the frontier manifest.
+
+## Fresh-paired reports
+
 `results/leaderboard.json` already contains a measured cycle/memory frontier
 without the promotion cutoff. It includes provisional full measurements.
 For a stronger, explicitly fresh-paired view, prepare a manifest:
