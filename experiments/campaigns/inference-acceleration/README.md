@@ -48,3 +48,43 @@ each campaign has a finite budget. Its durable controller/audit checkpoints are
 under ignored `runs/campaigns/inference-acceleration/`. Every retained result
 still comes from the ordinary runner, full/fresh gates and journal. The remaining
 attention coverage and math follow-up plans are separate subsequent research.
+
+
+## Wider-output projection and follow-up hypotheses
+
+`vocab-projections.json` adds 80→512 and 80→1024 resident FP16 output-head
+GEMVs with complete reduction on 16 PEs. [Contract](../../../docs/benchmarks/vocab-projection.md).
+These are two additional portfolio cells requiring new full/fresh controls;
+no sampling or native-model speedup is claimed.
+
+`gemm-prefill-column-dsr` adds a no-extra-tile prefill fallback: preload invariant
+accumulator descriptors, then reset their addresses perK while retaining the
+original column layout and FP16 FMA order. It is screened alongside the stronger
+row-layout candidates before the queued prefill plan is frozen.
+
+`decoder-qk-followup.json` tests causal vector QK accumulation on capacities 16/32
+with the qualified short-context path preserved. It imports the current matched
+initial/fresh controls only after the first decoder campaign is complete.
+The original timing/oracle/PE contracts and every full cache-prefix/output store
+remain fixed. Source preparation alone establishes no new gain.
+
+
+## Padded-layout memory repair
+
+The first 64-row screens show why storage matters: the fast full-tile map-K
+variant grows program memory by 22.8% on FFN-up, beyond the fixed 10% gate.
+`gemm-prefill-padded-map` instead adds one halfword per output column and a
+single-column temporary, with a complete timed ABI compaction. Its first
+compiler attempt failed on an i16 constant range check; the failed source and
+receipts remain frozen. `gemm-prefill-padded-map-v2` widens that compile-time
+check without changing runtime arithmetic. `gemm-prefill-padded-stream-pack`
+tests a compact map-driven copy implementation. The standalone host layout
+properties verify address/bit preservation but do not execute CSL or establish
+a speedup. Both corrected variants require normal SDK full/fresh validation.
+
+The pending `decoder-qk-followup.json` plan now prioritizes these two 64-row
+prefill repairs before its three decoder QK cells. It has not changed the
+already-running `prefill-padded-followup.json` plan or any frozen candidate.
+Source/plan identity is frozen separately when each campaign starts.
+Bounded column-unroll4/8 variants are also recorded; their slower screens
+remain rejected rather than entering the retained portfolio.

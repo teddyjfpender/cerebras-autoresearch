@@ -68,7 +68,7 @@ python3 research.py ledger sync               # Recover unjournaled terminal rec
 
 ## Benchmark coverage
 
-**58 configured profiles, 18 families, 25 suites.** The
+**60 configured profiles, 18 families, 26 suites.** The
 [catalog](docs/benchmarks/catalog.md) describes coverage; [results](results/README.md)
 separate measured profiles from configured ones.
 
@@ -84,7 +84,7 @@ separate measured profiles from configured ones.
 | Numerical/scientific | Sparse 7-point stencil; 1D/2D/3D FFT; local matvec bandwidth |
 | Exact/spatial | 256-bit multiplication; Game of Life |
 
-Forty-two profiles have independent six-case oracles. Fourteen use pinned
+Forty-four profiles have independent six-case oracles. Fourteen use pinned
 upstream reference checks; two are diagnostics. Only the independent-oracle
 tier can pass automatic promotion. Untimed examples receive no cycle score.
 
@@ -159,3 +159,6 @@ complete native operators and eventual model/runtime performance claims.
 The [inference acceleration campaign](experiments/campaigns/inference-acceleration/README.md)
 adds distributed decode attention, longer decoder context and 64-row prefill
 projections with distinct contracts and fresh paired controls.
+
+The [vocabulary-projection track](docs/benchmarks/vocab-projection.md) adds two
+scaled wide-output GEMVs. Sampling and full-model TPS remain separate workloads.

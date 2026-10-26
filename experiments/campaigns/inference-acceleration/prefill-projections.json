@@ -16,6 +16,9 @@
         },
         {
           "candidate": "gemm-prefill-dsr-dispatch"
+        },
+        {
+          "candidate": "gemm-prefill-column-dsr"
         }
       ]
     },
@@ -30,6 +33,9 @@
         },
         {
           "candidate": "gemm-prefill-dsr-dispatch"
+        },
+        {
+          "candidate": "gemm-prefill-column-dsr"
         }
       ]
     },
@@ -44,6 +50,9 @@
         },
         {
           "candidate": "gemm-prefill-dsr-dispatch"
+        },
+        {
+          "candidate": "gemm-prefill-column-dsr"
         }
       ]
     },
@@ -58,6 +67,9 @@
         },
         {
           "candidate": "gemm-prefill-dsr-dispatch"
+        },
+        {
+          "candidate": "gemm-prefill-column-dsr"
         }
       ]
     }

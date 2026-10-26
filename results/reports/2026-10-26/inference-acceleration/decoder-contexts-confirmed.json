@@ -1,0 +1,259 @@
+{
+  "schema_version": 1,
+  "status": "three_profiles_individually_confirmed",
+  "created_utc": "2026-10-26T05:40:42.130343+00:00",
+  "shared_candidate": "decoder-vector-softmax-reciprocal",
+  "shared_source": {
+    "source": "f6d6335cd0c73fbcbe1bc591be68db6a23a7d698012bc7b615511ae240f42a9a",
+    "manifest": "c453ab1d64f597e89dbd0e2becf5def57e5d2551711aa5e3258c3b219acc92e1"
+  },
+  "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+  "records": [
+    {
+      "profile": "decoder.h16-f32-ctx4",
+      "status": "confirmed_improvement",
+      "candidate": "decoder-vector-softmax-reciprocal",
+      "conservative_speedup": 2.9972993100964884,
+      "decision": {
+        "path": "runs/v2/20261026T052628Z-confirmation-3ee457b3/result.json",
+        "sha256": "45527625296c7ff4065fb2bc9c51e98a8c103dd38731a4ed7f3dbb70581b8661"
+      },
+      "arms": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T052225Z-decoder.h16-f32-ctx4-22da17e2/result.json",
+          "sha256": "eb552671e2dc00be9fe31201460fcf016175b11e219229385062c55538b3453d"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T052342Z-decoder.h16-f32-ctx4-80a24a00/result.json",
+          "sha256": "49a8c668f781b3cd36868f3420643832392d96404f28e7b605a3269e60e1cba9"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T052415Z-decoder.h16-f32-ctx4-50a29619/result.json",
+          "sha256": "80686ea869b6d7a48edcb50217078e77ca9848a0f3b888d4f475f3389141d279"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T052555Z-decoder.h16-f32-ctx4-33630ec2/result.json",
+          "sha256": "2fb5d7939a432e039b7e4a96937a63ac2e6e2dc4c307594a40773d8c845158b7"
+        }
+      },
+      "metrics": {
+        "initial_baseline": {
+          "max_local_cycles": 366243.0,
+          "mean_local_cycles": 366243.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.0039008380317932523,
+          "cycles_per_token": 91560.75,
+          "max_program_object_bytes_per_pe": 27968,
+          "work_units_per_cycle": 0.060462589046070506,
+          "pe_cycles": 366243.0,
+          "experiment_wall_seconds": 50.95531888100015
+        },
+        "initial_candidate": {
+          "max_local_cycles": 122191.0,
+          "mean_local_cycles": 122191.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.007279346982371036,
+          "cycles_per_token": 30547.75,
+          "max_program_object_bytes_per_pe": 28224,
+          "work_units_per_cycle": 0.18122447643443462,
+          "pe_cycles": 122191.0,
+          "experiment_wall_seconds": 32.427235475000316
+        },
+        "fresh_baseline": {
+          "max_local_cycles": 366243.0,
+          "mean_local_cycles": 366243.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.0062114368038414525,
+          "cycles_per_token": 91560.75,
+          "max_program_object_bytes_per_pe": 27968,
+          "work_units_per_cycle": 0.060462589046070506,
+          "pe_cycles": 366243.0,
+          "experiment_wall_seconds": 48.77982534399962
+        },
+        "fresh_candidate": {
+          "max_local_cycles": 122191.0,
+          "mean_local_cycles": 122191.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.00965997457781083,
+          "cycles_per_token": 30547.75,
+          "max_program_object_bytes_per_pe": 28224,
+          "work_units_per_cycle": 0.18122447643443462,
+          "pe_cycles": 122191.0,
+          "experiment_wall_seconds": 32.7073483620004
+        }
+      },
+      "incumbent_screen_cycles": 127134.0,
+      "candidate_screen_cycles": 122191.0,
+      "incremental_positive_screen_speedup": 1.040453061191086,
+      "incremental_scope": "Descriptive matched positive-case screen ratio only; not a separate full/fresh confirmation against the old polynomial candidate. Full/fresh confirmations above use the original scalar reference."
+    },
+    {
+      "profile": "decoder.h16-f32-ctx12",
+      "status": "confirmed_improvement",
+      "candidate": "decoder-vector-softmax-reciprocal",
+      "conservative_speedup": 2.6319150859616376,
+      "decision": {
+        "path": "runs/v2/20261026T053052Z-confirmation-557f034f/result.json",
+        "sha256": "9064db58f7f6a41ba1f942a7ab6963911ffdcc69044a73fa50a1cdd7233f7d8c"
+      },
+      "arms": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T052629Z-decoder.h16-f32-ctx12-c17f498e/result.json",
+          "sha256": "15bf4f26a3975c29b9907ecf60a2b714a4a3c7a1e4c36d9d4a5053528c5f659f"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T052802Z-decoder.h16-f32-ctx12-75e0393b/result.json",
+          "sha256": "67e9c9a34dd26dcbfcd81d244162f10120b0ad21e3d1ff7802cef8e2f7cd8142"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T052848Z-decoder.h16-f32-ctx12-8fa4a4be/result.json",
+          "sha256": "536899d025c56f28c868339c62878b40af4fae7506e077ce52ef985b0badeb8d"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T053003Z-decoder.h16-f32-ctx12-c5b9521a/result.json",
+          "sha256": "65e6cb765cf0a6d6ab1f4dca13edea9667c90383368950e20ca4ad00dac7e93f"
+        }
+      },
+      "metrics": {
+        "initial_baseline": {
+          "max_local_cycles": 494929.0,
+          "mean_local_cycles": 494929.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.005623264885469702,
+          "cycles_per_token": 123732.25,
+          "max_program_object_bytes_per_pe": 33120,
+          "work_units_per_cycle": 0.048879738305898424,
+          "pe_cycles": 494929.0,
+          "experiment_wall_seconds": 64.38053248599977
+        },
+        "initial_candidate": {
+          "max_local_cycles": 188049.0,
+          "mean_local_cycles": 188049.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.008880674896866723,
+          "cycles_per_token": 47012.25,
+          "max_program_object_bytes_per_pe": 33408,
+          "work_units_per_cycle": 0.128647320645151,
+          "pe_cycles": 188049.0,
+          "experiment_wall_seconds": 44.85607081300054
+        },
+        "fresh_baseline": {
+          "max_local_cycles": 494929.0,
+          "mean_local_cycles": 494929.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.007085367359238633,
+          "cycles_per_token": 123732.25,
+          "max_program_object_bytes_per_pe": 33120,
+          "work_units_per_cycle": 0.048879738305898424,
+          "pe_cycles": 494929.0,
+          "experiment_wall_seconds": 75.00543556499974
+        },
+        "fresh_candidate": {
+          "max_local_cycles": 188049.0,
+          "mean_local_cycles": 188049.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.007062263152491935,
+          "cycles_per_token": 47012.25,
+          "max_program_object_bytes_per_pe": 33408,
+          "work_units_per_cycle": 0.128647320645151,
+          "pe_cycles": 188049.0,
+          "experiment_wall_seconds": 48.40019875999997
+        }
+      },
+      "incumbent_screen_cycles": 200280.0,
+      "candidate_screen_cycles": 188049.0,
+      "incremental_positive_screen_speedup": 1.065041558317247,
+      "incremental_scope": "Descriptive matched positive-case screen ratio only; not a separate full/fresh confirmation against the old polynomial candidate. Full/fresh confirmations above use the original scalar reference."
+    },
+    {
+      "profile": "decoder.h16-f32-ctx28",
+      "status": "confirmed_improvement",
+      "candidate": "decoder-vector-softmax-reciprocal",
+      "conservative_speedup": 2.35276623291334,
+      "decision": {
+        "path": "runs/v2/20261026T053653Z-confirmation-d66fd77f/result.json",
+        "sha256": "7cf3574a035ea1976e7da4a3335dc837309bc5759e9d773b62826652e0f05a0c"
+      },
+      "arms": {
+        "initial_baseline": {
+          "path": "runs/v2/20261026T053053Z-decoder.h16-f32-ctx28-256f82ee/result.json",
+          "sha256": "84c899156c21ec61d89f1ff7780c6d196c664e323a56fb03dd8e5e938561b0c8"
+        },
+        "initial_candidate": {
+          "path": "runs/v2/20261026T053306Z-decoder.h16-f32-ctx28-a99c4297/result.json",
+          "sha256": "05260bc59bb9a7a2268f8073efa8a35070266e3fc894abb9de70f84df90854fe"
+        },
+        "fresh_baseline": {
+          "path": "runs/v2/20261026T053412Z-decoder.h16-f32-ctx28-10570109/result.json",
+          "sha256": "db57f4fd045b79695463bf171b686cb2563038b6c1acd8a33eae67591710a166"
+        },
+        "fresh_candidate": {
+          "path": "runs/v2/20261026T053546Z-decoder.h16-f32-ctx28-c5f3a509/result.json",
+          "sha256": "1138a4b69ed039082acb749f46f1e2c426826189208001c3815b9e55dad864f7"
+        }
+      },
+      "metrics": {
+        "initial_baseline": {
+          "max_local_cycles": 752337.0,
+          "mean_local_cycles": 752337.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.0057231350666339074,
+          "cycles_per_token": 188084.25,
+          "max_program_object_bytes_per_pe": 43424,
+          "work_units_per_cycle": 0.03760017119987452,
+          "pe_cycles": 752337.0,
+          "experiment_wall_seconds": 97.16788618700002
+        },
+        "initial_candidate": {
+          "max_local_cycles": 319767.0,
+          "mean_local_cycles": 319767.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.007422467305720439,
+          "cycles_per_token": 79941.75,
+          "max_program_object_bytes_per_pe": 43696,
+          "work_units_per_cycle": 0.08846441315082544,
+          "pe_cycles": 319767.0,
+          "experiment_wall_seconds": 65.43948741899976
+        },
+        "fresh_baseline": {
+          "max_local_cycles": 752337.0,
+          "mean_local_cycles": 752337.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.004872315048562881,
+          "cycles_per_token": 188084.25,
+          "max_program_object_bytes_per_pe": 43424,
+          "work_units_per_cycle": 0.03760017119987452,
+          "pe_cycles": 752337.0,
+          "experiment_wall_seconds": 94.85483107500022
+        },
+        "fresh_candidate": {
+          "max_local_cycles": 319767.0,
+          "mean_local_cycles": 319767.0,
+          "pe_cycle_spread": 0.0,
+          "max_error_fraction": 0.007808221872153843,
+          "cycles_per_token": 79941.75,
+          "max_program_object_bytes_per_pe": 43696,
+          "work_units_per_cycle": 0.08846441315082544,
+          "pe_cycles": 319767.0,
+          "experiment_wall_seconds": 66.70540107000033
+        }
+      },
+      "incumbent_screen_cycles": 346590.0,
+      "candidate_screen_cycles": 319767.0,
+      "incremental_positive_screen_speedup": 1.083882952274625,
+      "incremental_scope": "Descriptive matched positive-case screen ratio only; not a separate full/fresh confirmation against the old polynomial candidate. Full/fresh confirmations above use the original scalar reference."
+    }
+  ],
+  "numerics": {
+    "path": "results/reports/2026-10-26/inference-acceleration/decoder-contexts-numerics.json",
+    "sha256": "00161420de3c626f14d28bf8d1a89bea782f4815bad02beca6ec71e863d1520a"
+  },
+  "campaign": {
+    "path": "results/reports/2026-10-26/inference-acceleration/decoder-contexts-campaign.json",
+    "sha256": "ba0a59e5cca3f8e93aa0aac345d9a5adc46c588b34e8e2c6d8b1a0a4ffe0097b"
+  },
+  "case_executions": 72,
+  "suite_confirmation_pending": true,
+  "scope": "Three individually confirmed scaled FP32 decoder profiles, one compute PE, full four-token sequence and every complete cache prefix/output. Formal cross-shape suite assembly is deferred until the active prefill campaign releases the simulator/journal writer lease. Not model inference or hardware TPS.",
+  "qwen_tps_result": false
+}

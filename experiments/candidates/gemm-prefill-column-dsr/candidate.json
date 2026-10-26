@@ -1,0 +1,17 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-scaled",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "meshgemm.invariant-column-dsr",
+  "hypothesis": "A no-extra-tile fallback for larger prefill rows: retain the original column-major accumulator and exact FP16 FMA order, but preload invariant destination/source0 descriptors once per communication phase and reset their base addresses perK. This may reduce repeated descriptor setup without a second Mt*Nt scratch tile or transpose. Test both FFN directions at16 and64 rows.",
+  "falsification": "Reject any skipped multiply/add, communication phase or output, changed FP16 precision/layout/timer/PE contract, fixed numerical or shutdown failure, speedup below1.05x, more than1.10x program memory or failed fresh paired confirmation. Compare against the stronger contiguous/map-K/dispatch incumbents rather than replacing a faster implementation.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

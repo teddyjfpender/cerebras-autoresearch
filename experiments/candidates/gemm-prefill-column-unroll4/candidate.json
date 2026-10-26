@@ -1,0 +1,18 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-batch64",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "meshgemm.column-dsr-unroll4",
+  "hypothesis": "Keep the no-extra-tile column accumulator and descriptor preload, but replace the scalar weight map callback with bounded groups of4 explicit FP16 vector FMAs and a complete scalar tail. This tests whether removing callback/branch overhead helps the64-row cells without the full-tile scratch memory cost. Preserve every N-column/K-term/communication phase, original ABI and FP16 accumulation order.",
+  "falsification": "Reject any skipped tail/column/K-term/output, descriptor-address advancement error, changed precision/PE/timer/communication contract, fixed numerical or shutdown failure, memory above1.10x, speedup below1.05x or failed fresh six-case confirmation. Do not replace a faster qualified map-K or padding candidate.",
+  "parent_candidate": "gemm-prefill-column-dsr",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

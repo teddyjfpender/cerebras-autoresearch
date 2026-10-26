@@ -14,7 +14,9 @@
         {
           "candidate": "attention-newton-polynomial"
         }
-      ]
+      ],
+      "baseline_receipt": "runs/v2/20261026T050922Z-decode-attention.d64-ctx128-latency32-abeac030/result.json"
     }
-  ]
+  ],
+  "fresh_baselines_from_campaign": "runs/campaigns/inference-acceleration/attention-latency32-state.json"
 }

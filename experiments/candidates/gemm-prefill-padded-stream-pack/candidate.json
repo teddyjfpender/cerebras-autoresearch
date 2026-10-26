@@ -1,0 +1,19 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-scaled",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "meshgemm.padded-map-k-streamed-packing",
+  "hypothesis": "Combine the no-full-tile padded accumulator with streamed column compaction. A map callback, driven by the existing Nt-length weight descriptor, copies each physical column through the Mt-halfword temporary using explicit bank1 DSRs. This tests whether limiting packing-code expansion leaves more program-memory budget than a static-bound loop. Extra weight reads remain inside timing; no requested work or layout conversion is omitted.",
+  "falsification": "Reject wrong map invocation count, descriptor/map-state clobber, unread-column overwrite, missing K/N work or communication, FP16/ABI/timing/PE change, fixed numerical or shutdown failure, memory above1.10x, speedup below1.05x or failed fresh six-case pairing. Compare both packing implementations and the qualified full-tile incumbent; code-size reduction alone is not retention.",
+  "parent_candidate": "gemm-prefill-padded-map",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "source_revision_note": "Uses an i32 static size comparison; the uncompiled streamed prototype has not produced a V2 run."
+}

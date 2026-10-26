@@ -7,6 +7,12 @@ add seven GQA profiles, a full 28-to32 context decoder case and two 64-row prefi
 projections. These are configuration until SDK execution qualifies each cell.
 The existing resident BF16 FFN and native recurrent tracks remain relevant.
 
+The completed first-wave suites confirm 2.647648× across the three decoder
+contexts and 2.370248× across the original 16-row prefill pair. The 64-row
+controls qualify but currently lack a retained improvement under the memory
+gate. Two [vocabulary projection](../benchmarks/vocab-projection.md) cells add
+a separate scaled inference role; their device qualification remains pending.
+
 Prioritize matched full/fresh gains in the three requested tracks, then complete
 shape guards and raw numerical/timestamp replay. Candidate hypotheses include
 PR #1 descriptor/vector/bank transfers, one-reciprocal vector softmax inside the

@@ -30,6 +30,61 @@ Complete decoder-context and cold prefill-projection searches follow serially.
 New context/prefill/attention profiles remain configured until individually
 qualified; no family-wide gain or model/hardware TPS is claimed.
 
+## Decoder follow-up — causal vector QK
+
+The current three-context portfolio confirms **3.066666× geometric mean**,
+worst **2.997299×**, with full/fresh evidence and independent numerical/state/
+timestamp replay. The shorter context retains its previous implementation;
+the two longer contexts use the new vector-QK source. This is a portfolio of
+explicit implementations, not one universally qualified QK kernel.
+
+| Profile | Original reference → current cycles | Conservative speedup |
+| --- | ---: | ---: |
+| `decoder.h16-f32-ctx4` | 366,243 → 122,191 | 2.997299× |
+| `decoder.h16-f32-ctx12` | 494,929 → 155,849 | 3.175696× |
+| `decoder.h16-f32-ctx28` | 752,337 → 248,303 | 3.029915× |
+
+The vector-QK changes improve both full/fresh candidate arms by approximately
+**20.7%** and **28.8%** over the reciprocal-softmax incumbent on contexts 12/28,
+using the exact same paired baselines, seeds and evaluator.
+[Portfolio evidence](reports/2026-10-26/inference-acceleration/decoder-qk-portfolio.json),
+[suite confirmation](reports/2026-10-26/inference-acceleration/decoder-qk-suite-confirmed.json).
+These remain scaled FP32 complete layer programs, not model/hardware TPS.
+
+## Complete decoder contexts — reciprocal softmax
+
+One frozen FP32 candidate passes individual full/fresh confirmation on all three
+contexts. Independent numerical/state/timestamp replay checks all 72 full-run
+case executions, including every complete cache prefix and output.
+
+| Profile | Baseline → candidate cycles | Conservative speedup |
+| --- | ---: | ---: |
+| `decoder.h16-f32-ctx4` | 366,243 → 122,191 | 2.997299× |
+| `decoder.h16-f32-ctx12` | 494,929 → 188,049 | 2.631915× |
+| `decoder.h16-f32-ctx28` | 752,337 → 319,767 | 2.352766× |
+
+[Profile evidence](reports/2026-10-26/inference-acceleration/decoder-contexts-confirmed.json).
+The complete three-context suite now confirms **2.647648× geometric mean**,
+worst **2.352766×**. [Suite evidence](reports/2026-10-26/inference-acceleration/decoder-initial-suite-confirmed.json).
+The observed 4–8% advantage over the older polynomial candidate
+is a matched positive-screen comparison; full/fresh confirmations above compare
+against the original scalar references. These are scaled one-PE layer programs,
+not complete Qwen/model or hardware TPS.
+
+## Cold prefill GEMM — map-K streaming
+
+The original 16-row cold FFN up/down pair is freshly confirmed at **2.370248×
+geometric mean**, worst **2.191303×**, with all full numerical/timestamp evidence
+independently replayed. Up is **23,230 →10,601 cycles (2.191303×)** and down is
+**31,381 →12,240 cycles (2.563807×)**.
+
+[Suite evidence](reports/2026-10-26/inference-acceleration/prefill16-initial-suite-confirmed.json),
+[full initial portfolio](reports/2026-10-26/inference-acceleration/prefill-projections-initial.json).
+The two new 64-row baselines qualify, but no initial candidate meets both gates
+there. The faster up-projection screen grows memory 22.8%, so it is rejected.
+A new padded layout and explicit-column alternatives are being tested; no
+four-shape improvement or model/hardware TPS is claimed.
+
 ## Latest resident GEMM result
 
 The complete three-shape dispatcher suite is freshly confirmed at **1.146754x

@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_suite_improvement",
+  "created_utc": "2026-10-26T05:56:01.452253+00:00",
+  "suite": "prefill-ffn",
+  "profiles": [
+    "meshgemm.cold-prefill-ffn-up-scaled",
+    "meshgemm.cold-prefill-ffn-down-scaled"
+  ],
+  "conservative_geometric_mean_speedup": 2.3702484332699254,
+  "worst_confirmed_speedup": 2.191302707291765,
+  "decision": {
+    "status": "confirmed_suite_improvement",
+    "initial": {
+      "geometric_mean_speedup": 2.3702484332699254,
+      "worst_speedup": 2.191302707291765,
+      "profiles": [
+        "meshgemm.cold-prefill-ffn-up-scaled",
+        "meshgemm.cold-prefill-ffn-down-scaled"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "meshgemm.cold-prefill-ffn-up-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T053657Z-meshgemm.cold-prefill-ffn-up-scaled-6bbcd517/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T053922Z-meshgemm.cold-prefill-ffn-up-scaled-e3cc2a54/result.json",
+          "speedup": 2.191302707291765,
+          "memory_ratio": 1.0674603174603174,
+          "cycle_reduction_percent": 54.36504520017219,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "meshgemm.cold-prefill-ffn-down-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T054230Z-meshgemm.cold-prefill-ffn-down-scaled-75d9f1a5/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T054447Z-meshgemm.cold-prefill-ffn-down-scaled-97f6a342/result.json",
+          "speedup": 2.5638071895424837,
+          "memory_ratio": 1.0346153846153847,
+          "cycle_reduction_percent": 60.99550683534623,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "confirmation": {
+      "geometric_mean_speedup": 2.3702484332699254,
+      "worst_speedup": 2.191302707291765,
+      "profiles": [
+        "meshgemm.cold-prefill-ffn-up-scaled",
+        "meshgemm.cold-prefill-ffn-down-scaled"
+      ],
+      "eligible": true,
+      "confirmation_required": true,
+      "qwen_tps_result": false,
+      "comparisons": [
+        {
+          "profile": "meshgemm.cold-prefill-ffn-up-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T054021Z-meshgemm.cold-prefill-ffn-up-scaled-82d56abb/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T054128Z-meshgemm.cold-prefill-ffn-up-scaled-8708af38/result.json",
+          "speedup": 2.191302707291765,
+          "memory_ratio": 1.0674603174603174,
+          "cycle_reduction_percent": 54.36504520017219,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        },
+        {
+          "profile": "meshgemm.cold-prefill-ffn-down-scaled",
+          "metric": "max_local_cycles",
+          "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T054537Z-meshgemm.cold-prefill-ffn-down-scaled-d5bdb24c/result.json",
+          "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T054639Z-meshgemm.cold-prefill-ffn-down-scaled-3f2d2673/result.json",
+          "speedup": 2.5638071895424837,
+          "memory_ratio": 1.0346153846153847,
+          "cycle_reduction_percent": 60.99550683534623,
+          "eligible": true,
+          "minimum_speedup": 1.05,
+          "max_memory_growth": 1.1,
+          "decision": "needs_fresh_confirmation",
+          "qwen_tps_result": false
+        }
+      ]
+    },
+    "cell_evidence": {
+      "meshgemm.cold-prefill-ffn-up-scaled": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 2.191302707291765,
+        "confirmation_speedup": 2.191302707291765
+      },
+      "meshgemm.cold-prefill-ffn-down-scaled": {
+        "fresh_identity_verified": true,
+        "initial_speedup": 2.5638071895424837,
+        "confirmation_speedup": 2.5638071895424837
+      }
+    },
+    "scope": "exact complete suite coverage",
+    "qwen_tps_result": false,
+    "schema_version": 2,
+    "record_type": "suite_confirmation",
+    "inputs": {
+      "initial_baseline": "runs/v2/20261026T055558Z-suite-reuse-2b1c3beb/result.json",
+      "initial_candidate": "runs/v2/20261026T055558Z-suite-reuse-291bd5c6/result.json",
+      "fresh_baseline": "runs/v2/20261026T055558Z-suite-reuse-673e4ee1/result.json",
+      "fresh_candidate": "runs/v2/20261026T055558Z-suite-reuse-e064bf97/result.json"
+    },
+    "budgets": {
+      "minimum_speedup": 1.05,
+      "max_memory_growth": 1.1,
+      "regression_limit": 1.02
+    },
+    "receipt": "runs/v2/20261026T055600Z-suite_confirmation-9d0a1744/result.json"
+  },
+  "state": {
+    "path": "runs/campaigns/inference-acceleration/prefill16-initial-suite-state.json",
+    "sha256": "0a87eca2b2ebaf73b963d515ff0e557deecbd2b6f622a4ebe88752854d650917"
+  },
+  "arms": {
+    "initial_baseline": {
+      "path": "runs/v2/20261026T055558Z-suite-reuse-2b1c3beb/result.json",
+      "sha256": "284cdf74597db5ec03bbca30274e94fd1824c976fecbd867692907179df985f6"
+    },
+    "initial_candidate": {
+      "path": "runs/v2/20261026T055558Z-suite-reuse-291bd5c6/result.json",
+      "sha256": "ad0b5dff4767e2ded1f72ade1baade9f9415c7bc31141aaa39685f0e9f19701d"
+    },
+    "fresh_baseline": {
+      "path": "runs/v2/20261026T055558Z-suite-reuse-673e4ee1/result.json",
+      "sha256": "d4ee96f042c623d3c7ecf75899a74a8183e2cd7de1e57525168d3b4e6d7439f0"
+    },
+    "fresh_candidate": {
+      "path": "runs/v2/20261026T055558Z-suite-reuse-e064bf97/result.json",
+      "sha256": "308b339a64bec4ad3f633be32f919bf740f2ae2fcbdfe5966f3cdf56b2790880"
+    }
+  },
+  "scope": "Exact named-suite coverage from separate matched full/fresh profile runs. Implementations are explicit per profile; not a combined kernel/model or hardware TPS.",
+  "qwen_tps_result": false
+}

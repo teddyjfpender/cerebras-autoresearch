@@ -31,6 +31,8 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 | `meshgemv.ffn-up-scaled` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
 | `meshgemv.square128` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
 | `meshgemv.square64` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
+| `meshgemv.vocab-k80-n1024` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
+| `meshgemv.vocab-k80-n512` | dense-gemv | fp16 | independent_six_case | max_local_cycles |
 | `pipeline.k16-n32` | composed | fp32 | independent_six_case | max_local_cycles |
 | `pipeline.k64-n32` | composed | fp32 | independent_six_case | max_local_cycles |
 | `pipeline.k8-n8` | composed | fp32 | independent_six_case | max_local_cycles |
@@ -71,7 +73,7 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 <!-- catalog:suites:start -->
 | Suite | Profiles | Purpose |
 | --- | ---: | --- |
-| `all` | 58 | Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion. |
+| `all` | 60 | Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion. |
 | `communication` | 4 | Broadcast and emulated host transfers |
 | `decode-attention` | 7 | Configured collection; see suite manifest |
 | `decode-ffn` | 2 | Medium FFN up/down GEMV projections |
@@ -96,6 +98,7 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 | `reusable-gemm` | 3 | Four distinct resident GEMMs with full output and canonical/working weight state qualification. |
 | `sdk` | 16 | All pinned SDK reference/diagnostic profiles |
 | `smoke` | 4 | Quick positive-input screens; no retention |
+| `vocab-projection` | 2 | Two fixed16-PE scaled vocabulary-projection GEMVs. FP16, full output reduction; no sampling or model TPS. |
 <!-- catalog:suites:end -->
 
 ## Validation tiers

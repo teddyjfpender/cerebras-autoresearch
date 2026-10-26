@@ -192,6 +192,70 @@
         "repeats": 10,
         "scope": "resident GEMV and reduction"
       }
+    },
+    {
+      "id": "meshgemv.vocab-k80-n512",
+      "adapter": "meshgemv",
+      "family": "dense-gemv",
+      "dimensions": {
+        "M": 80,
+        "N": 512
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "unroll",
+        "bank-alignment",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 81920,
+      "work_unit": "arithmetic_operations",
+      "description": "Scaled resident vocabulary/logits projection:80 FP16 inputs to512 FP16 logits with full reduction and every replicated output checked. No sampling, native model dimensions or model TPS.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 1,
+        "repeats": 10,
+        "scope": "resident GEMV and reduction"
+      }
+    },
+    {
+      "id": "meshgemv.vocab-k80-n1024",
+      "adapter": "meshgemv",
+      "family": "dense-gemv",
+      "dimensions": {
+        "M": 80,
+        "N": 1024
+      },
+      "pe_grid": [
+        4,
+        4
+      ],
+      "precision": "fp16",
+      "variants": [
+        "baseline",
+        "unroll",
+        "bank-alignment",
+        "candidate"
+      ],
+      "validation": "independent_six_case",
+      "metric": "max_local_cycles",
+      "work_units": 163840,
+      "work_unit": "arithmetic_operations",
+      "description": "Scaled resident vocabulary/logits projection:80 FP16 inputs to1024 FP16 logits with full reduction and every replicated output checked. No sampling, native model dimensions or model TPS.",
+      "timeout_seconds": 600,
+      "regression_limit": 1.02,
+      "timing_protocol": {
+        "warmups": 1,
+        "repeats": 10,
+        "scope": "resident GEMV and reduction"
+      }
     }
   ]
 }

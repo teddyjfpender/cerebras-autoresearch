@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "name": "prefill-storage-repair-and-decoder-vector-qk",
+  "seed": 20261061,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "fresh_baselines_from_campaign": "runs/campaigns/inference-acceleration/decoder-contexts-state.json",
+  "cells": [
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "baseline_receipt": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+      "candidates": [
+        {
+          "candidate": "gemm-prefill-padded-map-v2"
+        },
+        {
+          "candidate": "gemm-prefill-padded-stream-pack"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+      "baseline_receipt": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+      "candidates": [
+        {
+          "candidate": "gemm-prefill-padded-map-v2"
+        },
+        {
+          "candidate": "gemm-prefill-padded-stream-pack"
+        }
+      ]
+    },
+    {
+      "profile": "decoder.h16-f32-ctx4",
+      "baseline_receipt": "runs/v2/20261026T052225Z-decoder.h16-f32-ctx4-22da17e2/result.json",
+      "candidates": [
+        {
+          "candidate": "decoder-vector-softmax-reciprocal"
+        },
+        {
+          "candidate": "decoder-vector-qk"
+        }
+      ]
+    },
+    {
+      "profile": "decoder.h16-f32-ctx12",
+      "baseline_receipt": "runs/v2/20261026T052629Z-decoder.h16-f32-ctx12-c17f498e/result.json",
+      "candidates": [
+        {
+          "candidate": "decoder-vector-softmax-reciprocal"
+        },
+        {
+          "candidate": "decoder-vector-qk"
+        }
+      ]
+    },
+    {
+      "profile": "decoder.h16-f32-ctx28",
+      "baseline_receipt": "runs/v2/20261026T053053Z-decoder.h16-f32-ctx28-256f82ee/result.json",
+      "candidates": [
+        {
+          "candidate": "decoder-vector-softmax-reciprocal"
+        },
+        {
+          "candidate": "decoder-vector-qk"
+        }
+      ]
+    }
+  ]
+}

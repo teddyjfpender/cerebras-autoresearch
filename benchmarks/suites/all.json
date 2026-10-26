@@ -58,7 +58,9 @@
     "decode-attention.d64-ctx128-latency32",
     "meshgemm.cold-prefill-ffn-up-batch64",
     "meshgemm.cold-prefill-ffn-down-batch64",
-    "decoder.h16-f32-ctx28"
+    "decoder.h16-f32-ctx28",
+    "meshgemv.vocab-k80-n512",
+    "meshgemv.vocab-k80-n1024"
   ],
   "description": "Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion."
 }

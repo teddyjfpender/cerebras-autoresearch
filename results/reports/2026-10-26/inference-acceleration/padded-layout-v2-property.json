@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "status": "host_address_property_passed",
+  "source_sha256": "c19525cb1b2d9f540b1e6419f8ecfbb497042028985e48fbf0a69b7d3e90c7b7",
+  "tool_sha256": "09a430a2b9f4ccc8cf759bb38e9b355f30985aa252500b2fbc3fc1d523e620d0",
+  "records": [
+    {
+      "rows": 4,
+      "columns": 68,
+      "seed": 0,
+      "bit_exact": true,
+      "extra_halfwords": 72
+    },
+    {
+      "rows": 4,
+      "columns": 68,
+      "seed": 17,
+      "bit_exact": true,
+      "extra_halfwords": 72
+    },
+    {
+      "rows": 4,
+      "columns": 68,
+      "seed": 20261061,
+      "bit_exact": true,
+      "extra_halfwords": 72
+    },
+    {
+      "rows": 4,
+      "columns": 20,
+      "seed": 0,
+      "bit_exact": true,
+      "extra_halfwords": 24
+    },
+    {
+      "rows": 4,
+      "columns": 20,
+      "seed": 17,
+      "bit_exact": true,
+      "extra_halfwords": 24
+    },
+    {
+      "rows": 4,
+      "columns": 20,
+      "seed": 20261061,
+      "bit_exact": true,
+      "extra_halfwords": 24
+    },
+    {
+      "rows": 16,
+      "columns": 68,
+      "seed": 0,
+      "bit_exact": true,
+      "extra_halfwords": 84
+    },
+    {
+      "rows": 16,
+      "columns": 68,
+      "seed": 17,
+      "bit_exact": true,
+      "extra_halfwords": 84
+    },
+    {
+      "rows": 16,
+      "columns": 68,
+      "seed": 20261061,
+      "bit_exact": true,
+      "extra_halfwords": 84
+    },
+    {
+      "rows": 16,
+      "columns": 20,
+      "seed": 0,
+      "bit_exact": true,
+      "extra_halfwords": 36
+    },
+    {
+      "rows": 16,
+      "columns": 20,
+      "seed": 17,
+      "bit_exact": true,
+      "extra_halfwords": 36
+    },
+    {
+      "rows": 16,
+      "columns": 20,
+      "seed": 20261061,
+      "bit_exact": true,
+      "extra_halfwords": 36
+    }
+  ],
+  "case_count": 12,
+  "sdk_device_execution": false,
+  "performance_measurement": false,
+  "scope": "All-bit-pattern integer model of padded-column compaction on all four local prefill tile shapes. Verifies no unread future column is overwritten. No CSL FMA or hardware/memory-retention proof."
+}
