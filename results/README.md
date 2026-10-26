@@ -109,8 +109,11 @@ The [frontier protocol](../docs/experiments/frontier.md) treats cycles and memor
 as independent objectives. Fully qualify faster higher-memory variants even
 when they fail the default 10% promotion policy. The active pilot measures four
 implementations per shape, including the original larger accumulator, direct
-output-buffer aliasing and bank offsets. Its final frontier and conservative
-suite assembly are still pending. These are fixed 16-PE FP16 simulations, not
+output-buffer aliasing and bank offsets. The [completed fresh frontier](reports/2026-10-26/inference-acceleration/prefill64-fresh-speed-memory-frontier.json)
+contains 6 qualified implementation/profile points, including dominated tradeoffs.
+The separate [conservative suite](reports/2026-10-26/inference-acceleration/prefill64-frontier-default-suite-confirmed.json)
+confirms 1.218580x geometric-mean speedup; all 96 full-run
+case executions pass independent numerical/timestamp replay. These are fixed 16-PE FP16 simulations, not
 native model prefill or hardware/model TPS.
 
 ## Latest resident GEMM result

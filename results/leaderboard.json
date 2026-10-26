@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 676,
-  "ledger_head": "e2ad3e39a87553982d429625c364078c8cc7ccde82598b4dc95a044c78f4c510",
+  "ledger_rows": 693,
+  "ledger_head": "c77459e3db89b9ea42f362a2710febedf465d714ac532c3dd00902871f9b0562",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -1419,6 +1419,45 @@
       "source_sha256": "d059c2c522dfb5a29ded5274f23b944470fe9bf594ab701b309f6ade3434d442",
       "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
       "receipt": "runs/v2/20261026T075857Z-meshgemm.cold-prefill-ffn-down-batch64-4f9be280/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "0c8d35dbc3b155df1cdb77cbc90ae21b5526eab0ab22b863f2ce506846a93c49",
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "approach": "meshgemm.cold-dead-weight-buffer-gather-pack-shape-repair",
+      "candidate": "gemm-prefill-dead-weight-gather-v2",
+      "variant": "candidate",
+      "primary_value": "31984.0",
+      "memory_bytes": "14752",
+      "source_sha256": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T080208Z-meshgemm.cold-prefill-ffn-up-batch64-39adb44d/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "c394af77e027970d1c872d072b3f03cb2b23a5c0c3e339d0e40602fa14bd2cdd",
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "approach": "meshgemm.cold-packed-output-lifetime-alias",
+      "candidate": "gemm-prefill-packed-output-alias",
+      "variant": "candidate",
+      "primary_value": "31834.0",
+      "memory_bytes": "14688",
+      "source_sha256": "1a873b1008e67c487c755e1a54c51f149ccbc4b36f2124122fdf9ac6f067dd44",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T080711Z-meshgemm.cold-prefill-ffn-up-batch64-41f2bcc4/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "6ce3b0fd7d269f891a86a13691a030852a25ab8c0418b1a3c2780878327fd51b",
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "approach": "meshgemm.contiguous-columns-map-k-base-offset",
+      "candidate": "gemm-row-major-map-k-base",
+      "variant": "candidate",
+      "primary_value": "33143.0",
+      "memory_bytes": "18032",
+      "source_sha256": "d059c2c522dfb5a29ded5274f23b944470fe9bf594ab701b309f6ade3434d442",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T081146Z-meshgemm.cold-prefill-ffn-up-batch64-da1f70d1/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -3105,19 +3144,6 @@
       "decision": "measured_unconfirmed"
     },
     {
-      "event_id": "7cfda9b795b7a7c9045926a9c64deccc522607cbffc80ac113655e0ac6d5943a",
-      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
-      "approach": "meshgemm.baseline",
-      "candidate": "",
-      "variant": "baseline",
-      "primary_value": "34929.0",
-      "memory_bytes": "14688",
-      "source_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
-      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
-      "receipt": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
-      "decision": "baseline"
-    },
-    {
       "event_id": "b04be85c6d05a9da0bb7733109b3f138a29b538343e0d94c1bfd8dcc71934d11",
       "profile": "meshgemm.cold-prefill-ffn-down-batch64",
       "approach": "meshgemm.baseline",
@@ -3525,45 +3551,6 @@
       "primary_metric": "coordinator_cycles"
     },
     {
-      "event_id": "54e6abdefc2cc170f7d6a2feac97d017b846083b6014a2b54530f729087d0ea2",
-      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
-      "approach": "meshgemm.cold-dead-weight-buffer-gather-pack",
-      "candidate": "gemm-prefill-dead-weight-gather-2d",
-      "variant": "candidate",
-      "primary_value": "31984.0",
-      "memory_bytes": "14752",
-      "source_sha256": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
-      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
-      "receipt": "runs/v2/20261026T073408Z-meshgemm.cold-prefill-ffn-up-batch64-ba63be75/result.json",
-      "decision": "measured_unconfirmed"
-    },
-    {
-      "event_id": "2f0728e3dd64d76616b6e72488a51e9cf3c1c3c948f52cc2d095525bf87a6d9b",
-      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
-      "approach": "meshgemm.baseline",
-      "candidate": "",
-      "variant": "baseline",
-      "primary_value": "34929.0",
-      "memory_bytes": "14688",
-      "source_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
-      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
-      "receipt": "runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
-      "decision": "baseline"
-    },
-    {
-      "event_id": "a5bc6952c9c0dd8ec2ee20bd2dd88b87796f969a5fe0200649ba5b0167bcfe0e",
-      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
-      "approach": "meshgemm.cold-dead-weight-buffer-gather-pack",
-      "candidate": "gemm-prefill-dead-weight-gather-2d",
-      "variant": "candidate",
-      "primary_value": "31984.0",
-      "memory_bytes": "14752",
-      "source_sha256": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
-      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
-      "receipt": "runs/v2/20261026T073841Z-meshgemm.cold-prefill-ffn-up-batch64-bfe93f33/result.json",
-      "decision": "measured_unconfirmed"
-    },
-    {
       "event_id": "96f31c56d909898c835d98abaede2c368f0c6da011c4f89c0c2d087c6daeb6b4",
       "profile": "decode-attention.d128-ctx512",
       "approach": "decode_attention.baseline",
@@ -3614,6 +3601,32 @@
       "source_sha256": "1a873b1008e67c487c755e1a54c51f149ccbc4b36f2124122fdf9ac6f067dd44",
       "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
       "receipt": "runs/v2/20261026T075717Z-meshgemm.cold-prefill-ffn-down-batch64-02124762/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "c394af77e027970d1c872d072b3f03cb2b23a5c0c3e339d0e40602fa14bd2cdd",
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "approach": "meshgemm.cold-packed-output-lifetime-alias",
+      "candidate": "gemm-prefill-packed-output-alias",
+      "variant": "candidate",
+      "primary_value": "31834.0",
+      "memory_bytes": "14688",
+      "source_sha256": "1a873b1008e67c487c755e1a54c51f149ccbc4b36f2124122fdf9ac6f067dd44",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T080711Z-meshgemm.cold-prefill-ffn-up-batch64-41f2bcc4/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "72cc6c87393061d5a8c489fd46f65b2c913942cecf280399b07de1f619024393",
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "approach": "meshgemm.cold-packed-output-lifetime-alias",
+      "candidate": "gemm-prefill-packed-output-alias",
+      "variant": "candidate",
+      "primary_value": "31834.0",
+      "memory_bytes": "14688",
+      "source_sha256": "1a873b1008e67c487c755e1a54c51f149ccbc4b36f2124122fdf9ac6f067dd44",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T080928Z-meshgemm.cold-prefill-ffn-up-batch64-e5256083/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -4364,6 +4377,32 @@
       "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
       "receipt": "runs/v2/20261026T075854Z-confirmation-cf645791/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "a04d8d41e415c8c366130a5f416dd90c7ca503b4eb40265536e1080f9cce0d61",
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "approach": "meshgemm.cold-dead-weight-buffer-gather-pack-shape-repair",
+      "candidate": "gemm-prefill-dead-weight-gather-v2",
+      "variant": "candidate",
+      "primary_value": "31984.0",
+      "memory_bytes": "14752",
+      "source_sha256": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T080710Z-confirmation-418ff56d/result.json",
+      "decision": "confirmed"
+    },
+    {
+      "event_id": "1051490e10ca42d8cb2f476c0f4feca4774da3511600e75c672f7122629a9ace",
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "approach": "meshgemm.cold-packed-output-lifetime-alias",
+      "candidate": "gemm-prefill-packed-output-alias",
+      "variant": "candidate",
+      "primary_value": "31834.0",
+      "memory_bytes": "14688",
+      "source_sha256": "1a873b1008e67c487c755e1a54c51f149ccbc4b36f2124122fdf9ac6f067dd44",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T081143Z-confirmation-bf6d4c19/result.json",
+      "decision": "confirmed"
     }
   ],
   "best_confirmed_by_track": [
@@ -4981,23 +5020,23 @@
       "memory_ratio": "1.0499820208558073"
     },
     {
-      "event_id": "7b615cb3699a4381b37caf1ad4ac70298dca523e6a8db52289ce31611189262d",
+      "event_id": "1051490e10ca42d8cb2f476c0f4feca4774da3511600e75c672f7122629a9ace",
       "profile": "meshgemm.cold-prefill-ffn-up-batch64",
-      "approach": "meshgemm.cold-dead-weight-buffer-gather-pack",
-      "candidate": "gemm-prefill-dead-weight-gather-2d",
+      "approach": "meshgemm.cold-packed-output-lifetime-alias",
+      "candidate": "gemm-prefill-packed-output-alias",
       "variant": "candidate",
-      "primary_value": "31984.0",
-      "memory_bytes": "14752",
-      "source_sha256": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
+      "primary_value": "31834.0",
+      "memory_bytes": "14688",
+      "source_sha256": "1a873b1008e67c487c755e1a54c51f149ccbc4b36f2124122fdf9ac6f067dd44",
       "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
-      "receipt": "runs/v2/20261026T074055Z-confirmation-f6d43f18/result.json",
+      "receipt": "runs/v2/20261026T081143Z-confirmation-bf6d4c19/result.json",
       "decision": "confirmed",
       "profile_sha256": "d90bd73c4c42a0801dcd56af1b55b550e2404e83bf68de2e36f658bf3c7fb727",
       "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
       "harness_sha256": "dd4a5baa691659f9668f4e863cabad21bffad50f0dd11877b6e28170381a542f",
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
-      "speedup": "1.0920772886443222",
-      "memory_ratio": "1.0043572984749456"
+      "speedup": "1.0972230948042974",
+      "memory_ratio": "1.0"
     },
     {
       "event_id": "ea796e886c605ead02d69ad64ae8a72098499e0352f2cd3b0e0ebe569f14555b",
@@ -5033,7 +5072,8 @@
     "9cd09423d6dcb12ad7cc243ccf614f5d35994f586d15aeb67252eacd7ea2b944",
     "5d346caf8581abc22e4b9b00bbe9cbc4f8572d2e908658c2d155def09caf1ff8",
     "37a22f3b784d5129faee0526778290e24d151320a3f7e22266288050fcd35486",
-    "97ed45473960fb208d83e6482e70bd9a25d6f7359e38513a6e0e81363480ec46"
+    "97ed45473960fb208d83e6482e70bd9a25d6f7359e38513a6e0e81363480ec46",
+    "9b879f4eed94ccf48acbbdd928808038829ef4fc82ea6352452625f7e8325bf7"
   ],
   "qwen_tps_result": false
 }
