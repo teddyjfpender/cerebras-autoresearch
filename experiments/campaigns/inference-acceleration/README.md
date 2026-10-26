@@ -88,3 +88,32 @@ already-running `prefill-padded-followup.json` plan or any frozen candidate.
 Source/plan identity is frozen separately when each campaign starts.
 Bounded column-unroll4/8 variants are also recorded; their slower screens
 remain rejected rather than entering the retained portfolio.
+
+## Cold batch64 buffer lifetime and the memory frontier
+
+The 2026-10-26 user clarification explicitly asks for the speed/memory frontier,
+including substantially larger memory footprints. The default 10% promotion
+policy remains separately labeled. `prefill64-frontier.json` requires full
+initial/fresh six-case execution of each correct implementation without a
+relative-memory screen. Its higher-memory full-tile implementation is measured
+alongside buffer reuse, packing/output aliasing and bank-offset hypotheses.
+The derived [paired frontier](../../../docs/experiments/frontier.md) reports
+all qualified points, their conservative cycles/bytes and their default-policy
+eligibility. It does not invent new journal decisions or hardware/model TPS.
+
+The first dead-weight-buffer gather implementation is freshly qualified on
+FFN-up: 34929 to 31984 cycles, 14688 to 14752 program-object bytes per PE,
+1.092077x speedup and 0.44% memory growth. Its four full paired arms pass
+independent raw-array/timestamp replay (24 case executions). The corresponding
+down attempt was rejected by an overly narrow `shape_specific` manifest flag,
+before executing the kernel. `gemm-prefill-dead-weight-gather-v2` corrects that
+metadata in a new workspace and preserves the failed receipt. Two scatter
+packing attempts also preserve compiler failures from the reserved CSL keyword
+`packed`; their frozen source is not silently repaired.
+
+Cold buffer reuse is valid only after the last local send/receive completion
+barriers and all four multiply phases. The fixed profiles use no warmup and one
+timed iteration. Every transpose/copy remains timed. The output-alias candidate
+instead exports the completed column-major result from the dead weight buffer,
+avoiding the final copy while retaining the named output ABI. None of these
+destructive working-buffer variants is a repeated/resident GEMM implementation.

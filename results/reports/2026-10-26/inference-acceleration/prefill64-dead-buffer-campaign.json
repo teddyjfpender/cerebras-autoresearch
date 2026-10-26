@@ -1,0 +1,3808 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-26T07:40:59Z",
+  "campaign_status": "completed",
+  "plan": {
+    "path": "experiments/campaigns/inference-acceleration/prefill64-dead-buffer.json",
+    "sha256": "459e3b24cee20bb8630b80a29331f320e4ae84797e0923578711a5a592639453",
+    "identity": "31e0960a19db11d287377f3f8c13bac6b0c0f577973103cc57dded007aa95331"
+  },
+  "checkpoint": {
+    "path": "runs/campaigns/inference-acceleration/prefill64-dead-buffer-state.json",
+    "sha256": "eaebbe2189492bf73c69dc889a22682c5bceca1a9d778be512f4a206c9f60449"
+  },
+  "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+  "audit_tool_sha256": "d0afff8452b814db032899c7d26c94d27bd0bacf6180033a5ed75e60c124f1a6",
+  "audit_evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+  "candidate_identities": {
+    "gemm-prefill-dead-weight-pack": {
+      "source": "edb45e1b31ca2b565587d71b72dad54f2fadf97297da7de21f6afeb78bfd28ab",
+      "manifest": "5185bfab04916beb2feea3296fcf0b2edfe733e672ce2340fdc48dff7b5ce11a"
+    },
+    "gemm-prefill-dead-weight-pack-2d": {
+      "source": "01fb930092ad3bf8380cbeac0220187036b9cedf3fc46186aa48b38a789416a4",
+      "manifest": "215607c2860541461dfa4c03ce628e10578105f05a634d93e6817e0d72420175"
+    },
+    "gemm-prefill-dead-weight-gather-2d": {
+      "source": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
+      "manifest": "afabde2e16a3953556cf5df7dc17d837cb1a7910c97fb66c3d37181885a7043a"
+    }
+  },
+  "imports": {
+    "initial_baselines": {
+      "meshgemm.cold-prefill-ffn-up-batch64": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+      "meshgemm.cold-prefill-ffn-down-batch64": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json"
+    },
+    "fresh_baselines": {}
+  },
+  "executed_attempt_count": 9,
+  "requested_profiles": [
+    "meshgemm.cold-prefill-ffn-up-batch64",
+    "meshgemm.cold-prefill-ffn-down-batch64"
+  ],
+  "cells": {
+    "meshgemm.cold-prefill-ffn-up-batch64": {
+      "status": "confirmed_improvement",
+      "baseline": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+      "screens": [
+        {
+          "candidate": {
+            "candidate": "gemm-prefill-dead-weight-pack"
+          },
+          "receipt": "runs/v2/20261026T073332Z-meshgemm.cold-prefill-ffn-up-batch64-fc79cff3/result.json",
+          "outcome": "failed"
+        },
+        {
+          "candidate": {
+            "candidate": "gemm-prefill-dead-weight-pack-2d"
+          },
+          "receipt": "runs/v2/20261026T073335Z-meshgemm.cold-prefill-ffn-up-batch64-668ddecd/result.json",
+          "outcome": "failed"
+        },
+        {
+          "candidate": {
+            "candidate": "gemm-prefill-dead-weight-gather-2d"
+          },
+          "receipt": "runs/v2/20261026T073337Z-meshgemm.cold-prefill-ffn-up-batch64-2e79bc56/result.json",
+          "outcome": "screen_passed",
+          "speedup": 1.0920772886443222,
+          "memory_ratio": 1.0043572984749456,
+          "eligible": true
+        }
+      ],
+      "selected": {
+        "candidate": "gemm-prefill-dead-weight-gather-2d"
+      },
+      "confirmation": "runs/v2/20261026T074055Z-confirmation-f6d43f18/result.json"
+    },
+    "meshgemm.cold-prefill-ffn-down-batch64": {
+      "status": "no_confirmed_gain",
+      "baseline": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+      "screens": [
+        {
+          "candidate": {
+            "candidate": "gemm-prefill-dead-weight-pack"
+          },
+          "receipt": "runs/v2/20261026T074056Z-meshgemm.cold-prefill-ffn-down-batch64-62e9b120/result.json",
+          "outcome": "failed"
+        },
+        {
+          "candidate": {
+            "candidate": "gemm-prefill-dead-weight-pack-2d"
+          },
+          "receipt": "runs/v2/20261026T074057Z-meshgemm.cold-prefill-ffn-down-batch64-4c1371ad/result.json",
+          "outcome": "failed"
+        },
+        {
+          "candidate": {
+            "candidate": "gemm-prefill-dead-weight-gather-2d"
+          },
+          "receipt": "runs/v2/20261026T074057Z-meshgemm.cold-prefill-ffn-down-batch64-836ce355/result.json",
+          "outcome": "failed"
+        }
+      ]
+    }
+  },
+  "records": [
+    {
+      "receipt": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+      "receipt_sha256": "76645c00c9a8c4c940393ed0bbfb71046c8f250fe93afeeee8d048321238e18a",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "meshgemm.cold-prefill-ffn-up-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 80,
+          "N": 272
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261061,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 34929.0,
+        "mean_local_cycles": 34919.9375,
+        "pe_cycle_spread": 19.0,
+        "max_error_fraction": 0.1233024164323806,
+        "max_program_object_bytes_per_pe": 14688,
+        "work_units_per_cycle": 79.74118926966132,
+        "pe_cycles": 558864.0,
+        "experiment_wall_seconds": 142.48272335400043
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 14688,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 14688
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 14688
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 14688
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 14688
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 14688
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 14688
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 14688
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 14688
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 14688
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 14688
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 14688
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 14688
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 14688
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 14688
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 14688
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 14688
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "fixed_forward_error_v2",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.10880381986498833,
+          "max_fraction_of_error_bound": 0.1233024164323806,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "273bc5e83ce6656c652db736bf8e248f87f70737461b623760af2e5dfd7a4e15",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "signed",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.03263686876744032,
+          "max_fraction_of_error_bound": 0.035905989752741625,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "63fc9a242573a0e9ea42ae007e3cd7779deea8edd33c1b7a768ffff0f9c12c6b",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "zero",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "d8449d69baac41b474b871e0ea2104bde813de2a3a25a1f5550a1cb1f1f1c127",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "11bddfda12f20db45edbf73cad0cf99dfa32cb6f0d12bffb7a10f9669c71d3df",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "43aded9391ee4b001553d8c7513cc539f5609d5eed70b63ee243c56b8b39f95e",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.03263686876744032,
+          "max_fraction_of_error_bound": 0.035905989752741625,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "499ad85cdab79f5f3c17c807625616bf876de0d168a42308a96d2cda8097ddbc",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        }
+      ],
+      "research": {
+        "approach": "meshgemm.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "4137b5197541f740366a2395f81b31ea3979babf",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "d90bd73c4c42a0801dcd56af1b55b550e2404e83bf68de2e36f658bf3c7fb727",
+      "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "source_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "harness_sha256": "dd4a5baa691659f9668f4e863cabad21bffad50f0dd11877b6e28170381a542f",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:16,Kt:20,Nt:68",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:16,Kt:20,Nt:68",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.551771528000245,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.762014189000183,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 22.177414995999698,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 22.183277290000206,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 22.229508721000002,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.838801631000024,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.965652222000244,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7742827769998257,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+      "receipt_sha256": "a97b2ccfa587f992d8f5e66b7be41f93454f174782a965d489bdaf70f5fb59d9",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "meshgemm.cold-prefill-ffn-down-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 272,
+          "N": 80
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261061,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 45006.0,
+        "mean_local_cycles": 44996.8125,
+        "pe_cycle_spread": 18.0,
+        "max_error_fraction": 0.05476110951404246,
+        "max_program_object_bytes_per_pe": 16208,
+        "work_units_per_cycle": 61.886859529840464,
+        "pe_cycles": 720096.0,
+        "experiment_wall_seconds": 102.55411201699917
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 16208,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 16208
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 16208
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 16208
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 16208
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 16208
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 16208
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 16208
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 16208
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 16208
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 16208
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 16208
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 16208
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 16208
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 16208
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 16208
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 16208
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "fixed_forward_error_v2",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.6188618820160627,
+          "max_fraction_of_error_bound": 0.05476110951404246,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "01d02424bade404f8b5a8043445ca8e08384dd39d03d6291f050053082956616",
+          "metrics": {
+            "max_local_cycles": 45006.0,
+            "mean_local_cycles": 44996.8125,
+            "pe_cycle_spread": 18.0
+          }
+        },
+        {
+          "case": "signed",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.0737844145623967,
+          "max_fraction_of_error_bound": 0.006988592708879448,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "7429eb04cfd9db68ec965429299bd376ab61cc4c0c243e0747163a157efe5798",
+          "metrics": {
+            "max_local_cycles": 45006.0,
+            "mean_local_cycles": 44996.8125,
+            "pe_cycle_spread": 18.0
+          }
+        },
+        {
+          "case": "zero",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "9b17e5afb1a16f7def31e139d96305f60b67e524e5f46a7bf91ebfe52d2a9f10",
+          "metrics": {
+            "max_local_cycles": 45006.0,
+            "mean_local_cycles": 44996.8125,
+            "pe_cycle_spread": 18.0
+          }
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "91b5c0278bc94576dc537daeafae336d0a72f03f61cf70424c52c1a327d98a4e",
+          "metrics": {
+            "max_local_cycles": 45006.0,
+            "mean_local_cycles": 44996.8125,
+            "pe_cycle_spread": 18.0
+          }
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "18900ac15fcf89912d7d00c8572a4178717400fad35d2bc8e4aeb6d334fd58c3",
+          "metrics": {
+            "max_local_cycles": 45006.0,
+            "mean_local_cycles": 44996.8125,
+            "pe_cycle_spread": 18.0
+          }
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.07378477731253952,
+          "max_fraction_of_error_bound": 0.006988627104659976,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "5df01de2112616a1c2c8034e9c56480030d3eea390a500eeeb9adb32d29aeade",
+          "metrics": {
+            "max_local_cycles": 45006.0,
+            "mean_local_cycles": 44996.8125,
+            "pe_cycle_spread": 18.0
+          }
+        }
+      ],
+      "research": {
+        "approach": "meshgemm.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "unknown"
+      },
+      "provenance": {
+        "git_commit": "4137b5197541f740366a2395f81b31ea3979babf",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "a26d9c71cddc4de24a299adbea4f33492b9acf2dc8ebaa48a3d1af7096586e54",
+      "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "source_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "harness_sha256": "dd4a5baa691659f9668f4e863cabad21bffad50f0dd11877b6e28170381a542f",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:16,Kt:68,Nt:20",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:16,Kt:68,Nt:20",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.660176827999749,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 15.175229115999628,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 15.337938226000006,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 15.2753040409998,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 15.281315842999902,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 15.5295139560003,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 15.515743219999877,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7788907869999093,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T073332Z-meshgemm.cold-prefill-ffn-up-batch64-fc79cff3/result.json",
+      "receipt_sha256": "5767de5ccc8eba31d80c10b9042690967a0f9abfe8f68653452a057858a768fe",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "failed",
+      "profile": {
+        "id": "meshgemm.cold-prefill-ffn-up-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 80,
+          "N": 272
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261061,
+      "screen_only": true,
+      "metrics": {
+        "experiment_wall_seconds": 1.8883433029986918
+      },
+      "cases": [],
+      "research": {
+        "approach": "meshgemm.cold-dead-weight-buffer-pack",
+        "candidate": "gemm-prefill-dead-weight-pack",
+        "hypothesis": "For the fixed cold profiles (zero warmups, one timed iteration), accumulate all four communication phases directly into res_tile in row-major order. After the last send and receive callbacks complete, transpose into the now-dead W_0_tile buffer and copy the full column-major result back to res_tile before exiting the timer. This removes the second Mt*Nt accumulator allocation while retaining contiguous vector FMAs. Kt>=Mt ensures packing fits. Target the 64-row FFN up and down projections.",
+        "falsification": "Reject any outstanding communication at buffer reuse, truncated outputs, missing FP16 FMA/reduction terms, changed timer or PE budget, numerical or clean-shutdown failure, speedup below 1.05x, memory above 1.10x or failed six-case fresh paired confirmation. This destructive scratch reuse is only valid for the fixed zero-warmup single-iteration cold contracts; it is not a resident/repeated GEMM candidate.",
+        "manifest_sha256": "5185bfab04916beb2feea3296fcf0b2edfe733e672ce2340fdc48dff7b5ce11a",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "da49b7468e21cebf97da32d57ba3fc8de9f10fe6",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "d90bd73c4c42a0801dcd56af1b55b550e2404e83bf68de2e36f658bf3c7fb727",
+      "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "source_sha256": "edb45e1b31ca2b565587d71b72dad54f2fadf97297da7de21f6afeb78bfd28ab",
+      "harness_sha256": "dd4a5baa691659f9668f4e863cabad21bffad50f0dd11877b6e28170381a542f",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:16,Kt:20,Nt:68",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:16,Kt:20,Nt:68",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 1.8883433029986918,
+          "log": "step-0.log",
+          "status": "failed",
+          "error": "Step failed (1): /Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T073332Z-meshgemm.cold-prefill-ffn-up-batch64-fc79cff3/work/step-0.log"
+        }
+      ],
+      "error": "Step failed (1): /Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T073332Z-meshgemm.cold-prefill-ffn-up-batch64-fc79cff3/work/step-0.log"
+    },
+    {
+      "receipt": "runs/v2/20261026T073335Z-meshgemm.cold-prefill-ffn-up-batch64-668ddecd/result.json",
+      "receipt_sha256": "f13d1fff6ad097481f5274a31abb55942c9a98204b3cd3c5ea277f40c3dba981",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "failed",
+      "profile": {
+        "id": "meshgemm.cold-prefill-ffn-up-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 80,
+          "N": 272
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261061,
+      "screen_only": true,
+      "metrics": {
+        "experiment_wall_seconds": 1.9134145850002824
+      },
+      "cases": [],
+      "research": {
+        "approach": "meshgemm.cold-dead-weight-buffer-2d-pack",
+        "candidate": "gemm-prefill-dead-weight-pack-2d",
+        "hypothesis": "For the fixed cold profiles (zero warmups, one timed iteration), accumulate all four communication phases directly into res_tile in row-major order. After the last send and receive callbacks complete, transpose into the now-dead W_0_tile buffer and copy the full column-major result back to res_tile before exiting the timer. This removes the second Mt*Nt accumulator allocation while retaining contiguous vector FMAs. Kt>=Mt ensures packing fits. Target the 64-row FFN up and down projections. Replace the row packing loop with one two-dimensional memory descriptor transfer, preserving the exact same transpose addresses while reducing scalar loop and descriptor setup overhead.",
+        "falsification": "Reject any outstanding communication at buffer reuse, truncated outputs, missing FP16 FMA/reduction terms, changed timer or PE budget, numerical or clean-shutdown failure, speedup below 1.05x, memory above 1.10x or failed six-case fresh paired confirmation. This destructive scratch reuse is only valid for the fixed zero-warmup single-iteration cold contracts; it is not a resident/repeated GEMM candidate.",
+        "manifest_sha256": "215607c2860541461dfa4c03ce628e10578105f05a634d93e6817e0d72420175",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "da49b7468e21cebf97da32d57ba3fc8de9f10fe6",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "d90bd73c4c42a0801dcd56af1b55b550e2404e83bf68de2e36f658bf3c7fb727",
+      "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "source_sha256": "01fb930092ad3bf8380cbeac0220187036b9cedf3fc46186aa48b38a789416a4",
+      "harness_sha256": "dd4a5baa691659f9668f4e863cabad21bffad50f0dd11877b6e28170381a542f",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:16,Kt:20,Nt:68",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:16,Kt:20,Nt:68",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 1.9134145850002824,
+          "log": "step-0.log",
+          "status": "failed",
+          "error": "Step failed (1): /Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T073335Z-meshgemm.cold-prefill-ffn-up-batch64-668ddecd/work/step-0.log"
+        }
+      ],
+      "error": "Step failed (1): /Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T073335Z-meshgemm.cold-prefill-ffn-up-batch64-668ddecd/work/step-0.log"
+    },
+    {
+      "receipt": "runs/v2/20261026T073337Z-meshgemm.cold-prefill-ffn-up-batch64-2e79bc56/result.json",
+      "receipt_sha256": "867afa51b226beca8a836928dfea17656fbe7c09cee5bcd76dc91fb042fd0d00",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "screen_passed",
+      "profile": {
+        "id": "meshgemm.cold-prefill-ffn-up-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 80,
+          "N": 272
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261061,
+      "screen_only": true,
+      "metrics": {
+        "max_local_cycles": 31984.0,
+        "mean_local_cycles": 31974.9375,
+        "pe_cycle_spread": 19.0,
+        "max_error_fraction": 0.1233024164323806,
+        "max_program_object_bytes_per_pe": 14752,
+        "work_units_per_cycle": 87.08354177088545,
+        "pe_cycles": 511744.0,
+        "experiment_wall_seconds": 30.366151817999707
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 14752,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 14752
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 14752
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 14752
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 14752
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "fixed_forward_error_v2",
+        "cases": [
+          "positive"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.10880381986498833,
+          "max_fraction_of_error_bound": 0.1233024164323806,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "0ad6daae728977c8735fba73164c20d0d62bd90db803bc9a7dcf9829562981be",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        }
+      ],
+      "research": {
+        "approach": "meshgemm.cold-dead-weight-buffer-gather-pack",
+        "candidate": "gemm-prefill-dead-weight-gather-2d",
+        "hypothesis": "Use res_tile as the complete row-major accumulator, then reuse dead W_0_tile after the final communication barriers. Compared with scatter-oriented 2D packing, gather strided accumulator columns into contiguous scratch columns with one 2D transfer, then copy all outputs back inside the timer. Only the transpose traversal changes; test whether contiguous scratch writes improve cold batch64 FFN cycles without an extra allocation. Valid only for fixed zero-warmup one-iteration contracts with Kt>=Mt.",
+        "falsification": "Reject any outstanding communication at buffer reuse, truncated outputs, missing FP16 FMA/reduction terms, changed timer or PE budget, numerical or clean-shutdown failure, speedup below 1.05x, memory above 1.10x or failed six-case fresh paired confirmation. This destructive scratch reuse is only valid for the fixed zero-warmup single-iteration cold contracts; it is not a resident/repeated GEMM candidate.",
+        "manifest_sha256": "afabde2e16a3953556cf5df7dc17d837cb1a7910c97fb66c3d37181885a7043a",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "da49b7468e21cebf97da32d57ba3fc8de9f10fe6",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "d90bd73c4c42a0801dcd56af1b55b550e2404e83bf68de2e36f658bf3c7fb727",
+      "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "source_sha256": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
+      "harness_sha256": "dd4a5baa691659f9668f4e863cabad21bffad50f0dd11877b6e28170381a542f",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:16,Kt:20,Nt:68",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:16,Kt:20,Nt:68",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.277073532999566,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 20.36829678200047,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7207815029996709,
+          "log": "step-2.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T073408Z-meshgemm.cold-prefill-ffn-up-batch64-ba63be75/result.json",
+      "receipt_sha256": "87afaae1b03f6dce8a600c51ef049317c50549881f11ab1d78b7132c8c97c208",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "meshgemm.cold-prefill-ffn-up-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 80,
+          "N": 272
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261061,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 31984.0,
+        "mean_local_cycles": 31974.9375,
+        "pe_cycle_spread": 19.0,
+        "max_error_fraction": 0.1233024164323806,
+        "max_program_object_bytes_per_pe": 14752,
+        "work_units_per_cycle": 87.08354177088545,
+        "pe_cycles": 511744.0,
+        "experiment_wall_seconds": 136.0638932599977
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 14752,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 14752
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 14752
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 14752
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 14752
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "fixed_forward_error_v2",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.10880381986498833,
+          "max_fraction_of_error_bound": 0.1233024164323806,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "0ad6daae728977c8735fba73164c20d0d62bd90db803bc9a7dcf9829562981be",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "signed",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.03263686876744032,
+          "max_fraction_of_error_bound": 0.035905989752741625,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "92a6d2b7567b06433a2a0f5ffa3ada9281f10ad9f63fe685eff7518b02981f64",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "zero",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "8fed21ebbc306b6815a07db7f46299d3356553162912677665ee5467abb4be73",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "ebe3d95b5df1147970276a1183071233e9251d5dabbe670e2deb8c8acfbdb8ad",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "bcf7c55ee05eecdd60a34823a6e87da7bbfc7f02110cbd567e70531725ba640a",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261061,
+          "passed": true,
+          "max_abs_error": 0.03263686876744032,
+          "max_fraction_of_error_bound": 0.035905989752741625,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "2fee7239e6fe275cff1c328ee41df45df102e79a2fd2e77add4de8452cb6cf66",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        }
+      ],
+      "research": {
+        "approach": "meshgemm.cold-dead-weight-buffer-gather-pack",
+        "candidate": "gemm-prefill-dead-weight-gather-2d",
+        "hypothesis": "Use res_tile as the complete row-major accumulator, then reuse dead W_0_tile after the final communication barriers. Compared with scatter-oriented 2D packing, gather strided accumulator columns into contiguous scratch columns with one 2D transfer, then copy all outputs back inside the timer. Only the transpose traversal changes; test whether contiguous scratch writes improve cold batch64 FFN cycles without an extra allocation. Valid only for fixed zero-warmup one-iteration contracts with Kt>=Mt.",
+        "falsification": "Reject any outstanding communication at buffer reuse, truncated outputs, missing FP16 FMA/reduction terms, changed timer or PE budget, numerical or clean-shutdown failure, speedup below 1.05x, memory above 1.10x or failed six-case fresh paired confirmation. This destructive scratch reuse is only valid for the fixed zero-warmup single-iteration cold contracts; it is not a resident/repeated GEMM candidate.",
+        "manifest_sha256": "afabde2e16a3953556cf5df7dc17d837cb1a7910c97fb66c3d37181885a7043a",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "da49b7468e21cebf97da32d57ba3fc8de9f10fe6",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "d90bd73c4c42a0801dcd56af1b55b550e2404e83bf68de2e36f658bf3c7fb727",
+      "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "source_sha256": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
+      "harness_sha256": "dd4a5baa691659f9668f4e863cabad21bffad50f0dd11877b6e28170381a542f",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:16,Kt:20,Nt:68",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:16,Kt:20,Nt:68",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.470466306000162,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 20.712731779000023,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.032013367999753,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.07549801699861,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 20.827283173999604,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 20.753004557000168,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261061",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.41748515099971,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7754109079996852,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T073624Z-comparison-a86f848f/result.json",
+      "receipt_sha256": "66d1a1fc58356303c33f47febe605bc2f239d043b366420e31a27c2192da94dd",
+      "kind": "comparison",
+      "evidence_audit": "verified",
+      "status": "needs_fresh_confirmation",
+      "decision": "needs_fresh_confirmation",
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "inputs": {
+        "baseline": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+        "candidate": "runs/v2/20261026T073408Z-meshgemm.cold-prefill-ffn-up-batch64-ba63be75/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "eligible": true,
+      "speedup": 1.0920772886443222,
+      "memory_ratio": 1.0043572984749456,
+      "metric": "max_local_cycles",
+      "cycle_reduction_percent": 8.431389389905242
+    },
+    {
+      "receipt": "runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+      "receipt_sha256": "96e8d12ae6fb594877cd0ffd2327f16c61a86639ce1b289b87ed08175d02386b",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "meshgemm.cold-prefill-ffn-up-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 80,
+          "N": 272
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "variant": "baseline",
+      "seed": 20261062,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 34929.0,
+        "mean_local_cycles": 34919.9375,
+        "pe_cycle_spread": 19.0,
+        "max_error_fraction": 0.10170138028340912,
+        "max_program_object_bytes_per_pe": 14688,
+        "work_units_per_cycle": 79.74118926966132,
+        "pe_cycles": 558864.0,
+        "experiment_wall_seconds": 136.718221369998
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 14688,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 14688
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 14688
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 14688
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 14688
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 14688
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 14688
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 14688
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 14688
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 14688
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 14688
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 14688
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 14688
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 14688
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 14688
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 14688
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 14688
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "fixed_forward_error_v2",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.10024601593613625,
+          "max_fraction_of_error_bound": 0.10170138028340912,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "92311fa614ad975a21a1d18b9ae11781e449a248c5d0d0eb6ccefc303027f11a",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "signed",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.02934737503528595,
+          "max_fraction_of_error_bound": 0.03182231254163031,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "fd7b089db91385d19db9b0583849dbf6111408e118193bce4ef98ef4fde5e894",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "zero",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "4e9f7314e96c9596a19accd709a5d157d41961410e66868f85431e4f03e70725",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "11bddfda12f20db45edbf73cad0cf99dfa32cb6f0d12bffb7a10f9669c71d3df",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "28e2e2cd996376838fb6293a9326f5d079370e3febd3329b717ffcb41e55f1dd",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.02934737503528595,
+          "max_fraction_of_error_bound": 0.03182231254163031,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "0c6ae4a6e30b8fd24994894af58c0da68e48ffc9dee4ba25ee425a344735d974",
+          "metrics": {
+            "max_local_cycles": 34929.0,
+            "mean_local_cycles": 34919.9375,
+            "pe_cycle_spread": 19.0
+          }
+        }
+      ],
+      "research": {
+        "approach": "meshgemm.baseline",
+        "candidate": "",
+        "hypothesis": "Measure the pinned reference workload.",
+        "falsification": "Reject numerical or footprint failures, absent cycle gain, or memory-budget overrun.",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "da49b7468e21cebf97da32d57ba3fc8de9f10fe6",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "d90bd73c4c42a0801dcd56af1b55b550e2404e83bf68de2e36f658bf3c7fb727",
+      "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "source_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "harness_sha256": "dd4a5baa691659f9668f4e863cabad21bffad50f0dd11877b6e28170381a542f",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:16,Kt:20,Nt:68",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:16,Kt:20,Nt:68",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.22732086599899,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.193322407001688,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.493229421999786,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.167294721999497,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 20.718565306000528,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 20.90859460699903,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.289820110998335,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7200739290001366,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T073841Z-meshgemm.cold-prefill-ffn-up-batch64-bfe93f33/result.json",
+      "receipt_sha256": "dbe7e8892dc8e3f18d272baa8f4ecf1043287c0cbd7a1f2c39b21a727f6bf738",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "validated",
+      "profile": {
+        "id": "meshgemm.cold-prefill-ffn-up-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 80,
+          "N": 272
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261062,
+      "screen_only": false,
+      "metrics": {
+        "max_local_cycles": 31984.0,
+        "mean_local_cycles": 31974.9375,
+        "pe_cycle_spread": 19.0,
+        "max_error_fraction": 0.10170138028340912,
+        "max_program_object_bytes_per_pe": 14752,
+        "work_units_per_cycle": 87.08354177088545,
+        "pe_cycles": 511744.0,
+        "experiment_wall_seconds": 134.82403966100173
+      },
+      "memory": {
+        "max_program_object_bytes_per_pe": 14752,
+        "scope": "bin/*.elf program objects; not union of all ELF loads or physical area",
+        "observations": [
+          {
+            "object": "out_0_0.elf",
+            "x": 4,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_10_0.elf",
+            "x": 6,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_11_0.elf",
+            "x": 6,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_12_0.elf",
+            "x": 7,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_13_0.elf",
+            "x": 7,
+            "y": 2,
+            "bytes": 14752
+          },
+          {
+            "object": "out_14_0.elf",
+            "x": 7,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_15_0.elf",
+            "x": 7,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_1_0.elf",
+            "x": 4,
+            "y": 2,
+            "bytes": 14752
+          },
+          {
+            "object": "out_2_0.elf",
+            "x": 4,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_3_0.elf",
+            "x": 4,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_4_0.elf",
+            "x": 5,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_5_0.elf",
+            "x": 5,
+            "y": 2,
+            "bytes": 14752
+          },
+          {
+            "object": "out_6_0.elf",
+            "x": 5,
+            "y": 3,
+            "bytes": 14752
+          },
+          {
+            "object": "out_7_0.elf",
+            "x": 5,
+            "y": 4,
+            "bytes": 14752
+          },
+          {
+            "object": "out_8_0.elf",
+            "x": 6,
+            "y": 1,
+            "bytes": 14752
+          },
+          {
+            "object": "out_9_0.elf",
+            "x": 6,
+            "y": 2,
+            "bytes": 14752
+          }
+        ]
+      },
+      "validation": {
+        "oracle": "FP64 on exactly quantized inputs",
+        "contract": "fixed_forward_error_v2",
+        "cases": [
+          "positive",
+          "signed",
+          "zero",
+          "cancellation",
+          "one_hot",
+          "mixed_scale"
+        ],
+        "fresh_process_per_case": true
+      },
+      "cases": [
+        {
+          "case": "positive",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.10024601593613625,
+          "max_fraction_of_error_bound": 0.10170138028340912,
+          "artifact": "case-positive.npz",
+          "artifact_sha256": "4d10c8c279b2bb8d08c86664928c8bd35e2b0f7ebb320b802681fb025f259359",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "signed",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.02934737503528595,
+          "max_fraction_of_error_bound": 0.03182231254163031,
+          "artifact": "case-signed.npz",
+          "artifact_sha256": "e67482785946331c980e535af5e031dffb6549f2b8197643465ba3cbe9dd9ebb",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "zero",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-zero.npz",
+          "artifact_sha256": "bc2cbbefae598f61ac54ef17a5cd49f11fa8233777a3c4f150dc5ee19a4efe93",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "cancellation",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-cancellation.npz",
+          "artifact_sha256": "ebe3d95b5df1147970276a1183071233e9251d5dabbe670e2deb8c8acfbdb8ad",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "one_hot",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.0,
+          "max_fraction_of_error_bound": 0.0,
+          "artifact": "case-one_hot.npz",
+          "artifact_sha256": "cf61dad1946f78eb39bb212ba4441b39b8cca864d0cb54046220a9a7731e2d86",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        },
+        {
+          "case": "mixed_scale",
+          "seed": 20261062,
+          "passed": true,
+          "max_abs_error": 0.02934737503528595,
+          "max_fraction_of_error_bound": 0.03182231254163031,
+          "artifact": "case-mixed_scale.npz",
+          "artifact_sha256": "5c0f5f0ffb895e359d1e13c44b9dc273ff4b3f778a6e72cd57e38a08f5496187",
+          "metrics": {
+            "max_local_cycles": 31984.0,
+            "mean_local_cycles": 31974.9375,
+            "pe_cycle_spread": 19.0
+          }
+        }
+      ],
+      "research": {
+        "approach": "meshgemm.cold-dead-weight-buffer-gather-pack",
+        "candidate": "gemm-prefill-dead-weight-gather-2d",
+        "hypothesis": "Use res_tile as the complete row-major accumulator, then reuse dead W_0_tile after the final communication barriers. Compared with scatter-oriented 2D packing, gather strided accumulator columns into contiguous scratch columns with one 2D transfer, then copy all outputs back inside the timer. Only the transpose traversal changes; test whether contiguous scratch writes improve cold batch64 FFN cycles without an extra allocation. Valid only for fixed zero-warmup one-iteration contracts with Kt>=Mt.",
+        "falsification": "Reject any outstanding communication at buffer reuse, truncated outputs, missing FP16 FMA/reduction terms, changed timer or PE budget, numerical or clean-shutdown failure, speedup below 1.05x, memory above 1.10x or failed six-case fresh paired confirmation. This destructive scratch reuse is only valid for the fixed zero-warmup single-iteration cold contracts; it is not a resident/repeated GEMM candidate.",
+        "manifest_sha256": "afabde2e16a3953556cf5df7dc17d837cb1a7910c97fb66c3d37181885a7043a",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "da49b7468e21cebf97da32d57ba3fc8de9f10fe6",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "d90bd73c4c42a0801dcd56af1b55b550e2404e83bf68de2e36f658bf3c7fb727",
+      "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+      "source_sha256": "d07584876a0447ec049f161eb7f3dc73c17dfa1d78849d1f89cebd35c2704cb5",
+      "harness_sha256": "dd4a5baa691659f9668f4e863cabad21bffad50f0dd11877b6e28170381a542f",
+      "compile_command": [
+        "cslc",
+        "./src/layout.csl",
+        "--arch=wse3",
+        "--fabric-dims=11,6",
+        "--fabric-offsets=4,1",
+        "--params=P:4,Mt:16,Kt:20,Nt:68",
+        "-o",
+        "out",
+        "--memcpy",
+        "--channels=1"
+      ],
+      "steps": [
+        {
+          "command": [
+            "cslc",
+            "./src/layout.csl",
+            "--arch=wse3",
+            "--fabric-dims=11,6",
+            "--fabric-offsets=4,1",
+            "--params=P:4,Mt:16,Kt:20,Nt:68",
+            "-o",
+            "out",
+            "--memcpy",
+            "--channels=1"
+          ],
+          "wall_seconds": 9.382905188998848,
+          "log": "step-0.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "positive",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.100442228000247,
+          "log": "step-1.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "signed",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.000535776000106,
+          "log": "step-2.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "zero",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 21.03122402000008,
+          "log": "step-3.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "cancellation",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 20.675047998000082,
+          "log": "step-4.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "one_hot",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 20.505076426001324,
+          "log": "step-5.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "dense.py",
+            "--name",
+            "out",
+            "--case",
+            "mixed_scale",
+            "--seed",
+            "20261062",
+            "--kind",
+            "meshgemm"
+          ],
+          "wall_seconds": 20.403475720000642,
+          "log": "step-6.log",
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "cs_python",
+            "memory.py",
+            "out"
+          ],
+          "wall_seconds": 0.7253323040004034,
+          "log": "step-7.log",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "receipt": "runs/v2/20261026T074055Z-confirmation-f6d43f18/result.json",
+      "receipt_sha256": "b1bac4675f5bbb06aa4ac788011d9878f5f02c2196d1f606ecf290ae8d7d3b1a",
+      "kind": "confirmation",
+      "evidence_audit": "verified",
+      "status": "confirmed_improvement",
+      "inputs": {
+        "initial_baseline": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+        "initial_candidate": "runs/v2/20261026T073408Z-meshgemm.cold-prefill-ffn-up-batch64-ba63be75/result.json",
+        "fresh_baseline": "runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+        "fresh_candidate": "runs/v2/20261026T073841Z-meshgemm.cold-prefill-ffn-up-batch64-bfe93f33/result.json"
+      },
+      "budgets": {
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1
+      },
+      "initial": {
+        "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T073408Z-meshgemm.cold-prefill-ffn-up-batch64-ba63be75/result.json",
+        "speedup": 1.0920772886443222,
+        "memory_ratio": 1.0043572984749456,
+        "cycle_reduction_percent": 8.431389389905242,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "needs_fresh_confirmation",
+        "qwen_tps_result": false
+      },
+      "confirmation": {
+        "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+        "metric": "max_local_cycles",
+        "baseline": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T073624Z-meshgemm.cold-prefill-ffn-up-batch64-a13bd2bd/result.json",
+        "candidate": "/Users/theodorepender/Coding/cerebras-autoresearch/runs/v2/20261026T073841Z-meshgemm.cold-prefill-ffn-up-batch64-bfe93f33/result.json",
+        "speedup": 1.0920772886443222,
+        "memory_ratio": 1.0043572984749456,
+        "cycle_reduction_percent": 8.431389389905242,
+        "eligible": true,
+        "minimum_speedup": 1.05,
+        "max_memory_growth": 1.1,
+        "decision": "confirmation_passed",
+        "qwen_tps_result": false
+      }
+    },
+    {
+      "receipt": "runs/v2/20261026T074056Z-meshgemm.cold-prefill-ffn-down-batch64-62e9b120/result.json",
+      "receipt_sha256": "95ae10bf1107d09baa99b4ce16006448496cfa4164b6b230654d43053dcd1db9",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "failed",
+      "profile": {
+        "id": "meshgemm.cold-prefill-ffn-down-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 272,
+          "N": 80
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261061,
+      "screen_only": true,
+      "metrics": {
+        "experiment_wall_seconds": 0
+      },
+      "cases": [],
+      "research": {
+        "approach": "meshgemm.cold-dead-weight-buffer-pack",
+        "candidate": "gemm-prefill-dead-weight-pack",
+        "hypothesis": "For the fixed cold profiles (zero warmups, one timed iteration), accumulate all four communication phases directly into res_tile in row-major order. After the last send and receive callbacks complete, transpose into the now-dead W_0_tile buffer and copy the full column-major result back to res_tile before exiting the timer. This removes the second Mt*Nt accumulator allocation while retaining contiguous vector FMAs. Kt>=Mt ensures packing fits. Target the 64-row FFN up and down projections.",
+        "falsification": "Reject any outstanding communication at buffer reuse, truncated outputs, missing FP16 FMA/reduction terms, changed timer or PE budget, numerical or clean-shutdown failure, speedup below 1.05x, memory above 1.10x or failed six-case fresh paired confirmation. This destructive scratch reuse is only valid for the fixed zero-warmup single-iteration cold contracts; it is not a resident/repeated GEMM candidate.",
+        "manifest_sha256": "5185bfab04916beb2feea3296fcf0b2edfe733e672ce2340fdc48dff7b5ce11a",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "da49b7468e21cebf97da32d57ba3fc8de9f10fe6",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "a26d9c71cddc4de24a299adbea4f33492b9acf2dc8ebaa48a3d1af7096586e54",
+      "steps": [],
+      "error": "This candidate is specific to its initial shape"
+    },
+    {
+      "receipt": "runs/v2/20261026T074057Z-meshgemm.cold-prefill-ffn-down-batch64-4c1371ad/result.json",
+      "receipt_sha256": "a66cfbb7e6b66c1641e9b3ad4160b6339c399ae107421dabd4bf4e75d492918b",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "failed",
+      "profile": {
+        "id": "meshgemm.cold-prefill-ffn-down-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 272,
+          "N": 80
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261061,
+      "screen_only": true,
+      "metrics": {
+        "experiment_wall_seconds": 0
+      },
+      "cases": [],
+      "research": {
+        "approach": "meshgemm.cold-dead-weight-buffer-2d-pack",
+        "candidate": "gemm-prefill-dead-weight-pack-2d",
+        "hypothesis": "For the fixed cold profiles (zero warmups, one timed iteration), accumulate all four communication phases directly into res_tile in row-major order. After the last send and receive callbacks complete, transpose into the now-dead W_0_tile buffer and copy the full column-major result back to res_tile before exiting the timer. This removes the second Mt*Nt accumulator allocation while retaining contiguous vector FMAs. Kt>=Mt ensures packing fits. Target the 64-row FFN up and down projections. Replace the row packing loop with one two-dimensional memory descriptor transfer, preserving the exact same transpose addresses while reducing scalar loop and descriptor setup overhead.",
+        "falsification": "Reject any outstanding communication at buffer reuse, truncated outputs, missing FP16 FMA/reduction terms, changed timer or PE budget, numerical or clean-shutdown failure, speedup below 1.05x, memory above 1.10x or failed six-case fresh paired confirmation. This destructive scratch reuse is only valid for the fixed zero-warmup single-iteration cold contracts; it is not a resident/repeated GEMM candidate.",
+        "manifest_sha256": "215607c2860541461dfa4c03ce628e10578105f05a634d93e6817e0d72420175",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "da49b7468e21cebf97da32d57ba3fc8de9f10fe6",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "a26d9c71cddc4de24a299adbea4f33492b9acf2dc8ebaa48a3d1af7096586e54",
+      "steps": [],
+      "error": "This candidate is specific to its initial shape"
+    },
+    {
+      "receipt": "runs/v2/20261026T074057Z-meshgemm.cold-prefill-ffn-down-batch64-836ce355/result.json",
+      "receipt_sha256": "7b9474e087ed8c7136a19d863d485237c3efc1399101c12f463d27b7500b9e8e",
+      "kind": "run",
+      "evidence_audit": "verified",
+      "status": "failed",
+      "profile": {
+        "id": "meshgemm.cold-prefill-ffn-down-batch64",
+        "adapter": "meshgemm",
+        "family": "dense-gemm",
+        "dimensions": {
+          "M": 64,
+          "K": 272,
+          "N": 80
+        },
+        "pe_grid": [
+          4,
+          4
+        ],
+        "precision": "fp16",
+        "variants": [
+          "baseline",
+          "candidate"
+        ],
+        "validation": "independent_six_case",
+        "metric": "max_local_cycles",
+        "work_units": 2785280,
+        "work_unit": "arithmetic_operations",
+        "description": "64-row prefill FFN projection; cold FP16 GEMM with complete communication/output validation. Distinct workload and new baseline; not native model prefill.",
+        "timeout_seconds": 600,
+        "regression_limit": 1.02,
+        "timing_protocol": {
+          "warmups": 0,
+          "repeats": 1,
+          "scope": "one complete cold GEMM; warm repeated-input path failed output oracle"
+        }
+      },
+      "variant": "candidate",
+      "seed": 20261061,
+      "screen_only": true,
+      "metrics": {
+        "experiment_wall_seconds": 0
+      },
+      "cases": [],
+      "research": {
+        "approach": "meshgemm.cold-dead-weight-buffer-gather-pack",
+        "candidate": "gemm-prefill-dead-weight-gather-2d",
+        "hypothesis": "Use res_tile as the complete row-major accumulator, then reuse dead W_0_tile after the final communication barriers. Compared with scatter-oriented 2D packing, gather strided accumulator columns into contiguous scratch columns with one 2D transfer, then copy all outputs back inside the timer. Only the transpose traversal changes; test whether contiguous scratch writes improve cold batch64 FFN cycles without an extra allocation. Valid only for fixed zero-warmup one-iteration contracts with Kt>=Mt.",
+        "falsification": "Reject any outstanding communication at buffer reuse, truncated outputs, missing FP16 FMA/reduction terms, changed timer or PE budget, numerical or clean-shutdown failure, speedup below 1.05x, memory above 1.10x or failed six-case fresh paired confirmation. This destructive scratch reuse is only valid for the fixed zero-warmup single-iteration cold contracts; it is not a resident/repeated GEMM candidate.",
+        "manifest_sha256": "afabde2e16a3953556cf5df7dc17d837cb1a7910c97fb66c3d37181885a7043a",
+        "author": "unknown",
+        "model": "unknown",
+        "agent_harness": "Codex"
+      },
+      "provenance": {
+        "git_commit": "da49b7468e21cebf97da32d57ba3fc8de9f10fe6",
+        "git_dirty": true,
+        "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+        "evaluator_files": {
+          "src/cerebras_research/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "src/cerebras_research/adapters.py": "242458b2a84df4a236728ea292b1ddccd9d31d215a010a28a7a19c11a6c2954e",
+          "src/cerebras_research/catalog.py": "d57ac49889676d29a5d65494a60d88c640eda573c2101edf37c69f9602dcd890",
+          "src/cerebras_research/cli.py": "caaea05748349a57b3ab0111c16ab21f8df3e18727ce21c4c66d45835ed54eab",
+          "src/cerebras_research/ledger.py": "4bebe058616400aa00e7ecbe4ff23f7bb55123f01c7e9471d835457f1b9fc9b0",
+          "src/cerebras_research/legacy.py": "cb6db83de5633e054a8b54ebc17d9db2a12600f4fb2c6b70ec3505512fef64f5",
+          "src/cerebras_research/paths.py": "d1fdb6c906976ca5ebe0ca41ee541c342d06d304caff8ac9679dbc8872ee5a6d",
+          "src/cerebras_research/process.py": "0ed8fe4e8ec37f38654dbd2f31657ea5ef1c1dd1a837db043c445a7c99ef6b05",
+          "src/cerebras_research/provenance.py": "4dc67a1043c4741ec16cc48bbf2eee44517c3593c407d04af604ccc1dee0cca3",
+          "src/cerebras_research/runner.py": "85b00a2618002ec5f2dc07f8cb5126ce2591f93edfe18db52714b1b268161283",
+          "src/cerebras_research/scoring.py": "6174ddafe160c52c556cf2539b320294e0cf38694de70c5135a4602bb27bcd9b",
+          "src/cerebras_research/sdk.py": "a54f043700a4c629f095240625b2ea262864e09be8e57ee897716588d5f08f7e",
+          "src/cerebras_research/telemetry.py": "2220a8159e2b93966957dfbded0d06d29e326bc0e16c01b59eb545c67649340d",
+          "benchmarks/drivers/common.py": "f6062602a4449dcc9a36542c7815f6f0646fdfa714ce8c8eb562bbb734af42cd",
+          "benchmarks/drivers/decode_attention.py": "8d0ccb3fdd62603eb2db754299cf75f01f263107ea8ef909805e10a48bbf1ee9",
+          "benchmarks/drivers/decode_attention_oracle.py": "1f8d19dc184095716bdcc7449b8441cee8c9a3c005a2ecda70c22c1070cad2df",
+          "benchmarks/drivers/dense.py": "b94636f2c19a27bb2be4a4e1bd58063e9999392b5b1bfb20b860d11ce8d68ff9",
+          "benchmarks/drivers/legacy_meshgemv.py": "79ed37c72eb95f66409b36100f135d0bcfb476dd1da09eb2ffea25178fc68551",
+          "benchmarks/drivers/memory.py": "dd245fa7ed378cdcca1d1309cf52d29a5d52a32ee8cd426c97499c3dd3d0a88e",
+          "benchmarks/drivers/pipeline.py": "5bfc10ceb7af688a7f5645ef6239e05d0245cc667ffb627ee3e5b4d624ced7f7",
+          "benchmarks/drivers/recurrent_gdn.py": "ec85e7ef59474ac7daa15277205f0d7064bf289f075bff1c3dc7472ae98c228a",
+          "benchmarks/drivers/recurrent_gdn_full.py": "e900c0c9fe433f5a389ef4093a8059ca3760ed7e2d66badff175d87f9a54d5a1",
+          "benchmarks/drivers/recurrent_gdn_full_layout.py": "7ae70608609672cdafc12ab458bc96a3c333c286b637daf7c945af811a318a6f",
+          "benchmarks/drivers/recurrent_gdn_full_oracle.py": "947c63432a7d88c8f1b6a6589e91ca6783c7472e766cbb22adbf4ebf0f0f0f73",
+          "benchmarks/drivers/recurrent_gdn_full_single_oracle.py": "526c5be87e9d783255610801e03502e5a653d84942b146be6484bcfd94dad8c8",
+          "benchmarks/drivers/recurrent_gdn_native.py": "0f2374347de4a7b942192c67c63666f51679606d2342630712a300681d837e3a",
+          "benchmarks/drivers/recurrent_gdn_native_layout.py": "dd388614c305025f18aa195eaf9a410341cea96983aa50fb15a56742138a51e1",
+          "benchmarks/drivers/recurrent_gdn_native_oracle.py": "e363a65ba181ae75413b5edf951effd5f2aea30e5603322eb7d3e80d1362671d",
+          "benchmarks/drivers/recurrent_gdn_oracle.py": "b38bbad8ff3f3239a3ea2267dadee7710f6aba4c6c30a8c3da4cee749ef3c00b",
+          "benchmarks/drivers/resident.py": "6fc2672195d4b7e7ff4b3564af0eefb9f25432c22f34aac68af248a2780e7906",
+          "benchmarks/drivers/resident_oracle.py": "be0fe777032d72b86e89e6198e14875dd4c6cba6e37de16825285334990c8445",
+          "benchmarks/drivers/resident_swiglu.py": "b1778c62fd69615e7a020ccf2c7600df0b4261bdd39dfaed40ca7fb75acd6dec",
+          "benchmarks/drivers/resident_swiglu_bf16.py": "665fd1a27eac92daff3f4070186cd610e17c3f950cf4aabec16527fd53a29cf7",
+          "benchmarks/drivers/resident_swiglu_bf16_oracle.py": "b3193090dee0163254fcae073431e2423457f3a7e60632050ef62321d70d187e",
+          "benchmarks/drivers/resident_swiglu_oracle.py": "6f3f95e2105513ff57b75e7d0daedfd92e6107966d9568a50fab2816ca2950bd",
+          "benchmarks/drivers/reusable_gemm.py": "0436a33ca2ee99366603383d12ccf1e646bcda74e6fcaa45bf3b5994cd0c666d",
+          "benchmarks/drivers/reusable_gemm_oracle.py": "20590577bfbb430eff99c2f60d2b127e67945b3556b2f760a4f7ce64faa9d217",
+          "benchmarks/drivers/sdk_reference.py": "c7d2c93eef1a24965e1065ab79fcec73b311cec798967bc386f51228542f4f98",
+          "benchmarks/drivers/snapshot.py": "2896eff1d93fd7df156fa849b667746a3044c7f798b76ba72efaf9183eeed01a",
+          "benchmarks/drivers/snapshot_grid.py": "8ce7b81430380a1acaefc02ceae6bd23d715cdfc26b7f25a63029e56e163a8f1",
+          "tools/sdk-run": "2d56e34ebd50ca2f7a2efef5db5b5dba1d0dc72a1d748a3010f111b2da09bc35",
+          "config/sdk-platform.json": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+          "config/sdk-install.json": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99"
+        }
+      },
+      "sdk": {
+        "sdk_release": "2.10.1",
+        "sdk_build": "sdk-202606181328-8faf87a26e",
+        "sif": "sdk-cbcore-2.10.1-sdk-202606181328-8faf87a26e.sif",
+        "sif_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+        "bundled_checksum_verification": "all files passed",
+        "local_sdk_directory": ".sdk/sdk-2.10.1",
+        "lima_instance": "cerebras-sdk-rosetta",
+        "guest_os": "Ubuntu 24.04.5 LTS aarch64",
+        "guest_container_runtime": "singularity-ce version 4.1.1",
+        "host_lima_version": "2.2.1",
+        "example_source_release": "rel-sdk-2.10.0",
+        "execution_platform": {
+          "schema_version": 1,
+          "id": "lima-vz-rosetta-v1",
+          "lima_instance": "cerebras-sdk-rosetta",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "controller_machine": "aarch64",
+          "virtualization": "vz",
+          "translation": "Rosetta for Linux",
+          "container_runtime": "singularity-ce version 4.1.1",
+          "container_package": "singularity-container=4.1.1+ds2-1ubuntu0.3",
+          "guest_image_sha256": "50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e",
+          "sdk_image_architecture": "x86_64",
+          "qualification_scope": "Requires new matched baselines; old QEMU timings are a distinct evaluator track."
+        },
+        "execution_platform_sha256": "0ef333bff1ad10ed7df0653d3c6e194b46a1888df75e82d0f72d1383bbbb2f48",
+        "installation_manifest_sha256": "379ba21857b9991f39d06beade7ab186cd393e7e427348cbf82217dff677cf99",
+        "controller": {
+          "machine": "aarch64",
+          "hostname": "lima-cerebras-sdk-rosetta",
+          "kernel": "6.8.0-147-generic",
+          "python": "3.12.3"
+        },
+        "installation_evidence": {
+          "example_compatibility_status": "official WSE-3 GEMV tutorial compiled and simulated successfully",
+          "smoke_run": "runs/20261022T091254Z-sdk-smoke-3322/result.json"
+        }
+      },
+      "profile_sha256": "a26d9c71cddc4de24a299adbea4f33492b9acf2dc8ebaa48a3d1af7096586e54",
+      "steps": [],
+      "error": "This candidate is specific to its initial shape"
+    }
+  ],
+  "record_count": 13,
+  "validated_case_count": 30,
+  "artifact_integrity_replayed": true,
+  "numerical_arrays_recomputed": false,
+  "qwen_tps_result": false
+}

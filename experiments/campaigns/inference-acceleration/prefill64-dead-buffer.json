@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "name": "large-cold-prefill-dead-buffer",
+  "seed": 20261061,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "meshgemm.cold-prefill-ffn-up-batch64",
+      "baseline_receipt": "runs/v2/20261026T054730Z-meshgemm.cold-prefill-ffn-up-batch64-da24a226/result.json",
+      "candidates": [
+        {
+          "candidate": "gemm-prefill-dead-weight-pack"
+        },
+        {
+          "candidate": "gemm-prefill-dead-weight-pack-2d"
+        },
+        {
+          "candidate": "gemm-prefill-dead-weight-gather-2d"
+        }
+      ]
+    },
+    {
+      "profile": "meshgemm.cold-prefill-ffn-down-batch64",
+      "baseline_receipt": "runs/v2/20261026T055206Z-meshgemm.cold-prefill-ffn-down-batch64-b7f599c6/result.json",
+      "candidates": [
+        {
+          "candidate": "gemm-prefill-dead-weight-pack"
+        },
+        {
+          "candidate": "gemm-prefill-dead-weight-pack-2d"
+        },
+        {
+          "candidate": "gemm-prefill-dead-weight-gather-2d"
+        }
+      ]
+    }
+  ]
+}

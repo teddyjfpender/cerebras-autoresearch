@@ -1,0 +1,18 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-batch64",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "meshgemm.cold-dead-weight-buffer-gather-pack-shape-repair",
+  "hypothesis": "Use res_tile as the complete row-major accumulator, then reuse dead W_0_tile after the final communication barriers. Compared with scatter-oriented 2D packing, gather strided accumulator columns into contiguous scratch columns with one 2D transfer, then copy all outputs back inside the timer. Only the transpose traversal changes; test whether contiguous scratch writes improve cold batch64 FFN cycles without an extra allocation. Valid only for fixed zero-warmup one-iteration contracts with Kt>=Mt. This revision corrects the manifest shape_specific flag: the parameterized code supports both fixed 64-row FFN shapes under the same cold contract. Preserve the earlier down-profile preflight rejection; do not relabel it as execution evidence.",
+  "falsification": "Reject missing communication/reduction terms or outputs, changed precision/workload/PE/timer contracts, premature scratch reuse, numerical or clean-shutdown failures, changed full/fresh source/evaluator identity. Record cycles and program-object memory for every correct full/fresh point. Default conservative promotion additionally requires >=1.05x speedup and <=1.10x memory; the separate Pareto report keeps qualified memory tradeoffs even when that policy rejects them.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex",
+  "contract_scope": "Only zero-warmup, one-iteration cold GEMM profiles with Kt >= Mt; rotating working input buffers are dead after final communication."
+}

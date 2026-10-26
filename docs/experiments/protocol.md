@@ -14,6 +14,13 @@
 6. Record exact paths/profile, then evaluate the relevant regression suite before
    proposing a family-wide improvement.
 
+The [frontier track](frontier.md) fully validates promising speed/memory tradeoffs
+even when the default promotion policy rejects their relative memory growth.
+Use full six-case initial/fresh runs and matched controls; do not silently widen
+an existing policy or overwrite its historical decisions. A fresh-paired point
+and a default-policy promotion are separate claims. Report both absolute memory
+and cycles, including useful higher-memory points and dominated negative results.
+
 The supplied `gemv-unroll` workspace is shape-specific: its literal expansion
 uses 16 local rows. Parameterized candidates can span shapes, but every claimed
 cell needs its own measurement.

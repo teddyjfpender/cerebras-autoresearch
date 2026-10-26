@@ -1,0 +1,17 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-batch64",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": true,
+  "approach": "meshgemm.cold-dead-weight-buffer-gather-pack",
+  "hypothesis": "Use res_tile as the complete row-major accumulator, then reuse dead W_0_tile after the final communication barriers. Compared with scatter-oriented 2D packing, gather strided accumulator columns into contiguous scratch columns with one 2D transfer, then copy all outputs back inside the timer. Only the transpose traversal changes; test whether contiguous scratch writes improve cold batch64 FFN cycles without an extra allocation. Valid only for fixed zero-warmup one-iteration contracts with Kt>=Mt.",
+  "falsification": "Reject any outstanding communication at buffer reuse, truncated outputs, missing FP16 FMA/reduction terms, changed timer or PE budget, numerical or clean-shutdown failure, speedup below 1.05x, memory above 1.10x or failed six-case fresh paired confirmation. This destructive scratch reuse is only valid for the fixed zero-warmup single-iteration cold contracts; it is not a resident/repeated GEMM candidate.",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

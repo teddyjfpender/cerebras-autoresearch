@@ -45,6 +45,13 @@ fresh paired confirmation. Default retention requires **1.05× cycle speedup**,
 at most **10% growth in the program-object memory metric**, and every numerical
 case. Retention applies to the measured profile.
 
+Research also qualifies a [speed–memory frontier](docs/experiments/frontier.md).
+Fully correct, fresh-paired implementations can be useful with substantially
+more memory or with smaller gains than the default promotion policy. Publish
+cycles and program-object bytes per PE together; keep policy eligibility
+separate from Pareto membership. The ordinary journal already preserves all
+full measurements, including points outside the default promotion gates.
+
 See the [research protocol](docs/experiments/protocol.md) for regression suites,
 candidate review, budgets, and evidence. The checked-in
 [GEMV workspace](experiments/candidates/gemv-unroll/README.md) is an actual

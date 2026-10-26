@@ -26,9 +26,14 @@ all 24 baseline/candidate case executions. Program-object memory is
 [Complete evidence](reports/2026-10-26/inference-acceleration/attention-latency32-confirmed.json).
 This is a fresh reproduction under this checkout's evaluator and SDK route,
 not a new gain beyond PR #1 or a comparison against production inference code.
-Complete decoder-context and cold prefill-projection searches follow serially.
-New context/prefill/attention profiles remain configured until individually
-qualified; no family-wide gain or model/hardware TPS is claimed.
+Four further attention profiles now pass matched full/fresh confirmation:
+boundary **2.198245x**, context128 **2.191341x**, 16-PE latency **3.904094x**,
+and context1024 **2.225131x** (390673 to 175573 cycles, +5.00% memory).
+[Context1024 receipt](reports/2026-10-26/inference-acceleration/attention-context1024-confirmed.json).
+The D128/context512 and D64/context4096 profiles and whole-suite independent
+raw-array replay remain pending; no seven-profile or model/hardware TPS claim
+is made. Completed attention runs are checkpointed while the larger cold GEMM
+frontier is qualified, then its frozen campaign resumes serially.
 
 ## Decoder follow-up — causal vector QK
 
@@ -80,10 +85,33 @@ independently replayed. Up is **23,230 →10,601 cycles (2.191303×)** and down 
 
 [Suite evidence](reports/2026-10-26/inference-acceleration/prefill16-initial-suite-confirmed.json),
 [full initial portfolio](reports/2026-10-26/inference-acceleration/prefill-projections-initial.json).
-The two new 64-row baselines qualify, but no initial candidate meets both gates
-there. The faster up-projection screen grows memory 22.8%, so it is rejected.
-A new padded layout and explicit-column alternatives are being tested; no
-four-shape improvement or model/hardware TPS is claimed.
+The first 64-row screens missed the conservative memory/promotion policy.
+Their larger-memory results remain valid research hypotheses and are now being
+fully qualified for the explicit speed/memory frontier, rather than discarded.
+
+## Cold batch64 GEMM — buffer reuse and the speed/memory frontier
+
+Both larger profiles now pass full six-case validation at two paired seeds:
+
+| Profile | Reference → gather cycles | Speedup | Program-object bytes/PE | Growth |
+| --- | ---: | ---: | ---: | ---: |
+| FFN-up, 64 rows | 34,929 → 31,984 | 1.092077x | 14,688 → 14,752 | +0.44% |
+| FFN-down, 64 rows | 45,006 → 33,309 | 1.351166x | 16,208 → 16,288 | +0.49% |
+
+[Fresh-paired frontier](reports/2026-10-26/inference-acceleration/prefill64-gather-portfolio-frontier.json)
+records the two profiles separately, with each baseline and implementation.
+The complete paired arms pass independent raw-array/timestamp replay (48 case
+executions). Packing uses a dead weight working buffer after the final transfer
+callbacks, with complete output restoration inside the timer. These destructive
+scratch variants are specific to the original cold, single-iteration contracts.
+
+The [frontier protocol](../docs/experiments/frontier.md) treats cycles and memory
+as independent objectives. Fully qualify faster higher-memory variants even
+when they fail the default 10% promotion policy. The active pilot measures four
+implementations per shape, including the original larger accumulator, direct
+output-buffer aliasing and bank offsets. Its final frontier and conservative
+suite assembly are still pending. These are fixed 16-PE FP16 simulations, not
+native model prefill or hardware/model TPS.
 
 ## Latest resident GEMM result
 
