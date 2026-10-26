@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "name": "attention-coverage",
+  "seed": 20261061,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "decode-attention.d64-boundary",
+      "candidates": [
+        {
+          "candidate": "attention-dsr-normalize"
+        },
+        {
+          "candidate": "attention-newton"
+        }
+      ]
+    },
+    {
+      "profile": "decode-attention.d64-ctx128",
+      "candidates": [
+        {
+          "candidate": "attention-dsr-normalize"
+        },
+        {
+          "candidate": "attention-newton"
+        }
+      ]
+    },
+    {
+      "profile": "decode-attention.d64-ctx128-latency16",
+      "candidates": [
+        {
+          "candidate": "attention-dsr-normalize"
+        },
+        {
+          "candidate": "attention-newton"
+        }
+      ]
+    },
+    {
+      "profile": "decode-attention.d64-ctx1024",
+      "candidates": [
+        {
+          "candidate": "attention-dsr-normalize"
+        },
+        {
+          "candidate": "attention-newton"
+        }
+      ]
+    },
+    {
+      "profile": "decode-attention.d128-ctx512",
+      "candidates": [
+        {
+          "candidate": "attention-dsr-normalize"
+        },
+        {
+          "candidate": "attention-newton"
+        }
+      ]
+    },
+    {
+      "profile": "decode-attention.d64-ctx4096",
+      "candidates": [
+        {
+          "candidate": "attention-dsr-normalize"
+        },
+        {
+          "candidate": "attention-newton"
+        }
+      ]
+    }
+  ]
+}

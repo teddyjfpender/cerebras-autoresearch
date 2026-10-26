@@ -48,7 +48,17 @@
     "recurrent-gdn.k32-v16",
     "recurrent-gdn-native.k128-v128-t4",
     "recurrent-gdn-native.k128-v128-t8",
-    "recurrent-gdn-full.k128-v128-h16-t2"
+    "recurrent-gdn-full.k128-v128-h16-t2",
+    "decode-attention.d64-ctx128",
+    "decode-attention.d64-boundary",
+    "decode-attention.d64-ctx1024",
+    "decode-attention.d64-ctx4096",
+    "decode-attention.d128-ctx512",
+    "decode-attention.d64-ctx128-latency16",
+    "decode-attention.d64-ctx128-latency32",
+    "meshgemm.cold-prefill-ffn-up-batch64",
+    "meshgemm.cold-prefill-ffn-down-batch64",
+    "decoder.h16-f32-ctx28"
   ],
   "description": "Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion."
 }

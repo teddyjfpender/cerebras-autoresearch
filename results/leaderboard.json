@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "ledger_rows": 477,
-  "ledger_head": "3946cf3e9e9defd59c7d64f21f7dea113b8ab504f8087cf814008e0cd80b19bf",
+  "ledger_rows": 491,
+  "ledger_head": "04f4d205ee931ee7a50f407c2901170028954d3ed24ab1c59172d79a685d7279",
   "authentication": "unsigned local SHA-256 chain; Git history anchors accepted prefixes",
   "scope": "measured views are provisional; compare only within identical contract/toolchain tracks",
   "measured_best_by_approach": [
@@ -991,6 +991,60 @@
       "source_sha256": "4206347d03bb468dad518b1514802aada94540bade39de26c304eea25938b079",
       "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
       "receipt": "runs/v2/20261023T181611Z-recurrent-gdn-native.k128-v128-t8-fbafb8b1/result.json",
+      "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "b52c2f3dff6a2ad0404b3703b62aa66e8270f77c892c3759f933b64c6c893008",
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "approach": "decode_attention.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "220273.0",
+      "memory_bytes": "29216",
+      "source_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T050922Z-decode-attention.d64-ctx128-latency32-abeac030/result.json",
+      "decision": "baseline",
+      "primary_metric": "coordinator_cycles"
+    },
+    {
+      "event_id": "1b131414c47646340d78779dda05e7ecb17a0160a6943133d4b65565ff881fe6",
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "approach": "decode_attention.bank-dsr-vector-max-newton",
+      "candidate": "attention-newton",
+      "variant": "candidate",
+      "primary_value": "43165.0",
+      "memory_bytes": "30480",
+      "source_sha256": "addb72920f98c8be374c1ff6a981fcd214fa9faca94da96dc0943f76ef7c17f6",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T051418Z-decode-attention.d64-ctx128-latency32-6f54def3/result.json",
+      "decision": "measured_unconfirmed",
+      "primary_metric": "coordinator_cycles"
+    },
+    {
+      "event_id": "152cb5c369517e2ff652a68f8962eb65c96ba45d1ffee505457eef7bd4c8d596",
+      "profile": "decoder.h16-f32-ctx4",
+      "approach": "decoder.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "366243.0",
+      "memory_bytes": "27968",
+      "source_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T052225Z-decoder.h16-f32-ctx4-22da17e2/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "1be17679135c9058aff8df9200257bc0f51f087520d853903231ce0762d838c6",
+      "profile": "decoder.h16-f32-ctx4",
+      "approach": "decoder.vector-valid-softmax-reciprocal",
+      "candidate": "decoder-vector-softmax-reciprocal",
+      "variant": "candidate",
+      "primary_value": "122191.0",
+      "memory_bytes": "28224",
+      "source_sha256": "f6d6335cd0c73fbcbe1bc591be68db6a23a7d698012bc7b615511ae240f42a9a",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T052342Z-decoder.h16-f32-ctx4-80a24a00/result.json",
       "decision": "measured_unconfirmed"
     }
   ],
@@ -2463,6 +2517,88 @@
       "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
       "receipt": "runs/v2/20261023T184230Z-recurrent-gdn-native.k128-v128-t8-0d52dbc3/result.json",
       "decision": "measured_unconfirmed"
+    },
+    {
+      "event_id": "b52c2f3dff6a2ad0404b3703b62aa66e8270f77c892c3759f933b64c6c893008",
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "approach": "decode_attention.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "220273.0",
+      "memory_bytes": "29216",
+      "source_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T050922Z-decode-attention.d64-ctx128-latency32-abeac030/result.json",
+      "decision": "baseline",
+      "primary_metric": "coordinator_cycles"
+    },
+    {
+      "event_id": "1b131414c47646340d78779dda05e7ecb17a0160a6943133d4b65565ff881fe6",
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "approach": "decode_attention.bank-dsr-vector-max-newton",
+      "candidate": "attention-newton",
+      "variant": "candidate",
+      "primary_value": "43165.0",
+      "memory_bytes": "30480",
+      "source_sha256": "addb72920f98c8be374c1ff6a981fcd214fa9faca94da96dc0943f76ef7c17f6",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T051418Z-decode-attention.d64-ctx128-latency32-6f54def3/result.json",
+      "decision": "measured_unconfirmed",
+      "primary_metric": "coordinator_cycles"
+    },
+    {
+      "event_id": "c543bedcbf61848a3522118b5cc2714bcd82213a3121aa6fa29e85dae3d772dc",
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "approach": "decode_attention.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "220273.0",
+      "memory_bytes": "29216",
+      "source_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T051637Z-decode-attention.d64-ctx128-latency32-eaff0c5b/result.json",
+      "decision": "baseline",
+      "primary_metric": "coordinator_cycles"
+    },
+    {
+      "event_id": "49c06cddf5029c6c519a6ee3b6ce128ee2fb5dce6d1fd12b4eaeeeeb9135da58",
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "approach": "decode_attention.bank-dsr-vector-max-newton",
+      "candidate": "attention-newton",
+      "variant": "candidate",
+      "primary_value": "43165.0",
+      "memory_bytes": "30480",
+      "source_sha256": "addb72920f98c8be374c1ff6a981fcd214fa9faca94da96dc0943f76ef7c17f6",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T052002Z-decode-attention.d64-ctx128-latency32-bc539598/result.json",
+      "decision": "measured_unconfirmed",
+      "primary_metric": "coordinator_cycles"
+    },
+    {
+      "event_id": "152cb5c369517e2ff652a68f8962eb65c96ba45d1ffee505457eef7bd4c8d596",
+      "profile": "decoder.h16-f32-ctx4",
+      "approach": "decoder.baseline",
+      "candidate": "",
+      "variant": "baseline",
+      "primary_value": "366243.0",
+      "memory_bytes": "27968",
+      "source_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T052225Z-decoder.h16-f32-ctx4-22da17e2/result.json",
+      "decision": "baseline"
+    },
+    {
+      "event_id": "1be17679135c9058aff8df9200257bc0f51f087520d853903231ce0762d838c6",
+      "profile": "decoder.h16-f32-ctx4",
+      "approach": "decoder.vector-valid-softmax-reciprocal",
+      "candidate": "decoder-vector-softmax-reciprocal",
+      "variant": "candidate",
+      "primary_value": "122191.0",
+      "memory_bytes": "28224",
+      "source_sha256": "f6d6335cd0c73fbcbe1bc591be68db6a23a7d698012bc7b615511ae240f42a9a",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T052342Z-decoder.h16-f32-ctx4-80a24a00/result.json",
+      "decision": "measured_unconfirmed"
     }
   ],
   "confirmed_improvements": [
@@ -2959,6 +3095,20 @@
       "evaluator_sha256": "917417529c2279fae5256aed6b58ecb7102155ed5a137ee540d3f34ce335e9c7",
       "receipt": "runs/v2/20261023T185238Z-confirmation-da167660/result.json",
       "decision": "confirmed"
+    },
+    {
+      "event_id": "715ee0abf4c1abd2775f41a0d55dc92f16286020765bf2d64ade4fa0573f1ec0",
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "approach": "decode_attention.bank-dsr-vector-max-newton",
+      "candidate": "attention-newton",
+      "variant": "candidate",
+      "primary_value": "43165.0",
+      "memory_bytes": "30480",
+      "source_sha256": "addb72920f98c8be374c1ff6a981fcd214fa9faca94da96dc0943f76ef7c17f6",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T052218Z-confirmation-11b44371/result.json",
+      "decision": "confirmed",
+      "primary_metric": "coordinator_cycles"
     }
   ],
   "best_confirmed_by_track": [
@@ -3379,6 +3529,26 @@
       "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
       "speedup": "2.7198506694129763",
       "memory_ratio": "1.018875192604006"
+    },
+    {
+      "event_id": "715ee0abf4c1abd2775f41a0d55dc92f16286020765bf2d64ade4fa0573f1ec0",
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "approach": "decode_attention.bank-dsr-vector-max-newton",
+      "candidate": "attention-newton",
+      "variant": "candidate",
+      "primary_value": "43165.0",
+      "memory_bytes": "30480",
+      "source_sha256": "addb72920f98c8be374c1ff6a981fcd214fa9faca94da96dc0943f76ef7c17f6",
+      "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+      "receipt": "runs/v2/20261026T052218Z-confirmation-11b44371/result.json",
+      "decision": "confirmed",
+      "primary_metric": "coordinator_cycles",
+      "profile_sha256": "706daa89dd8caac1a0d4e75e71085f4f433b11e615c56ebe1b72cbf6522e79ef",
+      "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+      "harness_sha256": "b0c3c74957fe54566ad1aee160afb50bbcb4114021c958dcbdab35d7f1d23ad8",
+      "sdk_sha256": "fff17e81c61dcb6012bdee2941a6fdc570f5c8604967530e7b7108651258193d",
+      "speedup": "5.103046449669871",
+      "memory_ratio": "1.0432639649507118"
     }
   ],
   "confirmed_suite_events": [

@@ -1,0 +1,17 @@
+{
+  "adapter": "decoder",
+  "initial_profile": "decoder.h16-f32-ctx4",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "e5e03ed6af3d2961b53aae3edb2f687c1555a6b8303dfae8b88179fa3e3e0e30",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decoder.vector-valid-softmax-reciprocal",
+  "hypothesis": "After vector projections and bounded FP32 SiLU, repeated probability divisions may dominate context-dependent attention. Compute one exact SDK FP32 reciprocal per head and vector-multiply every valid score, preserving every causal position, all state/history/output stores and full sequence timing. Test original contexts and the new28-to32 stress case.",
+  "falsification": "Reject missing valid probabilities or state/output work, any original5e-5 numerical/state/precision/timing/PE failure, shutdown failure, less than1.05x gain or more than1.10x memory against matched baseline, or failed fresh paired confirmation. Compare with the incumbent polynomial candidate; do not replace a faster confirmed implementation.",
+  "parent_candidate": "decoder-silu-polynomial",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

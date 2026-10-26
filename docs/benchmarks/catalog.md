@@ -6,11 +6,21 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 <!-- catalog:profiles:start -->
 | Profile | Family | Precision | Validation | Primary |
 | --- | --- | --- | --- | --- |
+| `decode-attention.d128-ctx512` | sharded-gqa-decode | fp32 | independent_six_case | coordinator_cycles |
+| `decode-attention.d64-boundary` | sharded-gqa-decode | fp32 | independent_six_case | coordinator_cycles |
+| `decode-attention.d64-ctx1024` | sharded-gqa-decode | fp32 | independent_six_case | coordinator_cycles |
+| `decode-attention.d64-ctx128` | sharded-gqa-decode | fp32 | independent_six_case | coordinator_cycles |
+| `decode-attention.d64-ctx128-latency16` | sharded-gqa-decode | fp32 | independent_six_case | coordinator_cycles |
+| `decode-attention.d64-ctx128-latency32` | sharded-gqa-decode | fp32 | independent_six_case | coordinator_cycles |
+| `decode-attention.d64-ctx4096` | sharded-gqa-decode | fp32 | independent_six_case | coordinator_cycles |
 | `decoder.h16-f32-ctx12` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
+| `decoder.h16-f32-ctx28` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
 | `decoder.h16-f32-ctx4` | resident-decoder | fp32 | independent_six_case | max_local_cycles |
 | `gated-mlp.h16-f32` | resident-gated-mlp | fp32 | independent_six_case | max_local_cycles |
 | `gated-mlp.h32-f64` | resident-gated-mlp | fp32 | independent_six_case | max_local_cycles |
+| `meshgemm.cold-prefill-ffn-down-batch64` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
 | `meshgemm.cold-prefill-ffn-down-scaled` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
+| `meshgemm.cold-prefill-ffn-up-batch64` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
 | `meshgemm.cold-prefill-ffn-up-scaled` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
 | `meshgemm.cold-rectangular` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
 | `meshgemm.cold-square32` | dense-gemm | fp16 | independent_six_case | max_local_cycles |
@@ -61,9 +71,11 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 <!-- catalog:suites:start -->
 | Suite | Profiles | Purpose |
 | --- | ---: | --- |
-| `all` | 48 | Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion. |
+| `all` | 58 | Current aggregate of every configured profile; each receipt freezes its actual membership. Mixed validation tiers cannot receive automatic promotion. |
 | `communication` | 4 | Broadcast and emulated host transfers |
+| `decode-attention` | 7 | Configured collection; see suite manifest |
 | `decode-ffn` | 2 | Medium FFN up/down GEMV projections |
+| `decoder-context-stress` | 3 | Both original decoder contexts plus the 28-to32 full-cache stress case. Separate from frozen two-cell decoder suite. |
 | `decoder` | 2 | Stateful causal decoder layer at two initial contexts |
 | `dense` | 11 | Dense inference primitives |
 | `fusion` | 3 | Independent composed chains; staged/fused suite comparison |
@@ -71,6 +83,7 @@ Manifests describe configured workloads. Actual execution coverage is recorded i
 | `gemm` | 5 | Five cold GEMM shapes |
 | `gemv` | 6 | Six GEMV shapes |
 | `inference-blocks` | 8 | All four inference challenge tracks |
+| `prefill-ffn-batch64` | 2 | Complete 64-row cold prefill FFN up/down pair; new controls required. Original 16-row suite remains frozen. |
 | `prefill-ffn` | 2 | Larger cold FFN up/down GEMM projections |
 | `qualification` | 27 | Representative independent oracles and every SDK profile |
 | `recurrent-gdn-full` | 1 | One complete full-native-head two-token workload; exact profile scope, not cross-shape generality. |

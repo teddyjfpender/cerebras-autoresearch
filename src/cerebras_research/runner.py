@@ -146,6 +146,7 @@ def execute(
                 "pipeline": "benchmark_pipeline.py",
                 "gated_mlp": "resident.py",
                 "decoder": "resident.py",
+                "decode_attention": "decode_attention.py",
                 "reusable_gemm": "reusable_gemm.py",
                 "resident_swiglu": "resident_swiglu.py",
                 "resident_swiglu_bf16": "resident_swiglu_bf16.py",
@@ -176,6 +177,13 @@ def execute(
                 write_json(receipt, record)
             for metric in ("max_local_cycles", "mean_local_cycles", "pe_cycle_spread"):
                 record["metrics"][metric] = max(c["metrics"][metric] for c in record["cases"])
+            if kind == "decode_attention":
+                record["metrics"]["coordinator_cycles"] = max(
+                    c["metrics"]["coordinator_cycles"] for c in record["cases"]
+                )
+                record["metrics"]["cycles_per_token"] = (
+                    record["metrics"]["coordinator_cycles"] / profile["dimensions"]["T"]
+                )
             record["metrics"]["max_error_fraction"] = max(
                 c["max_fraction_of_error_bound"] for c in record["cases"]
             )

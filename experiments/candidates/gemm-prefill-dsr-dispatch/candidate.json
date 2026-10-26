@@ -1,0 +1,19 @@
+{
+  "adapter": "meshgemm",
+  "initial_profile": "meshgemm.cold-prefill-ffn-up-scaled",
+  "source": {
+    "url": "https://github.com/MeshInfra/WaferLLM.git",
+    "commit": "fd1c2daae37cd68706c03fc8009887ecee9900f8"
+  },
+  "baseline_tree_sha256": "e686e5458b3e2e8118036a21c69b248dd0e48cca4e85c378f4d0ac8abae7bee0",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "meshgemm.cold-prefill-dsr-shape-dispatch",
+  "hypothesis": "Transfer the resident GEMM descriptor strategy into the original cold GEMM timing contract. Wide FFN-up output tiles reuse weight DSRs across rows and accumulate contiguous output vectors with an in-timer ABI transpose. FFN-down retains the original column accumulator but reloads only its addresses perK step. Preserve all four communication phases, FP16 accumulation order and every output. Test both directions at16 and64 rows.",
+  "falsification": "Reject missing multiply/add/communication/output work, original fixed FP16 oracle or precision failure, altered timer/repetition/PE contract, shutdown failure, less than1.05x baseline speedup, more than1.10x program-object memory or failed fresh paired confirmation. Compare with the incumbent contiguous-pack and map-K candidates before replacing any retained implementation.",
+  "parent_candidate": "gemm-row-major-map-k-base",
+  "reference_candidate": "resident-gemm-shape-dispatch-v2",
+  "author": "unknown",
+  "model": "unknown",
+  "agent_harness": "Codex"
+}

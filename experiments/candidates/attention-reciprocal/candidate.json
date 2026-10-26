@@ -1,0 +1,19 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128-latency32",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.bank-dsr-vector-max-reciprocal",
+  "hypothesis": "Extend bank-offset QK, DSR reuse, bounded unrolling, vector max merge and normalization with the SDK FP32 reciprocal routine. Stable softmax has a finite denominator at least one, so avoid general division overhead while preserving the fixed output/state checks.",
+  "falsification": "Require all six cases at both fresh paired seeds, at least 5.01x coordinator speedup versus the matched original reference and at most 10% program-object memory growth. Reject altered precision, PE budget, cache, work, collective control or timing.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "ChatGPT Work",
+  "qualification_at_creation": "unmeasured in current evaluator/SDK route",
+  "ported_from_commit": "5e818e10b7740daaa0d5e2962f7010100385e0e1",
+  "ported_from_pr": "https://github.com/teddyjfpender/cerebras-autoresearch/pull/1"
+}

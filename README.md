@@ -68,7 +68,7 @@ python3 research.py ledger sync               # Recover unjournaled terminal rec
 
 ## Benchmark coverage
 
-**48 configured profiles, 17 families, 22 suites.** The
+**58 configured profiles, 18 families, 25 suites.** The
 [catalog](docs/benchmarks/catalog.md) describes coverage; [results](results/README.md)
 separate measured profiles from configured ones.
 
@@ -76,6 +76,7 @@ separate measured profiles from configured ones.
 | --- | --- |
 | Dense inference | Six GEMV shapes; five cold GEMM shapes; three resident GEMM sequences; scaled FFN up/down projections |
 | Distributed resident FFN | Four distinct batches through gate/up GEMMs, SiLU/product, down GEMM and residual on 16 PEs; separate FP16 and BF16/FP32-accumulator contracts, every intermediate/state checked |
+| Distributed decode attention | Seven resident GQA profiles across 4–128 PEs; four causal tokens, complete outputs and final cache bits; coordinator-clock timing |
 | Recurrent attention operator | Four resident tokens through gated delta-rule updates; BF16 Q/K/V/output, FP32 normalized operands and complete recurrent state; three value heads per key head on 16 PEs |
 | Complete inference blocks | RMSNorm/SwiGLU MLP at two widths; causal RoPE attention with KV state and MLP at two contexts |
 | Composed programs | Three FP32 matvec → bias → ReLU → residual chains with staged/fused variants; SDK residual norm |
@@ -83,7 +84,7 @@ separate measured profiles from configured ones.
 | Numerical/scientific | Sparse 7-point stencil; 1D/2D/3D FFT; local matvec bandwidth |
 | Exact/spatial | 256-bit multiplication; Game of Life |
 
-Thirty-two profiles have independent six-case oracles. Fourteen use pinned
+Forty-two profiles have independent six-case oracles. Fourteen use pinned
 upstream reference checks; two are diagnostics. Only the independent-oracle
 tier can pass automatic promotion. Untimed examples receive no cycle score.
 
@@ -154,3 +155,7 @@ commands remain compatibility entry points. Hosted API telemetry follows its
 The [current inference priority](docs/research/inference-priority.md) pins the
 DeepInfer and Model Zoo reference roles and the gates between simulator kernels,
 complete native operators and eventual model/runtime performance claims.
+
+The [inference acceleration campaign](experiments/campaigns/inference-acceleration/README.md)
+adds distributed decode attention, longer decoder context and 64-row prefill
+projections with distinct contracts and fresh paired controls.

@@ -27,6 +27,7 @@ smoke:
 	tools/sdk-run $(PYTHON) research.py suite smoke --screen --max-seconds 1200
 
 sdk-test:
+	tools/sdk-run cs_python tests/integration/check_attention_contracts.py
 	tools/sdk-run cs_python tests/integration/check_driver_contracts.py
 	tools/sdk-run cs_python tests/integration/check_replay_contracts.py
 	tools/sdk-run cs_python tests/integration/check_reusable_gemm_contracts.py

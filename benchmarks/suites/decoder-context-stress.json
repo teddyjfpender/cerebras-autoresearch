@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "decoder.h16-f32-ctx4",
+    "decoder.h16-f32-ctx12",
+    "decoder.h16-f32-ctx28"
+  ],
+  "description": "Both original decoder contexts plus the 28-to32 full-cache stress case. Separate from frozen two-cell decoder suite."
+}

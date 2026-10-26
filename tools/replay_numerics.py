@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / "benchmarks/drivers"))
 
 import numpy as np
 from common import timing
+from decode_attention_oracle import evidence as attention_evidence
 from recurrent_gdn import pack_timer as recurrent_pack_timer
 from recurrent_gdn_oracle import evidence as recurrent_evidence
 from recurrent_gdn_oracle import inputs as recurrent_inputs
@@ -251,6 +252,15 @@ def recompute(profile, raw):
             gamma * (np.abs(x) @ np.abs(w) + np.abs(raw["bias"]) + np.abs(raw["residual"]))
             + 32 * 2.0**-149
         )
+    elif kind == "decode_attention":
+        if profile.get("oracle_contract") != "sharded_gqa_decode_fp32_v1":
+            raise ValueError("Unsupported attention oracle version")
+        data = {name[6:]: raw[name] for name in raw.files if name.startswith("input_")}
+        actual = {name: raw["actual_" + name] for name in ("Y", "K", "V")}
+        arrays, _, bound = attention_evidence(dims, data, actual)
+        np.testing.assert_array_equal(raw["actual"], arrays["actual"])
+        expected = arrays["expected"]
+        strict = bool(arrays["exact_state_match"])
     elif kind in ("gated_mlp", "decoder"):
         if profile.get("oracle_contract") != "resident_transformer_fp32_v1":
             raise ValueError("Unsupported resident oracle version")
@@ -310,6 +320,18 @@ def check_case(profile, case, artifact):
                     or saved.tobytes() != value.tobytes()
                 ):
                     raise ValueError("Recurrent input differs from its declared seed/family")
+        if profile["adapter"] == "decode_attention":
+            from decode_attention_oracle import inputs as attention_inputs
+
+            wanted = attention_inputs(profile["dimensions"], case["seed"], case["case"])
+            for name, value in wanted.items():
+                saved = raw["input_" + name]
+                if (
+                    saved.shape != value.shape
+                    or saved.dtype != value.dtype
+                    or saved.tobytes() != value.tobytes()
+                ):
+                    raise ValueError("Attention input differs from its declared seed/family")
         expected, bound, strict = recompute(profile, raw)
         np.testing.assert_allclose(raw["expected"], expected, rtol=2e-12, atol=2e-12)
         np.testing.assert_allclose(raw["error_bound"], bound, rtol=2e-12, atol=0)
@@ -323,7 +345,10 @@ def check_case(profile, case, artifact):
             "max_fraction_of_error_bound"
         ] != float((saved_error / raw["error_bound"]).max()):
             raise ValueError("Saved numerical summary disagrees with its arrays")
-        metrics = timing(raw["timer_u32"], profile["timing_protocol"]["repeats"])
+        coordinator = (
+            profile["dimensions"]["P"] - 1 if profile["adapter"] == "decode_attention" else None
+        )
+        metrics = timing(raw["timer_u32"], profile["timing_protocol"]["repeats"], coordinator)
         if metrics != case["metrics"]:
             raise ValueError("Recomputed timestamps disagree with the case receipt")
         by_check = {}
@@ -353,7 +378,11 @@ def check_summary(data):
         name: max(case["metrics"][name] for case in cases)
         for name in ("max_local_cycles", "mean_local_cycles", "pe_cycle_spread")
     }
-    primary = expected["max_local_cycles"]
+    if profile["adapter"] == "decode_attention":
+        expected["coordinator_cycles"] = max(c["metrics"]["coordinator_cycles"] for c in cases)
+    primary = expected[
+        "coordinator_cycles" if profile["adapter"] == "decode_attention" else "max_local_cycles"
+    ]
     expected["max_error_fraction"] = max(case["max_fraction_of_error_bound"] for case in cases)
     expected["pe_cycles"] = primary * math.prod(profile["pe_grid"])
     if "work_units" in profile:
@@ -361,6 +390,7 @@ def check_summary(data):
     unit = {
         "gated_mlp": "cycles_per_frame",
         "decoder": "cycles_per_token",
+        "decode_attention": "cycles_per_token",
         "reusable_gemm": "cycles_per_gemm",
         "resident_swiglu": "cycles_per_frame",
         "resident_swiglu_bf16": "cycles_per_frame",

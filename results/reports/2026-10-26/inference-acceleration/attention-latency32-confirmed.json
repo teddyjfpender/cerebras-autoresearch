@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "status": "confirmed_improvement",
+  "profile": "decode-attention.d64-ctx128-latency32",
+  "candidate": "attention-newton",
+  "conservative_speedup": 5.103046449669871,
+  "decision": {
+    "path": "runs/v2/20261026T052218Z-confirmation-11b44371/result.json",
+    "sha256": "5acaa3b2ec4e7832d27602746b4043a6fdb46e37c7cb4ee456e124c716564e87"
+  },
+  "arms": {
+    "initial_baseline": {
+      "path": "runs/v2/20261026T050922Z-decode-attention.d64-ctx128-latency32-abeac030/result.json",
+      "sha256": "1a0e259f2bdcaffbc9cedd5d1ac278cc3c3d764cdfc8d3cb538ea4c824088af4"
+    },
+    "initial_candidate": {
+      "path": "runs/v2/20261026T051418Z-decode-attention.d64-ctx128-latency32-6f54def3/result.json",
+      "sha256": "b2ffa5388886b342879dcdd64e736d5dcf72d127b498d3963610482fbe71c861"
+    },
+    "fresh_baseline": {
+      "path": "runs/v2/20261026T051637Z-decode-attention.d64-ctx128-latency32-eaff0c5b/result.json",
+      "sha256": "615ee13ea4b9b548f290390a68c2e889586046be99c9594b838da3a945b49ea8"
+    },
+    "fresh_candidate": {
+      "path": "runs/v2/20261026T052002Z-decode-attention.d64-ctx128-latency32-bc539598/result.json",
+      "sha256": "5ad50d8c33bb9a6df9ab05cd8dc18e91c580b02e128986d60dc4777feb8d8ff8"
+    }
+  },
+  "metrics": {
+    "initial_baseline": {
+      "max_local_cycles": 220273.0,
+      "mean_local_cycles": 188951.8125,
+      "pe_cycle_spread": 32438.0,
+      "coordinator_cycles": 220273.0,
+      "cycles_per_token": 55068.25,
+      "max_error_fraction": 0.15158064322366377,
+      "max_program_object_bytes_per_pe": 29216,
+      "work_units_per_cycle": 2.352281033081676,
+      "pe_cycles": 7048736.0,
+      "experiment_wall_seconds": 205.74064336400002
+    },
+    "initial_candidate": {
+      "max_local_cycles": 43165.0,
+      "mean_local_cycles": 42319.71875,
+      "pe_cycle_spread": 979.0,
+      "coordinator_cycles": 43165.0,
+      "cycles_per_token": 10791.25,
+      "max_error_fraction": 0.15158064322366377,
+      "max_program_object_bytes_per_pe": 30480,
+      "work_units_per_cycle": 12.003799374493223,
+      "pe_cycles": 1381280.0,
+      "experiment_wall_seconds": 138.9572087409997
+    },
+    "fresh_baseline": {
+      "max_local_cycles": 220273.0,
+      "mean_local_cycles": 188951.8125,
+      "pe_cycle_spread": 32438.0,
+      "coordinator_cycles": 220273.0,
+      "cycles_per_token": 55068.25,
+      "max_error_fraction": 0.04265962439452138,
+      "max_program_object_bytes_per_pe": 29216,
+      "work_units_per_cycle": 2.352281033081676,
+      "pe_cycles": 7048736.0,
+      "experiment_wall_seconds": 206.76672676500016
+    },
+    "fresh_candidate": {
+      "max_local_cycles": 43165.0,
+      "mean_local_cycles": 42319.71875,
+      "pe_cycle_spread": 979.0,
+      "coordinator_cycles": 43165.0,
+      "cycles_per_token": 10791.25,
+      "max_error_fraction": 0.042538978311690255,
+      "max_program_object_bytes_per_pe": 30480,
+      "work_units_per_cycle": 12.003799374493223,
+      "pe_cycles": 1381280.0,
+      "experiment_wall_seconds": 135.8255030800001
+    }
+  },
+  "campaign": {
+    "path": "results/reports/2026-10-26/inference-acceleration/attention-latency32-campaign.json",
+    "sha256": "09993dbb80a204fdbcda5b36a818ab71506319f0e8c5b070980df3ac5865f8d3"
+  },
+  "numerics": {
+    "path": "results/reports/2026-10-26/inference-acceleration/attention-latency32-numerics.json",
+    "sha256": "2e041e867ce804370ac1719df11c77d7ff4366ff7e9a8eae9ae2291bb40308ac"
+  },
+  "case_executions": 24,
+  "source_port": "PR1@5e818e10b7740daaa0d5e2962f7010100385e0e1",
+  "evaluator_sha256": "5b1a457c18e0ce72d568a2824bf8eba87236d65c6b429b7e0b3dc3e9dd832c16",
+  "scope": "Fresh reproduction of the PR1 candidate on the selected Rosetta SDK route, not a new improvement beyond PR1 or Cerebras production kernels. Fixed FP32 GQA group,D64,G4,T4,L124,P32,S4. Coordinator-clock timing; each complete token output and every final cache bit validated. Other attention profiles and model/hardware TPS remain separate.",
+  "qwen_tps_result": false
+}

@@ -14,6 +14,22 @@ screen proving automatic logging with an evaluator source capsule. All 48 host
 tests and artifact replay passed. This is an unsigned local ledger; see the
 [ledger contract](../docs/experiments/ledger.md) for guarantees and limits.
 
+## Active inference acceleration — distributed attention
+
+The current SDK route freshly reproduces PR #1's `attention-newton` candidate
+on `decode-attention.d64-ctx128-latency32`: **220,273 → 43,165 coordinator
+cycles, 5.103046×**, at unchanged 32-PE/FP32 workload and timing. Both paired
+seeds pass all six families. Independent numerical/state/timestamp replay checks
+all 24 baseline/candidate case executions. Program-object memory is
+**29,216 → 30,480 bytes/PE (+4.33%)**.
+
+[Complete evidence](reports/2026-10-26/inference-acceleration/attention-latency32-confirmed.json).
+This is a fresh reproduction under this checkout's evaluator and SDK route,
+not a new gain beyond PR #1 or a comparison against production inference code.
+Complete decoder-context and cold prefill-projection searches follow serially.
+New context/prefill/attention profiles remain configured until individually
+qualified; no family-wide gain or model/hardware TPS is claimed.
+
 ## Latest resident GEMM result
 
 The complete three-shape dispatcher suite is freshly confirmed at **1.146754x

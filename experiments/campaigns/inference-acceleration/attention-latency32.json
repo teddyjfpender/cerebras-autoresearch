@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "name": "attention-latency32-pr1-port",
+  "seed": 20261061,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "candidates": [
+        {
+          "candidate": "attention-dsr-normalize"
+        },
+        {
+          "candidate": "attention-vector-max"
+        },
+        {
+          "candidate": "attention-newton"
+        }
+      ]
+    }
+  ]
+}

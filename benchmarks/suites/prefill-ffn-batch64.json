@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    "meshgemm.cold-prefill-ffn-up-batch64",
+    "meshgemm.cold-prefill-ffn-down-batch64"
+  ],
+  "description": "Complete 64-row cold prefill FFN up/down pair; new controls required. Original 16-row suite remains frozen."
+}

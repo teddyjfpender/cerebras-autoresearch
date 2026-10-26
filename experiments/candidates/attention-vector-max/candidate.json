@@ -1,0 +1,19 @@
+{
+  "adapter": "decode_attention",
+  "initial_profile": "decode-attention.d64-ctx128-latency32",
+  "source": {
+    "repository": "local"
+  },
+  "baseline_tree_sha256": "a906826d11cf50898383fbc2681252283d9f9f3eef372b073cf78e38c80a2318",
+  "starting_variant": "baseline",
+  "shape_specific": false,
+  "approach": "decode_attention.bank-dsr-unroll-vector-max",
+  "hypothesis": "Extend bank-offset accumulators, DSR reuse, vector normalization and bounded unrolling with a vector global-max merge. Stream gathered head maxima through a bank-offset accumulator and hoist the compile-time head scaling constant. Expect lower fine-shard decode latency. Unroll the fixed global-max shard count and four-slot softmax updates to remove short-loop overhead without dropping any term.",
+  "falsification": "Require every output/cache check at both seeds, more than 5.01x coordinator speedup versus a fresh original-reference baseline with the identical PE count, and no more than 10% program-object memory growth. Reject altered workload, precision, layout, collective control or timing.",
+  "author": "OpenAI Codex",
+  "model": "unknown",
+  "agent_harness": "ChatGPT Work",
+  "qualification_at_creation": "unmeasured in current evaluator/SDK route",
+  "ported_from_commit": "5e818e10b7740daaa0d5e2962f7010100385e0e1",
+  "ported_from_pr": "https://github.com/teddyjfpender/cerebras-autoresearch/pull/1"
+}

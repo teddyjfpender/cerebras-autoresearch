@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "name": "decoder-contexts",
+  "seed": 20261061,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "decoder.h16-f32-ctx4",
+      "candidates": [
+        {
+          "candidate": "decoder-silu-polynomial"
+        },
+        {
+          "candidate": "decoder-vector-softmax-reciprocal"
+        }
+      ]
+    },
+    {
+      "profile": "decoder.h16-f32-ctx12",
+      "candidates": [
+        {
+          "candidate": "decoder-silu-polynomial"
+        },
+        {
+          "candidate": "decoder-vector-softmax-reciprocal"
+        }
+      ]
+    },
+    {
+      "profile": "decoder.h16-f32-ctx28",
+      "candidates": [
+        {
+          "candidate": "decoder-silu-polynomial"
+        },
+        {
+          "candidate": "decoder-vector-softmax-reciprocal"
+        }
+      ]
+    }
+  ]
+}

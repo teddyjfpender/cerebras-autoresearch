@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "name": "attention-bounded-exp-after-dsr",
+  "seed": 20261061,
+  "minimum_speedup": 1.05,
+  "max_memory_growth": 1.1,
+  "cells": [
+    {
+      "profile": "decode-attention.d64-ctx128-latency32",
+      "candidates": [
+        {
+          "candidate": "attention-newton"
+        },
+        {
+          "candidate": "attention-newton-polynomial"
+        }
+      ]
+    }
+  ]
+}
